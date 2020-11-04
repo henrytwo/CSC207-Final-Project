@@ -1,4 +1,4 @@
-package event.conference;
+package conference.event.conference;
 
 public class ConferenceController {
 }
