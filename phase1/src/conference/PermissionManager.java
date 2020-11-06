@@ -1,5 +1,6 @@
 package conference;
 
+import util.NullConferenceException;
 import util.PermissionException;
 
 import java.util.UUID;
@@ -27,7 +28,7 @@ public class PermissionManager {
     }
 
     public String generateAccessDeniedError(UUID conferenceUUID, UUID userUUID, String permissionLevel) {
-        return String.format("Access denied\n User: %s \n Conference: %s\n Required Permission: %s", userUUID.toString(), conferenceUUID.toString(), permissionLevel);
+        return String.format("Access denied\n User: %s \n Conference: %s\n Required Permission: %s", userUUID, conferenceUUID, permissionLevel);
     }
 
     /**

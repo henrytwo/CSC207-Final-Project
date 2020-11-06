@@ -1,5 +1,6 @@
 import conference.Conference;
 import conference.ConferenceController;
+import util.PermissionException;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -29,11 +30,18 @@ public class ConferenceSystem {
         LocalDateTime end = LocalDateTime.of(2018,
                 Month.JULY, 29, 19, 30, 40);
 
-        UUID conferenceUUID = conferenceController.createConference("bro", start, end, UUID.randomUUID());
+        UUID ogUser = UUID.randomUUID();
 
-        System.out.println(conferenceUUID);
+        UUID conferenceUUID = conferenceController.createConference("bro", start, end, ogUser);
 
-        conferenceController.deleteConference(conferenceUUID, UUID.randomUUID());
+        try {
+            conferenceController.deleteConference(conferenceUUID, UUID.randomUUID());
+        } catch (PermissionException e) {
+
+        }
+
+        conferenceController.deleteConference(conferenceUUID, ogUser);
+
 
     }
 }

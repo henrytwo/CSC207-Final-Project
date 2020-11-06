@@ -2,6 +2,9 @@ package conference;
 
 import conference.event.Event;
 import conference.room.Room;
+import util.LoneOrganizerException;
+import util.NullConferenceException;
+import util.NullUserException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -30,35 +33,121 @@ public class ConferenceManager {
     }
 
     /**
-     * Deletes a conference given its UUID.
+     * Tests if a conference exists in the system.
      *
-     * Returns true if operation was successful.
+     * Returns if a conference exists the system.
      *
      * @param conferenceUUID
      * @return
      */
-    public boolean deleteConference(UUID conferenceUUID) {
-        return conferences.remove(conferenceUUID) != null;
+    public boolean conferenceExists(UUID conferenceUUID) {
+        return conferences.containsKey(conferenceUUID);
     }
 
     /**
-     * Gets a map of all the conferences in the system.
+     * Deletes a conference given its UUID.
      *
+     * Throws NullConferenceException if the conferenceID does not correspond to a valid conference.
+     *
+     * @param conferenceUUID
      * @return
      */
-    public Map<UUID, Conference> getConferences() {
-        return conferences;
+    public void deleteConference(UUID conferenceUUID) {
+        if (!conferenceExists(conferenceUUID)) {
+            throw new NullConferenceException(conferenceUUID);
+        }
+
+        conferences.remove(conferenceUUID);
     }
 
+    /**
+     * Gets a conference from its UUID. This method also checks if the UUID corresponds to a valid conference and raises
+     * a NullConferenceException if not.
+     *
+     * @param conferenceUUID
+     * @return
+     */
     public Conference getConference(UUID conferenceUUID) {
+        if (!conferenceExists(conferenceUUID)) {
+            throw new NullConferenceException(conferenceUUID);
+        }
+
         return conferences.get(conferenceUUID);
     }
 
-    public Set<Event> getEventsFromConference(UUID conferenceUUID) {
-        return conferences.get(conferenceUUID).getEvents();
+    /**
+     * Gets a set of all the conference UUIDs in the system.
+     *
+     * @return
+     */
+    public Set<UUID> getConferenceUUIDs() {
+        return conferences.keySet();
     }
 
+    /**
+     * Gets a set of all the events for a particular conference given its UUID.
+     *
+     * @param conferenceUUID
+     * @return
+     */
+    public Set<Event> getEventsFromConference(UUID conferenceUUID) {
+        return getConference(conferenceUUID).getEvents();
+    }
+
+    /**
+     * Gets a set of all the rooms for a particular conference given its UUID.
+     *
+     * @param conferenceUUID
+     * @return
+     */
     public Set<Room> getRoomsFromConference(UUID conferenceUUID) {
-        return conferences.get(conferenceUUID).getRooms();
+        return getConference(conferenceUUID).getRooms();
+    }
+
+    /**
+     * Gets a set of organizer UUIDs for a particular conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     *
+     * @param conferenceUUID
+     * @return
+     */
+    public Set<UUID> getOrganizers(UUID conferenceUUID) {
+        return getConference(conferenceUUID).getOrganizerUUIDs();
+    }
+
+    /**
+     * Adds an organizer to a conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     * @return
+     */
+    public void addOrganizer(UUID conferenceUUID, UUID userUUID) {
+        getConference(conferenceUUID).addOrganizer(userUUID);
+    }
+
+    /**
+     * Removes an organizer from a conference. There must always be at least one organizer left.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullUserException if the userUUID does not correspond to a valid organizer.
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     * @return
+     */
+    public void removeOrganizer(UUID conferenceUUID, UUID userUUID) {
+        Conference conference = getConference(conferenceUUID);
+
+        if (conference.getOrganizerUUIDs().size() == 1) {
+            throw new LoneOrganizerException();
+        } else if (!conference.getOrganizerUUIDs().contains(userUUID)) {
+            throw new NullUserException(userUUID);
+        } else {
+            conference.removeOrganizer(userUUID);
+        }
     }
 }
