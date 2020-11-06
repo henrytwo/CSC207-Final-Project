@@ -1,6 +1,7 @@
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+        ConferenceSystem cs = new ConferenceSystem();
+        cs.run();
     }
 }
