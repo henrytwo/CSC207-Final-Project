@@ -34,6 +34,9 @@ public class ConferenceSystem {
 
         UUID conferenceUUID = conferenceController.createConference("bro", start, end, ogUser);
 
+        conferenceController.removeOrganizer(conferenceUUID, UUID.randomUUID(), ogUser);
+
+
         try {
             conferenceController.deleteConference(conferenceUUID, UUID.randomUUID());
         } catch (PermissionException e) {

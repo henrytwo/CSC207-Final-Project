@@ -2,6 +2,7 @@ package conference;
 
 import conference.event.Event;
 import conference.room.Room;
+import util.InvalidTimeRangeException;
 import util.LoneOrganizerException;
 import util.NullConferenceException;
 import util.NullUserException;
@@ -25,8 +26,11 @@ public class ConferenceManager {
      * @return
      */
     public UUID createConference(String conferenceName, LocalDateTime startTime, LocalDateTime endTime, UUID organizerUUID) {
-        Conference newConference = new Conference(conferenceName, startTime, endTime, organizerUUID);
+        if (!startTime.isBefore(endTime)) {
+            throw new InvalidTimeRangeException();
+        }
 
+        Conference newConference = new Conference(conferenceName, startTime, endTime, organizerUUID);
         conferences.put(newConference.getUuid(), newConference);
 
         return newConference.getUuid();

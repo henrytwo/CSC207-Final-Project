@@ -20,11 +20,11 @@ public class PermissionManager {
     }
 
     public boolean isOrganizer(UUID conferenceUUID, UUID userUUID) {
-        return conferenceManager.getConference(conferenceUUID).getOrganizerUUIDs().contains(userUUID);
+        return conferenceManager.getConference(conferenceUUID).isOrganizer(userUUID);
     }
 
     public boolean isSpeaker(UUID conferenceUUID, UUID userUUID) {
-        return conferenceManager.getConference(conferenceUUID).getSpeakerUUIDs().contains(userUUID);
+        return conferenceManager.getConference(conferenceUUID).isSpeaker(userUUID);
     }
 
     public String generateAccessDeniedError(UUID conferenceUUID, UUID userUUID, String permissionLevel) {
