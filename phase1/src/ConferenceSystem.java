@@ -14,5 +14,6 @@ public class ConferenceSystem {
         LOGGER.setLevel(Level.ALL);
         LOGGER.setUseParentHandlers(false);
 
+        // write some test code here, or write unit tests somewhere else
     }
 }
