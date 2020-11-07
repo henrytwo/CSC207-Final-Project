@@ -146,10 +146,10 @@ public class ConferenceManager {
     public void removeOrganizer(UUID conferenceUUID, UUID userUUID) {
         Conference conference = getConference(conferenceUUID);
 
-        if (conference.getOrganizerUUIDs().size() == 1) {
-            throw new LoneOrganizerException();
-        } else if (!conference.getOrganizerUUIDs().contains(userUUID)) {
+        if (!conference.getOrganizerUUIDs().contains(userUUID)) {
             throw new NullUserException(userUUID);
+        } else if (conference.getOrganizerUUIDs().size() == 1) {
+            throw new LoneOrganizerException();
         } else {
             conference.removeOrganizer(userUUID);
         }
