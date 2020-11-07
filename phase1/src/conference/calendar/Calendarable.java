@@ -1,4 +1,4 @@
-package util.calendar;
+package conference.calendar;
 
 public class Calendarable {
 }
