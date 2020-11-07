@@ -1,6 +1,6 @@
 package conference;
 
-import calendar.Calendar;
+import util.calendar.Calendar;
 import conference.event.Event;
 import conference.room.Room;
 

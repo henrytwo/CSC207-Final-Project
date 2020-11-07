@@ -2,10 +2,10 @@ package conference;
 
 import conference.event.Event;
 import conference.room.Room;
-import util.InvalidTimeRangeException;
-import util.LoneOrganizerException;
-import util.NullConferenceException;
-import util.NullUserException;
+import util.exception.InvalidTimeRangeException;
+import util.exception.LoneOrganizerException;
+import util.exception.NullConferenceException;
+import util.exception.NullUserException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

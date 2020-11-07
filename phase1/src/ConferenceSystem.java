@@ -1,6 +1,5 @@
-import conference.Conference;
 import conference.ConferenceController;
-import util.PermissionException;
+import util.exception.PermissionException;
 
 import java.time.LocalDateTime;
 import java.time.Month;

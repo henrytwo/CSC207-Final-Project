@@ -1,7 +1,6 @@
 package conference;
 
-import util.NullConferenceException;
-import util.PermissionException;
+import util.exception.PermissionException;
 
 import java.util.UUID;
 import java.util.logging.Level;
