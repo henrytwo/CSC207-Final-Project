@@ -26,6 +26,35 @@ public class ConferenceTest {
 
     ConferenceController conferenceController;
 
+    // Test with and without permission
+
+    // Admin tasks
+
+    // Create conf
+    // Edit conf
+    // Delete conf
+
+    // Create event
+    // Edit event
+    // Delete event
+
+    // Create room
+    // Edit room
+    // Delete room
+
+    // User tasks
+
+    // Join conference
+    //    - Invite? Search?
+    // Register in event
+    // List events
+    //    - Test the different ways to sort
+
+    // Speaker tasks
+
+    // List events they're running
+    // Create convo for an event
+
     @Before
     public void init() {
         conferenceController = new ConferenceController();
