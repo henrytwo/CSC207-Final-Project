@@ -14,6 +14,18 @@ public class ConferenceController {
     PermissionManager permissionManager = new PermissionManager(conferenceManager);
 
     /**
+     * Tests of a conference exists.
+     *
+     * Required Permission: NONE
+     *
+     * @param conferenceUUID
+     * @return
+     */
+    public boolean conferenceExists(UUID conferenceUUID) {
+        return conferenceManager.getConference(conferenceUUID) != null;
+    }
+
+    /**
      * Create a new conference.
      *
      * Required Permission: NONE

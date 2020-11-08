@@ -1,8 +1,6 @@
 import conference.ConferenceController;
 import org.junit.*;
-import util.exception.InvalidTimeRangeException;
-import util.exception.NullUserException;
-import util.exception.PermissionException;
+import util.exception.*;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -13,26 +11,46 @@ import static org.junit.Assert.*;
 
 public class ConferenceTest {
 
+    /* Setup tests */
     UUID myUser = UUID.randomUUID();
     UUID randomUser = UUID.randomUUID();
     UUID someOrganizer = UUID.randomUUID();
     UUID someAttendee = UUID.randomUUID();
     UUID someSpeaker = UUID.randomUUID();
+    UUID randomConference = UUID.randomUUID();
+
+    String emptyString = "";
+    String conferenceNameA = "Conference A";
+    String conferenceNameB = "Conference B";
 
     LocalDateTime dateA = LocalDateTime.of(2015,
             Month.JULY, 29, 19, 30, 40);
     LocalDateTime dateB = LocalDateTime.of(2018,
             Month.JULY, 29, 19, 30, 40);
 
+    LocalDateTime dateC = LocalDateTime.of(2020,
+            Month.APRIL, 2, 1, 3, 20);
+    LocalDateTime dateD = LocalDateTime.of(2029,
+            Month.AUGUST, 29, 19, 30, 40);
+
     ConferenceController conferenceController;
+
+    @Before
+    public void init() {
+        conferenceController = new ConferenceController();
+    }
 
     // Test with and without permission
 
     // Admin tasks
 
-    // Create conf
+    // Create conf X
     // Edit conf
-    // Delete conf
+        // Add organizer X
+        // Remove organizer X
+        // Edit date X
+        // Edit name X
+    // Delete conf X
 
     // Create event
     // Edit event
@@ -55,36 +73,126 @@ public class ConferenceTest {
     // List events they're running
     // Create convo for an event
 
-    @Before
-    public void init() {
-        conferenceController = new ConferenceController();
-    }
+    /* Conference creation */
 
+    /**
+     * The conference should exist after it is created... duh
+     */
     @Test(timeout = 50)
     public void testCreateConference() {
-        UUID conferenceUUID = conferenceController.createConference("Conference", dateA, dateB, myUser);
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
 
-        /*
-        conferenceController.removeOrganizer(conferenceUUID, UUID.randomUUID(), myUser);
-
-
-        try {
-            conferenceController.deleteConference(conferenceUUID, UUID.randomUUID());
-        } catch (PermissionException e) {
-
-        }
-
-        conferenceController.deleteConference(conferenceUUID, myUser);*/
+        assertTrue(conferenceController.conferenceExists(conferenceUUID));
+        assertEquals(conferenceController.getName(conferenceUUID), conferenceNameA);
+        assertEquals(conferenceController.getStart(conferenceUUID), dateA);
+        assertEquals(conferenceController.getEnd(conferenceUUID), dateB);
+        assertTrue(conferenceController.getOrganizers(conferenceUUID, myUser).contains(myUser));
     }
 
+    /**
+     * You can't end a conference before it starts... duh
+     */
     @Test(timeout = 50, expected = InvalidTimeRangeException.class)
     public void testCreateConferenceInvalidTimeRange() {
         conferenceController.createConference("Conference", dateB, dateA, myUser);
     }
 
+    /**
+     * You need a name...
+     */
+    @Test(timeout = 50, expected = InvalidNameException.class)
+    public void testCreateConferenceInvalidName() {
+        conferenceController.createConference(emptyString, dateB, dateA, myUser);
+    }
+
+    /* Editing a conference */
+    @Test(timeout = 50)
+    public void testEditConferenceName() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
+
+        conferenceController.setName(conferenceUUID, myUser, conferenceNameB);
+        assertEquals(conferenceController.getName(conferenceUUID), conferenceNameB);
+    }
+
+    /**
+     * You need a name...
+     */
+    @Test(timeout = 50, expected = InvalidNameException.class)
+    public void testEditConferenceNameInvalidName() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
+
+        conferenceController.setName(conferenceUUID, myUser, emptyString);
+    }
+
+    /**
+     * You must be an organizer
+     */
+    @Test(timeout = 50, expected = PermissionException.class)
+    public void testEditConferenceNameInsufficientPermission() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
+
+        conferenceController.setName(conferenceUUID, randomUser, conferenceNameB);
+    }
+
+    @Test(timeout = 50)
+    public void testEditConferenceDates() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
+
+        conferenceController.setDates(conferenceUUID, myUser, dateC, dateD);
+
+        assertEquals(conferenceController.getStart(conferenceUUID), dateC);
+        assertEquals(conferenceController.getEnd(conferenceUUID), dateD);
+    }
+
+    /**
+     * Start must be before end
+     */
+    @Test(timeout = 50, expected = InvalidTimeRangeException.class)
+    public void testEditConferenceDatesInvalidDates() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
+
+        conferenceController.setDates(conferenceUUID, myUser, dateD, dateC);
+    }
+
+    /**
+     * You must be an organizer
+     */
+    @Test(timeout = 50, expected = PermissionException.class)
+    public void testEditConferenceDatesInsufficientPermission() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
+
+        conferenceController.setDates(conferenceUUID, myUser, dateC, dateD);
+    }
+
+    /* Deleting a conference */
+    @Test(timeout = 50)
+    public void testDeleteConference() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
+        conferenceController.deleteConference(conferenceUUID, myUser);
+        assertFalse(conferenceController.conferenceExists(conferenceUUID));
+    }
+
+    /**
+     * You can't delete a conference that doesn't exist
+     */
+    @Test(timeout = 50, expected = NullConferenceException.class)
+    public void testDeleteInvalidConference() {
+        conferenceController.deleteConference(randomConference, myUser);
+    }
+
+    /**
+     * Only organizers can do this
+     */
+    @Test(timeout = 50, expected = PermissionException.class)
+    public void testDeleteConferenceInsufficientPermission() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
+        conferenceController.deleteConference(conferenceUUID, randomUser);
+    }
+
+    /* Managing organizers */
     @Test(timeout = 50)
     public void testAddOrganizer() {
-        UUID conferenceUUID = conferenceController.createConference("Conference", dateA, dateB, myUser);
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
 
         // Test that there is only the initial user
         Set<UUID> organizers = conferenceController.getOrganizers(conferenceUUID, myUser);
@@ -97,16 +205,19 @@ public class ConferenceTest {
         assertTrue(organizers.size() == 2 && organizers.contains(myUser) && organizers.contains(someOrganizer));
     }
 
+    /**
+     * Only organizers can do this
+     */
     @Test(timeout = 50, expected = PermissionException.class)
     public void testAddOrganizerInsufficientPermission() {
-        UUID conferenceUUID = conferenceController.createConference("Conference", dateA, dateB, myUser);
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
 
         conferenceController.addOrganizer(conferenceUUID, randomUser, someOrganizer);
     }
 
     @Test(timeout = 50)
     public void testRemoveOrganizer() {
-        UUID conferenceUUID = conferenceController.createConference("Conference", dateA, dateB, myUser);
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
 
         // Add the new organizer
         conferenceController.addOrganizer(conferenceUUID, myUser, someOrganizer);
@@ -122,10 +233,38 @@ public class ConferenceTest {
         assertTrue(organizers.size() == 1 && organizers.contains(myUser) && !organizers.contains(someOrganizer));
     }
 
+    /**
+     * You can't remove yourself if you're the last organizer
+     */
+    @Test(timeout = 50, expected = LoneOrganizerException.class)
+    public void testRemoveLastOrganizer() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
+
+        // Remove the organizer
+        conferenceController.removeOrganizer(conferenceUUID, myUser, myUser);
+    }
+
+    /**
+     * Only organizers can do this
+     */
+    @Test(timeout = 50, expected = PermissionException.class)
+    public void testRemoveOrganizerInsufficientPermission() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
+
+        conferenceController.removeOrganizer(conferenceUUID, randomUser, someOrganizer);
+    }
+
+    /**
+     * You can't demote someone who wasn't an organizer to begin with...
+     */
     @Test(timeout = 50, expected = NullUserException.class)
     public void testRemoveInvalidOrganizer() {
-        UUID conferenceUUID = conferenceController.createConference("Conference", dateA, dateB, myUser);
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
 
         conferenceController.removeOrganizer(conferenceUUID, myUser, randomUser);
     }
+
+    /* Test attendee operations */
+
+    /* Test speaker operations */
 }
