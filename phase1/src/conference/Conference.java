@@ -40,6 +40,30 @@ public class Conference {
         return rooms;
     }
 
+    public String getConferenceName() {
+        return conferenceName;
+    }
+
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
+
+    public void setConferenceName(String conferenceName) {
+        this.conferenceName = conferenceName;
+    }
+
     public UUID getUuid() {
         return uuid;
     }

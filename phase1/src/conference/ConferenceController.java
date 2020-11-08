@@ -22,7 +22,69 @@ public class ConferenceController {
      * @return
      */
     public boolean conferenceExists(UUID conferenceUUID) {
-        return conferenceManager.getConference(conferenceUUID) != null;
+        return conferenceManager.conferenceExists(conferenceUUID);
+    }
+
+    /**
+     * Get conference name
+     *
+     * Required Permission: NONE
+     *
+     * @param conferenceUUID
+     * @return
+     */
+    public String getConferenceName(UUID conferenceUUID) {
+        return conferenceManager.getConferenceName(conferenceUUID);
+    }
+
+    /**
+     * Get start date time
+     *
+     * Required Permission: NONE
+     *
+     * @param conferenceUUID
+     * @return
+     */
+    public LocalDateTime getStart(UUID conferenceUUID) {
+        return conferenceManager.getStart(conferenceUUID);
+    }
+
+    /**
+     * Get end date time
+     *
+     * Required Permission: NONE
+     *
+     * @param conferenceUUID
+     * @return
+     */
+    public LocalDateTime getEnd(UUID conferenceUUID) {
+        return conferenceManager.getEnd(conferenceUUID);
+    }
+
+    /**
+     * Set start date time
+     *
+     * Required Permission: ORGANIZER
+     *
+     * @param conferenceUUID
+     * @return
+     */
+    public void setDates(UUID conferenceUUID, UUID userUUID, LocalDateTime newStart, LocalDateTime newEnd) {
+        permissionManager.testIsOrganizer(conferenceUUID, userUUID);
+        conferenceManager.setDates(conferenceUUID, newStart, newEnd);
+    }
+
+    /**
+     * Set conference name
+     *
+     * Required Permission: ORGANIZER
+     *
+     * @param conferenceUUID
+     * @return
+     */
+    public void setConferenceName(UUID conferenceUUID, UUID userUUID, String newName) {
+        permissionManager.testIsOrganizer(conferenceUUID, userUUID);
+        conferenceManager.setConferenceName(conferenceUUID, newName);
     }
 
     /**

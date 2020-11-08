@@ -83,7 +83,7 @@ public class ConferenceTest {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
 
         assertTrue(conferenceController.conferenceExists(conferenceUUID));
-        assertEquals(conferenceController.getName(conferenceUUID), conferenceNameA);
+        assertEquals(conferenceController.getConferenceName(conferenceUUID), conferenceNameA);
         assertEquals(conferenceController.getStart(conferenceUUID), dateA);
         assertEquals(conferenceController.getEnd(conferenceUUID), dateB);
         assertTrue(conferenceController.getOrganizers(conferenceUUID, myUser).contains(myUser));
@@ -102,7 +102,7 @@ public class ConferenceTest {
      */
     @Test(timeout = 50, expected = InvalidNameException.class)
     public void testCreateConferenceInvalidName() {
-        conferenceController.createConference(emptyString, dateB, dateA, myUser);
+        conferenceController.createConference(emptyString, dateA, dateB, myUser);
     }
 
     /* Editing a conference */
@@ -110,8 +110,8 @@ public class ConferenceTest {
     public void testEditConferenceName() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
 
-        conferenceController.setName(conferenceUUID, myUser, conferenceNameB);
-        assertEquals(conferenceController.getName(conferenceUUID), conferenceNameB);
+        conferenceController.setConferenceName(conferenceUUID, myUser, conferenceNameB);
+        assertEquals(conferenceController.getConferenceName(conferenceUUID), conferenceNameB);
     }
 
     /**
@@ -121,7 +121,7 @@ public class ConferenceTest {
     public void testEditConferenceNameInvalidName() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
 
-        conferenceController.setName(conferenceUUID, myUser, emptyString);
+        conferenceController.setConferenceName(conferenceUUID, myUser, emptyString);
     }
 
     /**
@@ -131,7 +131,7 @@ public class ConferenceTest {
     public void testEditConferenceNameInsufficientPermission() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
 
-        conferenceController.setName(conferenceUUID, randomUser, conferenceNameB);
+        conferenceController.setConferenceName(conferenceUUID, randomUser, conferenceNameB);
     }
 
     @Test(timeout = 50)
@@ -161,7 +161,7 @@ public class ConferenceTest {
     public void testEditConferenceDatesInsufficientPermission() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, dateA, dateB, myUser);
 
-        conferenceController.setDates(conferenceUUID, myUser, dateC, dateD);
+        conferenceController.setDates(conferenceUUID, randomUser, dateC, dateD);
     }
 
     /* Deleting a conference */

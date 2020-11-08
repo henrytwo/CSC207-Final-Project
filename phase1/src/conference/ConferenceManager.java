@@ -2,10 +2,7 @@ package conference;
 
 import conference.event.Event;
 import conference.room.Room;
-import util.exception.InvalidTimeRangeException;
-import util.exception.LoneOrganizerException;
-import util.exception.NullConferenceException;
-import util.exception.NullUserException;
+import util.exception.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -15,6 +12,14 @@ import java.util.UUID;
 
 public class ConferenceManager {
     private Map<UUID, Conference> conferences = new HashMap<>();
+
+    private boolean validateTimeRange(LocalDateTime start, LocalDateTime end) {
+        return start.isBefore(end);
+    }
+
+    private boolean validateConferenceName(String name) {
+        return name.length() > 0;
+    }
 
     /**
      * Creates a conference and assigns the authenticated user as an organizer.
@@ -26,8 +31,12 @@ public class ConferenceManager {
      * @return
      */
     public UUID createConference(String conferenceName, LocalDateTime startTime, LocalDateTime endTime, UUID organizerUUID) {
-        if (!startTime.isBefore(endTime)) {
+        if (!validateTimeRange(startTime, endTime)) {
             throw new InvalidTimeRangeException();
+        }
+
+        if (!validateConferenceName(conferenceName)) {
+            throw new InvalidNameException();
         }
 
         Conference newConference = new Conference(conferenceName, startTime, endTime, organizerUUID);
@@ -86,6 +95,60 @@ public class ConferenceManager {
      */
     public Set<UUID> getConferenceUUIDs() {
         return conferences.keySet();
+    }
+
+    /**
+     * Gets conference name
+     *
+     * @return
+     */
+    public String getConferenceName(UUID conferenceUUID) {
+        return getConference(conferenceUUID).getConferenceName();
+    }
+
+    /**
+     * Gets conference start datetime
+     *
+     * @return
+     */
+    public LocalDateTime getStart(UUID conferenceUUID) {
+        return getConference(conferenceUUID).getStart();
+    }
+
+    /**
+     * Gets conference end datetime
+     *
+     * @return
+     */
+    public LocalDateTime getEnd(UUID conferenceUUID) {
+        return getConference(conferenceUUID).getEnd();
+    }
+
+    /**
+     * Sets conference dates datetime
+     *
+     * @return
+     */
+    public void setDates(UUID conferenceUUID, LocalDateTime newStart, LocalDateTime newEnd) {
+        if (!validateTimeRange(newStart, newEnd)) {
+            throw new InvalidTimeRangeException();
+        }
+
+        getConference(conferenceUUID).setStart(newStart);
+        getConference(conferenceUUID).setEnd(newEnd);
+    }
+
+    /**
+     * Sets conference name
+     *
+     * @return
+     */
+    public void setConferenceName(UUID conferenceUUID, String newName) {
+        if (!validateConferenceName(newName)) {
+            throw new InvalidNameException();
+        }
+
+        getConference(conferenceUUID).setConferenceName(newName);
     }
 
     /**
