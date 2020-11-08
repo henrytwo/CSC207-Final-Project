@@ -270,4 +270,34 @@ public class ConferenceTest {
     /* Test attendee operations */
 
     /* Test speaker operations */
+
+    @Test(timeout = 50)
+    public void testListAttendees() {
+
+    }
+
+    @Test(timeout = 50, expected = NullEventException.class)
+    public void testListAttendeesInvalidEvent() {
+
+    }
+
+    @Test(timeout = 50, expected = PermissionException.class)
+    public void testListAttendeesInsufficientPermission() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testCreateEventConversation() {
+
+    }
+
+    @Test(timeout = 50, expected = NullEventException.class)
+    public void testListEventConversationInvalidEvent() {
+
+    }
+
+    @Test(timeout = 50, expected = PermissionException.class)
+    public void testListEventConversationInsufficientPermission() {
+
+    }
 }

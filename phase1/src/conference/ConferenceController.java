@@ -15,6 +15,11 @@ public class ConferenceController {
     EventManager eventManager = new EventManager();
     PermissionManager permissionManager = new PermissionManager(conferenceManager);
 
+    public ConferenceController() {
+        // do some more magic here
+        // gotta save the conversation controller
+    }
+
     /* General operations */
 
     /**
@@ -81,6 +86,10 @@ public class ConferenceController {
         // Add invitation system?
         // private flag?
         // ok nvm, to keep it simple, just let the user see a list of conferences and let them join whatever they want
+
+        if (conferenceManager.conferenceExists(conferenceUUID)) {
+
+        }
     }
 
     /**
