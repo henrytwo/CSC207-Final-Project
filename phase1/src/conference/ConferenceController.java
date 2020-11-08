@@ -80,6 +80,7 @@ public class ConferenceController {
     public void joinConference(UUID conferenceUUID, UUID userUUID) {
         // Add invitation system?
         // private flag?
+        // ok nvm, to keep it simple, just let the user see a list of conferences and let them join whatever they want
     }
 
     /**

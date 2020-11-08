@@ -48,13 +48,16 @@ public class ConferenceTest {
     // Edit conf
         // Add organizer X
         // Remove organizer X
+        // Remove attendee
         // Edit date X
         // Edit name X
     // Delete conf X
 
     // Create event
+        // Assign a speaker
     // Edit event
     // Delete event
+        // Revoke speaker access if they don't have any more events
 
     // Create room
     // Edit room
