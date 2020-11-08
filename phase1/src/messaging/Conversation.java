@@ -3,14 +3,15 @@ package messaging;
 import user.User;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Conversation {
     private String conversationName; // either group chat or 2 person chat
     private ArrayList<Message> conversationMessages = new ArrayList<>();
-    private ArrayList<User> writeAccessUsers = new ArrayList<>();
-    private ArrayList<User> readAccessUsers = new ArrayList<>();
+    private ArrayList<UUID> writeAccessUsers = new ArrayList<>();
+    private ArrayList<UUID> readAccessUsers = new ArrayList<>();
 
-    public Conversation(String convName, ArrayList<User> usersWrite, ArrayList<User>
+    public Conversation(String convName, ArrayList<UUID> usersWrite, ArrayList<UUID>
             usersRead, ArrayList<Message> convMessages){
         conversationName = convName;
         conversationMessages = convMessages;
@@ -18,11 +19,11 @@ public class Conversation {
         readAccessUsers = usersRead;
     }
 
-    public void addUserToWrite(User user){
+    public void addUserToWrite(UUID user){
         writeAccessUsers.add(user);
     }
 
-    public void addUsersToRead(User user){
+    public void addUsersToRead(UUID user){
         readAccessUsers.add(user);
     }
 
@@ -49,6 +50,10 @@ public class Conversation {
         else{
             return false;
         }
+    }
+
+    public String NameOfConversation(){
+        return conversationName;
     }
 
 }

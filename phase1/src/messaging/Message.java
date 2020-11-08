@@ -20,6 +20,10 @@ public class Message {
         responses.add(messageResponse);
     }
 
+    public UUID getSenderId(){
+        return senderId;
+    }
+
 //    public void edit_message(String new_content, Date new_timestamp){
 //        content = new_content;
 //        timestamp = new_timestamp;
