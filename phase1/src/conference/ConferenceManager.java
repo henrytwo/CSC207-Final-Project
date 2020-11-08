@@ -126,8 +126,6 @@ public class ConferenceManager {
 
     /**
      * Sets conference dates datetime
-     *
-     * @return
      */
     public void setDates(UUID conferenceUUID, LocalDateTime newStart, LocalDateTime newEnd) {
         if (!validateTimeRange(newStart, newEnd)) {
@@ -140,8 +138,6 @@ public class ConferenceManager {
 
     /**
      * Sets conference name
-     *
-     * @return
      */
     public void setConferenceName(UUID conferenceUUID, String newName) {
         if (!validateConferenceName(newName)) {
@@ -149,6 +145,60 @@ public class ConferenceManager {
         }
 
         getConference(conferenceUUID).setConferenceName(newName);
+    }
+
+    public boolean isAttendee(UUID conferenceUUID, UUID userUUID) {
+        return getConference(conferenceUUID).isAttendee(userUUID);
+    }
+
+    public boolean isOrganizer(UUID conferenceUUID, UUID userUUID) {
+        return getConference(conferenceUUID).isOrganizer(userUUID);
+    }
+
+    public boolean isSpeaker(UUID conferenceUUID, UUID userUUID) {
+        return getConference(conferenceUUID).isSpeaker(userUUID);
+    }
+
+    /**
+     * Adds a user as an attendee for a conference
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     */
+    public void joinConference(UUID conferenceUUID, UUID userUUID) {
+        getConference(conferenceUUID).addAttendee(userUUID);
+    }
+
+    /**
+     * Remove a user from a conference
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     */
+    public void leaveConference(UUID conferenceUUID, UUID userUUID) {
+        // We need to test if this user actually has a role (i.e. they are affiliated with this event)
+        boolean hasRole = isAttendee(conferenceUUID, userUUID) ||
+                          isOrganizer(conferenceUUID, userUUID) ||
+                          isSpeaker(conferenceUUID, userUUID);
+
+        if (hasRole) {
+            // We must check that they have a role before removing
+            // otherwise, we will get a NullUserException
+            if (isAttendee(conferenceUUID, userUUID)) {
+                removeAttendee(conferenceUUID, userUUID);
+            }
+
+            if (isSpeaker(conferenceUUID, userUUID)) {
+                removeSpeaker(conferenceUUID, userUUID);
+            }
+
+            if (isOrganizer(conferenceUUID, userUUID)) {
+                removeOrganizer(conferenceUUID, userUUID);
+            }
+        } else {
+            // No role = not even part of this event
+            throw new NullUserException(userUUID);
+        }
     }
 
     /**
@@ -300,6 +350,10 @@ public class ConferenceManager {
      */
     public void removeSpeaker(UUID conferenceUUID, UUID userUUID) {
         Conference conference = getConference(conferenceUUID);
+
+        /**
+         * TODO: Remove the speaker UUID from their respective events too?
+         */
 
         if (!conference.getSpeakerUUIDs().contains(userUUID)) {
             throw new NullUserException(userUUID);

@@ -17,7 +17,7 @@ public class ConferenceController {
 
     public ConferenceController() {
         // do some more magic here
-        // gotta save the conversation controller
+        // gotta save the conversation controller here so that we can talk to it
     }
 
     /* General operations */
@@ -83,13 +83,21 @@ public class ConferenceController {
      * @param userUUID
      */
     public void joinConference(UUID conferenceUUID, UUID userUUID) {
-        // Add invitation system?
-        // private flag?
-        // ok nvm, to keep it simple, just let the user see a list of conferences and let them join whatever they want
+        conferenceManager.joinConference(conferenceUUID, userUUID);
+    }
 
-        if (conferenceManager.conferenceExists(conferenceUUID)) {
-
-        }
+    /**
+     * Attempt to leave a conference.
+     *
+     * You can't leave a conference if you're the last organizer.
+     *
+     * Required Permission: NONE
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     */
+    public void leaveConference(UUID conferenceUUID, UUID userUUID) {
+        conferenceManager.leaveConference(conferenceUUID, userUUID);
     }
 
     /**
@@ -99,7 +107,7 @@ public class ConferenceController {
      * @param userUUID
      * @param eventUUID
      */
-    public void signupForEvent(UUID conferenceUUID, UUID userUUID, UUID eventUUID) {
+    public void registerForEvent(UUID conferenceUUID, UUID userUUID, UUID eventUUID) {
         permissionManager.testIsAttendee(conferenceUUID, userUUID);
 
         Set<Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
@@ -139,6 +147,10 @@ public class ConferenceController {
 
         return new HashSet<>();
     }
+
+    /**
+     * TODO: Calendar stuff
+     */
 
     /* Organizer operations */
 
@@ -214,6 +226,34 @@ public class ConferenceController {
     }
 
     /**
+     * Gets a set of UUIDs of speakers.
+     *
+     * Required Permission: ORGANIZER
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     * @return
+     */
+    public Set<UUID> getSpeakers(UUID conferenceUUID, UUID userUUID) {
+        permissionManager.testIsOrganizer(conferenceUUID, userUUID);
+        return conferenceManager.getSpeakers(conferenceUUID);
+    }
+
+    /**
+     * Gets a set of UUIDs of attendees.
+     *
+     * Required Permission: ORGANIZER
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     * @return
+     */
+    public Set<UUID> getAttendees(UUID conferenceUUID, UUID userUUID) {
+        permissionManager.testIsOrganizer(conferenceUUID, userUUID);
+        return conferenceManager.getAttendees(conferenceUUID);
+    }
+
+    /**
      * Adds a user as an organizer for a conference.
      *
      * Required Permission: ORGANIZER
@@ -249,19 +289,19 @@ public class ConferenceController {
         // do stuff here
     }
 
-    public void setEventName(UUID conferenceUUID, UUID userUUID) {
+    public void setEventName(UUID conferenceUUID, UUID userUUID, UUID eventUUID, String eventName) {
         permissionManager.testIsOrganizer(conferenceUUID, userUUID);
 
         // do stuff here
     }
 
-    public void deleteEvent(UUID conferenceUUID, UUID userUUID) {
+    public void deleteEvent(UUID conferenceUUID, UUID userUUID, UUID eventUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, userUUID);
 
         // do stuff here
     }
 
-    public void createRoom(UUID conferenceUUID, UUID userUUID, UUID roomUUID, String roomNumber, int capacity) {
+    public void createRoom(UUID conferenceUUID, UUID userUUID, String roomNumber, int capacity) {
         permissionManager.testIsOrganizer(conferenceUUID, userUUID);
 
         // do stuff

@@ -19,18 +19,6 @@ public class PermissionManager {
         this.conferenceManager = conferenceManager;
     }
 
-    public boolean isAttendee(UUID conferenceUUID, UUID userUUID) {
-        return conferenceManager.getConference(conferenceUUID).isAttendee(userUUID);
-    }
-
-    public boolean isOrganizer(UUID conferenceUUID, UUID userUUID) {
-        return conferenceManager.getConference(conferenceUUID).isOrganizer(userUUID);
-    }
-
-    public boolean isSpeaker(UUID conferenceUUID, UUID userUUID) {
-        return conferenceManager.getConference(conferenceUUID).isSpeaker(userUUID);
-    }
-
     public String generateAccessDeniedError(UUID conferenceUUID, UUID userUUID, String permissionLevel) {
         return String.format("Access denied\n User: %s \n Conference: %s\n Required Permission: %s", userUUID, conferenceUUID, permissionLevel);
     }
@@ -42,7 +30,7 @@ public class PermissionManager {
      * @param userUUID
      */
     public void testIsOrganizer(UUID conferenceUUID, UUID userUUID ) {
-        if (!isOrganizer(conferenceUUID, userUUID)) {
+        if (!conferenceManager.isOrganizer(conferenceUUID, userUUID)) {
             LOGGER.log(Level.SEVERE, generateAccessDeniedError(conferenceUUID, userUUID, ORGANIZER));
             throw new PermissionException();
         }
@@ -56,7 +44,7 @@ public class PermissionManager {
      */
     public void testIsSpeaker(UUID conferenceUUID, UUID userUUID ) {
         // Organizers can perform speaker actions too
-        if (!isSpeaker(conferenceUUID, userUUID) && !isOrganizer(conferenceUUID, userUUID)) {
+        if (!conferenceManager.isSpeaker(conferenceUUID, userUUID) && !conferenceManager.isOrganizer(conferenceUUID, userUUID)) {
             LOGGER.log(Level.SEVERE, generateAccessDeniedError(conferenceUUID, userUUID, SPEAKER));
             throw new PermissionException();
         }
@@ -70,7 +58,7 @@ public class PermissionManager {
      */
     public void testIsAttendee(UUID conferenceUUID, UUID userUUID ) {
         // Organizers can perform speaker actions too
-        if (!isAttendee(conferenceUUID, userUUID) && !isSpeaker(conferenceUUID, userUUID) && !isOrganizer(conferenceUUID, userUUID)) {
+        if (!conferenceManager.isAttendee(conferenceUUID, userUUID) && !conferenceManager.isSpeaker(conferenceUUID, userUUID) && !conferenceManager.isOrganizer(conferenceUUID, userUUID)) {
             LOGGER.log(Level.SEVERE, generateAccessDeniedError(conferenceUUID, userUUID, ATTENDEE));
             throw new PermissionException();
         }
