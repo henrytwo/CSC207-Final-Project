@@ -12,6 +12,7 @@ import java.util.UUID;
 public class Conference {
     private Set<UUID> organizerUUIDs = new HashSet<>();
     private Set<UUID> speakerUUIDs = new HashSet<>();
+    private Set<UUID> attendeeUUIDs = new HashSet<>();
 
     private Set<Event> events = new HashSet<>();
     private Set<Room> rooms = new HashSet<>();
@@ -102,5 +103,21 @@ public class Conference {
 
     public boolean removeSpeaker(UUID speakerUUID) {
         return speakerUUIDs.remove(speakerUUID);
+    }
+
+    public boolean isAttendee(UUID attendeeUUID) {
+        return attendeeUUIDs.contains(attendeeUUID);
+    }
+
+    public Set<UUID> getAttendeeUUIDs() {
+        return attendeeUUIDs;
+    }
+
+    public void addAttendee(UUID attendeeUUID) {
+        attendeeUUIDs.add(attendeeUUID);
+    }
+
+    public boolean removeAttendee(UUID attendeeUUID) {
+        return attendeeUUIDs.remove(attendeeUUID);
     }
 }

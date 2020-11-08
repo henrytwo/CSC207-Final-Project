@@ -217,4 +217,94 @@ public class ConferenceManager {
             conference.removeOrganizer(userUUID);
         }
     }
+
+    /**
+     * Gets a set of attendee UUIDs for a particular conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     *
+     * @param conferenceUUID
+     * @return
+     */
+    public Set<UUID> getAttendees(UUID conferenceUUID) {
+        return getConference(conferenceUUID).getAttendeeUUIDs();
+    }
+
+    /**
+     * Adds an attendee to a conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     * @return
+     */
+    public void addAttendee(UUID conferenceUUID, UUID userUUID) {
+        getConference(conferenceUUID).addAttendee(userUUID);
+    }
+
+    /**
+     * Removes an attendee from a conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullUserException if the userUUID does not correspond to a valid user.
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     * @return
+     */
+    public void removeAttendee(UUID conferenceUUID, UUID userUUID) {
+        Conference conference = getConference(conferenceUUID);
+
+        if (!conference.getAttendeeUUIDs().contains(userUUID)) {
+            throw new NullUserException(userUUID);
+        } else {
+            conference.removeAttendee(userUUID);
+        }
+    }
+
+    /**
+     * Gets a set of speaker UUIDs for a particular conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     *
+     * @param conferenceUUID
+     * @return
+     */
+    public Set<UUID> getSpeakers(UUID conferenceUUID) {
+        return getConference(conferenceUUID).getSpeakerUUIDs();
+    }
+
+    /**
+     * Adds an speaker to a conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     * @return
+     */
+    public void addSpeaker(UUID conferenceUUID, UUID userUUID) {
+        getConference(conferenceUUID).addSpeaker(userUUID);
+    }
+
+    /**
+     * Removes an speaker from a conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullUserException if the userUUID does not correspond to a valid user.
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     * @return
+     */
+    public void removeSpeaker(UUID conferenceUUID, UUID userUUID) {
+        Conference conference = getConference(conferenceUUID);
+
+        if (!conference.getSpeakerUUIDs().contains(userUUID)) {
+            throw new NullUserException(userUUID);
+        } else {
+            conference.removeSpeaker(userUUID);
+        }
+    }
 }
