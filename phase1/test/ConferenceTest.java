@@ -267,7 +267,122 @@ public class ConferenceTest {
         conferenceController.removeOrganizer(conferenceUUID, myUser, randomUser);
     }
 
+    @Test(timeout = 50)
+    public void testGetSpeakers() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testGetSpeakersInsufficientPermission() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testGetOrganizers() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testGetOrganizersInsufficientPermission() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testGetAttendees() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testGetAttendeesInsufficientPermission() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testCreateEvent() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testCreateEventInvalidName() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testCreateEventInsufficientPermission() {
+
+    }
+
+    /**
+     * TODO: Room test cases
+     */
+
+
     /* Test attendee operations */
+
+    @Test(timeout = 50)
+    public void testJoinConference() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testLeaveConference() {
+
+    }
+
+    @Test(timeout = 50, expected = NullUserException.class)
+    public void testLeaveConferenceInvalidUser() {
+
+    }
+
+    @Test(timeout = 50, expected = LoneOrganizerException.class)
+    public void testLeaveConferenceLastOrganizer() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testRegisterForEvent() {
+
+    }
+
+    @Test(timeout = 50, expected = NullEventException.class)
+    public void testRegisterForEventInvalidEvent() {
+
+    }
+
+    @Test(timeout = 50, expected = PermissionException.class)
+    public void testRegisterForEventInsufficientPermission() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testUnRegisterForEvent() {
+
+    }
+
+    @Test(timeout = 50, expected = NullEventException.class)
+    public void testUnregisterForInvalidEvent() {
+
+    }
+
+    @Test(timeout = 50, expected = NullEventException.class)
+    public void testUnregisterForUnregisteredEvent() {
+
+    }
+
+    @Test(timeout = 50, expected = PermissionException.class)
+    public void testUnregisterForEventInsufficientPermission() {
+
+    }
+
+    @Test(timeout = 50)
+    public void testGetEvents() {
+
+    }
+
+    @Test(timeout = 50, expected = PermissionException.class)
+    public void testGetEventsInsufficientPermission() {
+
+    }
 
     /* Test speaker operations */
 

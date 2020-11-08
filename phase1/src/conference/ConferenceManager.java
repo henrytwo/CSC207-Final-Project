@@ -306,6 +306,10 @@ public class ConferenceManager {
     public void removeAttendee(UUID conferenceUUID, UUID userUUID) {
         Conference conference = getConference(conferenceUUID);
 
+        /**
+         * TODO: Remove attendees from their registered events too
+         */
+
         if (!conference.getAttendeeUUIDs().contains(userUUID)) {
             throw new NullUserException(userUUID);
         } else {

@@ -20,6 +20,10 @@ public class ConferenceController {
         // gotta save the conversation controller here so that we can talk to it
     }
 
+    /**
+     * TODO: If a room is deleted while it's hooked up to an event, just delete it and keep the event
+     */
+
     /* General operations */
 
     /**
@@ -70,7 +74,7 @@ public class ConferenceController {
         return conferenceManager.getEnd(conferenceUUID);
     }
 
-    /* Attendee operations */
+    /* Attendee/User operations */
 
     /**
      * Attempt to join a conference.
@@ -137,9 +141,8 @@ public class ConferenceController {
      *
      * @param conferenceUUID
      * @param userUUID
-     * @param eventUUID
      */
-    public Set<Event> getEvents(UUID conferenceUUID, UUID userUUID, UUID eventUUID) {
+    public Set<Event> getEvents(UUID conferenceUUID, UUID userUUID) {
         permissionManager.testIsAttendee(conferenceUUID, userUUID);
 
         Set<Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
@@ -283,13 +286,29 @@ public class ConferenceController {
         conferenceManager.removeOrganizer(conferenceUUID, targetUserUUID);
     }
 
-    public void createEvent(UUID conferenceUUID, UUID userUUID, String eventName) {
+    public void createEvent(UUID conferenceUUID, UUID userUUID, String eventName, UUID roomUUID, UUID speakerUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, userUUID);
+
+        /**
+         * Optional room and speaker?
+         */
 
         // do stuff here
     }
 
     public void setEventName(UUID conferenceUUID, UUID userUUID, UUID eventUUID, String eventName) {
+        permissionManager.testIsOrganizer(conferenceUUID, userUUID);
+
+        // do stuff here
+    }
+
+    public void setEventRoom(UUID conferenceUUID, UUID userUUID, UUID eventUUID, UUID roomUUID) {
+        permissionManager.testIsOrganizer(conferenceUUID, userUUID);
+
+        // do stuff here
+    }
+
+    public void setEventSpeaker(UUID conferenceUUID, UUID userUUID, UUID eventUUID, UUID speakerUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, userUUID);
 
         // do stuff here
