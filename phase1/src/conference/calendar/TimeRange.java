@@ -34,4 +34,9 @@ public class TimeRange {
 
         return false;
     }
+
+    @Override
+    public String toString() {
+        return String.format("[%s -> %s]", getStart(), getEnd());
+    }
 }

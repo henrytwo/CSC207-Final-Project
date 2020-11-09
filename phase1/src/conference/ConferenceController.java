@@ -8,9 +8,12 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ConferenceController {
 
+    Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     ConferenceManager conferenceManager = new ConferenceManager();
     RoomManager roomManager = new RoomManager();
     EventManager eventManager = new EventManager();
@@ -81,7 +84,9 @@ public class ConferenceController {
      * @return
      */
     public UUID createConference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
-        return conferenceManager.createConference(conferenceName, timeRange, organizerUUID);
+        UUID conferenceUUID = conferenceManager.createConference(conferenceName, timeRange, organizerUUID);
+        LOGGER.log(Level.INFO, String.format("Conference Created\n UUID: %s\n Conference Name: %s\n Executor: %s\n Time Range: %s", conferenceUUID, conferenceName, organizerUUID, timeRange));
+        return conferenceUUID;
     }
 
     /**
@@ -95,6 +100,7 @@ public class ConferenceController {
     public void setConferenceTimeRange(UUID conferenceUUID, UUID executorUUID, TimeRange timeRange) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
         conferenceManager.setTimeRange(conferenceUUID, timeRange);
+        LOGGER.log(Level.INFO, String.format("Conference Time Range Updated\n Conference UUID: %s\n Executor: %s\n Time Range: %s", conferenceUUID, executorUUID, timeRange));
     }
 
     /**
@@ -108,6 +114,7 @@ public class ConferenceController {
     public void setConferenceName(UUID conferenceUUID, UUID executorUUID, String newName) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
         conferenceManager.setConferenceName(conferenceUUID, newName);
+        LOGGER.log(Level.INFO, String.format("Conference Name Updated\n Conference UUID: %s\n Executor: %s\n Name: %s", conferenceUUID, executorUUID, newName));
     }
 
     /**
@@ -122,6 +129,7 @@ public class ConferenceController {
     public void deleteConference(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
         conferenceManager.deleteConference(conferenceUUID);
+        LOGGER.log(Level.INFO, String.format("Conference Deleted\n Conference UUID: %s\n Executor: %s", conferenceUUID, executorUUID));
     }
 
     /**
@@ -149,6 +157,7 @@ public class ConferenceController {
      */
     public void joinConference(UUID conferenceUUID, UUID executorUUID) {
         conferenceManager.joinConference(conferenceUUID, executorUUID);
+        LOGGER.log(Level.INFO, String.format("User joined conference\n Conference UUID: %s\n Executor: %s", conferenceUUID, executorUUID));
     }
 
     /**
@@ -165,6 +174,7 @@ public class ConferenceController {
     public void leaveConference(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID) {
         permissionManager.testIsAttendeeSelfOrAdmin(conferenceUUID, executorUUID, targetUserUUID);
         conferenceManager.leaveConference(conferenceUUID, targetUserUUID);
+        LOGGER.log(Level.INFO, String.format("User left conference\n Conference UUID: %s\n Target: %s\n Executor: %s", conferenceUUID, targetUserUUID, executorUUID));
     }
 
     /* Event operations */
