@@ -5,9 +5,7 @@ import conference.event.Event;
 import conference.room.Room;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class Conference {
     private Set<UUID> organizerUUIDs = new HashSet<>();

@@ -12,6 +12,7 @@ import java.util.UUID;
 
 public class ConferenceManager {
     private Map<UUID, Conference> conferences = new HashMap<>();
+    private Map<UUID, Set<UUID>> userToConferences = new HashMap<>();
 
     private boolean validateTimeRange(LocalDateTime start, LocalDateTime end) {
         return start.isBefore(end);
@@ -93,7 +94,7 @@ public class ConferenceManager {
      *
      * @return
      */
-    public Set<UUID> getConferenceUUIDs() {
+    public Set<UUID> getConferences() {
         return conferences.keySet();
     }
 

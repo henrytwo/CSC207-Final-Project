@@ -87,8 +87,8 @@ public class ConferenceTest {
 
         assertTrue(conferenceController.conferenceExists(conferenceUUID));
         assertEquals(conferenceController.getConferenceName(conferenceUUID), conferenceNameA);
-        assertEquals(conferenceController.getStart(conferenceUUID), dateA);
-        assertEquals(conferenceController.getEnd(conferenceUUID), dateB);
+        assertEquals(conferenceController.getConferenceStart(conferenceUUID), dateA);
+        assertEquals(conferenceController.getConferenceEnd(conferenceUUID), dateB);
         assertTrue(conferenceController.getOrganizers(conferenceUUID, myUser).contains(myUser));
     }
 
@@ -143,8 +143,8 @@ public class ConferenceTest {
 
         conferenceController.setDates(conferenceUUID, myUser, dateC, dateD);
 
-        assertEquals(conferenceController.getStart(conferenceUUID), dateC);
-        assertEquals(conferenceController.getEnd(conferenceUUID), dateD);
+        assertEquals(conferenceController.getConferenceStart(conferenceUUID), dateC);
+        assertEquals(conferenceController.getConferenceEnd(conferenceUUID), dateD);
     }
 
     /**
