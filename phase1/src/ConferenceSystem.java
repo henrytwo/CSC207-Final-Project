@@ -15,7 +15,7 @@ public class ConferenceSystem {
     public void run() {
         // Setup logger
         Handler handlerObj = new ConsoleHandler();
-        handlerObj.setLevel(Level.ALL);
+        handlerObj.setLevel(Level.OFF);
         LOGGER.addHandler(handlerObj);
         LOGGER.setLevel(Level.ALL);
         LOGGER.setUseParentHandlers(false);
