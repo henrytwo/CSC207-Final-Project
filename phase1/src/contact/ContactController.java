@@ -4,23 +4,23 @@ import java.util.Set;
 import java.util.UUID;
 
 public class ContactController {
-    ContactManager hermes = new ContactManager();
+    ContactManager linker = new ContactManager();
     public void sendRequest(UUID userId, UUID potentialContact){
-        Set<UUID> requestList = hermes.getRequests(potentialContact);
-        Set<UUID> sentList = hermes.getSentRequests(userId);
+        Set<UUID> requestList = linker.getRequests(potentialContact);
+        Set<UUID> sentList = linker.getSentRequests(userId);
         requestList.add(userId);
         sentList.add(potentialContact);
-        hermes.setRequests(potentialContact, requestList);
-        hermes.setSentRequests(userId, sentList);
+        linker.setRequests(potentialContact, requestList);
+        linker.setSentRequests(userId, sentList);
     }
 
     public void deleteContacts(UUID userId, UUID extraContact){
-        Set<UUID> contactsList = hermes.getContacts(userId);
+        Set<UUID> contactsList = linker.getContacts(userId);
         contactsList.remove(extraContact);
-        hermes.setContacts(userId, contactsList);
+        linker.setContacts(userId, contactsList);
     }
 
-//    public Set<UUID> showContacts(){
-//    }
-//    ARE WE RETURNING USERS OR JUST THEIR IDS?
+    public Set<UUID> showContacts(UUID userId){
+        return linker.getContacts(userId);
+    }
 }
