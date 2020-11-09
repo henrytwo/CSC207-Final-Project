@@ -137,8 +137,6 @@ public class ConferenceController {
 
     }
 
-    /* Attendee/User operations */
-
     /**
      * Attempt to join a conference.
      *
@@ -274,24 +272,38 @@ public class ConferenceController {
     }
 
     public String getEventName(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         // do stuff
         return "";
     }
 
     public Set<UUID> getEventSpeakers(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         // do stuff
         return new HashSet<>();
     }
 
     public TimeRange getEventTimeRange(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         // do stuff
         return null;
+    }
+
+    public Set<UUID> getEventAttendees(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+        permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
+
+        // do stuff
+
+        return null;
+    }
+
+    public void createEventConversation(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+        permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
+
+        // do stuff
     }
 
     /* Room operations */
@@ -416,20 +428,5 @@ public class ConferenceController {
     public Set<UUID> getAttendees(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
         return conferenceManager.getAttendees(conferenceUUID);
-    }
-
-    /* Speaker specific operations */
-    public Set<UUID> getEventAttendees(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
-        permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
-
-        // do stuff
-
-        return null;
-    }
-
-    public void createEventConversation(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
-        permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
-
-        // do stuff
     }
 }

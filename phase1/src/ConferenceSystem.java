@@ -107,7 +107,7 @@ public class ConferenceSystem {
         System.out.println(conferenceController.getEvents(conference1, attendee1));
 
         conferenceController.leaveConference(conference1, attendee1, attendee1);
-        System.out.println(conferenceController.getEvents(conference1, attendee1));
+        //System.out.println(conferenceController.getEvents(conference1, attendee1));
 
 
         System.out.println(conferenceController.getAttendees(conference1, otherOrganizer));
