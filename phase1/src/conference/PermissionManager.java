@@ -19,19 +19,19 @@ public class PermissionManager {
         this.conferenceManager = conferenceManager;
     }
 
-    public String generateAccessDeniedError(UUID conferenceUUID, UUID userUUID, String permissionLevel) {
-        return String.format("Access denied\n User: %s \n Conference: %s\n Required Permission: %s", userUUID, conferenceUUID, permissionLevel);
+    public String generateAccessDeniedError(UUID conferenceUUID, UUID executorUUID, String permissionLevel) {
+        return String.format("Access denied\n User: %s \n Conference: %s\n Required Permission: %s", executorUUID, conferenceUUID, permissionLevel);
     }
 
     /**
      * Validates that the current user can execute organizer actions for a conference. Raises a PermissionException otherwise.
      *
      * @param conferenceUUID
-     * @param userUUID
+     * @param executorUUID
      */
-    public void testIsOrganizer(UUID conferenceUUID, UUID userUUID ) {
-        if (!conferenceManager.isOrganizer(conferenceUUID, userUUID)) {
-            LOGGER.log(Level.SEVERE, generateAccessDeniedError(conferenceUUID, userUUID, ORGANIZER));
+    public void testIsOrganizer(UUID conferenceUUID, UUID executorUUID ) {
+        if (!conferenceManager.isOrganizer(conferenceUUID, executorUUID)) {
+            LOGGER.log(Level.SEVERE, generateAccessDeniedError(conferenceUUID, executorUUID, ORGANIZER));
             throw new PermissionException();
         }
     }
@@ -40,27 +40,42 @@ public class PermissionManager {
      * Validates that the current user can execute speaker actions for a conference. Raises a PermissionException otherwise.
      *
      * @param conferenceUUID
-     * @param userUUID
+     * @param executorUUID
      */
-    public void testIsSpeaker(UUID conferenceUUID, UUID userUUID ) {
+    public void testIsSpeaker(UUID conferenceUUID, UUID executorUUID ) {
         // Organizers can perform speaker actions too
-        if (!conferenceManager.isSpeaker(conferenceUUID, userUUID) && !conferenceManager.isOrganizer(conferenceUUID, userUUID)) {
-            LOGGER.log(Level.SEVERE, generateAccessDeniedError(conferenceUUID, userUUID, SPEAKER));
+        if (!conferenceManager.isSpeaker(conferenceUUID, executorUUID) && !conferenceManager.isOrganizer(conferenceUUID, executorUUID)) {
+            LOGGER.log(Level.SEVERE, generateAccessDeniedError(conferenceUUID, executorUUID, SPEAKER));
             throw new PermissionException();
         }
     }
 
     /**
-     * Validates that the current user can execute speaker actions for a conference. Raises a PermissionException otherwise.
+     * Validates that the current user can execute attendee actions for a conference. Raises a PermissionException otherwise.
      *
      * @param conferenceUUID
-     * @param userUUID
+     * @param executorUUID
      */
-    public void testIsAttendee(UUID conferenceUUID, UUID userUUID ) {
+    public void testIsAttendee(UUID conferenceUUID, UUID executorUUID ) {
         // Organizers can perform speaker actions too
-        if (!conferenceManager.isAttendee(conferenceUUID, userUUID) && !conferenceManager.isSpeaker(conferenceUUID, userUUID) && !conferenceManager.isOrganizer(conferenceUUID, userUUID)) {
-            LOGGER.log(Level.SEVERE, generateAccessDeniedError(conferenceUUID, userUUID, ATTENDEE));
+        if (!conferenceManager.isAttendee(conferenceUUID, executorUUID) && !conferenceManager.isSpeaker(conferenceUUID, executorUUID) && !conferenceManager.isOrganizer(conferenceUUID, executorUUID)) {
+            LOGGER.log(Level.SEVERE, generateAccessDeniedError(conferenceUUID, executorUUID, ATTENDEE));
             throw new PermissionException();
         }
+    }
+    
+    /**
+     * Validates that the current user is executing operations on themselves, or an admin is executing those commands on
+     * their behalf.
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     * @param targetUserUUID
+     */
+    public void testIsAttendeeSelfOrAdmin(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID) {
+        if (!conferenceManager.isOrganizer(conferenceUUID, executorUUID) && !executorUUID.equals(targetUserUUID)) {
+            testIsAttendee(conferenceUUID, targetUserUUID);
+        }
+
     }
 }

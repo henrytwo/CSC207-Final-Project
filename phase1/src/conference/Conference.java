@@ -1,6 +1,7 @@
 package conference;
 
 import conference.calendar.Calendar;
+import conference.calendar.TimeRange;
 import conference.event.Event;
 import conference.room.Room;
 
@@ -20,14 +21,12 @@ public class Conference {
 
     private Calendar calendar = new Calendar();
 
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private TimeRange timeRange;
 
-    public Conference(String conferenceName, LocalDateTime start, LocalDateTime end, UUID organizerUUID) {
+    public Conference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
         this.conferenceName = conferenceName;
         this.uuid = UUID.randomUUID();
-        this.start = start;
-        this.end = end;
+        this.timeRange = timeRange;
         this.organizerUUIDs.add(organizerUUID);
     }
 
@@ -43,20 +42,12 @@ public class Conference {
         return conferenceName;
     }
 
-    public LocalDateTime getStart() {
-        return start;
+    public TimeRange getTimeRange() {
+        return timeRange;
     }
 
-    public LocalDateTime getEnd() {
-        return end;
-    }
-
-    public void setStart(LocalDateTime start) {
-        this.start = start;
-    }
-
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
+    public void setTimeRange(TimeRange timeRange) {
+        this.timeRange = timeRange;
     }
 
     public void setConferenceName(String conferenceName) {

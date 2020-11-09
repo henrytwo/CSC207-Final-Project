@@ -1,9 +1,11 @@
 package conference;
 
+import conference.calendar.TimeRange;
 import conference.event.Event;
 import conference.room.Room;
 import util.exception.*;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,21 +28,16 @@ public class ConferenceManager {
      * Creates a conference and assigns the authenticated user as an organizer.
      *
      * @param conferenceName
-     * @param startTime
-     * @param endTime
+     * @param timeRange
      * @param organizerUUID
      * @return
      */
-    public UUID createConference(String conferenceName, LocalDateTime startTime, LocalDateTime endTime, UUID organizerUUID) {
-        if (!validateTimeRange(startTime, endTime)) {
-            throw new InvalidTimeRangeException();
-        }
-
+    public UUID createConference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
         if (!validateConferenceName(conferenceName)) {
             throw new InvalidNameException();
         }
 
-        Conference newConference = new Conference(conferenceName, startTime, endTime, organizerUUID);
+        Conference newConference = new Conference(conferenceName, timeRange, organizerUUID);
         conferences.put(newConference.getUuid(), newConference);
 
         return newConference.getUuid();
@@ -108,33 +105,19 @@ public class ConferenceManager {
     }
 
     /**
-     * Gets conference start datetime
+     * Gets conference time range
      *
      * @return
      */
-    public LocalDateTime getStart(UUID conferenceUUID) {
-        return getConference(conferenceUUID).getStart();
-    }
-
-    /**
-     * Gets conference end datetime
-     *
-     * @return
-     */
-    public LocalDateTime getEnd(UUID conferenceUUID) {
-        return getConference(conferenceUUID).getEnd();
+    public TimeRange getTimeRange(UUID conferenceUUID) {
+        return getConference(conferenceUUID).getTimeRange();
     }
 
     /**
      * Sets conference dates datetime
      */
-    public void setDates(UUID conferenceUUID, LocalDateTime newStart, LocalDateTime newEnd) {
-        if (!validateTimeRange(newStart, newEnd)) {
-            throw new InvalidTimeRangeException();
-        }
-
-        getConference(conferenceUUID).setStart(newStart);
-        getConference(conferenceUUID).setEnd(newEnd);
+    public void setTimeRange(UUID conferenceUUID, TimeRange timeRange) {
+        getConference(conferenceUUID).setTimeRange(timeRange);
     }
 
     /**

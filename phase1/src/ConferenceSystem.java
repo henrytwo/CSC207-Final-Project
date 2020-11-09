@@ -1,4 +1,5 @@
 import conference.ConferenceController;
+import conference.calendar.TimeRange;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -34,10 +35,42 @@ public class ConferenceSystem {
         *  |-> Join a conference
         *  |   |-> Find a conference from a list and join it
         *  |-> View a joined conference
-        *      |-> View Conference schedule
         *      |-> Get conference name
         *      |-> Get conference start
         *      |-> Get conference end
+        *      |-> Set conference name
+        *      |-> Set conference start
+        *      |-> Set conference end
+        *      |-> Remove from conference (Admin/Self)
+        *      |
+        *      |-> View Conference schedule
+        *      |
+        *      |-> View Events UUIDs
+        *      |-> Register for event (Admin/Self)
+        *      |-> Unregister for event (Admin/Self)
+        *      |-> Edit event (Admin)
+        *      |    |-> Set name
+        *      |    |-> Set start time/date
+        *      |    |-> Set end time/date
+        *      |    |-> Add speaker(s)
+        *      |    |-> Remove speaker(s)
+        *      |    |-> Set room
+        *      |-> Create event (Admin)
+        *      |-> Delete event (Admin)
+        *      |-> Create event conversation (Speaker)
+        *      |-> Get event name
+        *      |-> Get event speakers
+        *      |-> Get event time range
+        *      |-> Get event room
+        *      |
+        *      |-> Create room (Admin)
+        *      |-> Edit room (Admin)
+        *      |    |-> Set room location
+        *      |    |-> Set room capacity
+        *      |-> Delete room (Admin)
+        *      |-> Get rooms
+        *      |-> Get room location
+        *      |-> Get room capacity
         *      |
         *      |-> Get organizer UUIDs (Admin)
         *      |-> Add organizer (Admin)
@@ -47,34 +80,6 @@ public class ConferenceSystem {
         *      |-> Get attendee UUIDs (Admin)
         *      |
         *      |-> Message any registered users (Admin)
-        *      |
-        *      |-> View Events UUIDs
-        *      |-> Register for event (Admin/Self)
-        *      |-> Unregister for event (Admin/Self)
-        *      |-> Edit event (Admin)
-        *      |    |-> Set name
-        *      |    |-> Set start time/date
-        *      |    |-> Set end time/date
-        *      |    |-> Set speaker(s)
-        *      |    |-> Set room
-        *      |-> Create event (Admin)
-        *      |-> Delete event (Admin)
-        *      |-> Create event conversation (Speaker)
-        *      |-> Get event name
-        *      |-> Get event speakers
-        *      |-> Get event start time
-        *      |-> Get event end time
-        *      |-> Get event room
-        *      |
-        *      |-> Create room (Admin)
-        *      |-> Edit room (Admin)
-        *      |    |-> Set room location
-        *      |-> Delete room (Admin)
-        *      |-> Get rooms
-        *      |-> Get room location
-        *      |-> Get room capacity
-        *      |
-        *      |-> Remove from conference (Admin/Self)
         * */
 
         LocalDateTime dateA = LocalDateTime.of(2015,
@@ -88,7 +93,7 @@ public class ConferenceSystem {
         UUID otherOrganizer = UUID.randomUUID();
         UUID speaker1 = UUID.randomUUID();
 
-        UUID conference1 = conferenceController.createConference("My conference", dateA, dateB, me);
+        UUID conference1 = conferenceController.createConference("My conference", new TimeRange(dateA, dateB), me);
 
         for (UUID confUUID : conferenceController.getConferences()) {
             System.out.println(conferenceController.getConferenceName(confUUID));
@@ -101,7 +106,7 @@ public class ConferenceSystem {
 
         System.out.println(conferenceController.getEvents(conference1, attendee1));
 
-        conferenceController.leaveConference(conference1, attendee1);
+        conferenceController.leaveConference(conference1, attendee1, attendee1);
         System.out.println(conferenceController.getEvents(conference1, attendee1));
 
 

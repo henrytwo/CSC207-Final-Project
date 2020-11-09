@@ -1,5 +1,6 @@
 package conference;
 
+import conference.calendar.TimeRange;
 import conference.event.Event;
 import conference.event.EventManager;
 import conference.room.RoomManager;
@@ -20,11 +21,7 @@ public class ConferenceController {
         // gotta save the conversation controller here so that we can talk to it
     }
 
-    /**
-     * TODO: If a room is deleted while it's hooked up to an event, just delete it and keep the event
-     */
-
-    /* General operations */
+    /* Conference operations */
 
     /**
      * Get a all conference UUIDs.
@@ -60,111 +57,16 @@ public class ConferenceController {
     }
 
     /**
-     * Get start date time
+     * Get conference time range
      *
      * Required Permission: NONE
      *
      * @param conferenceUUID
      * @return
      */
-    public LocalDateTime getConferenceStart(UUID conferenceUUID) {
-        return conferenceManager.getStart(conferenceUUID);
+    public TimeRange getConferenceTimeRange(UUID conferenceUUID) {
+        return conferenceManager.getTimeRange(conferenceUUID);
     }
-
-    /**
-     * Get end date time
-     *
-     * Required Permission: NONE
-     *
-     * @param conferenceUUID
-     * @return
-     */
-    public LocalDateTime getConferenceEnd(UUID conferenceUUID) {
-        return conferenceManager.getEnd(conferenceUUID);
-    }
-
-    /* Attendee/User operations */
-
-    /**
-     * Attempt to join a conference.
-     *
-     * (This is a special case because users aren't an attendee until after they join a conference)
-     *
-     * Required Permission: NONE
-     *
-     * @param conferenceUUID
-     * @param executorUUID
-     */
-    public void joinConference(UUID conferenceUUID, UUID executorUUID) {
-        conferenceManager.joinConference(conferenceUUID, executorUUID);
-    }
-
-    /**
-     * Attempt to leave a conference.
-     *
-     * You can't leave a conference if you're the last organizer.
-     *
-     * Required Permission: NONE
-     *
-     * @param conferenceUUID
-     * @param executorUUID
-     */
-    public void leaveConference(UUID conferenceUUID, UUID executorUUID) {
-        conferenceManager.leaveConference(conferenceUUID, executorUUID);
-    }
-
-    /**
-     * Sign up for an event. A user must be an attendee of the parent conference to sign up.
-     *
-     * @param conferenceUUID
-     * @param executorUUID
-     * @param eventUUID
-     */
-    public void registerForEvent(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
-        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
-
-        Set<Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
-
-        // need to check for existing groupchat + add them and stuff
-        // event manager does stuff
-    }
-
-    /**
-     * Unregister for an event. A user must be an attendee of the parent conference to unregister.
-     *
-     * @param conferenceUUID
-     * @param executorUUID
-     * @param eventUUID
-     */
-    public void unregisterForEvent(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
-        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
-
-        Set<Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
-
-        // event manager does stuff
-        // revoke access to the gc
-    }
-
-    /**
-     * Get a list of events. A user must be an attendee of the parent conference to view events.
-     *
-     * @param conferenceUUID
-     * @param executorUUID
-     */
-    public Set<Event> getEvents(UUID conferenceUUID, UUID executorUUID) {
-        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
-
-        Set<Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
-        // hm can we return the entire object, or should we do something else?
-
-        return new HashSet<>();
-    }
-
-    /**
-     * TODO: Calendar stuff
-     */
-
-    /* Organizer operations */
 
     /**
      * Create a new conference.
@@ -174,13 +76,12 @@ public class ConferenceController {
      * Required Permission: NONE
      *
      * @param conferenceName
-     * @param startTime
-     * @param endTime
+     * @param timeRange
      * @param organizerUUID
      * @return
      */
-    public UUID createConference(String conferenceName, LocalDateTime startTime, LocalDateTime endTime, UUID organizerUUID) {
-        return conferenceManager.createConference(conferenceName, startTime, endTime, organizerUUID);
+    public UUID createConference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
+        return conferenceManager.createConference(conferenceName, timeRange, organizerUUID);
     }
 
     /**
@@ -191,9 +92,9 @@ public class ConferenceController {
      * @param conferenceUUID
      * @return
      */
-    public void setDates(UUID conferenceUUID, UUID executorUUID, LocalDateTime newStart, LocalDateTime newEnd) {
+    public void setConferenceTimeRange(UUID conferenceUUID, UUID executorUUID, TimeRange timeRange) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-        conferenceManager.setDates(conferenceUUID, newStart, newEnd);
+        conferenceManager.setTimeRange(conferenceUUID, timeRange);
     }
 
     /**
@@ -224,6 +125,226 @@ public class ConferenceController {
     }
 
     /**
+     * Get the conference calendar
+     *
+     * Required Permission: ATTENDEE
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     */
+    public void getConferenceSchedule(UUID conferenceUUID, UUID executorUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+
+    }
+
+    /* Attendee/User operations */
+
+    /**
+     * Attempt to join a conference.
+     *
+     * (This is a special case because users aren't an attendee until after they join a conference)
+     *
+     * Required Permission: NONE
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     */
+    public void joinConference(UUID conferenceUUID, UUID executorUUID) {
+        conferenceManager.joinConference(conferenceUUID, executorUUID);
+    }
+
+    /**
+     * Attempt to leave a conference.
+     *
+     * You can't leave a conference if you're the last organizer.
+     *
+     * Required Permission: ATTENDEE (self) or ORGANIZER
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     * @param targetUserUUID
+     */
+    public void leaveConference(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID) {
+        permissionManager.testIsAttendeeSelfOrAdmin(conferenceUUID, executorUUID, targetUserUUID);
+        conferenceManager.leaveConference(conferenceUUID, targetUserUUID);
+    }
+
+    /* Event operations */
+
+    /**
+     * Get a list of events. A user must be an attendee of the parent conference to view events.
+     *
+     * Required Permission: ATTENDEE
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     */
+    public Set<UUID> getEvents(UUID conferenceUUID, UUID executorUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+
+        Set<Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
+        // hm can we return the entire object, or should we do something else?
+
+        return new HashSet<>();
+    }
+
+    /**
+     * Sign up for an event. A user must be an attendee of the parent conference to sign up.
+     *
+     * Required Permission: ATTENDEE (self) or ORGANIZER
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     * @param targetUserUUID
+     * @param eventUUID
+     */
+    public void registerForEvent(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID, UUID eventUUID) {
+        permissionManager.testIsAttendeeSelfOrAdmin(conferenceUUID, executorUUID, targetUserUUID);
+
+        Set<Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
+
+        // need to check for existing groupchat + add them and stuff
+        // event manager does stuff
+    }
+
+    /**
+     * Unregister for an event. A user must be an attendee of the parent conference to unregister.
+     *
+     * Required Permission: ATTENDEE (self) or ORGANIZER
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     * @param targetUserUUID
+     * @param eventUUID
+     */
+    public void unregisterForEvent(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID, UUID eventUUID) {
+        permissionManager.testIsAttendeeSelfOrAdmin(conferenceUUID, executorUUID, targetUserUUID);
+
+        Set<Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
+
+        // event manager does stuff
+        // revoke access to the gc
+    }
+
+    public void createEvent(UUID conferenceUUID, UUID executorUUID, String eventName, UUID roomUUID, Set<UUID> speakerUUIDs, TimeRange timeRange) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        /**
+         * Optional room and speaker?
+         */
+
+        // if there's a speaker
+        // do stuff here
+    }
+
+    public void setEventName(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, String eventName) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        // do stuff here
+    }
+
+    public void setEventRoom(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, UUID roomUUID) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        // do stuff here
+    }
+
+    public void setEventTimeRange(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, TimeRange timeRange) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        // do stuff here
+    }
+
+    public void addEventSpeaker(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, UUID speakerUUID) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        // do stuff here
+    }
+
+    public void removeEventSpeaker(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, UUID speakerUUID) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        // do stuff here
+    }
+
+    public void deleteEvent(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        // do stuff here
+    }
+
+    public String getEventName(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        // do stuff
+        return "";
+    }
+
+    public Set<UUID> getEventSpeakers(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        // do stuff
+        return new HashSet<>();
+    }
+
+    public TimeRange getEventTimeRange(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        // do stuff
+        return null;
+    }
+
+    /* Room operations */
+    public Set<UUID> getRooms(UUID conferenceUUID, UUID executorUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+
+        // do stuff
+
+        return null;
+    }
+
+    public void createRoom(UUID conferenceUUID, UUID executorUUID, String roomNumber, int capacity) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        // do stuff
+    }
+
+    public void setRoomLocation(UUID conferenceUUID, UUID executorUUID, UUID roomUUID, String roomLocation) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        // do stuff
+    }
+
+    public void setRoomCapacity(UUID conferenceUUID, UUID executorUUID, UUID roomUUID, int capacity) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+
+        // do stuff
+    }
+
+    public void deleteRoom(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+        /**
+         * TODO: If a room is deleted while it's hooked up to an event, just delete it and keep the event
+         */
+
+        // do stuff
+    }
+
+    public String getRoomLocation(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+
+        return null;
+    }
+
+    public int getRoomCapacity(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+
+        return 0;
+    }
+
+    /* Organizer operations */
+
+    /**
      * Gets a set of UUIDs of organizers.
      *
      * Required Permission: ORGANIZER
@@ -235,34 +356,6 @@ public class ConferenceController {
     public Set<UUID> getOrganizers(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
         return conferenceManager.getOrganizers(conferenceUUID);
-    }
-
-    /**
-     * Gets a set of UUIDs of speakers.
-     *
-     * Required Permission: ORGANIZER
-     *
-     * @param conferenceUUID
-     * @param executorUUID
-     * @return
-     */
-    public Set<UUID> getSpeakers(UUID conferenceUUID, UUID executorUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-        return conferenceManager.getSpeakers(conferenceUUID);
-    }
-
-    /**
-     * Gets a set of UUIDs of attendees.
-     *
-     * Required Permission: ORGANIZER
-     *
-     * @param conferenceUUID
-     * @param executorUUID
-     * @return
-     */
-    public Set<UUID> getAttendees(UUID conferenceUUID, UUID executorUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-        return conferenceManager.getAttendees(conferenceUUID);
     }
 
     /**
@@ -295,78 +388,43 @@ public class ConferenceController {
         conferenceManager.removeOrganizer(conferenceUUID, targetUserUUID);
     }
 
-    public void createEvent(UUID conferenceUUID, UUID executorUUID, String eventName, UUID roomUUID, Set<UUID> speakerUUIDs) {
+    /* Some more getters */
+
+    /**
+     * Gets a set of UUIDs of speakers.
+     *
+     * Required Permission: ORGANIZER
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     * @return
+     */
+    public Set<UUID> getSpeakers(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-
-        /**
-         * Optional room and speaker?
-         */
-
-        // if there's a speaker
-        // do stuff here
+        return conferenceManager.getSpeakers(conferenceUUID);
     }
 
-    public void setEventName(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, String eventName) {
+    /**
+     * Gets a set of UUIDs of attendees.
+     *
+     * Required Permission: ORGANIZER
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     * @return
+     */
+    public Set<UUID> getAttendees(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-
-        // do stuff here
+        return conferenceManager.getAttendees(conferenceUUID);
     }
 
-    public void setEventRoom(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, UUID roomUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-
-        // do stuff here
-    }
-
-    public void addEventSpeaker(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, UUID speakerUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-
-        // do stuff here
-    }
-
-    public void removeEventSpeaker(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, UUID speakerUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-
-        // do stuff here
-    }
-
-    public void deleteEvent(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-
-        // do stuff here
-    }
-
-    public void createRoom(UUID conferenceUUID, UUID executorUUID, String roomNumber, int capacity) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-
-        // do stuff
-    }
-
-    public void setRoomNumber(UUID conferenceUUID, UUID executorUUID, UUID roomUUID, String roomLocation) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-
-        // do stuff
-    }
-
-    public void setRoomCapacity(UUID conferenceUUID, UUID executorUUID, UUID roomUUID, int capacity) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-
-        // do stuff
-    }
-
-    public void deleteRoom(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-
-        // do stuff
-    }
-
-    /* Speaker operations */
+    /* Speaker specific operations */
     public Set<UUID> getEventAttendees(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
         permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
 
         // do stuff
 
-        return new HashSet<>();
+        return null;
     }
 
     public void createEventConversation(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
