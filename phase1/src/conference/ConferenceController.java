@@ -177,6 +177,15 @@ public class ConferenceController {
     public void leaveConference(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID) {
         permissionManager.testIsAttendeeSelfOrAdmin(conferenceUUID, executorUUID, targetUserUUID);
         conferenceManager.leaveConference(conferenceUUID, targetUserUUID);
+
+        /**
+         * TODO: Unregister user from all their events
+         */
+
+        /**
+         * TODO: Unregister user from all their speaker events
+         */
+
         LOGGER.log(Level.INFO, String.format("User left conference\n Conference UUID: %s\n Target: %s\n Executor: %s", conferenceUUID, targetUserUUID, executorUUID));
     }
 
@@ -329,6 +338,15 @@ public class ConferenceController {
         return null;
     }
 
+    /**
+     * Pulls a list of attendees for an event and creates a conversation with them
+     *
+     * Required Permission: SPEAKER
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     * @param eventUUID
+     */
     public void createEventConversation(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
         permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
 
