@@ -7,31 +7,34 @@ import java.util.*;
 public class ConversationManager {
 
 //    Handles sending messages
-    private HashMap<UUID, Set<Conversation>> mapUserConvo = new HashMap<UUID,
-        Set<Conversation>>();
+    private HashMap<UUID, Set<UUID>> mapUserConvo = new HashMap<UUID,
+        Set<UUID>>();
 
-    public void conversationCreator(String convName, Set<UUID> usersWrite, Set<UUID>
-            usersRead, Set<Message> convMessages){
+    public Conversation conversationCreator(String convName, Set<UUID> usersWrite, Set<UUID>
+            usersRead, Message convMessages1){
+        ArrayList<Message> convMessages = new ArrayList<>();
+        convMessages.add(convMessages1);
         Conversation newConversation = new Conversation(convName, usersWrite, usersRead, convMessages);
+        return newConversation;
     }
 
     public void messageCreator(UUID messageSender_id, String messageContent, Date messageTimestamp){
         Message newMessage = new Message(messageSender_id, messageContent, messageTimestamp);
     }
 
-    public boolean addUserWithConversation(UUID userId, Conversation newConversation){
+    public boolean addUserToConversation(UUID userId, UUID newConversationId){
         if (mapUserConvo.keySet().contains(userId)){
-            if (mapUserConvo.get(userId).contains(newConversation)){
+            if (mapUserConvo.get(userId).contains(newConversationId)){
                 System.out.println("This conversation has already been added.");
                 return false;
             }
-            else{mapUserConvo.get(userId).add(newConversation);
+            else{mapUserConvo.get(userId).add(newConversationId);
             return true;}
         }
         else{
-            Set<Conversation> convoArray = new HashSet<>();
-            convoArray.add(newConversation);
-            mapUserConvo.put(userId, convoArray);
+            Set<UUID> convoSet = new HashSet<>();
+            convoSet.add(newConversationId);
+            mapUserConvo.put(userId, convoSet);
             return true;
         }
     }
@@ -42,16 +45,13 @@ public class ConversationManager {
         }
     }
 
-    public void sendMessage(Message message, String conversation_name){
+    public void sendMessage(Message message, Conversation conversation){
         // We can assume that a conversation has already been created here
-        UUID userId = message.getSenderId();
-        Set<Conversation> arraylist = mapUserConvo.get(userId);
-        for(Conversation convo: arraylist){
-            if (convo.getConversationName() == conversation_name){
-                convo.addMessage(message);
-                break;
-            }
-        }
+        conversation.addMessage(message);
+    }
+
+    public Set getConversationlist(UUID userId){
+        return mapUserConvo.get(userId);
     }
 
 }

@@ -9,16 +9,18 @@ import java.util.UUID;
 
 public class Conversation {
     private String conversationName; // either group chat or 2 person chat
-    private Set<Message> conversationMessages = new HashSet<>();
+    private ArrayList<Message> conversationMessages = new ArrayList<>();
     private Set<UUID> writeAccessUsers = new HashSet<>();
     private Set<UUID> readAccessUsers = new HashSet<>();
+    private UUID convoId;
 
     public Conversation(String convName, Set<UUID> usersWrite, Set<UUID>
-            usersRead, Set<Message> convMessages){
+            usersRead, ArrayList<Message> convMessages){
         conversationName = convName;
         conversationMessages = convMessages;
         writeAccessUsers = usersWrite;
         readAccessUsers = usersRead;
+        convoId = UUID.randomUUID();
     }
 
     public void addUserToWrite(UUID user){
