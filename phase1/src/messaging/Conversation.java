@@ -3,16 +3,18 @@ package messaging;
 import user.User;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class Conversation {
     private String conversationName; // either group chat or 2 person chat
-    private ArrayList<Message> conversationMessages = new ArrayList<>();
-    private ArrayList<UUID> writeAccessUsers = new ArrayList<>();
-    private ArrayList<UUID> readAccessUsers = new ArrayList<>();
+    private Set<Message> conversationMessages = new HashSet<>();
+    private Set<UUID> writeAccessUsers = new HashSet<>();
+    private Set<UUID> readAccessUsers = new HashSet<>();
 
-    public Conversation(String convName, ArrayList<UUID> usersWrite, ArrayList<UUID>
-            usersRead, ArrayList<Message> convMessages){
+    public Conversation(String convName, Set<UUID> usersWrite, Set<UUID>
+            usersRead, Set<Message> convMessages){
         conversationName = convName;
         conversationMessages = convMessages;
         writeAccessUsers = usersWrite;
@@ -37,8 +39,8 @@ public class Conversation {
             return false;
         }
         else{
-        conversationMessages.add(message);
-        return true;
+            conversationMessages.add(message);
+            return true;
         }
     }
 
@@ -52,7 +54,7 @@ public class Conversation {
         }
     }
 
-    public String NameOfConversation(){
+    public String getConversationName(){
         return conversationName;
     }
 

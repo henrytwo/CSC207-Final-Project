@@ -1,12 +1,10 @@
 package messaging;
 
-import java.util.Date;
-import java.util.UUID;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Message {
     private String content;
-    private ArrayList<Message> responses = new ArrayList<>();
+    private Set<Message> responses = new HashSet<>();
     private Date timestamp;
     private UUID senderId;
 

@@ -2,19 +2,16 @@ package messaging;
 
 import user.User;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 public class ConversationManager {
 
 //    Handles sending messages
-    private HashMap<UUID, ArrayList<Conversation>> mapUserConvo = new HashMap<UUID,
-        ArrayList<Conversation>>();
+    private HashMap<UUID, Set<Conversation>> mapUserConvo = new HashMap<UUID,
+        Set<Conversation>>();
 
-    public void conversationCreator(String convName, ArrayList<UUID> usersWrite, ArrayList<UUID>
-            usersRead, ArrayList<Message> convMessages){
+    public void conversationCreator(String convName, Set<UUID> usersWrite, Set<UUID>
+            usersRead, Set<Message> convMessages){
         Conversation newConversation = new Conversation(convName, usersWrite, usersRead, convMessages);
     }
 
@@ -32,7 +29,7 @@ public class ConversationManager {
             return true;}
         }
         else{
-            ArrayList<Conversation> convoArray = new ArrayList<>();
+            Set<Conversation> convoArray = new HashSet<>();
             convoArray.add(newConversation);
             mapUserConvo.put(userId, convoArray);
             return true;
@@ -45,12 +42,12 @@ public class ConversationManager {
         }
     }
 
-    public void sendMessage(Message message, Conversation conversation){
+    public void sendMessage(Message message, String conversation_name){
         // We can assume that a conversation has already been created here
         UUID userId = message.getSenderId();
-        ArrayList<Conversation> arraylist = mapUserConvo.get(userId);
+        Set<Conversation> arraylist = mapUserConvo.get(userId);
         for(Conversation convo: arraylist){
-            if (convo == conversation){
+            if (convo.getConversationName() == conversation_name){
                 convo.addMessage(message);
                 break;
             }
