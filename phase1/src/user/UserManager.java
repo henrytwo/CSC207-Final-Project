@@ -43,14 +43,24 @@ public class UserManager {
         return this.useruserName;
     }
 
+    /*
     public void setUserPassword(String password){
         this.userpassword = password;
+    }*/
+
+    // Example
+    public void setUserPassword(UUID userUUID, String password){
+        getUser(userUUID).setPassword(password);
     }
 
+    // We should never do this, so don't let people grab user's passwords
+    /*
     public String getPassword(){
         return this.userpassword;
-    }
-    public User getUser(UUID uuid){
+    }*/
+
+    // We make this private because we should only be able to grab the user object from within the manager
+    private User getUser(UUID uuid){
         return userMap.get(uuid);
     }
 
