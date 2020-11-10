@@ -13,8 +13,6 @@ public class UserManager {
      * - Method to test a username/password combination + loop through the users to see if there's a match
      */
 
-    private String username;
-    private User password;
     private Map<UUID, User> userMap = new HashMap<>();
 
     /*
@@ -41,6 +39,8 @@ public class UserManager {
             return passwordHash == storedPasswordHash;
         }
     }*/
+
+    // Add method to get name of user by UUID, get first name, get last name, etc.
 
     private User getUserByUsername(String username) {
         for (User user : userMap.values()) {
