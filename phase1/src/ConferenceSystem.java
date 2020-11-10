@@ -1,3 +1,5 @@
+import console.ConsoleUtilities;
+
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -14,5 +16,12 @@ public class ConferenceSystem {
         LOGGER.setLevel(Level.ALL);
         LOGGER.setUseParentHandlers(false);
 
+        System.out.println(ConsoleUtilities.loginPrompt());
+        ConsoleUtilities.confirmBoxClear("wtf ur password is wrong");
+        ConsoleUtilities.singleSelectMenu("Welcome to our boi", "Cool system man", new String[]{
+                "asd",
+                "asdasdas",
+                "asdsad"
+        });
     }
 }
