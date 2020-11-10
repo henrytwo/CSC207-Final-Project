@@ -5,9 +5,7 @@ import conference.event.Event;
 import conference.event.EventManager;
 import conference.room.RoomManager;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -218,10 +216,7 @@ public class ConferenceController {
     public Set<UUID> getEvents(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
-        Set<Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
-        // hm can we return the entire object, or should we do something else?
-
-        return new HashSet<>();
+        return conferenceManager.getEventsFromConference(conferenceUUID).keySet();
     }
 
     /**
@@ -237,7 +232,7 @@ public class ConferenceController {
     public void registerForEvent(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID, UUID eventUUID) {
         permissionManager.testIsAttendeeSelfOrAdmin(conferenceUUID, executorUUID, targetUserUUID);
 
-        Set<Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
+        Map<UUID, Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
 
         // need to check for existing groupchat + add them and stuff
         // event manager does stuff
@@ -256,7 +251,7 @@ public class ConferenceController {
     public void unregisterForEvent(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID, UUID eventUUID) {
         permissionManager.testIsAttendeeSelfOrAdmin(conferenceUUID, executorUUID, targetUserUUID);
 
-        Set<Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
+        Map<UUID, Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
 
         // event manager does stuff
         // revoke access to the gc
@@ -399,6 +394,12 @@ public class ConferenceController {
     }
 
     public int getRoomCapacity(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+
+        return 0;
+    }
+
+    public int getRoomCalendar(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         return 0;

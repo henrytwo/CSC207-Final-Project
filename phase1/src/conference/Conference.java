@@ -13,8 +13,8 @@ public class Conference {
     private Set<UUID> speakerUUIDs = new HashSet<>();
     private Set<UUID> attendeeUUIDs = new HashSet<>();
 
-    private Set<Event> events = new HashSet<>();
-    private Set<Room> rooms = new HashSet<>();
+    private Map<UUID, Event> events = new HashMap<>();
+    private Map<UUID, Room> rooms = new HashMap<>();
 
     private String conferenceName;
     private UUID uuid;
@@ -30,11 +30,11 @@ public class Conference {
         this.organizerUUIDs.add(organizerUUID);
     }
 
-    public Set<Event> getEvents() {
+    public Map<UUID, Event> getEvents() {
         return events;
     }
 
-    public Set<Room> getRooms() {
+    public Map<UUID, Room> getRooms() {
         return rooms;
     }
 
