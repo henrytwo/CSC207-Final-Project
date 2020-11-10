@@ -10,35 +10,49 @@ public class User {
 
     /**
      * Responsibilities:
-     * - Store name, email, password, UUID
+     * - Store name, username, password, UUID
      */
 
-    private String name;
-    private String email;
+    private String firstName;
+    private String lastName;
+    private String username;
     private String password;
     private UUID uuid;
 
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
+    public User(String firstName, String lastName, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
         this.password = password;
         this.uuid = UUID.randomUUID();
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public void setLeastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
     }
 
     public String getName() {
-        return this.name;
+        return getFirstName() + " " + getLastName();
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getEmail() {
-        return this.email;
+    public String getUsername() {
+        return this.username;
     }
 
     public void setPassword(String password){

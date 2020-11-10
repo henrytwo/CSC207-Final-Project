@@ -17,7 +17,7 @@ public class UserManager {
     private User password;
     private Map<UUID, User> userMap = new HashMap<>();
 
-
+    /*
    public boolean isUsernameTaken(UUID username){
         return userMap.containsKey(username);
     }
@@ -40,6 +40,39 @@ public class UserManager {
 
             return passwordHash == storedPasswordHash;
         }
+    }*/
+
+    private User getUserByUsername(String username) {
+        for (User user : userMap.values()) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+
+        return null;
+    }
+
+    public boolean registerUser(String firstName, String lastName, String username, String password) {
+        if (getUserByUsername(username) == null) {
+            User newUser = new User(firstName, lastName, username, password);
+            UUID newUserUUID = newUser.getUuid();
+
+            userMap.put(newUserUUID, newUser);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public UUID login(String username, String password) {
+        User user = getUserByUsername(username);
+
+        if (user != null && user.getPassword().equals(password)) {
+            return user.getUuid();
+        }
+
+        return null;
     }
 }
 
