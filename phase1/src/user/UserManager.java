@@ -13,30 +13,33 @@ public class UserManager {
      * - Method to test a username/password combination + loop through the users to see if there's a match
      */
 
-    public static void main(String[] args) {
-        Scanner input = new Scanner (System.in);
-
-        String username;
-        String password;
+    private String username;
+    private User password;
+    private Map<UUID, User> userMap = new HashMap<>();
 
 
-        System.out.println("Welcome to your Event booking site!");
-        System.out.println("\n Enter your username and password to login to your account.");
-
-        System.out.println("Username: ");
-        username = input.nextLine();
-
-        System.out.println("Password: ");
-        password = input.nextLine();
-
-        UserController login = new UserController(username, password);
-
-        /*
-        if(login.isLoginCorrect(username, password))
-            System.out.println("You are logged in!");
-        else
-            System.out.println("The username and password you entered are incorrect.");*/
+   public boolean isUsernameTaken(UUID username){
+        return userMap.containsKey(username);
     }
 
+    public void registerUser(UUID username, User password){
+        User passwordHash = getSimpleHash(password);
+        userMap.put(username, passwordHash);
     }
+
+    public boolean isLoginCorrect(UUID username, User password) {
+
+        //username isn't registered
+        if (!userMap.containsKey(username)) {
+            return false;
+        }
+        for (User user : userMap.values()) {
+
+            User passwordHash = getSimpleHash(password);
+            User storedPasswordHash = userMap.get(username);
+
+            return passwordHash == storedPasswordHash;
+        }
+    }
+}
 
