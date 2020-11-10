@@ -1,5 +1,6 @@
 import console.ConsoleUtilities;
 
+import java.util.UUID;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -16,12 +17,32 @@ public class ConferenceSystem {
         LOGGER.setLevel(Level.ALL);
         LOGGER.setUseParentHandlers(false);
 
-        System.out.println(ConsoleUtilities.loginPrompt());
-        ConsoleUtilities.confirmBoxClear("wtf ur password is wrong");
-        ConsoleUtilities.singleSelectMenu("Welcome to our boi", "Cool system man", new String[]{
-                "asd",
-                "asdasdas",
-                "asdsad"
-        });
+        UUID currentUser = UUID.randomUUID();
+
+        // add option to serialize the current user's UUID too
+        // "stay logged in", you know
+
+        while (true) {
+            if (currentUser == null) {
+                // ConsoleUtilities.loginPrompt()
+                // handle login and account creation here
+            } else {
+                String[] options = new String[]{
+                        "asd",
+                        "asdasdas",
+                        "asdsad"
+                };
+
+                int selection = ConsoleUtilities.singleSelectMenu("Welcome to our boi", "Cool system man", options);
+
+                switch (selection) {
+                    case 1:
+                        ConsoleUtilities.confirmBoxClear("u made the wrong choice");
+                        break;
+                    default:
+                        ConsoleUtilities.confirmBoxClear("hi there stranger");
+                }
+            }
+        }
     }
 }
