@@ -54,7 +54,7 @@ public class Conference {
         this.conferenceName = conferenceName;
     }
 
-    public UUID getUuid() {
+    public UUID getUUID() {
         return uuid;
     }
 

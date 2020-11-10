@@ -38,9 +38,9 @@ public class ConferenceManager {
         }
 
         Conference newConference = new Conference(conferenceName, timeRange, organizerUUID);
-        conferences.put(newConference.getUuid(), newConference);
+        conferences.put(newConference.getUUID(), newConference);
 
-        return newConference.getUuid();
+        return newConference.getUUID();
     }
 
     /**
