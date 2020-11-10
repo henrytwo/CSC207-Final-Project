@@ -1,4 +1,8 @@
 package conference.calendar;
 
-public class Calendarable {
+import java.util.UUID;
+
+public interface Calendarable {
+    public TimeRange getTimeRange();
+    public UUID getUUID();
 }
