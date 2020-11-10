@@ -78,7 +78,7 @@ public class ConferenceManager {
      * @param conferenceUUID
      * @return
      */
-    public Conference getConference(UUID conferenceUUID) {
+    private Conference getConference(UUID conferenceUUID) {
         if (!conferenceExists(conferenceUUID)) {
             throw new NullConferenceException(conferenceUUID);
         }
