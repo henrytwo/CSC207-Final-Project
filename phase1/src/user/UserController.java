@@ -2,6 +2,7 @@ package user;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class UserController {
 
@@ -17,6 +18,22 @@ public class UserController {
      * - Handles logout (i.e. erases the UUID of the logged in user)
      * - Handles account registration (i.e. given a username + password pair, create a user)
      */
+
+    UUID currentUser;
+
+    public boolean login(String username, String password) {
+        // call the user manager code to login
+        // user manager will return the uuid of the user if successful
+
+        // set currentUser = that userUID
+        // return true;
+
+        return true;
+    }
+
+    public UUID getCurrentUser() {
+        return currentUser;
+    }
 
     private String username;
     private String password;

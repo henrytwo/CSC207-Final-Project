@@ -2,6 +2,7 @@ package user;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class UserManager {
 
@@ -13,7 +14,6 @@ public class UserManager {
      */
 
     public static void main(String[] args) {
-
         Scanner input = new Scanner (System.in);
 
         String username;
@@ -31,10 +31,11 @@ public class UserManager {
 
         UserController login = new UserController(username, password);
 
+        /*
         if(login.isLoginCorrect(username, password))
             System.out.println("You are logged in!");
         else
-            System.out.println("The username and password you entered are incorrect.");
+            System.out.println("The username and password you entered are incorrect.");*/
     }
 
     }

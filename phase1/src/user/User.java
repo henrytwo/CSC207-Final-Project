@@ -16,15 +16,13 @@ public class User {
     private String name;
     private String email;
     private String password;
-    // List<User> user = new ArrayList<User>();
-    private Set<UUID> userUUIDs = new HashSet<>();
     private UUID uuid;
 
-    public User(String name, String email, UUID userUUID) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
+        this.password = password;
         this.uuid = UUID.randomUUID();
-        this.userUUIDs.add(userUUID);
     }
 
     public void setName(String name) {
@@ -51,26 +49,9 @@ public class User {
         return this.password;
     }
 
-//    public int getSimpleHash(String password){
-
-//    }
-
     public UUID getUuid() {
         return uuid;
     }
-
-    boolean isUser(UUID userUUID) {
-        return userUUIDs.contains(userUUID);
-    }
-
-    public Set<UUID> getUserUUIDs() {
-        return userUUIDs;
-    }
-
-    public void addUser(UUID userUUID) {
-        userUUIDs.add(userUUID);
-    }
-
 }
 
 
