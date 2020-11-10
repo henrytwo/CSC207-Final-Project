@@ -14,33 +14,46 @@ public class UserManager {
      */
 
     private Map<UUID, User> userMap = new HashMap<>();
+    private String userfirstName;
+    private String userlastName;
+    private String useruserName;
+    private String userpassword;
 
-    /*
-   public boolean isUsernameTaken(UUID username){
-        return userMap.containsKey(username);
+    public void setUserFirstName(String firstName) {
+        this.userfirstName = firstName;
     }
 
-    public void registerUser(UUID username, User password){
-        User passwordHash = getSimpleHash(password);
-        userMap.put(username, passwordHash);
+    public String getUserFirstName() {
+        return this.userfirstName;
     }
 
-    public boolean isLoginCorrect(UUID username, User password) {
+    public void setUserLastName(String lastName) {
+        this.userlastName = lastName;
+    }
 
-        //username isn't registered
-        if (!userMap.containsKey(username)) {
-            return false;
-        }
-        for (User user : userMap.values()) {
+    public String getUserLastName() {
+        return this.userlastName;
+    }
 
-            User passwordHash = getSimpleHash(password);
-            User storedPasswordHash = userMap.get(username);
+    public void setUserUsername(String username) {
+        this.useruserName = username;
+    }
 
-            return passwordHash == storedPasswordHash;
-        }
-    }*/
+    public String getUserUsername() {
+        return this.useruserName;
+    }
 
-    // Add method to get name of user by UUID, get first name, get last name, etc.
+    public void setUserPassword(String password){
+        this.userpassword = password;
+    }
+
+    public String getPassword(){
+        return this.userpassword;
+    }
+    public User getUser(UUID uuid){
+        return userMap.get(uuid);
+    }
+
 
     private User getUserByUsername(String username) {
         for (User user : userMap.values()) {
