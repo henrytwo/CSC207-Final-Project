@@ -40,6 +40,7 @@ public class UserController {
     boolean active;
     private Map<String, Integer> userMap = new HashMap<>();
 
+    /*
     public UserController(String username, String password)
     {
         this.username = username;
@@ -73,4 +74,4 @@ public class UserController {
 //        boolean active = false;
 //    }
 }
-
+*/

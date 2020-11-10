@@ -1,3 +1,5 @@
+import user.UserController;
+
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -16,6 +18,11 @@ public class ConferenceSystem {
 
         // write some test code here, or write unit tests somewhere else
 
+        UserController userController = new UserController();
 
+        userController.login("asdasd", "asd"); //this should return a boolean
+
+        //userController.register();
+        // userController.getCurrentUserUUID();
     }
 }
