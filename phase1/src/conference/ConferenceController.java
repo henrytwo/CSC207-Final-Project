@@ -143,6 +143,9 @@ public class ConferenceController {
     public void getConferenceSchedule(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
+        /**
+         * TODO: write this
+         */
     }
 
     /**
@@ -175,6 +178,22 @@ public class ConferenceController {
         permissionManager.testIsAttendeeSelfOrAdmin(conferenceUUID, executorUUID, targetUserUUID);
         conferenceManager.leaveConference(conferenceUUID, targetUserUUID);
         LOGGER.log(Level.INFO, String.format("User left conference\n Conference UUID: %s\n Target: %s\n Executor: %s", conferenceUUID, targetUserUUID, executorUUID));
+    }
+
+    /**
+     * Creates a conversation between the organizer and any number of users with conference membership.
+     *
+     * Required Permission: ORGANIZER
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     * @param targetUUIDs
+     */
+    public void createConversationWithUsers(UUID conferenceUUID, UUID executorUUID, Set<UUID> targetUUIDs) {
+        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+        permissionManager.testTargetsAreAttendee(conferenceUUID, executorUUID, targetUUIDs);
+
+        // do stuff
     }
 
     /* Event operations */
@@ -312,6 +331,9 @@ public class ConferenceController {
 
     public void createEventConversation(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
         permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
+
+
+
 
         // do stuff
     }
