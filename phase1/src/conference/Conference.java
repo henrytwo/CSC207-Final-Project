@@ -1,17 +1,17 @@
 package conference;
 
-import calendar.Calendar;
+import conference.calendar.Calendar;
+import conference.calendar.TimeRange;
 import conference.event.Event;
 import conference.room.Room;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class Conference {
     private Set<UUID> organizerUUIDs = new HashSet<>();
     private Set<UUID> speakerUUIDs = new HashSet<>();
+    private Set<UUID> attendeeUUIDs = new HashSet<>();
 
     private Set<Event> events = new HashSet<>();
     private Set<Room> rooms = new HashSet<>();
@@ -21,14 +21,12 @@ public class Conference {
 
     private Calendar calendar = new Calendar();
 
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private TimeRange timeRange;
 
-    public Conference(String conferenceName, LocalDateTime start, LocalDateTime end, UUID organizerUUID) {
+    public Conference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
         this.conferenceName = conferenceName;
         this.uuid = UUID.randomUUID();
-        this.start = start;
-        this.end = end;
+        this.timeRange = timeRange;
         this.organizerUUIDs.add(organizerUUID);
     }
 
@@ -38,6 +36,22 @@ public class Conference {
 
     public Set<Room> getRooms() {
         return rooms;
+    }
+
+    public String getConferenceName() {
+        return conferenceName;
+    }
+
+    public TimeRange getTimeRange() {
+        return timeRange;
+    }
+
+    public void setTimeRange(TimeRange timeRange) {
+        this.timeRange = timeRange;
+    }
+
+    public void setConferenceName(String conferenceName) {
+        this.conferenceName = conferenceName;
     }
 
     public UUID getUuid() {
@@ -78,5 +92,21 @@ public class Conference {
 
     public boolean removeSpeaker(UUID speakerUUID) {
         return speakerUUIDs.remove(speakerUUID);
+    }
+
+    public boolean isAttendee(UUID attendeeUUID) {
+        return attendeeUUIDs.contains(attendeeUUID);
+    }
+
+    public Set<UUID> getAttendeeUUIDs() {
+        return attendeeUUIDs;
+    }
+
+    public void addAttendee(UUID attendeeUUID) {
+        attendeeUUIDs.add(attendeeUUID);
+    }
+
+    public boolean removeAttendee(UUID attendeeUUID) {
+        return attendeeUUIDs.remove(attendeeUUID);
     }
 }

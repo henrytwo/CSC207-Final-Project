@@ -1,4 +1,4 @@
-package util;
+package util.exception;
 
 import java.util.UUID;
 

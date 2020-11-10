@@ -1,6 +1,5 @@
-import conference.Conference;
 import conference.ConferenceController;
-import util.PermissionException;
+import conference.calendar.TimeRange;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -16,7 +15,7 @@ public class ConferenceSystem {
     public void run() {
         // Setup logger
         Handler handlerObj = new ConsoleHandler();
-        handlerObj.setLevel(Level.ALL);
+        handlerObj.setLevel(Level.OFF);
         LOGGER.addHandler(handlerObj);
         LOGGER.setLevel(Level.ALL);
         LOGGER.setUseParentHandlers(false);
@@ -25,26 +24,94 @@ public class ConferenceSystem {
 
         // Test stuff
 
-        LocalDateTime start = LocalDateTime.of(2015,
+        /*
+        * User flow
+        *
+        * ** Make attendee operations executable by admins too
+        * ** So it'd be check if organizer OR (if target == self AND is attendee)
+        *
+        * User logs in
+        *  |-> Create a conference
+        *  |-> Join a conference
+        *  |   |-> Find a conference from a list and join it
+        *  |-> View a joined conference
+        *      |-> Get conference name
+        *      |-> Get conference start
+        *      |-> Get conference end
+        *      |-> Set conference name
+        *      |-> Set conference start
+        *      |-> Set conference end
+        *      |-> Remove from conference (Admin/Self)
+        *      |
+        *      |-> View Conference schedule
+        *      |
+        *      |-> View Events UUIDs
+        *      |-> Register for event (Admin/Self)
+        *      |-> Unregister for event (Admin/Self)
+        *      |-> Edit event (Admin)
+        *      |    |-> Set name
+        *      |    |-> Set start time/date
+        *      |    |-> Set end time/date
+        *      |    |-> Add speaker(s)
+        *      |    |-> Remove speaker(s)
+        *      |    |-> Set room
+        *      |-> Create event (Admin)
+        *      |-> Delete event (Admin)
+        *      |-> Create event conversation (Speaker)
+        *      |-> Get event name
+        *      |-> Get event speakers
+        *      |-> Get event time range
+        *      |-> Get event room
+        *      |
+        *      |-> Create room (Admin)
+        *      |-> Edit room (Admin)
+        *      |    |-> Set room location
+        *      |    |-> Set room capacity
+        *      |-> Delete room (Admin)
+        *      |-> Get rooms
+        *      |-> Get room location
+        *      |-> Get room capacity
+        *      |
+        *      |-> Get organizer UUIDs (Admin)
+        *      |-> Add organizer (Admin)
+        *      |-> Remove as organizer (Admin)
+        *      |
+        *      |-> Get speaker UUIDs (Admin)
+        *      |-> Get attendee UUIDs (Admin)
+        *      |
+        *      |-> Message any registered users (Admin)
+        * */
+
+        LocalDateTime dateA = LocalDateTime.of(2015,
                 Month.JULY, 29, 19, 30, 40);
-        LocalDateTime end = LocalDateTime.of(2018,
+        LocalDateTime dateB = LocalDateTime.of(2018,
                 Month.JULY, 29, 19, 30, 40);
 
-        UUID ogUser = UUID.randomUUID();
+        UUID me = UUID.randomUUID();
+        UUID attendee1 = UUID.randomUUID();
+        UUID attendee2 = UUID.randomUUID();
+        UUID otherOrganizer = UUID.randomUUID();
+        UUID speaker1 = UUID.randomUUID();
 
-        UUID conferenceUUID = conferenceController.createConference("bro", start, end, ogUser);
+        UUID conference1 = conferenceController.createConference("My conference", new TimeRange(dateA, dateB), me);
 
-        conferenceController.removeOrganizer(conferenceUUID, UUID.randomUUID(), ogUser);
-
-
-        try {
-            conferenceController.deleteConference(conferenceUUID, UUID.randomUUID());
-        } catch (PermissionException e) {
-
+        for (UUID confUUID : conferenceController.getConferences()) {
+            System.out.println(conferenceController.getConferenceName(confUUID));
         }
 
-        conferenceController.deleteConference(conferenceUUID, ogUser);
+        conferenceController.addOrganizer(conference1, me, otherOrganizer);
+
+        conferenceController.joinConference(conference1, attendee1);
+        conferenceController.joinConference(conference1, attendee2);
+
+        System.out.println(conferenceController.getEvents(conference1, attendee1));
+
+        System.out.println(conferenceController.getAttendees(conference1, otherOrganizer));
+        conferenceController.leaveConference(conference1, me, me);
+        conferenceController.leaveConference(conference1, me, otherOrganizer);
+        //System.out.println(conferenceController.getEvents(conference1, attendee1));
 
 
+        System.out.println(conferenceController.getAttendees(conference1, otherOrganizer));
     }
 }

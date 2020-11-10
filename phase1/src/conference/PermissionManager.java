@@ -1,8 +1,9 @@
 package conference;
 
-import util.NullConferenceException;
-import util.PermissionException;
+import util.exception.PermissionException;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,33 +15,33 @@ public class PermissionManager {
 
     final String ORGANIZER = "ORGANIZER";
     final String SPEAKER = "SPEAKER";
+    final String ATTENDEE = "ATTENDEE";
+    final String SELF_OR_ORGANIZER = "ATTENDEE (SELF) OR ORGANIZER";
 
     public PermissionManager(ConferenceManager conferenceManager) {
         this.conferenceManager = conferenceManager;
     }
 
-    public boolean isOrganizer(UUID conferenceUUID, UUID userUUID) {
-        return conferenceManager.getConference(conferenceUUID).isOrganizer(userUUID);
+    public String generateAccessDeniedError(UUID conferenceUUID, UUID executorUUID, String permissionLevel) {
+        return String.format("Access denied\n Executor: %s\n Conference: %s\n Required Executor Permission: %s", executorUUID, conferenceUUID, permissionLevel);
     }
 
-    public boolean isSpeaker(UUID conferenceUUID, UUID userUUID) {
-        return conferenceManager.getConference(conferenceUUID).isSpeaker(userUUID);
-    }
-
-    public String generateAccessDeniedError(UUID conferenceUUID, UUID userUUID, String permissionLevel) {
-        return String.format("Access denied\n User: %s \n Conference: %s\n Required Permission: %s", userUUID, conferenceUUID, permissionLevel);
+    public String generateAccessDeniedError(UUID conferenceUUID, UUID executorUUID, UUID targetUUID, String permissionLevel) {
+        return String.format("Access denied\n Executor: %s\n Target: %s\n Conference: %s\n Required Target Permission: %s", executorUUID, targetUUID, conferenceUUID, permissionLevel);
     }
 
     /**
      * Validates that the current user can execute organizer actions for a conference. Raises a PermissionException otherwise.
      *
      * @param conferenceUUID
-     * @param userUUID
+     * @param executorUUID
      */
-    public void testIsOrganizer(UUID conferenceUUID, UUID userUUID ) {
-        if (!isOrganizer(conferenceUUID, userUUID)) {
-            LOGGER.log(Level.SEVERE, generateAccessDeniedError(conferenceUUID, userUUID, ORGANIZER));
-            throw new PermissionException();
+    public void testIsOrganizer(UUID conferenceUUID, UUID executorUUID) {
+        if (!conferenceManager.isOrganizer(conferenceUUID, executorUUID)) {
+            String errorMessage = generateAccessDeniedError(conferenceUUID, executorUUID, ORGANIZER);
+
+            LOGGER.log(Level.SEVERE, errorMessage);
+            throw new PermissionException(errorMessage);
         }
     }
 
@@ -48,13 +49,90 @@ public class PermissionManager {
      * Validates that the current user can execute speaker actions for a conference. Raises a PermissionException otherwise.
      *
      * @param conferenceUUID
-     * @param userUUID
+     * @param executorUUID
      */
-    public void testIsSpeaker(UUID conferenceUUID, UUID userUUID ) {
+    public void testIsSpeaker(UUID conferenceUUID, UUID executorUUID) {
         // Organizers can perform speaker actions too
-        if (!isSpeaker(conferenceUUID, userUUID) && !isOrganizer(conferenceUUID, userUUID)) {
-            LOGGER.log(Level.SEVERE, generateAccessDeniedError(conferenceUUID, userUUID, SPEAKER));
-            throw new PermissionException();
+        if (!conferenceManager.isSpeaker(conferenceUUID, executorUUID) && !conferenceManager.isOrganizer(conferenceUUID, executorUUID)) {
+            String errorMessage = generateAccessDeniedError(conferenceUUID, executorUUID, SPEAKER);
+
+            LOGGER.log(Level.SEVERE, errorMessage);
+            throw new PermissionException(errorMessage);
+        }
+    }
+
+    /**
+     * Validates that the current user can execute attendee actions for a conference. Raises a PermissionException otherwise.
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     */
+    public void testIsAttendee(UUID conferenceUUID, UUID executorUUID) {
+        // Organizers can perform speaker actions too
+        if (!conferenceManager.isAttendee(conferenceUUID, executorUUID) && !conferenceManager.isSpeaker(conferenceUUID, executorUUID) && !conferenceManager.isOrganizer(conferenceUUID, executorUUID)) {
+            String errorMessage = generateAccessDeniedError(conferenceUUID, executorUUID, ATTENDEE);
+
+            LOGGER.log(Level.SEVERE, errorMessage);
+            throw new PermissionException(errorMessage);
+        }
+    }
+
+    /**
+     * Validates that a target user is an attendee (i.e. a user different than the executor). Raises a PermissionException otherwise.
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     * @param targetUUID
+     */
+    public void testTargetIsAttendee(UUID conferenceUUID, UUID executorUUID, UUID targetUUID) {
+        testTargetsAreAttendee(conferenceUUID, executorUUID, new HashSet<>() {
+            {
+                add(targetUUID);
+            }
+        });
+    }
+
+    /**
+     * Validates that a set of target users can execute attendee actions for a conference. Raises a PermissionException otherwise.
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     * @param targetUUIDs
+     */
+    public void testTargetsAreAttendee(UUID conferenceUUID, UUID executorUUID, Set<UUID> targetUUIDs) {
+        for (UUID targetUUID : targetUUIDs) {
+            try {
+                testIsAttendee(conferenceUUID, targetUUID);
+            } catch (PermissionException e) {
+                String errorMessage = generateAccessDeniedError(conferenceUUID, executorUUID, targetUUID, ATTENDEE);
+
+                LOGGER.log(Level.SEVERE, errorMessage);
+                throw new PermissionException(errorMessage);
+            }
+        }
+    }
+
+    /**
+     * Validates that the current user is executing operations on themselves, or an admin is executing those commands on
+     * their behalf.
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     * @param targetUserUUID
+     */
+    public void testIsAttendeeSelfOrAdmin(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID) {
+        if (executorUUID.equals(targetUserUUID)) {
+            // If the executor is the target, then we can treat this as a normal attendee operation
+            testIsAttendee(conferenceUUID, targetUserUUID);
+        } else if (conferenceManager.isOrganizer(conferenceUUID, executorUUID)) {
+            // If the executor is an organizer, still need to check that the target is actually an attendee
+            testTargetIsAttendee(conferenceUUID, executorUUID, targetUserUUID);
+        } else {
+            // Otherwise, no can do. The executor is not an organizer, and is not operating on themselves.
+            String errorMessage = generateAccessDeniedError(conferenceUUID, executorUUID, SELF_OR_ORGANIZER);
+
+            LOGGER.log(Level.SEVERE, errorMessage);
+            throw new PermissionException(errorMessage);
         }
     }
 }

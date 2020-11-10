@@ -1,12 +1,11 @@
 package conference;
 
+import conference.calendar.TimeRange;
 import conference.event.Event;
 import conference.room.Room;
-import util.InvalidTimeRangeException;
-import util.LoneOrganizerException;
-import util.NullConferenceException;
-import util.NullUserException;
+import util.exception.*;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,22 +14,30 @@ import java.util.UUID;
 
 public class ConferenceManager {
     private Map<UUID, Conference> conferences = new HashMap<>();
+    private Map<UUID, Set<UUID>> userToConferences = new HashMap<>();
+
+    private boolean validateTimeRange(LocalDateTime start, LocalDateTime end) {
+        return start.isBefore(end);
+    }
+
+    private boolean validateConferenceName(String name) {
+        return name.length() > 0;
+    }
 
     /**
      * Creates a conference and assigns the authenticated user as an organizer.
      *
      * @param conferenceName
-     * @param startTime
-     * @param endTime
+     * @param timeRange
      * @param organizerUUID
      * @return
      */
-    public UUID createConference(String conferenceName, LocalDateTime startTime, LocalDateTime endTime, UUID organizerUUID) {
-        if (!startTime.isBefore(endTime)) {
-            throw new InvalidTimeRangeException();
+    public UUID createConference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
+        if (!validateConferenceName(conferenceName)) {
+            throw new InvalidNameException();
         }
 
-        Conference newConference = new Conference(conferenceName, startTime, endTime, organizerUUID);
+        Conference newConference = new Conference(conferenceName, timeRange, organizerUUID);
         conferences.put(newConference.getUuid(), newConference);
 
         return newConference.getUuid();
@@ -84,8 +91,98 @@ public class ConferenceManager {
      *
      * @return
      */
-    public Set<UUID> getConferenceUUIDs() {
+    public Set<UUID> getConferences() {
         return conferences.keySet();
+    }
+
+    /**
+     * Gets conference name
+     *
+     * @return
+     */
+    public String getConferenceName(UUID conferenceUUID) {
+        return getConference(conferenceUUID).getConferenceName();
+    }
+
+    /**
+     * Gets conference time range
+     *
+     * @return
+     */
+    public TimeRange getTimeRange(UUID conferenceUUID) {
+        return getConference(conferenceUUID).getTimeRange();
+    }
+
+    /**
+     * Sets conference dates datetime
+     */
+    public void setTimeRange(UUID conferenceUUID, TimeRange timeRange) {
+        getConference(conferenceUUID).setTimeRange(timeRange);
+    }
+
+    /**
+     * Sets conference name
+     */
+    public void setConferenceName(UUID conferenceUUID, String newName) {
+        if (!validateConferenceName(newName)) {
+            throw new InvalidNameException();
+        }
+
+        getConference(conferenceUUID).setConferenceName(newName);
+    }
+
+    public boolean isAttendee(UUID conferenceUUID, UUID userUUID) {
+        return getConference(conferenceUUID).isAttendee(userUUID);
+    }
+
+    public boolean isOrganizer(UUID conferenceUUID, UUID userUUID) {
+        return getConference(conferenceUUID).isOrganizer(userUUID);
+    }
+
+    public boolean isSpeaker(UUID conferenceUUID, UUID userUUID) {
+        return getConference(conferenceUUID).isSpeaker(userUUID);
+    }
+
+    /**
+     * Adds a user as an attendee for a conference
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     */
+    public void joinConference(UUID conferenceUUID, UUID userUUID) {
+        getConference(conferenceUUID).addAttendee(userUUID);
+    }
+
+    /**
+     * Remove a user from a conference
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     */
+    public void leaveConference(UUID conferenceUUID, UUID userUUID) {
+        // We need to test if this user actually has a role (i.e. they are affiliated with this event)
+        boolean hasRole = isAttendee(conferenceUUID, userUUID) ||
+                          isOrganizer(conferenceUUID, userUUID) ||
+                          isSpeaker(conferenceUUID, userUUID);
+
+        if (hasRole) {
+            // We must check that they have a role before removing
+            // otherwise, we will get a NullUserException
+            if (isAttendee(conferenceUUID, userUUID)) {
+                removeAttendee(conferenceUUID, userUUID);
+            }
+
+            if (isSpeaker(conferenceUUID, userUUID)) {
+                removeSpeaker(conferenceUUID, userUUID);
+            }
+
+            if (isOrganizer(conferenceUUID, userUUID)) {
+                removeOrganizer(conferenceUUID, userUUID);
+            }
+        } else {
+            // No role = not even part of this event
+            throw new NullUserException(userUUID);
+        }
     }
 
     /**
@@ -152,6 +249,104 @@ public class ConferenceManager {
             throw new LoneOrganizerException();
         } else {
             conference.removeOrganizer(userUUID);
+        }
+    }
+
+    /**
+     * Gets a set of attendee UUIDs for a particular conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     *
+     * @param conferenceUUID
+     * @return
+     */
+    public Set<UUID> getAttendees(UUID conferenceUUID) {
+        return getConference(conferenceUUID).getAttendeeUUIDs();
+    }
+
+    /**
+     * Adds an attendee to a conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     * @return
+     */
+    public void addAttendee(UUID conferenceUUID, UUID userUUID) {
+        getConference(conferenceUUID).addAttendee(userUUID);
+    }
+
+    /**
+     * Removes an attendee from a conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullUserException if the userUUID does not correspond to a valid user.
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     * @return
+     */
+    public void removeAttendee(UUID conferenceUUID, UUID userUUID) {
+        Conference conference = getConference(conferenceUUID);
+
+        /**
+         * TODO: Remove attendees from their registered events too
+         */
+
+        if (!conference.getAttendeeUUIDs().contains(userUUID)) {
+            throw new NullUserException(userUUID);
+        } else {
+            conference.removeAttendee(userUUID);
+        }
+    }
+
+    /**
+     * Gets a set of speaker UUIDs for a particular conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     *
+     * @param conferenceUUID
+     * @return
+     */
+    public Set<UUID> getSpeakers(UUID conferenceUUID) {
+        return getConference(conferenceUUID).getSpeakerUUIDs();
+    }
+
+    /**
+     * Adds an speaker to a conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     * @return
+     */
+    public void addSpeaker(UUID conferenceUUID, UUID userUUID) {
+        getConference(conferenceUUID).addSpeaker(userUUID);
+    }
+
+    /**
+     * Removes an speaker from a conference.
+     *
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullUserException if the userUUID does not correspond to a valid user.
+     *
+     * @param conferenceUUID
+     * @param userUUID
+     * @return
+     */
+    public void removeSpeaker(UUID conferenceUUID, UUID userUUID) {
+        Conference conference = getConference(conferenceUUID);
+
+        /**
+         * TODO: Remove the speaker UUID from their respective events too?
+         */
+
+        if (!conference.getSpeakerUUIDs().contains(userUUID)) {
+            throw new NullUserException(userUUID);
+        } else {
+            conference.removeSpeaker(userUUID);
         }
     }
 }
