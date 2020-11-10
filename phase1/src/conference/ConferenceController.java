@@ -3,6 +3,7 @@ package conference;
 import conference.calendar.TimeRange;
 import conference.event.Event;
 import conference.event.EventManager;
+import conference.room.Room;
 import conference.room.RoomManager;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -345,9 +346,6 @@ public class ConferenceController {
     public void createEventConversation(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
         permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
 
-
-
-
         // do stuff
     }
 
@@ -355,27 +353,31 @@ public class ConferenceController {
     public Set<UUID> getRooms(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
-        // do stuff
-
-        return null;
+        return conferenceManager.getRoomsFromConference(conferenceUUID).keySet();
     }
 
     public void createRoom(UUID conferenceUUID, UUID executorUUID, String roomNumber, int capacity) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
 
-        // do stuff
+        Map<UUID, Room> rooms = conferenceManager.getRoomsFromConference(conferenceUUID);
+
+        roomManager.createRoom(rooms, roomNumber, capacity);
     }
 
     public void setRoomLocation(UUID conferenceUUID, UUID executorUUID, UUID roomUUID, String roomLocation) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
 
-        // do stuff
+        Map<UUID, Room> rooms = conferenceManager.getRoomsFromConference(conferenceUUID);
+
+        roomManager.setRoomLocation(rooms, roomUUID, roomLocation);
     }
 
     public void setRoomCapacity(UUID conferenceUUID, UUID executorUUID, UUID roomUUID, int capacity) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
 
-        // do stuff
+        Map<UUID, Room> rooms = conferenceManager.getRoomsFromConference(conferenceUUID);
+
+        roomManager.setRoomCapacity(rooms, roomUUID, capacity);
     }
 
     public void deleteRoom(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
@@ -384,25 +386,33 @@ public class ConferenceController {
          * TODO: If a room is deleted while it's hooked up to an event, just delete it and keep the event
          */
 
-        // do stuff
+        Map<UUID, Room> rooms = conferenceManager.getRoomsFromConference(conferenceUUID);
+
+        roomManager.deleteRoom(rooms, roomUUID);
     }
 
     public String getRoomLocation(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
-        return null;
+        Map<UUID, Room> rooms = conferenceManager.getRoomsFromConference(conferenceUUID);
+
+        return roomManager.getRoomLocation(rooms, roomUUID);
     }
 
     public int getRoomCapacity(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
-        return 0;
+        Map<UUID, Room> rooms = conferenceManager.getRoomsFromConference(conferenceUUID);
+
+        return roomManager.getRoomCapacity(rooms, roomUUID);
     }
 
     public int getRoomCalendar(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
-        return 0;
+        Map<UUID, Room> rooms = conferenceManager.getRoomsFromConference(conferenceUUID);
+
+        return roomManager.getRoomCalendar(rooms, roomUUID);
     }
 
     /* Organizer operations */
