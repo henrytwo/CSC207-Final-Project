@@ -4,6 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserManager {
+
+    /**
+     * Responsibilities:
+     * - Stores a map of UUID -> User objects (i.e. instances of User)
+     * - Method to create a user + add it to the map
+     * - Method to test a username/password combination + loop through the users to see if there's a match
+     */
+
     public static void main(String[] args) {
 
         Scanner input = new Scanner (System.in);

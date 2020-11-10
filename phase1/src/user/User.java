@@ -7,6 +7,12 @@ import java.util.Set;
 
 
 public class User {
+
+    /**
+     * Responsibilities:
+     * - Store name, email, password, UUID
+     */
+
     private String name;
     private String email;
     private String password;
