@@ -38,9 +38,9 @@ public class ConferenceManager {
         }
 
         Conference newConference = new Conference(conferenceName, timeRange, organizerUUID);
-        conferences.put(newConference.getUuid(), newConference);
+        conferences.put(newConference.getUUID(), newConference);
 
-        return newConference.getUuid();
+        return newConference.getUUID();
     }
 
     /**
@@ -78,7 +78,7 @@ public class ConferenceManager {
      * @param conferenceUUID
      * @return
      */
-    public Conference getConference(UUID conferenceUUID) {
+    private Conference getConference(UUID conferenceUUID) {
         if (!conferenceExists(conferenceUUID)) {
             throw new NullConferenceException(conferenceUUID);
         }
