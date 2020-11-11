@@ -4,6 +4,7 @@ import conference.calendar.Calendar;
 
 import java.util.*;
 
+import conference.calendar.CalendarManager;
 import util.exception.*;
 
 public class RoomManager {
@@ -16,6 +17,10 @@ public class RoomManager {
 
     public Set<UUID> getRooms() {
         return rooms.keySet();
+    }
+
+    public CalendarManager getCalendarManager(UUID roomUUID) {
+        return new CalendarManager(getRoomCalendar(roomUUID));
     }
 
     public boolean roomExists(UUID roomUUID) {
