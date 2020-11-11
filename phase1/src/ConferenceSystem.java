@@ -130,6 +130,13 @@ public class ConferenceSystem {
          *
          */
 
+        /**
+         * Big thinking
+         *
+         * - Storing calendar
+         * - Dealing with CompareBySpeaker
+         */
+
         LocalDateTime dateA = LocalDateTime.of(2015,
                 Month.JULY, 29, 19, 30, 40);
         LocalDateTime dateB = LocalDateTime.of(2018,
