@@ -1,4 +1,6 @@
 package conference.event;
 
-public class Event {
+import conference.calendar.Calendarable;
+
+public class Event extends Calendarable {
 }
