@@ -144,48 +144,6 @@ public class ConferenceManager {
     }
 
     /**
-     * Adds a user as an attendee for a conference
-     *
-     * @param conferenceUUID
-     * @param userUUID
-     */
-    public void joinConference(UUID conferenceUUID, UUID userUUID) {
-        getConference(conferenceUUID).addAttendee(userUUID);
-    }
-
-    /**
-     * Remove a user from a conference
-     *
-     * @param conferenceUUID
-     * @param userUUID
-     */
-    public void leaveConference(UUID conferenceUUID, UUID userUUID) {
-        // We need to test if this user actually has a role (i.e. they are affiliated with this event)
-        boolean hasRole = isAttendee(conferenceUUID, userUUID) ||
-                          isOrganizer(conferenceUUID, userUUID) ||
-                          isSpeaker(conferenceUUID, userUUID);
-
-        if (hasRole) {
-            // We must check that they have a role before removing
-            // otherwise, we will get a NullUserException
-            if (isAttendee(conferenceUUID, userUUID)) {
-                removeAttendee(conferenceUUID, userUUID);
-            }
-
-            if (isSpeaker(conferenceUUID, userUUID)) {
-                removeSpeaker(conferenceUUID, userUUID);
-            }
-
-            if (isOrganizer(conferenceUUID, userUUID)) {
-                removeOrganizer(conferenceUUID, userUUID);
-            }
-        } else {
-            // No role = not even part of this event
-            throw new NullUserException(userUUID);
-        }
-    }
-
-    /**
      * Gets a set of all the events for a particular conference given its UUID.
      *
      * @param conferenceUUID

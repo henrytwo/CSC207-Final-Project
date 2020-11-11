@@ -161,7 +161,7 @@ public class ConferenceController {
      * @param executorUUID
      */
     public void joinConference(UUID conferenceUUID, UUID executorUUID) {
-        conferenceManager.joinConference(conferenceUUID, executorUUID);
+        conferenceManager.addAttendee(conferenceUUID, executorUUID);
         LOGGER.log(Level.INFO, String.format("User joined conference\n Conference UUID: %s\n Executor: %s", conferenceUUID, executorUUID));
     }
 
@@ -178,28 +178,31 @@ public class ConferenceController {
      */
     public void leaveConference(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID) {
         permissionManager.testIsAttendeeSelfOrAdmin(conferenceUUID, executorUUID, targetUserUUID);
-        conferenceManager.leaveConference(conferenceUUID, targetUserUUID);
-
         Map<UUID, Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
 
-        for (UUID eventUUID : getEvents(conferenceUUID, targetUserUUID)) {
-            // Unregister user from all their events
-            try {
-                eventManager.unregister(events, eventUUID, targetUserUUID);
-            } catch (NullUserException e) {
-                // Then the user isn't registered to this event
-            }
+        // We must revoke all their roles
+        if (conferenceManager.isOrganizer(conferenceUUID, targetUserUUID)) {
+            conferenceManager.removeOrganizer(conferenceUUID, targetUserUUID);
+        }
 
-            // Unregister user from all their speaker events
-            try {
-                eventManager.removeSpeaker(events, eventUUID, targetUserUUID);
-            } catch (NullUserException e) {
-                // Then the user isn't a speaker for this event
+        if (conferenceManager.isAttendee(conferenceUUID, targetUserUUID)) {
+            conferenceManager.removeAttendee(conferenceUUID, targetUserUUID);
+
+            for (UUID eventUUID : getAttendeeEvents(conferenceUUID, targetUserUUID)) {
+                eventManager.unregisterAttendee(events, eventUUID, targetUserUUID);
             }
         }
 
-        // Refresh the list of speakers
-        updateSpeakers(conferenceUUID);
+        if (conferenceManager.isSpeaker(conferenceUUID, targetUserUUID)) {
+            // We'll handle revoking speaker access in updateSpeakers, since having speaker permissions is linked to
+            // whether or not a user is a speaker of an event.
+            for (UUID eventUUID : getSpeakerEvents(conferenceUUID, targetUserUUID)) {
+                eventManager.removeSpeaker(events, eventUUID, targetUserUUID);
+            }
+
+            // Refresh the list of speakers for this conference
+            updateSpeakers(conferenceUUID);
+        }
 
         LOGGER.log(Level.INFO, String.format("User left conference\n Conference UUID: %s\n Target: %s\n Executor: %s", conferenceUUID, targetUserUUID, executorUUID));
     }
@@ -244,14 +247,37 @@ public class ConferenceController {
      * @param conferenceUUID
      * @param executorUUID
      */
-    public Set<UUID> getRegisteredEvents(UUID conferenceUUID, UUID executorUUID) {
+    public Set<UUID> getAttendeeEvents(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         Set<UUID> registeredEventsUUIDs = new HashSet<>();
         Map<UUID, Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
 
         for (UUID eventUUID : conferenceManager.getEventsFromConference(conferenceUUID).keySet()) {
-            if (eventManager.getRoomAttendees(events, eventUUID).contains(executorUUID)) {
+            if (eventManager.getEventAttendees(events, eventUUID).contains(executorUUID)) {
+                registeredEventsUUIDs.add(eventUUID);
+            }
+        }
+
+        return registeredEventsUUIDs;
+    }
+
+    /**
+     * Get a list of events a speaker is registered in.
+     *
+     * Required Permission: ATTENDEE
+     *
+     * @param conferenceUUID
+     * @param executorUUID
+     */
+    public Set<UUID> getSpeakerEvents(UUID conferenceUUID, UUID executorUUID) {
+        permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
+
+        Set<UUID> registeredEventsUUIDs = new HashSet<>();
+        Map<UUID, Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
+
+        for (UUID eventUUID : conferenceManager.getEventsFromConference(conferenceUUID).keySet()) {
+            if (eventManager.getEventSpeakers(events, eventUUID).contains(executorUUID)) {
                 registeredEventsUUIDs.add(eventUUID);
             }
         }
@@ -281,7 +307,7 @@ public class ConferenceController {
         // need to check for existing groupchat + add them and stuff
         // event manager does stuff
 
-        eventManager.register(events, eventUUID, targetUserUUID);
+        eventManager.registerAttendee(events, eventUUID, targetUserUUID);
     }
 
     /**
@@ -302,7 +328,7 @@ public class ConferenceController {
         // event manager does stuff
         // revoke access to the gc
 
-        eventManager.unregister(events, eventUUID, targetUserUUID);
+        eventManager.unregisterAttendee(events, eventUUID, targetUserUUID);
     }
 
     /**
