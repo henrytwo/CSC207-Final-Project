@@ -1,6 +1,5 @@
 package conference.calendar;
 
-import javafx.util.Pair;
 import util.exception.RoomDoubleBookingException;
 
 import java.util.UUID;
@@ -19,9 +18,9 @@ public class CalendarManager {
 
     /**
      * adds the UUID and TimeRange of a Calendarable object to Calendar
-     * @param id
-     * @param t
-     * @param c
+     * @param id unique id of the calendarable object
+     * @param t TimeRange of the Calendarable object
+     * @param c the calendar we want to add the time block to
      */
     public void addTimeBlock (UUID id, TimeRange t, Calendar c) {
         if (this.timeRangeOccupied(t, c)) { throw new RoomDoubleBookingException(); }
