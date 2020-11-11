@@ -290,10 +290,6 @@ public class ConferenceManager {
     public void removeAttendee(UUID conferenceUUID, UUID userUUID) {
         Conference conference = getConference(conferenceUUID);
 
-        /**
-         * TODO: Remove attendees from their registered events too
-         */
-
         if (!conference.getAttendeeUUIDs().contains(userUUID)) {
             throw new NullUserException(userUUID);
         } else {
@@ -338,10 +334,6 @@ public class ConferenceManager {
      */
     public void removeSpeaker(UUID conferenceUUID, UUID userUUID) {
         Conference conference = getConference(conferenceUUID);
-
-        /**
-         * TODO: Remove the speaker UUID from their respective events too?
-         */
 
         if (!conference.getSpeakerUUIDs().contains(userUUID)) {
             throw new NullUserException(userUUID);
