@@ -14,56 +14,38 @@ public class UserManager {
      */
 
     private Map<UUID, User> userMap = new HashMap<>();
-    private String userfirstName;
-    private String userlastName;
-    private String useruserName;
-    private String userpassword;
 
-    public void setUserFirstName(String firstName) {
-        this.userfirstName = firstName;
+    public void setUserFirstName(UUID userUUID, String firstName) {
+        getUser(userUUID).setFirstName(firstName);
     }
 
-    public String getUserFirstName() {
-        return this.userfirstName;
+    public String getUserFirstName(UUID userUUID) {
+        return getUser(userUUID).getFirstName();
     }
 
-    public void setUserLastName(String lastName) {
-        this.userlastName = lastName;
+    public void setUserLastName(UUID userUUID, String lastName) {
+        getUser(userUUID).setLastName(lastName);
     }
 
-    public String getUserLastName() {
-        return this.userlastName;
+    public String getUserLastName(UUID userUUID) {
+        return getUser(userUUID).getLastName();
     }
 
-    public void setUserUsername(String username) {
-        this.useruserName = username;
+    public void setUserUsername(UUID userUUID, String username) {
+        getUser(userUUID).setUsername(username);
     }
 
-    public String getUserUsername() {
-        return this.useruserName;
+    public String getUserUsername(UUID userUUID) {
+        return getUser(userUUID).getUsername();
     }
 
-    /*
-    public void setUserPassword(String password){
-        this.userpassword = password;
-    }*/
-
-    // Example
     public void setUserPassword(UUID userUUID, String password){
         getUser(userUUID).setPassword(password);
     }
 
-    // We should never do this, so don't let people grab user's passwords
-    /*
-    public String getPassword(){
-        return this.userpassword;
-    }*/
-
-    // We make this private because we should only be able to grab the user object from within the manager
     private User getUser(UUID uuid){
         return userMap.get(uuid);
     }
-
 
     private User getUserByUsername(String username) {
         for (User user : userMap.values()) {

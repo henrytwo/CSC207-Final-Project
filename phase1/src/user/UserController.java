@@ -20,21 +20,20 @@ public class UserController {
      */
 
     UUID currentUser;
+    UserManager userManager = new UserManager();
+
+    public  boolean registerUser(String firstName, String lastName, String username, String password){
+        return userManager.registerUser(firstName, lastName, username, password);
+    }
 
     public boolean login(String username, String password) {
-        // call the user manager code to login
-        // user manager will return the uuid of the user if successful
-
-        // set currentUser = that userUID
-        // return true;
-
+        currentUser = userManager.login(username, password) ;
         return true;
     }
 
     public UUID getCurrentUser() {
         return currentUser;
     }
-
 
 }
 
