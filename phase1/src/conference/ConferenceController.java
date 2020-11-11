@@ -160,7 +160,7 @@ public class ConferenceController {
      * @param conferenceUUID
      * @param executorUUID
      */
-    public void joinConference(UUID conferenceUUID, UUID executorUUID) {
+    public void addAttendee(UUID conferenceUUID, UUID executorUUID) {
         conferenceManager.addAttendee(conferenceUUID, executorUUID);
         LOGGER.log(Level.INFO, String.format("User joined conference\n Conference UUID: %s\n Executor: %s", conferenceUUID, executorUUID));
     }

@@ -14,7 +14,6 @@ import java.util.UUID;
 
 public class ConferenceManager {
     private Map<UUID, Conference> conferences = new HashMap<>();
-    private Map<UUID, Set<UUID>> userToConferences = new HashMap<>();
 
     private boolean validateTimeRange(LocalDateTime start, LocalDateTime end) {
         return start.isBefore(end);
@@ -23,6 +22,13 @@ public class ConferenceManager {
     private boolean validateConferenceName(String name) {
         return name.length() > 0;
     }
+
+    /**
+     * TODO: Maybe add a method to getEventManager, which takes in a conferenceUUID and returns an EventManager
+     *       which is initialized with the hashmap of events for that conference
+     *
+     *       Similar idea for room.
+     */
 
     /**
      * Creates a conference and assigns the authenticated user as an organizer.
