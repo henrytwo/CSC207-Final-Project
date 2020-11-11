@@ -1,5 +1,6 @@
 package conference;
 
+import conference.calendar.Calendar;
 import conference.calendar.TimeRange;
 import conference.event.Event;
 import conference.event.EventManager;
@@ -407,7 +408,7 @@ public class ConferenceController {
         return roomManager.getRoomCapacity(rooms, roomUUID);
     }
 
-    public int getRoomCalendar(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
+    public Calendar getRoomCalendar(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         Map<UUID, Room> rooms = conferenceManager.getRoomsFromConference(conferenceUUID);
