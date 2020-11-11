@@ -13,10 +13,10 @@ public class PermissionManager {
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     ConferenceManager conferenceManager;
 
-    final String ORGANIZER = "ORGANIZER";
-    final String SPEAKER = "SPEAKER";
-    final String ATTENDEE = "ATTENDEE";
-    final String SELF_OR_ORGANIZER = "ATTENDEE (SELF) OR ORGANIZER";
+    private final String ORGANIZER = "ORGANIZER";
+    private final String SPEAKER = "SPEAKER";
+    private final String ATTENDEE = "ATTENDEE";
+    private final String SELF_OR_ORGANIZER = "ATTENDEE (SELF) OR ORGANIZER";
 
     public PermissionManager(ConferenceManager conferenceManager) {
         this.conferenceManager = conferenceManager;

@@ -182,18 +182,14 @@ public class ConferenceController {
         Map<UUID, Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
 
         for (UUID eventUUID : getEvents(conferenceUUID, targetUserUUID)) {
-            /**
-             * TODO: Unregister user from all their events
-             */
+            // Unregister user from all their events
             try {
                 eventManager.unregister(events, eventUUID, targetUserUUID);
             } catch (NullUserException e) {
                 // Then the user isn't registered to this event
             }
 
-            /**
-             * TODO: Unregister user from all their speaker events
-             */
+            // Unregister user from all their speaker events
             try {
                 eventManager.removeSpeaker(events, eventUUID, targetUserUUID);
             } catch (NullUserException e) {
