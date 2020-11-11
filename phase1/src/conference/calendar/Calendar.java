@@ -1,10 +1,8 @@
 package conference.calendar;
-//import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import javafx.util.Pair;
 
 public class Calendar {
     // Look at the LocalDateTime library
@@ -13,7 +11,7 @@ public class Calendar {
     // We'll probably also want to be able to store the event UUID in the pair
     //
     // Edit: The TimeRange class will actually handle the pair of times for you
-    private Set<Pair<UUID, TimeRange>> eventIdTimeRangesPairs = new HashSet();
+    private Set<Pair<UUID, TimeRange>> eventIdTimeRangesPairs = new HashSet<>();
 
 
     /**
@@ -27,7 +25,7 @@ public class Calendar {
     public Set<TimeRange> getTimeRanges() {
         Set<TimeRange> timeRanges = new HashSet<>();
         for ( Pair<UUID, TimeRange> eventTimeRangePair : this.eventIdTimeRangesPairs) {
-            timeRanges.add(eventTimeRangePair.getValue());
+            timeRanges.add(eventTimeRangePair.getTimeRange());
         }
         return timeRanges;
     }
