@@ -1,6 +1,6 @@
 package conference.room;
 
-
+import conference.calendar.Calendar;
 import java.util.*;
 import util.exception.*;
 
@@ -41,4 +41,15 @@ public class RoomManager {
         rooms.remove(room);
     }
 
+    public String getRoomLocation(Map<UUID, Room> rooms, UUID roomUUID){
+        return getRoom(rooms, roomUUID).getRoomLocation();
+    }
+
+    public int getRoomCapacity(Map<UUID, Room> rooms, UUID roomUUID){
+        return getRoom(rooms, roomUUID).getCapacity();
+    }
+
+    public Calendar getRoomCalendar(Map<UUID, Room> rooms, UUID roomUUID){
+        return getRoom(rooms, roomUUID).getCalendar();
+    }
 }
