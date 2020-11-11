@@ -191,7 +191,7 @@ public class ConferenceManager {
      * @param conferenceUUID
      * @return
      */
-    public Set<Event> getEventsFromConference(UUID conferenceUUID) {
+    public Map<UUID, Event> getEventsFromConference(UUID conferenceUUID) {
         return getConference(conferenceUUID).getEvents();
     }
 
@@ -201,7 +201,7 @@ public class ConferenceManager {
      * @param conferenceUUID
      * @return
      */
-    public Set<Room> getRoomsFromConference(UUID conferenceUUID) {
+    public Map<UUID, Room> getRoomsFromConference(UUID conferenceUUID) {
         return getConference(conferenceUUID).getRooms();
     }
 
