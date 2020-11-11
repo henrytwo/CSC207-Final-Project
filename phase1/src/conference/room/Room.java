@@ -3,7 +3,6 @@ package conference.room;
 import conference.calendar.Calendar;
 
 import java.util.*;
-import conference.calendar.Calendar;
 
 public class Room {
 
@@ -16,33 +15,34 @@ public class Room {
     //location as a string
     private String roomLocation;
 
-    public Room(String roomLocation, int capacity){
+    public Room(String roomLocation, int capacity) {
         this.roomUUID = UUID.randomUUID();
-        this.capacity=capacity;
-        this.roomLocation=roomLocation;
+        this.capacity = capacity;
+        this.roomLocation = roomLocation;
         this.calendar = new Calendar();
     }
 
-    public UUID getUUID(){
+    public UUID getUUID() {
         return this.roomUUID;
     }
 
-    public int getCapacity(){
+    public int getCapacity() {
         return this.capacity;
     }
-    public String getRoomLocation(){
+
+    public String getRoomLocation() {
         return this.roomLocation;
     }
 
-    public Calendar getCalendar(){
+    public Calendar getCalendar() {
         return this.calendar;
     }
 
-    public void setCapacity(int newCapacity){
-        this.capacity=newCapacity;
+    public void setCapacity(int newCapacity) {
+        this.capacity = newCapacity;
     }
 
-    public void setRoomLocation(String newLocation){
-        this.roomLocation=newLocation;
+    public void setRoomLocation(String newLocation) {
+        this.roomLocation = newLocation;
     }
 }
