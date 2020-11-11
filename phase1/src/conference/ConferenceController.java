@@ -182,20 +182,27 @@ public class ConferenceController {
         Map<UUID, Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
 
         for (UUID eventUUID : getEvents(conferenceUUID, targetUserUUID)) {
-            /**
-             * TODO: Unregister user from all their events
-             */
+            /*
             try {
                 eventManager.unregister(events, eventUUID, targetUserUUID);
             } catch (NullUserException e) {
                 // Then the user isn't registered to this event
             }
 
-            /**
-             * TODO: Unregister user from all their speaker events
-             */
             try {
                 eventManager.removeSpeaker(events, eventUUID, targetUserUUID);
+            } catch (NullUserException e) {
+                // Then the user isn't a speaker for this event
+            }*/
+
+            try {
+                unregisterForEvent(conferenceUUID, permissionManager.getsystemUserUUID(), targetUserUUID, eventUUID);
+            } catch (NullUserException e) {
+                // Then the user isn't registered to this event
+            }
+
+            try {
+                removeEventSpeaker(conferenceUUID, permissionManager.getsystemUserUUID(), targetUserUUID, eventUUID);
             } catch (NullUserException e) {
                 // Then the user isn't a speaker for this event
             }
@@ -301,6 +308,10 @@ public class ConferenceController {
         permissionManager.testIsAttendeeSelfOrAdmin(conferenceUUID, executorUUID, targetUserUUID);
 
         Map<UUID, Event> events = conferenceManager.getEventsFromConference(conferenceUUID);
+
+        /**
+         * TODO: stuff below lol
+         */
 
         // event manager does stuff
         // revoke access to the gc

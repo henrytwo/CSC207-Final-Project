@@ -13,10 +13,17 @@ public class PermissionManager {
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     ConferenceManager conferenceManager;
 
-    final String ORGANIZER = "ORGANIZER";
-    final String SPEAKER = "SPEAKER";
-    final String ATTENDEE = "ATTENDEE";
-    final String SELF_OR_ORGANIZER = "ATTENDEE (SELF) OR ORGANIZER";
+    // This uuid is granted all permissions, to be used by the system
+    /**
+     * TODO: Maybe move this to user controller?
+     * i wrote this at 2:47:38AM so it's proabbly trash
+     */
+    private final UUID systemUserUUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
+
+    private final String ORGANIZER = "ORGANIZER";
+    private final String SPEAKER = "SPEAKER";
+    private final String ATTENDEE = "ATTENDEE";
+    private final String SELF_OR_ORGANIZER = "ATTENDEE (SELF) OR ORGANIZER";
 
     public PermissionManager(ConferenceManager conferenceManager) {
         this.conferenceManager = conferenceManager;
@@ -30,6 +37,10 @@ public class PermissionManager {
         return String.format("Access denied\n Executor: %s\n Target: %s\n Conference: %s\n Required Target Permission: %s", executorUUID, targetUUID, conferenceUUID, permissionLevel);
     }
 
+    public UUID getsystemUserUUID() {
+        return systemUserUUID;
+    }
+
     /**
      * Validates that the current user can execute organizer actions for a conference. Raises a PermissionException otherwise.
      *
@@ -37,7 +48,7 @@ public class PermissionManager {
      * @param executorUUID
      */
     public void testIsOrganizer(UUID conferenceUUID, UUID executorUUID) {
-        if (!conferenceManager.isOrganizer(conferenceUUID, executorUUID)) {
+        if (!conferenceManager.isOrganizer(conferenceUUID, executorUUID) && !systemUserUUID.equals(executorUUID)) {
             String errorMessage = generateAccessDeniedError(conferenceUUID, executorUUID, ORGANIZER);
 
             LOGGER.log(Level.SEVERE, errorMessage);

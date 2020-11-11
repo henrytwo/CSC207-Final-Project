@@ -1,4 +1,5 @@
 import conference.ConferenceController;
+import conference.PermissionManager;
 import conference.calendar.TimeRange;
 
 import java.time.LocalDateTime;
