@@ -1,23 +1,21 @@
 package conference;
 
+import com.sun.security.auth.UnixNumericUserPrincipal;
+import conference.calendar.Calendar;
+import conference.calendar.CalendarManager;
 import conference.calendar.TimeRange;
 import conference.event.Event;
+import conference.event.EventManager;
 import conference.room.Room;
+import conference.room.RoomManager;
 import util.exception.*;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class ConferenceManager {
     private Map<UUID, Conference> conferences = new HashMap<>();
-
-    private boolean validateTimeRange(LocalDateTime start, LocalDateTime end) {
-        return start.isBefore(end);
-    }
 
     private boolean validateConferenceName(String name) {
         return name.length() > 0;
@@ -29,6 +27,29 @@ public class ConferenceManager {
      *
      *       Similar idea for room.
      */
+
+    public CalendarManager getConferenceCalendarManager(UUID conferenceUUID) {
+        RoomManager roomManager = getRoomManager(conferenceUUID);
+        Set<Calendar> calendars = new HashSet<>();
+
+        for (UUID roomUUID : roomManager.getRooms()) {
+            calendars.add(roomManager.getRoomCalendar(roomUUID));
+        }
+
+        return new CalendarManager();
+    }
+
+    public EventManager getEventManager(UUID conferenceUUID) {
+        Map<UUID, Event> events = getConference(conferenceUUID).getEvents();
+
+        return new EventManager(events);
+    }
+
+    public RoomManager getRoomManager(UUID conferenceUUID) {
+        Map<UUID, Room> rooms = getConference(conferenceUUID).getRooms();
+
+        return new RoomManager(rooms);
+    }
 
     /**
      * Creates a conference and assigns the authenticated user as an organizer.
@@ -147,26 +168,6 @@ public class ConferenceManager {
 
     public boolean isSpeaker(UUID conferenceUUID, UUID userUUID) {
         return getConference(conferenceUUID).isSpeaker(userUUID);
-    }
-
-    /**
-     * Gets a set of all the events for a particular conference given its UUID.
-     *
-     * @param conferenceUUID
-     * @return
-     */
-    public Map<UUID, Event> getEventsFromConference(UUID conferenceUUID) {
-        return getConference(conferenceUUID).getEvents();
-    }
-
-    /**
-     * Gets a set of all the rooms for a particular conference given its UUID.
-     *
-     * @param conferenceUUID
-     * @return
-     */
-    public Map<UUID, Room> getRoomsFromConference(UUID conferenceUUID) {
-        return getConference(conferenceUUID).getRooms();
     }
 
     /**

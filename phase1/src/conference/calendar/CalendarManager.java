@@ -1,6 +1,6 @@
 package conference.calendar;
 
-import util.exception.RoomDoubleBookingException;
+import util.exception.DoubleBookingException;
 
 import java.util.UUID;
 
@@ -23,7 +23,7 @@ public class CalendarManager {
      * @param c the calendar we want to add the time block to
      */
     public void addTimeBlock (UUID id, TimeRange t, Calendar c) {
-        if (this.timeRangeOccupied(t, c)) { throw new RoomDoubleBookingException(); }
+        if (this.timeRangeOccupied(t, c)) { throw new DoubleBookingException(); }
         else {
             Pair<UUID, TimeRange> p = new Pair<>(id, t);
             c.bookCalendarable(p);

@@ -149,8 +149,8 @@ public class ConferenceSystem {
 
         conferenceController.addOrganizer(conference1, me, otherOrganizer);
 
-        conferenceController.joinConference(conference1, attendee1);
-        conferenceController.joinConference(conference1, attendee2);
+        conferenceController.addAttendee(conference1, attendee1);
+        conferenceController.addAttendee(conference1, attendee2);
 
         System.out.println(conferenceController.getEvents(conference1, attendee1));
 

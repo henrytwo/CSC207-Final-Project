@@ -8,49 +8,58 @@ import util.exception.*;
 
 public class RoomManager {
 
-    public boolean roomExists(Map<UUID, Room> rooms, UUID roomUUID) {
+    private Map<UUID, Room> rooms;
+
+    public RoomManager(Map<UUID, Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public Set<UUID> getRooms() {
+        return rooms.keySet();
+    }
+
+    public boolean roomExists(UUID roomUUID) {
         return rooms.containsKey(roomUUID);
     }
 
-    private Room getRoom(Map<UUID, Room> rooms, UUID roomUUID) {
-        if (!roomExists(rooms, roomUUID)) {
+    private Room getRoom(UUID roomUUID) {
+        if (!roomExists(roomUUID)) {
             throw new NullRoomException(roomUUID);
         }
         return rooms.get(roomUUID);
 
     }
 
-    public void createRoom(Map<UUID, Room> rooms, String roomLocation, int roomCapacity) {
+    public void createRoom(String roomLocation, int roomCapacity) {
         Room room = new Room(roomLocation, roomCapacity);// make the room here and stuff
         rooms.put(room.getUUID(), room);
     }
 
-    public void setRoomLocation(Map<UUID, Room> rooms, UUID roomUUID, String roomLocation) {
-        getRoom(rooms, roomUUID).setRoomLocation(roomLocation);
+    public void setRoomLocation(UUID roomUUID, String roomLocation) {
+        getRoom(roomUUID).setRoomLocation(roomLocation);
     }
 
-    public void setRoomCapacity(Map<UUID, Room> rooms, UUID roomUUID, int capacity) {
-        getRoom(rooms, roomUUID).setCapacity(capacity);
+    public void setRoomCapacity(UUID roomUUID, int capacity) {
+        getRoom(roomUUID).setCapacity(capacity);
     }
 
-    public void deleteRoom(Map<UUID, Room> rooms, UUID room) {
-        try {
-            getRoom(rooms, room);
-        } catch (NullRoomException e) {
-            System.out.printf("Room %s does not exist.\n", room);
+    public void deleteRoom(UUID roomUUID) {
+        if (!roomExists(roomUUID)) {
+            throw new NullRoomException(roomUUID);
         }
-        rooms.remove(room);
+
+        rooms.remove(roomUUID);
     }
 
-    public String getRoomLocation(Map<UUID, Room> rooms, UUID roomUUID) {
-        return getRoom(rooms, roomUUID).getRoomLocation();
+    public String getRoomLocation(UUID roomUUID) {
+        return getRoom(roomUUID).getRoomLocation();
     }
 
-    public int getRoomCapacity(Map<UUID, Room> rooms, UUID roomUUID) {
-        return getRoom(rooms, roomUUID).getCapacity();
+    public int getRoomCapacity(UUID roomUUID) {
+        return getRoom(roomUUID).getCapacity();
     }
 
-    public Calendar getRoomCalendar(Map<UUID, Room> rooms, UUID roomUUID) {
-        return getRoom(rooms, roomUUID).getCalendar();
+    public Calendar getRoomCalendar(UUID roomUUID) {
+        return getRoom(roomUUID).getCalendar();
     }
 }
