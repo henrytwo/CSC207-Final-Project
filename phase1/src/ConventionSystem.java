@@ -24,9 +24,9 @@ public class ConventionSystem {
         ConferenceManager conferenceManager = new ConferenceManager();
 
         //ConversationController conversationController = new ConversationController();
-        RoomController roomController = new RoomController(conferenceManager);
-        EventController eventController = new EventController(conferenceManager);
-        ConferenceController conferenceController = new ConferenceController(/*conversationController,*/ eventController, conferenceManager);
+        //RoomController roomController = new RoomController(conferenceManager);
+        //EventController eventController = new EventController(conferenceManager);
+        //ConferenceController conferenceController = new ConferenceController(/*conversationController,*/ eventController, conferenceManager);
 
         /*
          * User flow
@@ -98,7 +98,8 @@ public class ConventionSystem {
          * - Dealing with CompareBySpeaker
          * - Dealing with speaker conflicts
          */
-        LoginAndRegisterUI loginAndRegisterUI = new LoginAndRegisterUI(userController);
+
+        /*LoginAndRegisterUI loginAndRegisterUI = new LoginAndRegisterUI(userController);
         MainMenuUI mainMenuUI = new MainMenuUI();
 
         while (true) {
@@ -107,6 +108,6 @@ public class ConventionSystem {
             } else {
                 mainMenuUI.run();
             }
-        }
+        }*/
     }
 }
