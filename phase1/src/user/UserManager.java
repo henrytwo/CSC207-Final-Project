@@ -16,6 +16,10 @@ public class UserManager {
     UUID currentUser;
     private Map<UUID, User> userMap = new HashMap<>();
 
+    public String getUserFullName(UUID userUUID) {
+        return getUser(userUUID).getName();
+    }
+
     public void setUserFirstName(UUID userUUID, String firstName) {
         getUser(userUUID).setFirstName(firstName);
     }

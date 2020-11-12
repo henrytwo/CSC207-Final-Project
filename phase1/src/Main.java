@@ -69,7 +69,6 @@ public class Main {
      * Big thinking
      *
      * - Dealing with CompareBySpeaker
-     * - Dealing with speaker conflicts
      */
 
     public static void main(String[] args) {

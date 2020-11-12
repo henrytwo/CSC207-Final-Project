@@ -18,7 +18,6 @@ public class MainMenuUI {
     // User controller
     UserController userController;
 
-
     public MainMenuUI(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
         this.userController = userController;
 
@@ -27,9 +26,9 @@ public class MainMenuUI {
         this.conferencesUI = new ConferencesUI(userController, roomController, eventController, conferenceController);
     }
 
-
     /**
      * Run the MainMenuUI
+     *
      * @return true iff the user wants to quit the program
      */
     public boolean run() {
@@ -38,7 +37,7 @@ public class MainMenuUI {
                 "Messaging",
                 "Contacts",
                 "Conferences",
-                "Log Out",
+                String.format("Log Out (Signed in as %s)", userController.getUserFullName(userController.getCurrentUser())),
                 "Exit System"
         };
 

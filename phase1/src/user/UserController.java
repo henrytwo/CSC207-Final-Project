@@ -27,6 +27,10 @@ public class UserController {
         userManager.setUserFirstName(userUUID, firstName);
     }
 
+    public String getUserFullName(UUID userUUID) {
+        return userManager.getUserFullName(userUUID);
+    }
+
     public String getUserFirstName(UUID userUUID) {
         return userManager.getUserFirstName(userUUID);
     }
