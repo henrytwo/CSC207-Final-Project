@@ -14,13 +14,11 @@ import java.util.logging.Logger;
 public class ConferenceController {
 
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-    private ConferenceManager conferenceManager = new ConferenceManager();
-    private PermissionManager permissionManager = new PermissionManager(conferenceManager);
-
-    private RoomController roomController = new RoomController(conferenceManager, permissionManager);
-    private EventController eventController = new EventController(conferenceManager, permissionManager);
 
     private ConversationController conversationController;
+    private EventController eventController;
+    private ConferenceManager conferenceManager;
+    private PermissionManager permissionManager;
 
     /**
      * Creates an instance of ConferenceController. We store an instance of conversationController so we can
@@ -28,24 +26,11 @@ public class ConferenceController {
      *
      * @param conversationController
      */
-    public ConferenceController(ConferenceController conversationController) {
+    public ConferenceController(ConversationController conversationController, EventController eventController, ConferenceManager conferenceManager, PermissionManager permissionManager) {
         this.conversationController = conversationController;
-    }
-
-    /**
-     * Get RoomController object
-     * @return RoomController object
-     */
-    public RoomController getRoomController() {
-        return roomController;
-    }
-
-    /**
-     * Get EventController object
-     * @return EventController object
-     */
-    public EventController getEventController() {
-        return getEventController();
+        this.eventController = eventController;
+        this.conferenceManager = conferenceManager;
+        this.permissionManager = permissionManager;
     }
 
     /* Conference operations */
@@ -214,7 +199,7 @@ public class ConferenceController {
         if (conferenceManager.isAttendee(conferenceUUID, targetUserUUID)) {
             conferenceManager.removeAttendee(conferenceUUID, targetUserUUID);
 
-            for (UUID eventUUID : getAttendeeEvents(conferenceUUID, targetUserUUID)) {
+            for (UUID eventUUID : eventController.getAttendeeEvents(conferenceUUID, targetUserUUID)) {
                 eventController.doUnregisterForEvent(conferenceUUID, targetUserUUID, eventUUID);
             }
         }
@@ -222,7 +207,7 @@ public class ConferenceController {
         if (conferenceManager.isSpeaker(conferenceUUID, targetUserUUID)) {
             // We'll handle revoking speaker access in updateSpeakers, since having speaker permissions is linked to
             // whether or not a user is a speaker of an event.
-            for (UUID eventUUID : getSpeakerEvents(conferenceUUID, targetUserUUID)) {
+            for (UUID eventUUID : eventController.getSpeakerEvents(conferenceUUID, targetUserUUID)) {
                 eventManager.removeSpeaker(eventUUID, targetUserUUID);
             }
 

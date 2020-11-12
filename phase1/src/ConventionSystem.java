@@ -1,5 +1,9 @@
 import convention.ConferenceController;
+import convention.EventController;
+import convention.RoomController;
 import convention.calendar.TimeRange;
+import convention.conference.ConferenceManager;
+import convention.permission.PermissionManager;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -20,7 +24,13 @@ public class ConventionSystem {
         LOGGER.setLevel(Level.ALL);
         LOGGER.setUseParentHandlers(false);
 
-        ConferenceController conferenceController = new ConferenceController();
+        ConferenceManager conferenceManager = new ConferenceManager();
+        PermissionManager permissionManager = new PermissionManager(conferenceManager);
+
+        ConversationController conversationController = new ConversationController();
+        RoomController roomController = new RoomController(conferenceManager, permissionManager);
+        EventController eventController = new EventController(conferenceManager, permissionManager);
+        ConferenceController conferenceController = new ConferenceController(conversationController, eventController, conferenceManager, permissionManager);
 
         // Test stuff
 
@@ -53,10 +63,10 @@ public class ConventionSystem {
         conferenceController.addAttendee(conference1, attendee1);
         conferenceController.addAttendee(conference1, attendee2);
 
-        System.out.println(conferenceController.getEvents(conference1, attendee1));
+        System.out.println(eventController.getEvents(conference1, attendee1));
 
         System.out.println(conferenceController.getAttendees(conference1, otherOrganizer));
-        conferenceController.createEventConversation(conference1, me, me);
+        eventController.createEventConversation(conference1, me, me);
         //System.out.println(conferenceController.getEvents(conference1, attendee1));
 
 
