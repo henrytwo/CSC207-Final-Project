@@ -57,17 +57,17 @@ public class UserManager {
         return null;
     }
 
-    public boolean registerUser(String firstName, String lastName, String username, String password) {
+    public UUID registerUser(String firstName, String lastName, String username, String password) {
         if (getUserByUsername(username) == null) {
             User newUser = new User(firstName, lastName, username, password);
             UUID newUserUUID = newUser.getUuid();
 
             userMap.put(newUserUUID, newUser);
 
-            return true;
+            return newUserUUID;
         }
 
-        return false;
+        return null;
     }
 
     public UUID login(String username, String password) {
