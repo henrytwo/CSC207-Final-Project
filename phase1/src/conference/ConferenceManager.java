@@ -13,6 +13,12 @@ import java.util.*;
 public class ConferenceManager {
     private Map<UUID, Conference> conferences = new HashMap<>();
 
+    /**
+     * Conference names must be non-empty; this method tests for that condition
+     *
+     * @param name name to test
+     * @return true iff the conference name is valid
+     */
     private boolean validateConferenceName(String name) {
         return name.length() > 0;
     }
@@ -20,8 +26,8 @@ public class ConferenceManager {
     /**
      * Gets a map from Event UUID to their respective TimeRange
      *
-     * @param conferenceUUID
-     * @return
+     * @param conferenceUUID UUID of the conference to fetch from
+     * @return a map of event UUIDs to their corresponding TimeRange
      */
     public Map<UUID, TimeRange> getConferenceSchedule(UUID conferenceUUID) {
         RoomManager roomManager = getRoomManager(conferenceUUID);
@@ -36,6 +42,12 @@ public class ConferenceManager {
         return eventUUIDtoTimeRanges;
     }
 
+    /**
+     * Generates an EventManager object to control events for a conference
+     *
+     * @param conferenceUUID UUID of the conference to fetch from
+     * @return the event manager object
+     */
     public EventManager getEventManager(UUID conferenceUUID) {
         Map<UUID, Event> events = getConference(conferenceUUID).getEvents();
 
@@ -51,10 +63,10 @@ public class ConferenceManager {
     /**
      * Creates a conference and assigns the authenticated user as an organizer.
      *
-     * @param conferenceName
-     * @param timeRange
-     * @param organizerUUID
-     * @return
+     * @param conferenceName the desired conference name (Must be non-empty)
+     * @param timeRange      time range of the conference
+     * @param organizerUUID  UUID of the initial organier user
+     * @return UUID of the new conference
      */
     public UUID createConference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
         if (!validateConferenceName(conferenceName)) {
@@ -72,8 +84,8 @@ public class ConferenceManager {
      * <p>
      * Returns if a conference exists the system.
      *
-     * @param conferenceUUID
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @return true iff a conference with the corresponding UUID exists in the system
      */
     public boolean conferenceExists(UUID conferenceUUID) {
         return conferences.containsKey(conferenceUUID);
@@ -84,8 +96,7 @@ public class ConferenceManager {
      * <p>
      * Throws NullConferenceException if the conferenceID does not correspond to a valid conference.
      *
-     * @param conferenceUUID
-     * @return
+     * @param conferenceUUID UUID of the conference
      */
     public void deleteConference(UUID conferenceUUID) {
         if (!conferenceExists(conferenceUUID)) {
@@ -99,8 +110,8 @@ public class ConferenceManager {
      * Gets a conference from its UUID. This method also checks if the UUID corresponds to a valid conference and raises
      * a NullConferenceException if not.
      *
-     * @param conferenceUUID
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @return Conference object
      */
     private Conference getConference(UUID conferenceUUID) {
         if (!conferenceExists(conferenceUUID)) {
@@ -113,7 +124,7 @@ public class ConferenceManager {
     /**
      * Gets a set of all the conference UUIDs in the system.
      *
-     * @return
+     * @return Set of conference UUIDs
      */
     public Set<UUID> getConferences() {
         return conferences.keySet();
@@ -122,7 +133,8 @@ public class ConferenceManager {
     /**
      * Gets conference name
      *
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @return name of the conference
      */
     public String getConferenceName(UUID conferenceUUID) {
         return getConference(conferenceUUID).getConferenceName();
@@ -131,7 +143,8 @@ public class ConferenceManager {
     /**
      * Gets conference time range
      *
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @return time range of the conference
      */
     public TimeRange getTimeRange(UUID conferenceUUID) {
         return getConference(conferenceUUID).getTimeRange();
@@ -139,6 +152,9 @@ public class ConferenceManager {
 
     /**
      * Sets conference dates datetime
+     *
+     * @param conferenceUUID UUID of the conference
+     * @param timeRange      time range to assign the conference
      */
     public void setTimeRange(UUID conferenceUUID, TimeRange timeRange) {
         getConference(conferenceUUID).setTimeRange(timeRange);
@@ -146,6 +162,9 @@ public class ConferenceManager {
 
     /**
      * Sets conference name
+     *
+     * @param conferenceUUID UUID of the conference
+     * @param newName        name to assign the conference (Must be non-empty)
      */
     public void setConferenceName(UUID conferenceUUID, String newName) {
         if (!validateConferenceName(newName)) {
@@ -155,14 +174,35 @@ public class ConferenceManager {
         getConference(conferenceUUID).setConferenceName(newName);
     }
 
+    /**
+     * Tests if a UUID belongs to an attendee user for this conference
+     *
+     * @param conferenceUUID UUID of the conference
+     * @param userUUID       UUID of the user to test
+     * @return true iff the userUUID belongs to an attendee
+     */
     public boolean isAttendee(UUID conferenceUUID, UUID userUUID) {
         return getConference(conferenceUUID).isAttendee(userUUID);
     }
 
+    /**
+     * Tests if a UUID belongs to an organizer user for this conference
+     *
+     * @param conferenceUUID UUID of the conference
+     * @param userUUID       UUID of the user to test
+     * @return true iff the userUUID belongs to an organizer
+     */
     public boolean isOrganizer(UUID conferenceUUID, UUID userUUID) {
         return getConference(conferenceUUID).isOrganizer(userUUID);
     }
 
+    /**
+     * Tests if a UUID belongs to a speaker user for this conference
+     *
+     * @param conferenceUUID UUID of the conference
+     * @param userUUID       UUID of the user to test
+     * @return true iff the userUUID belongs to a speaker
+     */
     public boolean isSpeaker(UUID conferenceUUID, UUID userUUID) {
         return getConference(conferenceUUID).isSpeaker(userUUID);
     }
@@ -172,8 +212,8 @@ public class ConferenceManager {
      * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      *
-     * @param conferenceUUID
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @return set of UUIDs of organizer users
      */
     public Set<UUID> getOrganizers(UUID conferenceUUID) {
         return getConference(conferenceUUID).getOrganizerUUIDs();
@@ -184,9 +224,8 @@ public class ConferenceManager {
      * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      *
-     * @param conferenceUUID
-     * @param userUUID
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @param userUUID       UUID of the user to add
      */
     public void addOrganizer(UUID conferenceUUID, UUID userUUID) {
         getConference(conferenceUUID).addOrganizer(userUUID);
@@ -198,9 +237,8 @@ public class ConferenceManager {
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      * Throws NullUserException if the userUUID does not correspond to a valid organizer.
      *
-     * @param conferenceUUID
-     * @param userUUID
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @param userUUID       UUID of the user to remove
      */
     public void removeOrganizer(UUID conferenceUUID, UUID userUUID) {
         Conference conference = getConference(conferenceUUID);
@@ -219,8 +257,8 @@ public class ConferenceManager {
      * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      *
-     * @param conferenceUUID
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @return set of UUIDs of attendee users
      */
     public Set<UUID> getAttendees(UUID conferenceUUID) {
         return getConference(conferenceUUID).getAttendeeUUIDs();
@@ -231,9 +269,8 @@ public class ConferenceManager {
      * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      *
-     * @param conferenceUUID
-     * @param userUUID
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @param userUUID       UUID of the user to add
      */
     public void addAttendee(UUID conferenceUUID, UUID userUUID) {
         getConference(conferenceUUID).addAttendee(userUUID);
@@ -245,9 +282,8 @@ public class ConferenceManager {
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      * Throws NullUserException if the userUUID does not correspond to a valid user.
      *
-     * @param conferenceUUID
-     * @param userUUID
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @param userUUID       UUID of the user to remove
      */
     public void removeAttendee(UUID conferenceUUID, UUID userUUID) {
         Conference conference = getConference(conferenceUUID);
@@ -264,8 +300,8 @@ public class ConferenceManager {
      * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      *
-     * @param conferenceUUID
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @return set of UUIDs speaker users
      */
     public Set<UUID> getSpeakers(UUID conferenceUUID) {
         return getConference(conferenceUUID).getSpeakerUUIDs();
@@ -276,9 +312,8 @@ public class ConferenceManager {
      * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      *
-     * @param conferenceUUID
-     * @param userUUID
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @param userUUID       UUID of the user to add
      */
     public void addSpeaker(UUID conferenceUUID, UUID userUUID) {
         getConference(conferenceUUID).addSpeaker(userUUID);
@@ -290,9 +325,8 @@ public class ConferenceManager {
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      * Throws NullUserException if the userUUID does not correspond to a valid user.
      *
-     * @param conferenceUUID
-     * @param userUUID
-     * @return
+     * @param conferenceUUID UUID of the conference
+     * @param userUUID       UUID of the user to remove
      */
     public void removeSpeaker(UUID conferenceUUID, UUID userUUID) {
         Conference conference = getConference(conferenceUUID);
