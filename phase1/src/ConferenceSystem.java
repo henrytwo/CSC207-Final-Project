@@ -35,10 +35,27 @@ public class ConferenceSystem {
         UUID me = UUID.randomUUID();
         UUID otherUser = UUID.randomUUID();
 
+        Set<UUID> myself = new HashSet<>() {
+            {
+                add(me);
+            }
+        };
+
+        Set<UUID> bois = new HashSet<>() {
+            {
+                add(me);
+                add(otherUser);
+            }
+        };
+
+        UUID adminConvo = conversationManager.createConversation("blah", myself, bois, new Message(me, "you're here whether you like it or not"));
+
         // Create a chat with a single person
         UUID convo1 = conversationController.initiateConversation("My cool chat", me, new HashSet<>() {
 
         }, new Message(me, "Hi there"));
+
+        //contactController.sendRequest(me, otherUser);
 
         // Send test messages
         conversationController.sendMessage(new Message(me, "asdasd"), convo1);
@@ -51,14 +68,15 @@ public class ConferenceSystem {
 
         }, new Message(me, "Nice convo bro"));
 
+        conversationController.sendMessage(new Message(me, "Hi"), adminConvo);
+        conversationController.sendMessage(new Message(me, "yes"), adminConvo);
+        conversationController.sendMessage(new Message(me, "cool messages"), adminConvo);
 
         // Ok, now the user can take a look of the convos they're a part of
-        Set<UUID> convoList = conversationController.getConversationlist(me);
+        Set<UUID> convoList = conversationController.getConversationlist(otherUser);
 
         for(UUID convoUUID : convoList) {
-
             System.out.println("\n\nConvo UUID:" + convoUUID + "\n" + conversationController.getMessages(me, convoUUID));
-
         }
     }
 }
