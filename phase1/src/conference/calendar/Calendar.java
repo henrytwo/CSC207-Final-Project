@@ -11,20 +11,26 @@ public class Calendar {
     // We'll probably also want to be able to store the event UUID in the pair
     //
     // Edit: The TimeRange class will actually handle the pair of times for you
-    private Set<Pair<UUID, TimeRange>> eventIdTimeRangesPairs = new HashSet<>();
-
-
+    private Set<Pair<UUID, TimeRange>> eventUUIDTimeRangesPairs = new HashSet<>();
+    
     /**
      * constructor for an empty calendar
      */
     public Calendar(){}
-
+    
+    /**
+     * @return get a Set of UUID TimeRanges pairs booked on this calendar
+     */
+    public Set<Pair<UUID, TimeRange>> getEventUUIDTimeRangesPairs() {
+        return eventUUIDTimeRangesPairs;
+    }
+    
     /**
      * @return get a Set of TimeRanges booked on this calendar
      */
     public Set<TimeRange> getTimeRanges() {
         Set<TimeRange> timeRanges = new HashSet<>();
-        for ( Pair<UUID, TimeRange> eventTimeRangePair : this.eventIdTimeRangesPairs) {
+        for ( Pair<UUID, TimeRange> eventTimeRangePair : this.eventUUIDTimeRangesPairs) {
             timeRanges.add(eventTimeRangePair.getTimeRange());
         }
         return timeRanges;
@@ -49,6 +55,6 @@ public class Calendar {
      * @param p Pair for UUID of the calendarable object
      */
     public void bookCalendarable(Pair<UUID, TimeRange> p) {
-        this.eventIdTimeRangesPairs.add(p);
+        this.eventUUIDTimeRangesPairs.add(p);
     }
 }

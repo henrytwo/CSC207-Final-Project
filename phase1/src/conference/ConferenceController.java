@@ -1,11 +1,14 @@
 package conference;
 
 import conference.calendar.Calendar;
+import conference.calendar.CalendarManager;
+import conference.calendar.Pair;
 import conference.calendar.TimeRange;
 import conference.event.Event;
 import conference.event.EventManager;
 import conference.room.Room;
 import conference.room.RoomManager;
+import util.exception.DoubleBookingException;
 import util.exception.NullUserException;
 
 import java.time.LocalDateTime;
@@ -16,8 +19,8 @@ import java.util.logging.Logger;
 public class ConferenceController {
 
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-    ConferenceManager conferenceManager = new ConferenceManager();
-    PermissionManager permissionManager = new PermissionManager(conferenceManager);
+    private ConferenceManager conferenceManager = new ConferenceManager();
+    private PermissionManager permissionManager = new PermissionManager(conferenceManager);
 
     public ConferenceController() {
         // do some more magic here
@@ -140,12 +143,10 @@ public class ConferenceController {
      * @param conferenceUUID
      * @param executorUUID
      */
-    public void getConferenceSchedule(UUID conferenceUUID, UUID executorUUID) {
+    public Set<Pair<UUID, TimeRange>> getConferenceSchedule(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
-        /**
-         * TODO: write this
-         */
+        return conferenceManager.getConferenceCalendarManager(conferenceUUID).getTimeRanges();
     }
 
     /**
@@ -187,7 +188,7 @@ public class ConferenceController {
             conferenceManager.removeAttendee(conferenceUUID, targetUserUUID);
 
             for (UUID eventUUID : getAttendeeEvents(conferenceUUID, targetUserUUID)) {
-                eventManager.unregisterAttendee(eventUUID, targetUserUUID);
+                doUnregisterForEvent(conferenceUUID, targetUserUUID, eventUUID);
             }
         }
 
@@ -297,17 +298,35 @@ public class ConferenceController {
      */
     public void registerForEvent(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID, UUID eventUUID) {
         permissionManager.testIsAttendeeSelfOrAdmin(conferenceUUID, executorUUID, targetUserUUID);
-
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-        /**
-         * TODO: stuff below lol
-         */
-
-        // need to check for existing groupchat + add them and stuff
-        // event manager does stuff
+        if (eventManager.getConversationUUID(eventUUID) != null) {
+            /**
+             * TODO: Add user to the group chat with write access
+             */
+        }
 
         eventManager.registerAttendee(eventUUID, targetUserUUID);
+    }
+
+    /**
+     * Actually executes the unregister operation. We have a separate helper method here so that we don't forget
+     * to run the check to remove the user from the event's conversation.
+     *
+     * @param conferenceUUID
+     * @param targetUserUUID
+     * @param eventUUID
+     */
+    private void doUnregisterForEvent(UUID conferenceUUID, UUID targetUserUUID, UUID eventUUID) {
+        EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+
+        if (eventManager.getConversationUUID(eventUUID) != null) {
+            /**
+             * TODO: Remove the user from the groupchat
+             */
+        }
+
+        eventManager.unregisterAttendee(eventUUID, targetUserUUID);
     }
 
     /**
@@ -322,13 +341,7 @@ public class ConferenceController {
      */
     public void unregisterForEvent(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID, UUID eventUUID) {
         permissionManager.testIsAttendeeSelfOrAdmin(conferenceUUID, executorUUID, targetUserUUID);
-
-        EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
-
-        // event manager does stuff
-        // revoke access to the gc
-
-        eventManager.unregisterAttendee(eventUUID, targetUserUUID);
+        doUnregisterForEvent(conferenceUUID, targetUserUUID, eventUUID);
     }
 
     /**
@@ -352,8 +365,18 @@ public class ConferenceController {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+        RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);
 
-        eventManager.createEvent(eventName, timeRange, roomUUID, speakerUUIDs);
+        CalendarManager roomCalendarManager = roomManager.getCalendarManager(roomUUID);
+
+        if (roomCalendarManager.timeRangeOccupied(timeRange)) {
+            throw new DoubleBookingException();
+        } else {
+            UUID eventUUID = eventManager.createEvent(eventName, timeRange, roomUUID, speakerUUIDs);
+
+            roomCalendarManager.addTimeBlock(eventUUID, timeRange);
+        }
+
         updateSpeakers(conferenceUUID);
     }
 
@@ -519,12 +542,12 @@ public class ConferenceController {
         return roomManager.getRoomCapacity(roomUUID);
     }
 
-    public Calendar getRoomCalendar(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
+    public Set<Pair<UUID, TimeRange>> getRoomTimeRanges(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);
 
-        return roomManager.getRoomCalendar(roomUUID);
+        return roomManager.getCalendarManager(roomUUID).getTimeRanges();
     }
 
     /* Organizer operations */

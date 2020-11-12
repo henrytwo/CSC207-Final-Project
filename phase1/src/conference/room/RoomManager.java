@@ -32,12 +32,17 @@ public class RoomManager {
             throw new NullRoomException(roomUUID);
         }
         return rooms.get(roomUUID);
-
     }
 
-    public void createRoom(String roomLocation, int roomCapacity) {
+    private Calendar getRoomCalendar(UUID roomUUID) {
+        return getRoom(roomUUID).getCalendar();
+    }
+
+    public UUID createRoom(String roomLocation, int roomCapacity) {
         Room room = new Room(roomLocation, roomCapacity);// make the room here and stuff
         rooms.put(room.getUUID(), room);
+
+        return room.getUUID();
     }
 
     public void setRoomLocation(UUID roomUUID, String roomLocation) {
@@ -64,7 +69,4 @@ public class RoomManager {
         return getRoom(roomUUID).getCapacity();
     }
 
-    public Calendar getRoomCalendar(UUID roomUUID) {
-        return getRoom(roomUUID).getCalendar();
-    }
 }

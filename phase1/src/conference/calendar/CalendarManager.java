@@ -13,6 +13,10 @@ public class CalendarManager {
         this.calendar = calendar;
     }
 
+    public Set<Pair<UUID, TimeRange>> getTimeRanges() {
+        return calendar.getEventUUIDTimeRangesPairs();
+    }
+
     /**
      * @param t TimeRange that is compared with existing TimeRange objects on this calendar
      * @return true iff t conflicts with an existing TimeRange in c
@@ -24,13 +28,14 @@ public class CalendarManager {
     /**
      * adds the UUID and TimeRange of a Calendarable object to Calendar
      *
-     * @param calendarable the calendarable object
+     * @param calendarableUUID the UUID of the calendarable object
+     * @param timeRange the TimeRange of the calendarable object
      */
-    public void addTimeBlock(Calendarable calendarable) {
-        if (this.timeRangeOccupied(calendarable.getTimeRange())) {
+    public void addTimeBlock(UUID calendarableUUID, TimeRange timeRange) {
+        if (this.timeRangeOccupied(timeRange)) {
             throw new DoubleBookingException();
         } else {
-            Pair<UUID, TimeRange> p = new Pair<>(calendarable.getUUID(), calendarable.getTimeRange());
+            Pair<UUID, TimeRange> p = new Pair<>(calendarableUUID, timeRange);
             calendar.bookCalendarable(p);
         }
     }

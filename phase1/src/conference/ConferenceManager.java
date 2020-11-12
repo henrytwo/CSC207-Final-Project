@@ -3,6 +3,7 @@ package conference;
 import com.sun.security.auth.UnixNumericUserPrincipal;
 import conference.calendar.Calendar;
 import conference.calendar.CalendarManager;
+import conference.calendar.Pair;
 import conference.calendar.TimeRange;
 import conference.event.Event;
 import conference.event.EventManager;
@@ -28,15 +29,17 @@ public class ConferenceManager {
      *       Similar idea for room.
      */
 
-    public CalendarManager getConferenceCalendarManager(UUID conferenceUUID) {
+    public Set<Pair<UUID, TimeRange>> getConferenceCalendarManager(UUID conferenceUUID) {
         RoomManager roomManager = getRoomManager(conferenceUUID);
-        Set<Calendar> calendars = new HashSet<>();
+        Set<Pair<UUID, TimeRange>> eventUUIDtoTimeRanges = new HashSet<>();
 
         for (UUID roomUUID : roomManager.getRooms()) {
-            calendars.add(roomManager.getRoomCalendar(roomUUID));
+            CalendarManager calendarManager = roomManager.getCalendarManager(roomUUID);
+
+            eventUUIDtoTimeRanges.addAll(calendarManager.getTimeRanges());
         }
 
-        return new CalendarManager();
+        return eventUUIDtoTimeRanges;
     }
 
     public EventManager getEventManager(UUID conferenceUUID) {

@@ -135,6 +135,7 @@ public class ConferenceSystem {
          *
          * - Storing calendar
          * - Dealing with CompareBySpeaker
+         * - Dealing with speaker conflicts
          */
 
         LocalDateTime dateA = LocalDateTime.of(2015,
