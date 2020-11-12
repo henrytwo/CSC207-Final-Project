@@ -1,3 +1,7 @@
+import contact.ContactController;
+import contact.ContactManager;
+import messaging.ConversationController;
+import messaging.ConversationManager;
 import user.UserController;
 
 import java.util.logging.ConsoleHandler;
@@ -17,6 +21,11 @@ public class ConferenceSystem {
         LOGGER.setUseParentHandlers(false);
 
         // write some test code here, or write unit tests somewhere else
+
+        ContactManager contactManager = new ContactManager();
+        ConversationManager convoManager = new ConversationManager();
+        ContactController contactController = new ContactController(contactManager);
+        ConversationController conversationController = new ConversationController(contactManager, convoManager);
 
         UserController userController = new UserController();
 

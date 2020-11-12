@@ -1,4 +1,4 @@
-package Exceptions;
+package exception;
 
 public class UserNotPartOfChatException extends RuntimeException{
     public UserNotPartOfChatException(){
