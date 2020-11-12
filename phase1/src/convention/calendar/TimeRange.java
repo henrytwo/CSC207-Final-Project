@@ -1,4 +1,4 @@
-package conference.calendar;
+package convention.calendar;
 
 import util.exception.InvalidTimeRangeException;
 

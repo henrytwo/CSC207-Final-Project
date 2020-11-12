@@ -1,9 +1,8 @@
 
-package conference.event;
+package convention.event;
 
 
-import conference.calendar.Calendar;
-import conference.calendar.TimeRange;
+import convention.calendar.TimeRange;
 
 import java.util.HashSet;
 import java.util.Set;

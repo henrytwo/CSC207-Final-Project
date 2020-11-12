@@ -1,4 +1,4 @@
-package conference.event;
+package convention.event;
 
 public class EventCompareByTitle {
 }

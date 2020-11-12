@@ -1,10 +1,10 @@
-package conference.room;
+package convention.room;
 
-import conference.calendar.Calendar;
+import convention.calendar.Calendar;
 
 import java.util.*;
 
-import conference.calendar.CalendarManager;
+import convention.calendar.CalendarManager;
 import util.exception.*;
 
 public class RoomManager {

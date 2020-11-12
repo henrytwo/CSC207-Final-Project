@@ -1,6 +1,6 @@
 unnamed package
-conference
-conference.calendar
-conference.event
-conference.room
+convention
+convention.calendar
+convention.event
+convention.room
 util.exception

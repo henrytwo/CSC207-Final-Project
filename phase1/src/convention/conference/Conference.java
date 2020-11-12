@@ -1,8 +1,8 @@
-package conference;
+package convention.conference;
 
-import conference.calendar.TimeRange;
-import conference.event.Event;
-import conference.room.Room;
+import convention.calendar.TimeRange;
+import convention.event.Event;
+import convention.room.Room;
 
 import java.util.*;
 
@@ -22,8 +22,8 @@ public class Conference {
     /**
      * Conference constructor.
      *
-     * @param conferenceName name of new conference
-     * @param timeRange      TimeRange of the conference
+     * @param conferenceName name of new convention
+     * @param timeRange      TimeRange of the convention
      * @param organizerUUID  UUID of the initial organizer
      */
     public Conference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
@@ -34,7 +34,7 @@ public class Conference {
     }
 
     /**
-     * Gets events associated with this conference
+     * Gets events associated with this convention
      *
      * @return Map from Event UUID to Event object
      */
@@ -43,7 +43,7 @@ public class Conference {
     }
 
     /**
-     * Gets rooms associated with this conference
+     * Gets rooms associated with this convention
      *
      * @return Map from Room UUID to Room object
      */
@@ -52,25 +52,25 @@ public class Conference {
     }
 
     /**
-     * Gets the conference name
+     * Gets the convention name
      *
-     * @return conference name
+     * @return convention name
      */
     public String getConferenceName() {
         return conferenceName;
     }
 
     /**
-     * Gets the time range of the conference
+     * Gets the time range of the convention
      *
-     * @return conference time range
+     * @return convention time range
      */
     public TimeRange getTimeRange() {
         return timeRange;
     }
 
     /**
-     * Sets the time range for the conference
+     * Sets the time range for the convention
      *
      * @param timeRange new time range
      */
@@ -79,16 +79,16 @@ public class Conference {
     }
 
     /**
-     * Sets the new name for the conference
+     * Sets the new name for the convention
      *
-     * @param conferenceName new conference name
+     * @param conferenceName new convention name
      */
     public void setConferenceName(String conferenceName) {
         this.conferenceName = conferenceName;
     }
 
     /**
-     * Gets the UUID for this conference
+     * Gets the UUID for this convention
      *
      * @return UUID object
      */

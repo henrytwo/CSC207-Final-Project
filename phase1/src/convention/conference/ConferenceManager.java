@@ -1,11 +1,11 @@
-package conference;
+package convention.conference;
 
-import conference.calendar.CalendarManager;
-import conference.calendar.TimeRange;
-import conference.event.Event;
-import conference.event.EventManager;
-import conference.room.Room;
-import conference.room.RoomManager;
+import convention.calendar.CalendarManager;
+import convention.calendar.TimeRange;
+import convention.event.Event;
+import convention.event.EventManager;
+import convention.room.Room;
+import convention.room.RoomManager;
 import util.exception.*;
 
 import java.util.*;
@@ -17,7 +17,7 @@ public class ConferenceManager {
      * Conference names must be non-empty; this method tests for that condition
      *
      * @param name name to test
-     * @return true iff the conference name is valid
+     * @return true iff the convention name is valid
      */
     private boolean validateConferenceName(String name) {
         return name.length() > 0;
@@ -26,7 +26,7 @@ public class ConferenceManager {
     /**
      * Gets a map from Event UUID to their respective TimeRange
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @return a map of event UUIDs to their corresponding TimeRange
      */
     public Map<UUID, TimeRange> getConferenceSchedule(UUID conferenceUUID) {
@@ -43,9 +43,9 @@ public class ConferenceManager {
     }
 
     /**
-     * Generates an EventManager object to control events for a conference
+     * Generates an EventManager object to control events for a convention
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @return the event manager object
      */
     public EventManager getEventManager(UUID conferenceUUID) {
@@ -61,12 +61,12 @@ public class ConferenceManager {
     }
 
     /**
-     * Creates a conference and assigns the authenticated user as an organizer.
+     * Creates a convention and assigns the authenticated user as an organizer.
      *
-     * @param conferenceName the desired conference name (Must be non-empty)
-     * @param timeRange      time range of the conference
+     * @param conferenceName the desired convention name (Must be non-empty)
+     * @param timeRange      time range of the convention
      * @param organizerUUID  UUID of the initial organier user
-     * @return UUID of the new conference
+     * @return UUID of the new convention
      */
     public UUID createConference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
         if (!validateConferenceName(conferenceName)) {
@@ -80,23 +80,23 @@ public class ConferenceManager {
     }
 
     /**
-     * Tests if a conference exists in the system.
+     * Tests if a convention exists in the system.
      * <p>
-     * Returns if a conference exists the system.
+     * Returns if a convention exists the system.
      *
-     * @param conferenceUUID UUID of the conference to operate on
-     * @return true iff a conference with the corresponding UUID exists in the system
+     * @param conferenceUUID UUID of the convention to operate on
+     * @return true iff a convention with the corresponding UUID exists in the system
      */
     public boolean conferenceExists(UUID conferenceUUID) {
         return conferences.containsKey(conferenceUUID);
     }
 
     /**
-     * Deletes a conference given its UUID.
+     * Deletes a convention given its UUID.
      * <p>
-     * Throws NullConferenceException if the conferenceID does not correspond to a valid conference.
+     * Throws NullConferenceException if the conferenceID does not correspond to a valid convention.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      */
     public void deleteConference(UUID conferenceUUID) {
         if (!conferenceExists(conferenceUUID)) {
@@ -107,10 +107,10 @@ public class ConferenceManager {
     }
 
     /**
-     * Gets a conference from its UUID. This method also checks if the UUID corresponds to a valid conference and raises
+     * Gets a convention from its UUID. This method also checks if the UUID corresponds to a valid convention and raises
      * a NullConferenceException if not.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @return Conference object
      */
     private Conference getConference(UUID conferenceUUID) {
@@ -122,49 +122,49 @@ public class ConferenceManager {
     }
 
     /**
-     * Gets a set of all the conference UUIDs in the system.
+     * Gets a set of all the convention UUIDs in the system.
      *
-     * @return Set of conference UUIDs
+     * @return Set of convention UUIDs
      */
     public Set<UUID> getConferences() {
         return conferences.keySet();
     }
 
     /**
-     * Gets conference name
+     * Gets convention name
      *
-     * @param conferenceUUID UUID of the conference to operate on
-     * @return name of the conference
+     * @param conferenceUUID UUID of the convention to operate on
+     * @return name of the convention
      */
     public String getConferenceName(UUID conferenceUUID) {
         return getConference(conferenceUUID).getConferenceName();
     }
 
     /**
-     * Gets conference time range
+     * Gets convention time range
      *
-     * @param conferenceUUID UUID of the conference to operate on
-     * @return time range of the conference
+     * @param conferenceUUID UUID of the convention to operate on
+     * @return time range of the convention
      */
     public TimeRange getTimeRange(UUID conferenceUUID) {
         return getConference(conferenceUUID).getTimeRange();
     }
 
     /**
-     * Sets conference dates datetime
+     * Sets convention dates datetime
      *
-     * @param conferenceUUID UUID of the conference to operate on
-     * @param timeRange      time range to assign the conference
+     * @param conferenceUUID UUID of the convention to operate on
+     * @param timeRange      time range to assign the convention
      */
     public void setTimeRange(UUID conferenceUUID, TimeRange timeRange) {
         getConference(conferenceUUID).setTimeRange(timeRange);
     }
 
     /**
-     * Sets conference name
+     * Sets convention name
      *
-     * @param conferenceUUID UUID of the conference to operate on
-     * @param newName        name to assign the conference (Must be non-empty)
+     * @param conferenceUUID UUID of the convention to operate on
+     * @param newName        name to assign the convention (Must be non-empty)
      */
     public void setConferenceName(UUID conferenceUUID, String newName) {
         if (!validateConferenceName(newName)) {
@@ -175,9 +175,9 @@ public class ConferenceManager {
     }
 
     /**
-     * Tests if a UUID belongs to an attendee user for this conference
+     * Tests if a UUID belongs to an attendee user for this convention
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param userUUID       UUID of the user to test
      * @return true iff the userUUID belongs to an attendee
      */
@@ -186,9 +186,9 @@ public class ConferenceManager {
     }
 
     /**
-     * Tests if a UUID belongs to an organizer user for this conference
+     * Tests if a UUID belongs to an organizer user for this convention
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param userUUID       UUID of the user to test
      * @return true iff the userUUID belongs to an organizer
      */
@@ -197,9 +197,9 @@ public class ConferenceManager {
     }
 
     /**
-     * Tests if a UUID belongs to a speaker user for this conference
+     * Tests if a UUID belongs to a speaker user for this convention
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param userUUID       UUID of the user to test
      * @return true iff the userUUID belongs to a speaker
      */
@@ -208,11 +208,11 @@ public class ConferenceManager {
     }
 
     /**
-     * Gets a set of organizer UUIDs for a particular conference.
+     * Gets a set of organizer UUIDs for a particular convention.
      * <p>
-     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @return set of UUIDs of organizer users
      */
     public Set<UUID> getOrganizers(UUID conferenceUUID) {
@@ -220,11 +220,11 @@ public class ConferenceManager {
     }
 
     /**
-     * Adds an organizer to a conference.
+     * Adds an organizer to a convention.
      * <p>
-     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param userUUID       UUID of the user to add
      */
     public void addOrganizer(UUID conferenceUUID, UUID userUUID) {
@@ -232,12 +232,12 @@ public class ConferenceManager {
     }
 
     /**
-     * Removes an organizer from a conference. There must always be at least one organizer left.
+     * Removes an organizer from a convention. There must always be at least one organizer left.
      * <p>
-     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
      * Throws NullUserException if the userUUID does not correspond to a valid organizer.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param userUUID       UUID of the user to remove
      */
     public void removeOrganizer(UUID conferenceUUID, UUID userUUID) {
@@ -253,11 +253,11 @@ public class ConferenceManager {
     }
 
     /**
-     * Gets a set of attendee UUIDs for a particular conference.
+     * Gets a set of attendee UUIDs for a particular convention.
      * <p>
-     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @return set of UUIDs of attendee users
      */
     public Set<UUID> getAttendees(UUID conferenceUUID) {
@@ -265,11 +265,11 @@ public class ConferenceManager {
     }
 
     /**
-     * Adds an attendee to a conference.
+     * Adds an attendee to a convention.
      * <p>
-     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param userUUID       UUID of the user to add
      */
     public void addAttendee(UUID conferenceUUID, UUID userUUID) {
@@ -277,12 +277,12 @@ public class ConferenceManager {
     }
 
     /**
-     * Removes an attendee from a conference.
+     * Removes an attendee from a convention.
      * <p>
-     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
      * Throws NullUserException if the userUUID does not correspond to a valid user.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param userUUID       UUID of the user to remove
      */
     public void removeAttendee(UUID conferenceUUID, UUID userUUID) {
@@ -296,11 +296,11 @@ public class ConferenceManager {
     }
 
     /**
-     * Gets a set of speaker UUIDs for a particular conference.
+     * Gets a set of speaker UUIDs for a particular convention.
      * <p>
-     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @return set of UUIDs speaker users
      */
     public Set<UUID> getSpeakers(UUID conferenceUUID) {
@@ -308,11 +308,11 @@ public class ConferenceManager {
     }
 
     /**
-     * Adds an speaker to a conference.
+     * Adds an speaker to a convention.
      * <p>
-     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param userUUID       UUID of the user to add
      */
     public void addSpeaker(UUID conferenceUUID, UUID userUUID) {
@@ -320,12 +320,12 @@ public class ConferenceManager {
     }
 
     /**
-     * Removes an speaker from a conference.
+     * Removes an speaker from a convention.
      * <p>
-     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
      * Throws NullUserException if the userUUID does not correspond to a valid user.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param userUUID       UUID of the user to remove
      */
     public void removeSpeaker(UUID conferenceUUID, UUID userUUID) {

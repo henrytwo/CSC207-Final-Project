@@ -99,7 +99,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== START OF CLASS DATA ======== -->
 <main role="main">
 <div class="header">
-<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">conference</a></div>
+<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">convention</a></div>
 <h2 title="Class Conference" class="title">Class Conference</h2>
 </div>
 <div class="contentContainer">
@@ -107,7 +107,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>conference.Conference</li>
+<li>convention.convention.Conference</li>
 </ul>
 </li>
 </ul>
@@ -140,7 +140,7 @@ extends java.lang.Object</pre>
 <tbody>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String,conference.calendar.TimeRange,java.util.UUID)">Conference</a></span>&#8203;(java.lang.String&nbsp;conferenceName,
-          <a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;timeRange,
+          <a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;timeRange,
           java.util.UUID&nbsp;organizerUUID)</code></th>
 <td class="colLast">
 <div class="block">Conference constructor.</div>
@@ -201,14 +201,14 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getConferenceName()">getConferenceName</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Gets the conference name</div>
+<div class="block">Gets the convention name</div>
 </td>
 </tr>
 <tr class="rowColor" id="i5">
-<td class="colFirst"><code>java.util.Map&lt;java.util.UUID,&#8203;<a href="event/Event.html" title="class in conference.event">Event</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.Map&lt;java.util.UUID,&#8203;<a href="event/Event.html" title="class in convention.event">Event</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEvents()">getEvents</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Gets events associated with this conference</div>
+<div class="block">Gets events associated with this convention</div>
 </td>
 </tr>
 <tr class="altColor" id="i6">
@@ -219,10 +219,10 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="rowColor" id="i7">
-<td class="colFirst"><code>java.util.Map&lt;java.util.UUID,&#8203;<a href="room/Room.html" title="class in conference.room">Room</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.Map&lt;java.util.UUID,&#8203;<a href="room/Room.html" title="class in convention.room">Room</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRooms()">getRooms</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Gets rooms associated with this conference</div>
+<div class="block">Gets rooms associated with this convention</div>
 </td>
 </tr>
 <tr class="altColor" id="i8">
@@ -233,17 +233,17 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="rowColor" id="i9">
-<td class="colFirst"><code><a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a></code></td>
+<td class="colFirst"><code><a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTimeRange()">getTimeRange</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Gets the time range of the conference</div>
+<div class="block">Gets the time range of the convention</div>
 </td>
 </tr>
 <tr class="altColor" id="i10">
 <td class="colFirst"><code>java.util.UUID</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUUID()">getUUID</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Gets the UUID for this conference</div>
+<div class="block">Gets the UUID for this convention</div>
 </td>
 </tr>
 <tr class="rowColor" id="i11">
@@ -292,14 +292,14 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setConferenceName(java.lang.String)">setConferenceName</a></span>&#8203;(java.lang.String&nbsp;conferenceName)</code></th>
 <td class="colLast">
-<div class="block">Sets the new name for the conference</div>
+<div class="block">Sets the new name for the convention</div>
 </td>
 </tr>
 <tr class="altColor" id="i18">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTimeRange(conference.calendar.TimeRange)">setTimeRange</a></span>&#8203;(<a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;timeRange)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTimeRange(conference.calendar.TimeRange)">setTimeRange</a></span>&#8203;(<a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;timeRange)</code></th>
 <td class="colLast">
-<div class="block">Sets the time range for the conference</div>
+<div class="block">Sets the time range for the convention</div>
 </td>
 </tr>
 </tbody>
@@ -336,13 +336,13 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>Conference</h4>
 <pre>public&nbsp;Conference&#8203;(java.lang.String&nbsp;conferenceName,
-                  <a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;timeRange,
+                  <a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;timeRange,
                   java.util.UUID&nbsp;organizerUUID)</pre>
 <div class="block">Conference constructor.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceName</code> - name of new conference</dd>
-<dd><code>timeRange</code> - TimeRange of the conference</dd>
+<dd><code>conferenceName</code> - name of new convention</dd>
+<dd><code>timeRange</code> - TimeRange of the convention</dd>
 <dd><code>organizerUUID</code> - UUID of the initial organizer</dd>
 </dl>
 </li>
@@ -363,8 +363,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getEvents</h4>
-<pre class="methodSignature">public&nbsp;java.util.Map&lt;java.util.UUID,&#8203;<a href="event/Event.html" title="class in conference.event">Event</a>&gt;&nbsp;getEvents()</pre>
-<div class="block">Gets events associated with this conference</div>
+<pre class="methodSignature">public&nbsp;java.util.Map&lt;java.util.UUID,&#8203;<a href="event/Event.html" title="class in convention.event">Event</a>&gt;&nbsp;getEvents()</pre>
+<div class="block">Gets events associated with this convention</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Map from Event UUID to Event object</dd>
@@ -377,8 +377,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getRooms</h4>
-<pre class="methodSignature">public&nbsp;java.util.Map&lt;java.util.UUID,&#8203;<a href="room/Room.html" title="class in conference.room">Room</a>&gt;&nbsp;getRooms()</pre>
-<div class="block">Gets rooms associated with this conference</div>
+<pre class="methodSignature">public&nbsp;java.util.Map&lt;java.util.UUID,&#8203;<a href="room/Room.html" title="class in convention.room">Room</a>&gt;&nbsp;getRooms()</pre>
+<div class="block">Gets rooms associated with this convention</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Map from Room UUID to Room object</dd>
@@ -392,10 +392,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getConferenceName</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getConferenceName()</pre>
-<div class="block">Gets the conference name</div>
+<div class="block">Gets the convention name</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>conference name</dd>
+<dd>convention name</dd>
 </dl>
 </li>
 </ul>
@@ -405,11 +405,11 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getTimeRange</h4>
-<pre class="methodSignature">public&nbsp;<a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;getTimeRange()</pre>
-<div class="block">Gets the time range of the conference</div>
+<pre class="methodSignature">public&nbsp;<a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;getTimeRange()</pre>
+<div class="block">Gets the time range of the convention</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>conference time range</dd>
+<dd>convention time range</dd>
 </dl>
 </li>
 </ul>
@@ -419,8 +419,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>setTimeRange</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;setTimeRange&#8203;(<a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;timeRange)</pre>
-<div class="block">Sets the time range for the conference</div>
+<pre class="methodSignature">public&nbsp;void&nbsp;setTimeRange&#8203;(<a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;timeRange)</pre>
+<div class="block">Sets the time range for the convention</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>timeRange</code> - new time range</dd>
@@ -434,10 +434,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setConferenceName</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setConferenceName&#8203;(java.lang.String&nbsp;conferenceName)</pre>
-<div class="block">Sets the new name for the conference</div>
+<div class="block">Sets the new name for the convention</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceName</code> - new conference name</dd>
+<dd><code>conferenceName</code> - new convention name</dd>
 </dl>
 </li>
 </ul>
@@ -448,7 +448,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getUUID</h4>
 <pre class="methodSignature">public&nbsp;java.util.UUID&nbsp;getUUID()</pre>
-<div class="block">Gets the UUID for this conference</div>
+<div class="block">Gets the UUID for this convention</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>UUID object</dd>

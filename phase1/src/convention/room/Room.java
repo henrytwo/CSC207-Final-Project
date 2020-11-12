@@ -1,6 +1,6 @@
-package conference.room;
+package convention.room;
 
-import conference.calendar.Calendar;
+import convention.calendar.Calendar;
 
 import java.util.*;
 

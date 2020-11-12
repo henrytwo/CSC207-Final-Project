@@ -1,10 +1,11 @@
-package conference.event;
+package convention;
 
-import conference.ConferenceManager;
-import conference.PermissionManager;
-import conference.calendar.CalendarManager;
-import conference.calendar.TimeRange;
-import conference.room.RoomManager;
+import convention.conference.ConferenceManager;
+import convention.calendar.CalendarManager;
+import convention.calendar.TimeRange;
+import convention.event.EventManager;
+import convention.permission.PermissionManager;
+import convention.room.RoomManager;
 import util.exception.DoubleBookingException;
 
 import java.util.HashSet;
@@ -24,11 +25,11 @@ public class EventController {
     }
 
     /**
-     * Get a list of events. A user must be an attendee of the parent conference to view events.
+     * Get a list of events. A user must be an attendee of the parent convention to view events.
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      */
     public Set<UUID> getEvents(UUID conferenceUUID, UUID executorUUID) {
@@ -39,11 +40,11 @@ public class EventController {
     }
 
     /**
-     * Get a list of events an attendee is registered in. A user must be an attendee of the parent conference to view events.
+     * Get a list of events an attendee is registered in. A user must be an attendee of the parent convention to view events.
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      */
     public Set<UUID> getAttendeeEvents(UUID conferenceUUID, UUID executorUUID) {
@@ -67,7 +68,7 @@ public class EventController {
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      */
     public Set<UUID> getSpeakerEvents(UUID conferenceUUID, UUID executorUUID) {
@@ -86,11 +87,11 @@ public class EventController {
     }
 
     /**
-     * Sign up for an event. A user must be an attendee of the parent conference to sign up.
+     * Sign up for an event. A user must be an attendee of the parent convention to sign up.
      * <p>
      * Required Permission: ATTENDEE (self) or ORGANIZER
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param targetUserUUID UUID of the user to operate on
      * @param eventUUID      UUID of the event to register to
@@ -117,11 +118,11 @@ public class EventController {
      * Actually executes the unregister operation. We have a separate helper method here so that we don't forget
      * to run the check to remove the user from the event's conversation.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param targetUserUUID UUID of the user to operate on
      * @param eventUUID      UUID of the event to register to
      */
-    private void doUnregisterForEvent(UUID conferenceUUID, UUID targetUserUUID, UUID eventUUID) {
+    void doUnregisterForEvent(UUID conferenceUUID, UUID targetUserUUID, UUID eventUUID) {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
         if (eventManager.getConversationUUID(eventUUID) != null) {
@@ -134,11 +135,11 @@ public class EventController {
     }
 
     /**
-     * Unregister for an event. A user must be an attendee of the parent conference to unregister.
+     * Unregister for an event. A user must be an attendee of the parent convention to unregister.
      * <p>
      * Required Permission: ATTENDEE (self) or ORGANIZER
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param targetUserUUID UUID of the user to operate on
      * @param eventUUID      UUID of the event to register to
@@ -149,11 +150,11 @@ public class EventController {
     }
 
     /**
-     * Helper function to keep the list of speakers at a conference in sync
+     * Helper function to keep the list of speakers at a convention in sync
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      */
-    private void updateSpeakers(UUID conferenceUUID) {
+    void updateSpeakers(UUID conferenceUUID) {
         Set<UUID> speakerUUIDs = conferenceManager.getSpeakers(conferenceUUID);
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
         speakerUUIDs.clear();
@@ -166,11 +167,11 @@ public class EventController {
     }
 
     /**
-     * Create a new event for this conference. This method will test for scheduling conflicts for both rooms, and speakers.
+     * Create a new event for this convention. This method will test for scheduling conflicts for both rooms, and speakers.
      *
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventName      name of the event
      * @param timeRange      TimeRange of the event
@@ -210,7 +211,7 @@ public class EventController {
      *
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @param speakerUUID    UUID of the speaker to add
@@ -234,11 +235,11 @@ public class EventController {
 
     /**
      * Remove a speaker from the event. If this was their only event, then speaker permissions will be revoked for the
-     * conference.
+     * convention.
      *
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @param speakerUUID    UUID of the speaker to add
@@ -257,11 +258,11 @@ public class EventController {
     }
 
     /**
-     * Deletes an event from the conference. Room bookings linked to this event will be cancelled.
+     * Deletes an event from the convention. Room bookings linked to this event will be cancelled.
      *
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      */
@@ -284,7 +285,7 @@ public class EventController {
      *
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @param eventName      new event name
@@ -302,7 +303,7 @@ public class EventController {
      *
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @param roomUUID       UUID of the new room
@@ -325,7 +326,7 @@ public class EventController {
      *
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @param timeRange      new time range
@@ -348,7 +349,7 @@ public class EventController {
      *
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @return event name
@@ -366,7 +367,7 @@ public class EventController {
      *
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @return set of speaker UUIDs
@@ -384,7 +385,7 @@ public class EventController {
      *
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @return get the time range for this event
@@ -402,7 +403,7 @@ public class EventController {
      *
      * Required Permission: SPEAKER
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @return set of attendee UUIDs
@@ -421,7 +422,7 @@ public class EventController {
      * <p>
      * Required Permission: SPEAKER
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      */

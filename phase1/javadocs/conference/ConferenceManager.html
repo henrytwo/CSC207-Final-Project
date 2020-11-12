@@ -99,7 +99,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== START OF CLASS DATA ======== -->
 <main role="main">
 <div class="header">
-<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">conference</a></div>
+<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">convention</a></div>
 <h2 title="Class ConferenceManager" class="title">Class ConferenceManager</h2>
 </div>
 <div class="contentContainer">
@@ -107,7 +107,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>conference.ConferenceManager</li>
+<li>convention.convention.ConferenceManager</li>
 </ul>
 </li>
 </ul>
@@ -170,7 +170,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAttendee(java.util.UUID,java.util.UUID)">addAttendee</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID,
            java.util.UUID&nbsp;userUUID)</code></th>
 <td class="colLast">
-<div class="block">Adds an attendee to a conference.</div>
+<div class="block">Adds an attendee to a convention.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i1">
@@ -178,7 +178,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addOrganizer(java.util.UUID,java.util.UUID)">addOrganizer</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID,
             java.util.UUID&nbsp;userUUID)</code></th>
 <td class="colLast">
-<div class="block">Adds an organizer to a conference.</div>
+<div class="block">Adds an organizer to a convention.</div>
 </td>
 </tr>
 <tr class="altColor" id="i2">
@@ -186,76 +186,76 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addSpeaker(java.util.UUID,java.util.UUID)">addSpeaker</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID,
           java.util.UUID&nbsp;userUUID)</code></th>
 <td class="colLast">
-<div class="block">Adds an speaker to a conference.</div>
+<div class="block">Adds an speaker to a convention.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i3">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#conferenceExists(java.util.UUID)">conferenceExists</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID)</code></th>
 <td class="colLast">
-<div class="block">Tests if a conference exists in the system.</div>
+<div class="block">Tests if a convention exists in the system.</div>
 </td>
 </tr>
 <tr class="altColor" id="i4">
 <td class="colFirst"><code>java.util.UUID</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createConference(java.lang.String,conference.calendar.TimeRange,java.util.UUID)">createConference</a></span>&#8203;(java.lang.String&nbsp;conferenceName,
-                <a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;timeRange,
+                <a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;timeRange,
                 java.util.UUID&nbsp;organizerUUID)</code></th>
 <td class="colLast">
-<div class="block">Creates a conference and assigns the authenticated user as an organizer.</div>
+<div class="block">Creates a convention and assigns the authenticated user as an organizer.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i5">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#deleteConference(java.util.UUID)">deleteConference</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID)</code></th>
 <td class="colLast">
-<div class="block">Deletes a conference given its UUID.</div>
+<div class="block">Deletes a convention given its UUID.</div>
 </td>
 </tr>
 <tr class="altColor" id="i6">
 <td class="colFirst"><code>java.util.Set&lt;java.util.UUID&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAttendees(java.util.UUID)">getAttendees</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID)</code></th>
 <td class="colLast">
-<div class="block">Gets a set of attendee UUIDs for a particular conference.</div>
+<div class="block">Gets a set of attendee UUIDs for a particular convention.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i7">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getConferenceName(java.util.UUID)">getConferenceName</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID)</code></th>
 <td class="colLast">
-<div class="block">Gets conference name</div>
+<div class="block">Gets convention name</div>
 </td>
 </tr>
 <tr class="altColor" id="i8">
 <td class="colFirst"><code>java.util.Set&lt;java.util.UUID&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getConferences()">getConferences</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Gets a set of all the conference UUIDs in the system.</div>
+<div class="block">Gets a set of all the convention UUIDs in the system.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i9">
-<td class="colFirst"><code>java.util.Map&lt;java.util.UUID,&#8203;<a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.Map&lt;java.util.UUID,&#8203;<a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getConferenceSchedule(java.util.UUID)">getConferenceSchedule</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID)</code></th>
 <td class="colLast">
 <div class="block">Gets a map from Event UUID to their respective TimeRange</div>
 </td>
 </tr>
 <tr class="altColor" id="i10">
-<td class="colFirst"><code><a href="event/EventManager.html" title="class in conference.event">EventManager</a></code></td>
+<td class="colFirst"><code><a href="event/EventManager.html" title="class in convention.event">EventManager</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEventManager(java.util.UUID)">getEventManager</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID)</code></th>
 <td class="colLast">
-<div class="block">Generates an EventManager object to control events for a conference</div>
+<div class="block">Generates an EventManager object to control events for a convention</div>
 </td>
 </tr>
 <tr class="rowColor" id="i11">
 <td class="colFirst"><code>java.util.Set&lt;java.util.UUID&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOrganizers(java.util.UUID)">getOrganizers</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID)</code></th>
 <td class="colLast">
-<div class="block">Gets a set of organizer UUIDs for a particular conference.</div>
+<div class="block">Gets a set of organizer UUIDs for a particular convention.</div>
 </td>
 </tr>
 <tr class="altColor" id="i12">
-<td class="colFirst"><code><a href="room/RoomManager.html" title="class in conference.room">RoomManager</a></code></td>
+<td class="colFirst"><code><a href="room/RoomManager.html" title="class in convention.room">RoomManager</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRoomManager(java.util.UUID)">getRoomManager</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -263,14 +263,14 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>java.util.Set&lt;java.util.UUID&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSpeakers(java.util.UUID)">getSpeakers</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID)</code></th>
 <td class="colLast">
-<div class="block">Gets a set of speaker UUIDs for a particular conference.</div>
+<div class="block">Gets a set of speaker UUIDs for a particular convention.</div>
 </td>
 </tr>
 <tr class="altColor" id="i14">
-<td class="colFirst"><code><a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a></code></td>
+<td class="colFirst"><code><a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTimeRange(java.util.UUID)">getTimeRange</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID)</code></th>
 <td class="colLast">
-<div class="block">Gets conference time range</div>
+<div class="block">Gets convention time range</div>
 </td>
 </tr>
 <tr class="rowColor" id="i15">
@@ -278,7 +278,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isAttendee(java.util.UUID,java.util.UUID)">isAttendee</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID,
           java.util.UUID&nbsp;userUUID)</code></th>
 <td class="colLast">
-<div class="block">Tests if a UUID belongs to an attendee user for this conference</div>
+<div class="block">Tests if a UUID belongs to an attendee user for this convention</div>
 </td>
 </tr>
 <tr class="altColor" id="i16">
@@ -286,7 +286,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isOrganizer(java.util.UUID,java.util.UUID)">isOrganizer</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID,
            java.util.UUID&nbsp;userUUID)</code></th>
 <td class="colLast">
-<div class="block">Tests if a UUID belongs to an organizer user for this conference</div>
+<div class="block">Tests if a UUID belongs to an organizer user for this convention</div>
 </td>
 </tr>
 <tr class="rowColor" id="i17">
@@ -294,7 +294,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isSpeaker(java.util.UUID,java.util.UUID)">isSpeaker</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID,
          java.util.UUID&nbsp;userUUID)</code></th>
 <td class="colLast">
-<div class="block">Tests if a UUID belongs to a speaker user for this conference</div>
+<div class="block">Tests if a UUID belongs to a speaker user for this convention</div>
 </td>
 </tr>
 <tr class="altColor" id="i18">
@@ -302,7 +302,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAttendee(java.util.UUID,java.util.UUID)">removeAttendee</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID,
               java.util.UUID&nbsp;userUUID)</code></th>
 <td class="colLast">
-<div class="block">Removes an attendee from a conference.</div>
+<div class="block">Removes an attendee from a convention.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i19">
@@ -310,7 +310,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeOrganizer(java.util.UUID,java.util.UUID)">removeOrganizer</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID,
                java.util.UUID&nbsp;userUUID)</code></th>
 <td class="colLast">
-<div class="block">Removes an organizer from a conference.</div>
+<div class="block">Removes an organizer from a convention.</div>
 </td>
 </tr>
 <tr class="altColor" id="i20">
@@ -318,7 +318,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeSpeaker(java.util.UUID,java.util.UUID)">removeSpeaker</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID,
              java.util.UUID&nbsp;userUUID)</code></th>
 <td class="colLast">
-<div class="block">Removes an speaker from a conference.</div>
+<div class="block">Removes an speaker from a convention.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i21">
@@ -326,15 +326,15 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setConferenceName(java.util.UUID,java.lang.String)">setConferenceName</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID,
                  java.lang.String&nbsp;newName)</code></th>
 <td class="colLast">
-<div class="block">Sets conference name</div>
+<div class="block">Sets convention name</div>
 </td>
 </tr>
 <tr class="altColor" id="i22">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTimeRange(java.util.UUID,conference.calendar.TimeRange)">setTimeRange</a></span>&#8203;(java.util.UUID&nbsp;conferenceUUID,
-            <a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;timeRange)</code></th>
+            <a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;timeRange)</code></th>
 <td class="colLast">
-<div class="block">Sets conference dates datetime</div>
+<div class="block">Sets convention dates datetime</div>
 </td>
 </tr>
 </tbody>
@@ -389,11 +389,11 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getConferenceSchedule</h4>
-<pre class="methodSignature">public&nbsp;java.util.Map&lt;java.util.UUID,&#8203;<a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a>&gt;&nbsp;getConferenceSchedule&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
+<pre class="methodSignature">public&nbsp;java.util.Map&lt;java.util.UUID,&#8203;<a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a>&gt;&nbsp;getConferenceSchedule&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
 <div class="block">Gets a map from Event UUID to their respective TimeRange</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a map of event UUIDs to their corresponding TimeRange</dd>
 </dl>
@@ -405,11 +405,11 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getEventManager</h4>
-<pre class="methodSignature">public&nbsp;<a href="event/EventManager.html" title="class in conference.event">EventManager</a>&nbsp;getEventManager&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
-<div class="block">Generates an EventManager object to control events for a conference</div>
+<pre class="methodSignature">public&nbsp;<a href="event/EventManager.html" title="class in convention.event">EventManager</a>&nbsp;getEventManager&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
+<div class="block">Generates an EventManager object to control events for a convention</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the event manager object</dd>
 </dl>
@@ -421,7 +421,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getRoomManager</h4>
-<pre class="methodSignature">public&nbsp;<a href="room/RoomManager.html" title="class in conference.room">RoomManager</a>&nbsp;getRoomManager&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
+<pre class="methodSignature">public&nbsp;<a href="room/RoomManager.html" title="class in convention.room">RoomManager</a>&nbsp;getRoomManager&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
 </li>
 </ul>
 <a id="createConference(java.lang.String,conference.calendar.TimeRange,java.util.UUID)">
@@ -431,16 +431,16 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>createConference</h4>
 <pre class="methodSignature">public&nbsp;java.util.UUID&nbsp;createConference&#8203;(java.lang.String&nbsp;conferenceName,
-                                       <a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;timeRange,
+                                       <a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;timeRange,
                                        java.util.UUID&nbsp;organizerUUID)</pre>
-<div class="block">Creates a conference and assigns the authenticated user as an organizer.</div>
+<div class="block">Creates a convention and assigns the authenticated user as an organizer.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceName</code> - the desired conference name (Must be non-empty)</dd>
-<dd><code>timeRange</code> - time range of the conference</dd>
+<dd><code>conferenceName</code> - the desired convention name (Must be non-empty)</dd>
+<dd><code>timeRange</code> - time range of the convention</dd>
 <dd><code>organizerUUID</code> - UUID of the initial organier user</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>UUID of the new conference</dd>
+<dd>UUID of the new convention</dd>
 </dl>
 </li>
 </ul>
@@ -451,14 +451,14 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>conferenceExists</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;conferenceExists&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
-<div class="block">Tests if a conference exists in the system.
+<div class="block">Tests if a convention exists in the system.
  <p>
- Returns if a conference exists the system.</div>
+ Returns if a convention exists the system.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>true iff a conference with the corresponding UUID exists in the system</dd>
+<dd>true iff a convention with the corresponding UUID exists in the system</dd>
 </dl>
 </li>
 </ul>
@@ -469,12 +469,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>deleteConference</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;deleteConference&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
-<div class="block">Deletes a conference given its UUID.
+<div class="block">Deletes a convention given its UUID.
  <p>
- Throws NullConferenceException if the conferenceID does not correspond to a valid conference.</div>
+     Throws NullConferenceException if the conferenceID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 </dl>
 </li>
 </ul>
@@ -485,10 +485,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getConferences</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;java.util.UUID&gt;&nbsp;getConferences()</pre>
-<div class="block">Gets a set of all the conference UUIDs in the system.</div>
+<div class="block">Gets a set of all the convention UUIDs in the system.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>Set of conference UUIDs</dd>
+<dd>Set of convention UUIDs</dd>
 </dl>
 </li>
 </ul>
@@ -499,12 +499,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getConferenceName</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getConferenceName&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
-<div class="block">Gets conference name</div>
+<div class="block">Gets convention name</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>name of the conference</dd>
+<dd>name of the convention</dd>
 </dl>
 </li>
 </ul>
@@ -514,13 +514,13 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getTimeRange</h4>
-<pre class="methodSignature">public&nbsp;<a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;getTimeRange&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
-<div class="block">Gets conference time range</div>
+<pre class="methodSignature">public&nbsp;<a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;getTimeRange&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
+<div class="block">Gets convention time range</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>time range of the conference</dd>
+<dd>time range of the convention</dd>
 </dl>
 </li>
 </ul>
@@ -531,12 +531,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setTimeRange</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setTimeRange&#8203;(java.util.UUID&nbsp;conferenceUUID,
-                         <a href="calendar/TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;timeRange)</pre>
-<div class="block">Sets conference dates datetime</div>
+                         <a href="calendar/TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;timeRange)</pre>
+<div class="block">Sets convention dates datetime</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
-<dd><code>timeRange</code> - time range to assign the conference</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>timeRange</code> - time range to assign the convention</dd>
 </dl>
 </li>
 </ul>
@@ -548,11 +548,11 @@ extends java.lang.Object</pre>
 <h4>setConferenceName</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setConferenceName&#8203;(java.util.UUID&nbsp;conferenceUUID,
                               java.lang.String&nbsp;newName)</pre>
-<div class="block">Sets conference name</div>
+<div class="block">Sets convention name</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
-<dd><code>newName</code> - name to assign the conference (Must be non-empty)</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>newName</code> - name to assign the convention (Must be non-empty)</dd>
 </dl>
 </li>
 </ul>
@@ -564,10 +564,10 @@ extends java.lang.Object</pre>
 <h4>isAttendee</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;isAttendee&#8203;(java.util.UUID&nbsp;conferenceUUID,
                           java.util.UUID&nbsp;userUUID)</pre>
-<div class="block">Tests if a UUID belongs to an attendee user for this conference</div>
+<div class="block">Tests if a UUID belongs to an attendee user for this convention</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to test</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true iff the userUUID belongs to an attendee</dd>
@@ -582,10 +582,10 @@ extends java.lang.Object</pre>
 <h4>isOrganizer</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;isOrganizer&#8203;(java.util.UUID&nbsp;conferenceUUID,
                            java.util.UUID&nbsp;userUUID)</pre>
-<div class="block">Tests if a UUID belongs to an organizer user for this conference</div>
+<div class="block">Tests if a UUID belongs to an organizer user for this convention</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to test</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true iff the userUUID belongs to an organizer</dd>
@@ -600,10 +600,10 @@ extends java.lang.Object</pre>
 <h4>isSpeaker</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;isSpeaker&#8203;(java.util.UUID&nbsp;conferenceUUID,
                          java.util.UUID&nbsp;userUUID)</pre>
-<div class="block">Tests if a UUID belongs to a speaker user for this conference</div>
+<div class="block">Tests if a UUID belongs to a speaker user for this convention</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to test</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true iff the userUUID belongs to a speaker</dd>
@@ -617,12 +617,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getOrganizers</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;java.util.UUID&gt;&nbsp;getOrganizers&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
-<div class="block">Gets a set of organizer UUIDs for a particular conference.
+<div class="block">Gets a set of organizer UUIDs for a particular convention.
  <p>
- Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.</div>
+     Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>set of UUIDs of organizer users</dd>
 </dl>
@@ -636,12 +636,12 @@ extends java.lang.Object</pre>
 <h4>addOrganizer</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;addOrganizer&#8203;(java.util.UUID&nbsp;conferenceUUID,
                          java.util.UUID&nbsp;userUUID)</pre>
-<div class="block">Adds an organizer to a conference.
+<div class="block">Adds an organizer to a convention.
  <p>
- Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.</div>
+     Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to add</dd>
 </dl>
 </li>
@@ -654,13 +654,13 @@ extends java.lang.Object</pre>
 <h4>removeOrganizer</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;removeOrganizer&#8203;(java.util.UUID&nbsp;conferenceUUID,
                             java.util.UUID&nbsp;userUUID)</pre>
-<div class="block">Removes an organizer from a conference. There must always be at least one organizer left.
+<div class="block">Removes an organizer from a convention. There must always be at least one organizer left.
  <p>
- Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
- Throws NullUserException if the userUUID does not correspond to a valid organizer.</div>
+     Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
+     Throws NullUserException if the userUUID does not correspond to a valid organizer.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to remove</dd>
 </dl>
 </li>
@@ -672,12 +672,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getAttendees</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;java.util.UUID&gt;&nbsp;getAttendees&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
-<div class="block">Gets a set of attendee UUIDs for a particular conference.
+<div class="block">Gets a set of attendee UUIDs for a particular convention.
  <p>
- Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.</div>
+     Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>set of UUIDs of attendee users</dd>
 </dl>
@@ -691,12 +691,12 @@ extends java.lang.Object</pre>
 <h4>addAttendee</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;addAttendee&#8203;(java.util.UUID&nbsp;conferenceUUID,
                         java.util.UUID&nbsp;userUUID)</pre>
-<div class="block">Adds an attendee to a conference.
+<div class="block">Adds an attendee to a convention.
  <p>
- Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.</div>
+     Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to add</dd>
 </dl>
 </li>
@@ -709,13 +709,13 @@ extends java.lang.Object</pre>
 <h4>removeAttendee</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;removeAttendee&#8203;(java.util.UUID&nbsp;conferenceUUID,
                            java.util.UUID&nbsp;userUUID)</pre>
-<div class="block">Removes an attendee from a conference.
+<div class="block">Removes an attendee from a convention.
  <p>
- Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
- Throws NullUserException if the userUUID does not correspond to a valid user.</div>
+     Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
+     Throws NullUserException if the userUUID does not correspond to a valid user.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to remove</dd>
 </dl>
 </li>
@@ -727,12 +727,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getSpeakers</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;java.util.UUID&gt;&nbsp;getSpeakers&#8203;(java.util.UUID&nbsp;conferenceUUID)</pre>
-<div class="block">Gets a set of speaker UUIDs for a particular conference.
+<div class="block">Gets a set of speaker UUIDs for a particular convention.
  <p>
- Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.</div>
+     Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>set of UUIDs speaker users</dd>
 </dl>
@@ -746,12 +746,12 @@ extends java.lang.Object</pre>
 <h4>addSpeaker</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;addSpeaker&#8203;(java.util.UUID&nbsp;conferenceUUID,
                        java.util.UUID&nbsp;userUUID)</pre>
-<div class="block">Adds an speaker to a conference.
+<div class="block">Adds an speaker to a convention.
  <p>
- Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.</div>
+     Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to add</dd>
 </dl>
 </li>
@@ -764,13 +764,13 @@ extends java.lang.Object</pre>
 <h4>removeSpeaker</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;removeSpeaker&#8203;(java.util.UUID&nbsp;conferenceUUID,
                           java.util.UUID&nbsp;userUUID)</pre>
-<div class="block">Removes an speaker from a conference.
+<div class="block">Removes an speaker from a convention.
  <p>
- Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
- Throws NullUserException if the userUUID does not correspond to a valid user.</div>
+     Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
+     Throws NullUserException if the userUUID does not correspond to a valid user.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to remove</dd>
 </dl>
 </li>

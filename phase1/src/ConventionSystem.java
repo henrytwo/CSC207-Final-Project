@@ -1,5 +1,5 @@
-import conference.ConferenceController;
-import conference.calendar.TimeRange;
+import convention.ConferenceController;
+import convention.calendar.TimeRange;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -9,7 +9,7 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ConferenceSystem {
+public class ConventionSystem {
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public void run() {
@@ -42,7 +42,7 @@ public class ConferenceSystem {
         UUID otherOrganizer = UUID.randomUUID();
         UUID speaker1 = UUID.randomUUID();
 
-        UUID conference1 = conferenceController.createConference("My conference", new TimeRange(dateA, dateB), me);
+        UUID conference1 = conferenceController.createConference("My convention", new TimeRange(dateA, dateB), me);
 
         for (UUID confUUID : conferenceController.getConferences()) {
             System.out.println(conferenceController.getConferenceName(confUUID));

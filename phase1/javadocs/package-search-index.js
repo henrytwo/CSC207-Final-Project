@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"conference"},{"l":"conference.calendar"},{"l":"conference.event"},{"l":"conference.room"},{"l":"util.exception"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"convention"},{"l":"convention.calendar"},{"l":"convention.event"},{"l":"convention.room"},{"l":"util.exception"}]

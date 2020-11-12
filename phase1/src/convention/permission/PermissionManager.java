@@ -1,5 +1,6 @@
-package conference;
+package convention.permission;
 
+import convention.conference.ConferenceManager;
 import util.exception.PermissionException;
 
 import java.util.HashSet;
@@ -30,7 +31,7 @@ public class PermissionManager {
     /**
      * Generates an access denied error.
      *
-     * @param conferenceUUID  UUID of the conference to operate on
+     * @param conferenceUUID  UUID of the convention to operate on
      * @param executorUUID    UUID of the user running the command
      * @param permissionLevel the required permission level of the target
      * @return error message
@@ -42,7 +43,7 @@ public class PermissionManager {
     /**
      * Generates an access denied error for operations that involve execution by a different user than the target.
      *
-     * @param conferenceUUID  UUID of the conference to operate on
+     * @param conferenceUUID  UUID of the convention to operate on
      * @param executorUUID    UUID of the user running the command
      * @param targetUserUUID  set of UUIDs of the user the command is operating on
      * @param permissionLevel the required permission level of the target
@@ -53,9 +54,9 @@ public class PermissionManager {
     }
 
     /**
-     * Validates that the current user can execute organizer actions for a conference. Raises a PermissionException otherwise.
+     * Validates that the current user can execute organizer actions for a convention. Raises a PermissionException otherwise.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user running the command
      */
     public void testIsOrganizer(UUID conferenceUUID, UUID executorUUID) {
@@ -68,9 +69,9 @@ public class PermissionManager {
     }
 
     /**
-     * Validates that the current user can execute speaker actions for a conference. Raises a PermissionException otherwise.
+     * Validates that the current user can execute speaker actions for a convention. Raises a PermissionException otherwise.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user running the command
      */
     public void testIsSpeaker(UUID conferenceUUID, UUID executorUUID) {
@@ -84,9 +85,9 @@ public class PermissionManager {
     }
 
     /**
-     * Validates that the current user can execute attendee actions for a conference. Raises a PermissionException otherwise.
+     * Validates that the current user can execute attendee actions for a convention. Raises a PermissionException otherwise.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user running the command
      */
     public void testIsAttendee(UUID conferenceUUID, UUID executorUUID) {
@@ -102,7 +103,7 @@ public class PermissionManager {
     /**
      * Validates that a target user is an attendee (i.e. a user different than the executor). Raises a PermissionException otherwise.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user running the command
      * @param targetUserUUID UUID of the user the command is operating on
      */
@@ -115,13 +116,13 @@ public class PermissionManager {
     }
 
     /**
-     * Validates that a set of target users can execute attendee actions for a conference. Raises a PermissionException otherwise.
+     * Validates that a set of target users can execute attendee actions for a convention. Raises a PermissionException otherwise.
      * <p>
-     * Used for operations such as an organizer creating a conversation with a conference attendee. We need to make sure
-     * that the attendee is actually affiliated with this conference, otherwise the organizer can slide into the DMs
+     * Used for operations such as an organizer creating a conversation with a convention attendee. We need to make sure
+     * that the attendee is actually affiliated with this convention, otherwise the organizer can slide into the DMs
      * of whoever they want.
      *
-     * @param conferenceUUID  UUID of the conference to operate on
+     * @param conferenceUUID  UUID of the convention to operate on
      * @param executorUUID    UUID of the user running the command
      * @param targetUserUUIDs set of UUIDs of the user the command is operating on
      */
@@ -142,11 +143,11 @@ public class PermissionManager {
      * Validates that the current user is executing operations on themselves, or an admin is executing those commands on
      * their behalf.
      * <p>
-     * For example, a user may leave a conference, or an organizer can remove them. In either case, they should both call
-     * the same "leave conference" method. Instead of writing duplicate code, we can simply check if the executor is
+     * For example, a user may leave a convention, or an organizer can remove them. In either case, they should both call
+     * the same "leave convention" method. Instead of writing duplicate code, we can simply check if the executor is
      * the user (so running it as themself), or if it's an admin performing the action.
      *
-     * @param conferenceUUID UUID of the conference to operate on
+     * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user running the command
      * @param targetUserUUID UUID of the user the command is operating on
      */

@@ -99,7 +99,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== START OF CLASS DATA ======== -->
 <main role="main">
 <div class="header">
-<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">conference.calendar</a></div>
+<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">convention.calendar</a></div>
 <h2 title="Class Calendar" class="title">Class Calendar</h2>
 </div>
 <div class="contentContainer">
@@ -107,7 +107,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>conference.calendar.Calendar</li>
+<li>convention.calendar.Calendar</li>
 </ul>
 </li>
 </ul>
@@ -170,24 +170,24 @@ extends java.lang.Object</pre>
 <tr class="altColor" id="i0">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addTimeBlock(java.util.UUID,conference.calendar.TimeRange)">addTimeBlock</a></span>&#8203;(java.util.UUID&nbsp;eventUUID,
-            <a href="TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;timeRange)</code></th>
+            <a href="TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;timeRange)</code></th>
 <td class="colLast">
 <div class="block">Books a time slot for an event in this calendar</div>
 </td>
 </tr>
 <tr class="rowColor" id="i1">
-<td class="colFirst"><code>java.util.Map&lt;java.util.UUID,&#8203;<a href="TimeRange.html" title="class in conference.calendar">TimeRange</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.Map&lt;java.util.UUID,&#8203;<a href="TimeRange.html" title="class in convention.calendar">TimeRange</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUUIDToTimeRange()">getUUIDToTimeRange</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="altColor" id="i2">
-<td class="colFirst"><code>java.util.Set&lt;<a href="TimeRange.html" title="class in conference.calendar">TimeRange</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.Set&lt;<a href="TimeRange.html" title="class in convention.calendar">TimeRange</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUUIDtoTimeRanges()">getUUIDtoTimeRanges</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="rowColor" id="i3">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasConflict(conference.calendar.TimeRange)">hasConflict</a></span>&#8203;(<a href="TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;t)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasConflict(conference.calendar.TimeRange)">hasConflict</a></span>&#8203;(<a href="TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;t)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </tbody>
@@ -243,7 +243,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getUUIDToTimeRange</h4>
-<pre class="methodSignature">public&nbsp;java.util.Map&lt;java.util.UUID,&#8203;<a href="TimeRange.html" title="class in conference.calendar">TimeRange</a>&gt;&nbsp;getUUIDToTimeRange()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Map&lt;java.util.UUID,&#8203;<a href="TimeRange.html" title="class in convention.calendar">TimeRange</a>&gt;&nbsp;getUUIDToTimeRange()</pre>
 </li>
 </ul>
 <a id="getUUIDtoTimeRanges()">
@@ -252,7 +252,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getUUIDtoTimeRanges</h4>
-<pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="TimeRange.html" title="class in conference.calendar">TimeRange</a>&gt;&nbsp;getUUIDtoTimeRanges()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="TimeRange.html" title="class in convention.calendar">TimeRange</a>&gt;&nbsp;getUUIDtoTimeRanges()</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>get a Set of TimeRanges booked on this calendar</dd>
@@ -265,7 +265,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>hasConflict</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;hasConflict&#8203;(<a href="TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;t)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;hasConflict&#8203;(<a href="TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;t)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>t</code> - the TimeRange that is being compared to existing TimeRange objects on this calendar</dd>
@@ -281,7 +281,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>addTimeBlock</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;addTimeBlock&#8203;(java.util.UUID&nbsp;eventUUID,
-                         <a href="TimeRange.html" title="class in conference.calendar">TimeRange</a>&nbsp;timeRange)</pre>
+                         <a href="TimeRange.html" title="class in convention.calendar">TimeRange</a>&nbsp;timeRange)</pre>
 <div class="block">Books a time slot for an event in this calendar</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
