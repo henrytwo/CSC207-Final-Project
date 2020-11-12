@@ -1,4 +1,4 @@
-package exception;
+package messaging.exception;
 
 public class NoWriteAccessException extends RuntimeException{
     public NoWriteAccessException(){

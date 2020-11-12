@@ -17,50 +17,50 @@ public class UserController {
      * - Handles account registration (i.e. given a username + password pair, create a user)
      */
 
-    UUID currentUser;
-    UserManager userManager = new UserManager();
+    UserManager userManager;
 
-    public void setUserFirstName(String firstName) {
-        userManager.setUserFirstName(currentUser, firstName);
-        ;
+    public UserController(UserManager userManager) {
+        this.userManager = userManager;
     }
 
-    public String getUserFirstName() {
-        return userManager.getUserFirstName(currentUser);
+    public void setUserFirstName(UUID userUUID, String firstName) {
+        userManager.setUserFirstName(userUUID, firstName);
     }
 
-    public void setUserLastName(String lastName) {
-        userManager.setUserLastName(currentUser, lastName);
+    public String getUserFirstName(UUID userUUID) {
+        return userManager.getUserFirstName(userUUID);
     }
 
-    public String getUserLastName() {
-        return userManager.getUserLastName(currentUser);
+    public void setUserLastName(UUID userUUID, String lastName) {
+        userManager.setUserLastName(userUUID, lastName);
     }
 
-    public void setUserUsername(String username) {
-        userManager.setUserUsername(currentUser, username);
+    public String getUserLastName(UUID userUUID) {
+        return userManager.getUserLastName(userUUID);
     }
 
-    public String getUserUsername() {
-        return userManager.getUserUsername(currentUser);
+    public void setUserUsername(UUID userUUID, String username) {
+        userManager.setUserUsername(userUUID, username);
     }
 
-    public void setUserPassword(String password) {
-        userManager.setUserPassword(currentUser, password);
+    public String getUserUsername(UUID userUUID) {
+        return userManager.getUserUsername(userUUID);
+    }
+
+    public void setUserPassword(UUID userUUID, String password) {
+        userManager.setUserPassword(userUUID, password);
     }
 
     public UUID registerUser(String firstName, String lastName, String username, String password) {
-        currentUser = userManager.registerUser(firstName, lastName, username, password);
-        return currentUser;
+        return userManager.registerUser(firstName, lastName, username, password);
     }
 
     public UUID login(String username, String password) {
-        currentUser = userManager.login(username, password);
-        return currentUser;
+        return userManager.login(username, password);
     }
 
     public UUID getCurrentUser() {
-        return currentUser;
+        return userManager.getCurrentUser();
     }
 
 }

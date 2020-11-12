@@ -7,7 +7,8 @@ import convention.RoomController;
 import messaging.ConversationController;
 import user.UserController;
 
-public class MainMenuUI {
+public class UISystem {
+
     // User controller
     UserController userController;
 
@@ -20,7 +21,7 @@ public class MainMenuUI {
     EventController eventController;
     ConferenceController conferenceController;
 
-    public MainMenuUI(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
+    public UISystem(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
         this.userController = userController;
         this.contactController = contactController;
         this.conversationController = conversationController;
@@ -29,22 +30,18 @@ public class MainMenuUI {
         this.conferenceController = conferenceController;
     }
 
-    public boolean run() {
-        String[] options = new String[]{
-                "asd",
-                "asdasdas",
-                "asdsad"
-        };
+    public void run() {
+        LoginAndRegisterUI loginAndRegisterUI = new LoginAndRegisterUI(userController);
+        MainMenuUI mainMenuUI = new MainMenuUI(userController, contactController, conversationController, roomController, eventController, conferenceController);
 
-        ConsoleUtilities consoleUtilities = new ConsoleUtilities();
-        int selection = consoleUtilities.singleSelectMenu("Welcome to our boi", "Cool system man", options);
+        boolean exit = false;
 
-        switch (selection) {
-            case 1:
-                consoleUtilities.confirmBoxClear("u made the wrong choice");
-                break;
-            default:
-                consoleUtilities.confirmBoxClear("hi there stranger");
+        while (!exit) {
+            if (userController.getCurrentUser() == null) {
+                exit = loginAndRegisterUI.run();
+            } else {
+                exit = mainMenuUI.run();
+            }
         }
     }
 }

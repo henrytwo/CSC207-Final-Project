@@ -1,7 +1,7 @@
 package messaging;
 
 import contact.ContactManager;
-import exception.MessageDeniedException;
+import messaging.exception.MessageDeniedException;
 
 import java.util.ArrayList;
 import java.util.HashSet;

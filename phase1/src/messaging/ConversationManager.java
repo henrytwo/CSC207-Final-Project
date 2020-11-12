@@ -1,8 +1,8 @@
 package messaging;
 
-import exception.NoReadAccessException;
-import exception.NoWriteAccessException;
-import exception.NullConversationException;
+import messaging.exception.NoReadAccessException;
+import messaging.exception.NoWriteAccessException;
+import messaging.exception.NullConversationException;
 
 import java.util.*;
 

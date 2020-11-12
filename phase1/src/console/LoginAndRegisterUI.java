@@ -20,7 +20,7 @@ public class LoginAndRegisterUI {
         String username = credentials.get("username");
         String password = credentials.get("password");
 
-        if (!userController.login(username, password)) {
+        if (userController.login(username, password) != null) {
             return true;
         } else {
             consoleUtilities.confirmBoxClear("Incorrect credentials, please try again.");
@@ -34,7 +34,7 @@ public class LoginAndRegisterUI {
         return true;
     }
 
-    public void run() {
+    public boolean run() {
         boolean exit = false;
 
         while (!exit) {
@@ -42,7 +42,8 @@ public class LoginAndRegisterUI {
 
             String[] options = new String[]{
                     "Login",
-                    "Register"
+                    "Register",
+                    "Exit"
             };
 
             int selection = consoleUtilities.singleSelectMenu("Welcome to what's arguably the worst LinkedIn clone ever.", options);
@@ -54,10 +55,11 @@ public class LoginAndRegisterUI {
                 case 2:
                     exit = register();
                     break;
+                case 3:
+                    exit = true;
                 default:
                     consoleUtilities.confirmBoxClear("An error occurred. Please try again.");
             }
         }
-
     }
 }

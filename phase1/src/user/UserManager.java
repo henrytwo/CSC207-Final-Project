@@ -1,5 +1,5 @@
 package user;
-import java.util.Scanner;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -13,6 +13,7 @@ public class UserManager {
      * - Method to test a username/password combination + loop through the users to see if there's a match
      */
 
+    UUID currentUser;
     private Map<UUID, User> userMap = new HashMap<>();
 
     public void setUserFirstName(UUID userUUID, String firstName) {
@@ -39,11 +40,14 @@ public class UserManager {
         return getUser(userUUID).getUsername();
     }
 
-    public void setUserPassword(UUID userUUID, String password){
+    public void setUserPassword(UUID userUUID, String password) {
         getUser(userUUID).setPassword(password);
     }
 
-    private User getUser(UUID uuid){
+    private User getUser(UUID uuid) {
+        /**
+         * TODO: Raise NullUserException if invalid
+         */
         return userMap.get(uuid);
     }
 
@@ -63,6 +67,7 @@ public class UserManager {
             UUID newUserUUID = newUser.getUuid();
 
             userMap.put(newUserUUID, newUser);
+            currentUser = newUserUUID;
 
             return newUserUUID;
         }
@@ -74,10 +79,15 @@ public class UserManager {
         User user = getUserByUsername(username);
 
         if (user != null && user.getPassword().equals(password)) {
+            currentUser = user.getUuid();
             return user.getUuid();
         }
 
         return null;
+    }
+
+    public UUID getCurrentUser() {
+        return currentUser;
     }
 }
 

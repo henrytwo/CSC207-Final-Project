@@ -1,4 +1,4 @@
-package exception;
+package messaging.exception;
 
 import java.util.UUID;
 
