@@ -3,10 +3,10 @@ import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
-import convention.permission.PermissionManager;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.HashSet;
 import java.util.UUID;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
@@ -62,12 +62,28 @@ public class ConventionSystem {
         conferenceController.addAttendee(conference1, attendee1);
         conferenceController.addAttendee(conference1, attendee2);
 
-        System.out.println(eventController.getEvents(conference1, attendee1));
+        System.out.println(conferenceController.getSpeakers(conference1, me));
+        UUID newRoom = roomController.createRoom(conference1, me, "ur room", 2);
+
+        UUID newEvent = eventController.createEvent(conference1, me, "Blah", new TimeRange(dateA, dateB), newRoom, new HashSet<>() {{
+            add(attendee1);
+        }});
+
+        System.out.println("Events " + eventController.getEvents(conference1, attendee1));
+        System.out.println("Rooms " + roomController.getRooms(conference1, attendee1));
+
+        System.out.println("Event speakers " + eventController.getEventSpeakers(conference1, me, newEvent));
+
+        conferenceController.leaveConference(conference1, attendee1, attendee1);
+
+        System.out.println("Event speakers " + eventController.getEventSpeakers(conference1, me, newEvent));
 
         System.out.println(conferenceController.getAttendees(conference1, otherOrganizer));
         eventController.createEventConversation(conference1, me, me);
         //System.out.println(conferenceController.getEvents(conference1, attendee1));
 
+        conferenceController.leaveConference(conference1, otherOrganizer, me);
+        conferenceController.leaveConference(conference1, otherOrganizer, otherOrganizer);
 
         System.out.println(conferenceController.getAttendees(conference1, otherOrganizer));
     }
