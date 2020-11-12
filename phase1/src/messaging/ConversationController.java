@@ -20,28 +20,42 @@ public class ConversationController {
         return linky.showContacts(sender).contains(receiver);
     }
 
+    /**
+     *  Sends a particular message to a specific chat
+     * @param message the message to be sent
+     * @param convId the conversation Id of the conversation to which this message has to be added
+     */
     public void sendMessage(Message message, UUID convId){
-//        if (checkAccess(sender, receiver) && checkAccess(receiver, sender)){
-//            Conversation newConversation = convoManager.conversationCreator(convName1, usersWrite, usersRead, convMessages);
-//            convoManager.sendMessage(message, newConversation);
-        if (convoManager.getMapUUIDConvo().keySet().contains(convId)) {
-            UUID userId = message.getSenderId();
-            Conversation conversationObject = convoManager.getMapUUIDConvo().get(convId);
-            Set<Conversation> listofConversation = convoManager.getConversationlist(userId);
-            if (listofConversation.contains(conversationObject)) {
-                conversationObject.addMessage(message);
-            } else {
-                System.out.println("You are not allowed to message in this chat.");
-            }
-        }
-        else{System.out.println("There is no conversation with this Id.");}
+        convoManager.sendMessage(message, convId);
+    }
 
-        }
-
-    public Conversation initiateConversation(String convName, Set<UUID> usersWrite, Set<UUID>
-            usersRead, Message convMessages1){
+    /**
+     *  Initiates a new Chat(Conversation) between 2 or more users
+     * @param convName the name of the Chat to be initiated
+     * @param usersWrite the set of Users that have the permission to write messages in this chat
+     * @param usersRead the set of Users that have the permission to read messages in this chat
+     * @param convMessages1 the message that initiated the need for this Chat to be created
+     */
+    UUID initiateConversationOrganizer(String convName, Set<UUID> usersWrite, Set<UUID>
+        usersRead, Message convMessages1){
         return convoManager.conversationCreator(convName, usersWrite, usersRead, convMessages1);
+    }
 
+    /**
+     *  Adds user to the a specific chat
+     * @param userId The userId of the user to be added to the Chat
+     * @param newConversationId The UUID of the conversation/chat to which the user needs to be added
+     */
+    public boolean addUserToConvo(UUID userId, UUID newConversationId){
+        return convoManager.addUserToConversation(userId, newConversationId);
+    }
+
+    /**
+     *  Removes the user from the Conversation
+     * @param userId The userId of the user to be removed from the chat
+     */
+    public void removeUser(UUID userId){
+        convoManager.removeUser(userId);
     }
 
 }

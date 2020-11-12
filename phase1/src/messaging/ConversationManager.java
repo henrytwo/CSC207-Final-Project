@@ -21,14 +21,14 @@ public class ConversationManager {
      * @param convMessages1 the first message to be sent to this conversation if it exists
      * @return A chat with the given specifications
      */
-    public Conversation conversationCreator(String convName, Set<UUID> usersWrite, Set<UUID>
+    public UUID conversationCreator(String convName, Set<UUID> usersWrite, Set<UUID>
             usersRead, Message convMessages1){
         ArrayList<Message> convMessages = new ArrayList<>();
         convMessages.add(convMessages1);
         Conversation newConversation = new Conversation(convName, usersWrite, usersRead, convMessages);
         UUID convId = newConversation.getconvId();
         mapUUIDConvo.put(convId, newConversation);
-        return newConversation;
+        return convId;
     }
 
     /**
@@ -43,13 +43,6 @@ public class ConversationManager {
         return newMessage;
     }
 
-    public HashMap<UUID, Conversation> getMapUUIDConvo() {
-        return mapUUIDConvo;
-    }
-
-    public HashMap<UUID, Set<UUID>> getMapUserConvo() {
-        return mapUserConvo;
-    }
 
     /**
      *  Adds user to the a specific chat
@@ -85,12 +78,23 @@ public class ConversationManager {
     /**
      *  Sends a particular message to a specific chat
      * @param message the message to be sent
-     * @param conversation the conversation to which this message has to be added
+     * @param convId the conversation Id of the conversation to which this message has to be added
      */
-    public void sendMessage(Message message, Conversation conversation){
+    public void sendMessage(Message message, UUID convId){
         // We can assume that a conversation has already been created here
-        conversation.addMessage(message);
+        if (mapUUIDConvo.keySet().contains(convId)) {
+            UUID userId = message.getSenderId();
+            Set<UUID> listofConversation = mapUserConvo.get(userId);
+            if (listofConversation.contains(convId)) {
+                Conversation conversationObject = mapUUIDConvo.get(convId);
+                conversationObject.addMessage(message);
+            } else {
+                System.out.println("You are not allowed to message in this chat.");
+            }
+        }
+        else{System.out.println("There is no conversation with this Id.");}
     }
+
     /**
      *  returns a set of Conversations that a particular user is part of
      * @param userId the userid of the user for whom we want to know the set of Conversation lists
@@ -98,8 +102,5 @@ public class ConversationManager {
     public Set getConversationlist(UUID userId){
         return mapUserConvo.get(userId);
     }
-
-
-
 
 }

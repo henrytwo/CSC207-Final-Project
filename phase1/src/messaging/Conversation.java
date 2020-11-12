@@ -23,6 +23,10 @@ public class Conversation {
         convoId = UUID.randomUUID();
     }
 
+    /**
+     *  returns the UUID of this conversation
+     * @return the UUID associated with this conversation
+     */
     public UUID getconvId(){
         return convoId;
     }
