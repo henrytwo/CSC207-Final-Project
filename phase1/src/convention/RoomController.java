@@ -22,13 +22,13 @@ public class RoomController {
     }
 
     /**
-     * Gets a set of UUIDs of rooms associated with this convention.
+     * Gets a set of UUIDs of rooms associated with this conference.
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
-     * @return set of UUIDs of rooms associated with the convention
+     * @return set of UUIDs of rooms associated with the conference
      */
     public Set<UUID> getRooms(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
@@ -36,11 +36,11 @@ public class RoomController {
     }
 
     /**
-     * Create a new room for this convention.
+     * Create a new room for this conference.
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param roomLocation   location of the room
      * @param roomCapacity   capacity of the room
@@ -59,7 +59,7 @@ public class RoomController {
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param roomUUID       UUID of the room to operate on
      * @param roomLocation   new room location
@@ -77,7 +77,7 @@ public class RoomController {
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param roomUUID       UUID of the room to operate on
      * @param roomCapacity   new room capacity
@@ -95,7 +95,7 @@ public class RoomController {
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param roomUUID       UUID of the room to operate on
      */
@@ -116,7 +116,7 @@ public class RoomController {
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param roomUUID       UUID of the room to operate on
      * @return room location
@@ -134,7 +134,7 @@ public class RoomController {
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param roomUUID       UUID of the room to operate on
      * @return room capacity
@@ -152,7 +152,7 @@ public class RoomController {
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param roomUUID       UUID of the room to operate on
      * @return map of event UUIDs to their time range

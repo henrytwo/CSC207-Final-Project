@@ -41,63 +41,63 @@ public class ConferenceController {
     /* Conference operations */
 
     /**
-     * Get a set of all convention UUIDs.
+     * Get a set of all conference UUIDs.
      * <p>
      * Required Permission: NONE
      *
-     * @return set of convention UUIDs
+     * @return set of conference UUIDs
      */
     public Set<UUID> getConferences() {
         return conferenceManager.getConferences();
     }
 
     /**
-     * Tests if a convention exists.
+     * Tests if a conference exists.
      * <p>
      * Required Permission: NONE
      *
-     * @param conferenceUUID UUID of the convention to operate on
-     * @return true iff a convention exists with the given UUID
+     * @param conferenceUUID UUID of the conference to operate on
+     * @return true iff a conference exists with the given UUID
      */
     public boolean conferenceExists(UUID conferenceUUID) {
         return conferenceManager.conferenceExists(conferenceUUID);
     }
 
     /**
-     * Get convention name.
+     * Get conference name.
      * <p>
      * Required Permission: NONE
      *
-     * @param conferenceUUID UUID of the convention to operate on
-     * @return the name of the convention
+     * @param conferenceUUID UUID of the conference to operate on
+     * @return the name of the conference
      */
     public String getConferenceName(UUID conferenceUUID) {
         return conferenceManager.getConferenceName(conferenceUUID);
     }
 
     /**
-     * Get convention time range.
+     * Get conference time range.
      * <p>
      * Required Permission: NONE
      *
-     * @param conferenceUUID UUID of the convention to operate on
-     * @return the TimeRange of the convention
+     * @param conferenceUUID UUID of the conference to operate on
+     * @return the TimeRange of the conference
      */
     public TimeRange getConferenceTimeRange(UUID conferenceUUID) {
         return conferenceManager.getTimeRange(conferenceUUID);
     }
 
     /**
-     * Create a new convention.
+     * Create a new conference.
      * <p>
-     * (This is a special case because there aren't organizers before a convention is created)
+     * (This is a special case because there aren't organizers before a conference is created)
      * <p>
      * Required Permission: NONE
      *
-     * @param conferenceName name of the new convention (must be non-empty)
-     * @param timeRange      time range of the new convention
+     * @param conferenceName name of the new conference (must be non-empty)
+     * @param timeRange      time range of the new conference
      * @param organizerUUID  UUID of the initial organizer user
-     * @return UUID of the new convention
+     * @return UUID of the new conference
      */
     public UUID createConference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
         UUID conferenceUUID = conferenceManager.createConference(conferenceName, timeRange, organizerUUID);
@@ -106,13 +106,13 @@ public class ConferenceController {
     }
 
     /**
-     * Set a new time range for a convention.
+     * Set a new time range for a conference.
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
-     * @param timeRange      new TimeRange for the convention
+     * @param timeRange      new TimeRange for the conference
      */
     public void setConferenceTimeRange(UUID conferenceUUID, UUID executorUUID, TimeRange timeRange) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
@@ -121,13 +121,13 @@ public class ConferenceController {
     }
 
     /**
-     * Set convention name
+     * Set conference name
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
-     * @param newName        new name for the convention (must be non-empty)
+     * @param newName        new name for the conference (must be non-empty)
      */
     public void setConferenceName(UUID conferenceUUID, UUID executorUUID, String newName) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
@@ -136,11 +136,11 @@ public class ConferenceController {
     }
 
     /**
-     * Deletes a convention.
+     * Deletes a conference.
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      */
     public void deleteConference(UUID conferenceUUID, UUID executorUUID) {
@@ -150,11 +150,11 @@ public class ConferenceController {
     }
 
     /**
-     * Get all the event UUID to TimeRange pairs for this convention.
+     * Get all the event UUID to TimeRange pairs for this conference.
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @return map from event UUID to their respective time ranges.
      */
@@ -165,30 +165,30 @@ public class ConferenceController {
     }
 
     /**
-     * Join a convention as an attendee.
+     * Join a conference as an attendee.
      * <p>
-     * (This is a special case because users aren't an attendee until after they join a convention)
+     * (This is a special case because users aren't an attendee until after they join a conference)
      * <p>
      * Required Permission: NONE
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      */
     public void addAttendee(UUID conferenceUUID, UUID executorUUID) {
         conferenceManager.addAttendee(conferenceUUID, executorUUID);
-        LOGGER.log(Level.INFO, String.format("User joined convention\n Conference UUID: %s\n Executor: %s", conferenceUUID, executorUUID));
+        LOGGER.log(Level.INFO, String.format("User joined conference\n Conference UUID: %s\n Executor: %s", conferenceUUID, executorUUID));
     }
 
     /**
-     * Attempt to leave a convention.
+     * Attempt to leave a conference.
      * <p>
-     * You can't leave a convention if you're the last organizer. This method will initiate a process to decouple the convention
+     * You can't leave a conference if you're the last organizer. This method will initiate a process to decouple the conference
      * from the user. This means unregistering from all events, removing this user as a speaker (if applicable), and verifying that
-     * the convention won't be bricked if the user leaves (for an organizer).
+     * the conference won't be bricked if the user leaves (for an organizer).
      * <p>
      * Required Permission: ATTENDEE (self) or ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param targetUserUUID UUID of the user to operate on
      */
@@ -216,19 +216,19 @@ public class ConferenceController {
                 eventManager.removeEventSpeaker(eventUUID, targetUserUUID);
             }
 
-            // Refresh the list of speakers for this convention
+            // Refresh the list of speakers for this conference
             eventController.updateSpeakers(conferenceUUID);
         }
 
-        LOGGER.log(Level.INFO, String.format("User left convention\n Conference UUID: %s\n Target: %s\n Executor: %s", conferenceUUID, targetUserUUID, executorUUID));
+        LOGGER.log(Level.INFO, String.format("User left conference\n Conference UUID: %s\n Target: %s\n Executor: %s", conferenceUUID, targetUserUUID, executorUUID));
     }
 
     /**
-     * Creates a conversation between the organizer and any number of users with convention membership.
+     * Creates a conversation between the organizer and any number of users with conference membership.
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param targetUUIDs    UUIDs of the users to add to the conversation
      */
@@ -242,11 +242,11 @@ public class ConferenceController {
     /* Organizer operations */
 
     /**
-     * Adds a user as an organizer for a convention.
+     * Adds a user as an organizer for a conference.
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param targetUserUUID UUID of the user to operate on
      */
@@ -256,12 +256,12 @@ public class ConferenceController {
     }
 
     /**
-     * Revokes a user's organizer permissions for a convention. This operation will be rejected if this is the last
-     * organizer of the convention.
+     * Revokes a user's organizer permissions for a conference. This operation will be rejected if this is the last
+     * organizer of the conference.
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param targetUserUUID UUID of the user to operate on
      */
@@ -275,7 +275,7 @@ public class ConferenceController {
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @return set of organizer UUIDs
      */
@@ -291,7 +291,7 @@ public class ConferenceController {
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @return set of speaker UUIDs
      */
@@ -305,7 +305,7 @@ public class ConferenceController {
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @return set of attendee UUIDs
      */

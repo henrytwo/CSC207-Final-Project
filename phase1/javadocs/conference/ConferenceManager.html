@@ -393,7 +393,7 @@ extends java.lang.Object</pre>
 <div class="block">Gets a map from Event UUID to their respective TimeRange</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a map of event UUIDs to their corresponding TimeRange</dd>
 </dl>
@@ -409,7 +409,7 @@ extends java.lang.Object</pre>
 <div class="block">Generates an EventManager object to control events for a convention</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the event manager object</dd>
 </dl>
@@ -456,7 +456,7 @@ extends java.lang.Object</pre>
  Returns if a convention exists the system.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true iff a convention with the corresponding UUID exists in the system</dd>
 </dl>
@@ -474,7 +474,7 @@ extends java.lang.Object</pre>
      Throws NullConferenceException if the conferenceID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 </dl>
 </li>
 </ul>
@@ -502,7 +502,7 @@ extends java.lang.Object</pre>
 <div class="block">Gets convention name</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>name of the convention</dd>
 </dl>
@@ -518,7 +518,7 @@ extends java.lang.Object</pre>
 <div class="block">Gets convention time range</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>time range of the convention</dd>
 </dl>
@@ -535,7 +535,7 @@ extends java.lang.Object</pre>
 <div class="block">Sets convention dates datetime</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>timeRange</code> - time range to assign the convention</dd>
 </dl>
 </li>
@@ -551,7 +551,7 @@ extends java.lang.Object</pre>
 <div class="block">Sets convention name</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>newName</code> - name to assign the convention (Must be non-empty)</dd>
 </dl>
 </li>
@@ -567,7 +567,7 @@ extends java.lang.Object</pre>
 <div class="block">Tests if a UUID belongs to an attendee user for this convention</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to test</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true iff the userUUID belongs to an attendee</dd>
@@ -585,7 +585,7 @@ extends java.lang.Object</pre>
 <div class="block">Tests if a UUID belongs to an organizer user for this convention</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to test</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true iff the userUUID belongs to an organizer</dd>
@@ -603,7 +603,7 @@ extends java.lang.Object</pre>
 <div class="block">Tests if a UUID belongs to a speaker user for this convention</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to test</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true iff the userUUID belongs to a speaker</dd>
@@ -622,7 +622,7 @@ extends java.lang.Object</pre>
      Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>set of UUIDs of organizer users</dd>
 </dl>
@@ -641,7 +641,7 @@ extends java.lang.Object</pre>
      Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to add</dd>
 </dl>
 </li>
@@ -660,7 +660,7 @@ extends java.lang.Object</pre>
      Throws NullUserException if the userUUID does not correspond to a valid organizer.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to remove</dd>
 </dl>
 </li>
@@ -677,7 +677,7 @@ extends java.lang.Object</pre>
      Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>set of UUIDs of attendee users</dd>
 </dl>
@@ -696,7 +696,7 @@ extends java.lang.Object</pre>
      Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to add</dd>
 </dl>
 </li>
@@ -715,7 +715,7 @@ extends java.lang.Object</pre>
      Throws NullUserException if the userUUID does not correspond to a valid user.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to remove</dd>
 </dl>
 </li>
@@ -732,7 +732,7 @@ extends java.lang.Object</pre>
      Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>set of UUIDs speaker users</dd>
 </dl>
@@ -751,7 +751,7 @@ extends java.lang.Object</pre>
      Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to add</dd>
 </dl>
 </li>
@@ -770,7 +770,7 @@ extends java.lang.Object</pre>
      Throws NullUserException if the userUUID does not correspond to a valid user.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>userUUID</code> - UUID of the user to remove</dd>
 </dl>
 </li>

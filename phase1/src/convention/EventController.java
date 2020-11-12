@@ -4,9 +4,11 @@ import convention.calendar.CalendarManager;
 import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
 import convention.event.EventManager;
+import convention.exception.CalendarDoubleBookingException;
+import convention.exception.FullRoomException;
+import convention.exception.SpeakerDoubleBookingException;
 import convention.permission.PermissionManager;
 import convention.room.RoomManager;
-import convention.exception.DoubleBookingException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,11 +27,11 @@ public class EventController {
     }
 
     /**
-     * Get a list of events. A user must be an attendee of the parent convention to view events.
+     * Get a list of events. A user must be an attendee of the parent conference to view events.
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      */
     public Set<UUID> getEvents(UUID conferenceUUID, UUID executorUUID) {
@@ -40,11 +42,11 @@ public class EventController {
     }
 
     /**
-     * Get a list of events an attendee is registered in. A user must be an attendee of the parent convention to view events.
+     * Get a list of events an attendee is registered in. A user must be an attendee of the parent conference to view events.
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      */
     public Set<UUID> getAttendeeEvents(UUID conferenceUUID, UUID executorUUID) {
@@ -68,7 +70,7 @@ public class EventController {
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      */
     public Set<UUID> getSpeakerEvents(UUID conferenceUUID, UUID executorUUID) {
@@ -87,11 +89,11 @@ public class EventController {
     }
 
     /**
-     * Sign up for an event. A user must be an attendee of the parent convention to sign up.
+     * Sign up for an event. A user must be an attendee of the parent conference to sign up.
      * <p>
      * Required Permission: ATTENDEE (self) or ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param targetUserUUID UUID of the user to operate on
      * @param eventUUID      UUID of the event to register to
@@ -101,10 +103,15 @@ public class EventController {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
         RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);
 
-        /**
-         * TODO: VERIFY THAT THERE IS ENOUGH SPACE FIRST
-         */
+        int currentEventAttendeeCount = eventManager.getEventAttendees(eventUUID).size();
+        UUID roomUUID = eventManager.getEventRoom(eventUUID);
 
+        // Verify the event can take additional attendees
+        if (currentEventAttendeeCount + 1 > roomManager.getRoomCapacity(roomUUID)) {
+            throw new FullRoomException();
+        }
+
+        // If this event has a conversation between the speaker and attendees, add this user to it
         if (eventManager.getConversationUUID(eventUUID) != null) {
             /**
              * TODO: Add user to the group chat with write access
@@ -118,13 +125,14 @@ public class EventController {
      * Actually executes the unregister operation. We have a separate helper method here so that we don't forget
      * to run the check to remove the user from the event's conversation.
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param targetUserUUID UUID of the user to operate on
      * @param eventUUID      UUID of the event to register to
      */
     void doUnregisterForEvent(UUID conferenceUUID, UUID targetUserUUID, UUID eventUUID) {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
+        // If this event has a conversation between the speaker and attendees, remove the user from it
         if (eventManager.getConversationUUID(eventUUID) != null) {
             /**
              * TODO: Remove the user from the groupchat
@@ -135,11 +143,11 @@ public class EventController {
     }
 
     /**
-     * Unregister for an event. A user must be an attendee of the parent convention to unregister.
+     * Unregister for an event. A user must be an attendee of the parent conference to unregister.
      * <p>
      * Required Permission: ATTENDEE (self) or ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param targetUserUUID UUID of the user to operate on
      * @param eventUUID      UUID of the event to register to
@@ -150,9 +158,9 @@ public class EventController {
     }
 
     /**
-     * Helper function to keep the list of speakers at a convention in sync
+     * Helper function to keep the list of speakers at a conference in sync
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      */
     void updateSpeakers(UUID conferenceUUID) {
         Set<UUID> speakerUUIDs = conferenceManager.getSpeakers(conferenceUUID);
@@ -167,11 +175,53 @@ public class EventController {
     }
 
     /**
-     * Create a new event for this convention. This method will test for scheduling conflicts for both rooms, and speakers.
+     * Tests whether a speaker is scheduled to talk at a given time range.
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @param speakerUUID    UUID of the speaker to test
+     * @param timeRange      TimeRange to test for overlap
+     * @return true iff the speaker is not available at the given time range
+     */
+    private boolean speakerTimeRangeOccupied(UUID conferenceUUID, UUID speakerUUID, TimeRange timeRange) {
+        EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+        for (UUID eventUUID : eventManager.getEvents()) {
+            Set<UUID> speakerUUIDs = eventManager.getEventSpeakers(eventUUID);
+
+            // If the speaker is linked to this event, we want to test if there's a conflict
+            if (speakerUUIDs.contains(speakerUUID)) {
+                TimeRange eventTimeRange = eventManager.getEventTimeRange(eventUUID);
+
+                if (eventTimeRange.hasOverlap(timeRange)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Tests whether a set of speakers have scheduling conflicts
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @param speakerUUIDs   UUIDs of the speakers to test
+     * @param timeRange      TimeRange to test for overlap
+     * @throws SpeakerDoubleBookingException iff there is at least one speaker which has a double booking
+     */
+    private void testSpeakersTimeRangeOccupied(UUID conferenceUUID, Set<UUID> speakerUUIDs, TimeRange timeRange) {
+        for (UUID speakerUUID : speakerUUIDs) {
+            if (speakerTimeRangeOccupied(conferenceUUID, speakerUUID, timeRange)) {
+                throw new SpeakerDoubleBookingException();
+            }
+        }
+    }
+
+    /**
+     * Create a new event for this conference. This method will test for scheduling conflicts for both rooms, and speakers.
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventName      name of the event
      * @param timeRange      TimeRange of the event
@@ -187,15 +237,12 @@ public class EventController {
 
         CalendarManager roomCalendarManager = roomManager.getCalendarManager(roomUUID);
 
-        /**
-         * TODO: Test if there is a booking conflict for the speaker
-         */
+        // Test that the speakers are not being double booked
+        testSpeakersTimeRangeOccupied(conferenceUUID, speakerUUIDs, timeRange);
 
-        /**
-         * We need to make sure there is no other event booked at this time
-         */
+        // Test that the room is not being double booked
         if (roomCalendarManager.timeRangeOccupied(timeRange)) {
-            throw new DoubleBookingException();
+            throw new CalendarDoubleBookingException();
         } else {
             UUID eventUUID = eventManager.createEvent(eventName, timeRange, roomUUID, speakerUUIDs);
 
@@ -211,7 +258,7 @@ public class EventController {
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @param speakerUUID    UUID of the speaker to add
@@ -221,9 +268,14 @@ public class EventController {
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-        /**
-         * TODO: Test if there is a booking conflict for the speaker
-         */
+        TimeRange eventTimeRange = eventManager.getEventTimeRange(eventUUID);
+
+        // Test that the speaker is not being double booked
+        testSpeakersTimeRangeOccupied(conferenceUUID, new HashSet<>() {
+            {
+                add(speakerUUID);
+            }
+        }, eventTimeRange);
 
         /**
          * TODO: Add the speaker to the conversation (if created)
@@ -235,11 +287,11 @@ public class EventController {
 
     /**
      * Remove a speaker from the event. If this was their only event, then speaker permissions will be revoked for the
-     * convention.
+     * conference.
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @param speakerUUID    UUID of the speaker to add
@@ -258,22 +310,27 @@ public class EventController {
     }
 
     /**
-     * Deletes an event from the convention. Room bookings linked to this event will be cancelled.
+     * Deletes an event from the conference. Room bookings linked to this event will be cancelled.
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      */
     public void deleteEvent(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
 
+        RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
+        // Free up the room booking
+        UUID roomUUID = eventManager.getEventRoom(eventUUID);
+        CalendarManager roomCalendarManager = roomManager.getCalendarManager(roomUUID);
+        roomCalendarManager.removeTimeBlock(eventUUID);
+
         /**
-         * TODO: Delete the booking from the room
-         *       Update rooms method???
+         * TODO: Delete the associated conversation
          */
 
         eventManager.deleteEvent(eventUUID);
@@ -285,7 +342,7 @@ public class EventController {
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @param eventTitle     new event title
@@ -303,22 +360,37 @@ public class EventController {
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
-     * @param roomUUID       UUID of the new room
+     * @param newRoomUUID       UUID of the new room
      */
-    public void setEventRoom(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, UUID roomUUID) {
+    public void setEventRoom(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, UUID newRoomUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
         RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);
 
-        /**
-         * TODO: Check to make sure there are no booking conflicts
-         */
+        TimeRange eventTimeRange = eventManager.getEventTimeRange(eventUUID);
+        UUID oldRoomUUID = eventManager.getEventRoom(eventUUID);
 
-        eventManager.setEventRoom(eventUUID, roomUUID);
+        CalendarManager newRoomCalendarManager = roomManager.getCalendarManager(newRoomUUID);
+        CalendarManager oldRoomCalendarManager = roomManager.getCalendarManager(oldRoomUUID);
+
+        // Test that the room is not being double booked
+        if (newRoomCalendarManager.timeRangeOccupied(eventTimeRange)) {
+            throw new CalendarDoubleBookingException();
+        } else {
+            // Cancel the booking from the old room
+            oldRoomCalendarManager.removeTimeBlock(eventUUID);
+
+            // Create the new booking
+            newRoomCalendarManager.addTimeBlock(eventUUID, eventTimeRange);
+
+            // Update the event with the new room UUID
+            eventManager.setEventRoom(eventUUID, newRoomUUID);
+        }
+
     }
 
     /**
@@ -326,7 +398,7 @@ public class EventController {
      * <p>
      * Required Permission: ORGANIZER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @param timeRange      new time range
@@ -349,7 +421,7 @@ public class EventController {
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @return event title
@@ -367,7 +439,7 @@ public class EventController {
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @return set of speaker UUIDs
@@ -385,7 +457,7 @@ public class EventController {
      * <p>
      * Required Permission: ATTENDEE
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @return get the time range for this event
@@ -403,7 +475,7 @@ public class EventController {
      * <p>
      * Required Permission: SPEAKER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      * @return set of attendee UUIDs
@@ -422,7 +494,7 @@ public class EventController {
      * <p>
      * Required Permission: SPEAKER
      *
-     * @param conferenceUUID UUID of the convention to operate on
+     * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
      */

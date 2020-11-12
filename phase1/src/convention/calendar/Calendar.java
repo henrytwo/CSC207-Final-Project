@@ -34,9 +34,9 @@ public class Calendar {
     public boolean hasConflict(TimeRange t) {
         Set<TimeRange> timeRangeSet = this.getUUIDtoTimeRanges();
         for (TimeRange tr : timeRangeSet){
-            if (tr.getStart().isEqual(t.getStart())) { return true; }
-            else if (t.getStart().isAfter(tr.getStart()) & t.getStart().isBefore(tr.getEnd())) { return true; }
-            else if (t.getEnd().isAfter(tr.getStart()) & t.getEnd().isBefore(tr.getEnd())) { return true; }
+            if (t.hasOverlap(tr)) {
+                return true;
+            }
         }
         return false;
     }
@@ -49,5 +49,23 @@ public class Calendar {
      */
     public void addTimeBlock(UUID eventUUID, TimeRange timeRange) {
         this.uuidToTimeRange.put(eventUUID, timeRange);
+    }
+
+    /**
+     * Frees a time slot for an event in this calendar
+     *
+     * @param eventUUID UUID of the eventt
+     */
+    public void removeTimeBlock(UUID eventUUID) {
+        this.uuidToTimeRange.remove(eventUUID);
+    }
+
+    /**
+     * Gets a time range for a booking
+     *
+     * @param eventUUID UUID of the event
+     */
+    public TimeRange getBooking(UUID eventUUID) {
+        return  this.uuidToTimeRange.get(eventUUID);
     }
 }

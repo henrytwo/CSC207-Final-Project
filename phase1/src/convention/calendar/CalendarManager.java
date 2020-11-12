@@ -1,6 +1,7 @@
 package convention.calendar;
 
-import convention.exception.DoubleBookingException;
+import convention.exception.CalendarDoubleBookingException;
+import convention.exception.NullBookingException;
 
 import java.util.Map;
 import java.util.UUID;
@@ -33,9 +34,23 @@ public class CalendarManager {
      */
     public void addTimeBlock(UUID eventUUID, TimeRange timeRange) {
         if (this.timeRangeOccupied(timeRange)) {
-            throw new DoubleBookingException();
+            throw new CalendarDoubleBookingException();
         } else {
             calendar.addTimeBlock(eventUUID, timeRange);
         }
+    }
+
+    /**
+     * Removes a booking from the calendar
+     *
+     * @param eventUUID the UUID of the event object
+     * @param timeRange the TimeRange of the event object
+     */
+    public void removeTimeBlock(UUID eventUUID) {
+        if (calendar.getBooking(eventUUID) == null) {
+            throw new NullBookingException(eventUUID);
+        }
+
+        calendar.removeTimeBlock(eventUUID);
     }
 }

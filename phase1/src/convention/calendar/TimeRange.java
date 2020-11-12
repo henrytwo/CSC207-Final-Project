@@ -25,6 +25,13 @@ public class TimeRange {
         return end;
     }
 
+    public boolean hasOverlap(TimeRange otherTimeRange) {
+        boolean otherIsBefore = otherTimeRange.getStart().isBefore(getStart()) && otherTimeRange.getEnd().isBefore(getStart());
+        boolean otherIsAfter = otherTimeRange.getStart().isAfter(getEnd()) && otherTimeRange.getEnd().isAfter(getEnd());
+
+        return !otherIsBefore && !otherIsAfter;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof TimeRange) {

@@ -301,7 +301,7 @@ extends java.lang.Object</pre>
 <div class="block">Generates an access denied error.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user running the command</dd>
 <dd><code>permissionLevel</code> - the required permission level of the target</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -322,7 +322,7 @@ extends java.lang.Object</pre>
 <div class="block">Generates an access denied error for operations that involve execution by a different user than the target.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user running the command</dd>
 <dd><code>targetUserUUID</code> - set of UUIDs of the user the command is operating on</dd>
 <dd><code>permissionLevel</code> - the required permission level of the target</dd>
@@ -343,7 +343,7 @@ extends java.lang.Object</pre>
     PermissionException otherwise.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user running the command</dd>
 </dl>
 </li>
@@ -360,7 +360,7 @@ extends java.lang.Object</pre>
     PermissionException otherwise.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user running the command</dd>
 </dl>
 </li>
@@ -377,7 +377,7 @@ extends java.lang.Object</pre>
     PermissionException otherwise.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user running the command</dd>
 </dl>
 </li>
@@ -394,7 +394,7 @@ extends java.lang.Object</pre>
 <div class="block">Validates that a target user is an attendee (i.e. a user different than the executor). Raises a PermissionException otherwise.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user running the command</dd>
 <dd><code>targetUserUUID</code> - UUID of the user the command is operating on</dd>
 </dl>
@@ -416,7 +416,7 @@ extends java.lang.Object</pre>
  of whoever they want.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user running the command</dd>
 <dd><code>targetUserUUIDs</code> - set of UUIDs of the user the command is operating on</dd>
 </dl>
@@ -439,7 +439,7 @@ extends java.lang.Object</pre>
  the user (so running it as themself), or if it's an admin performing the action.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user running the command</dd>
 <dd><code>targetUserUUID</code> - UUID of the user the command is operating on</dd>
 </dl>

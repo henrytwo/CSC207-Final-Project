@@ -612,7 +612,7 @@ extends java.lang.Object</pre>
  Required Permission: NONE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true iff a convention exists with the given UUID</dd>
 </dl>
@@ -630,7 +630,7 @@ extends java.lang.Object</pre>
  Required Permission: NONE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the name of the convention</dd>
 </dl>
@@ -648,7 +648,7 @@ extends java.lang.Object</pre>
  Required Permission: NONE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the TimeRange of the convention</dd>
 </dl>
@@ -692,7 +692,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>timeRange</code> - new TimeRange for the convention</dd>
 </dl>
@@ -712,7 +712,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>newName</code> - new name for the convention (must be non-empty)</dd>
 </dl>
@@ -731,7 +731,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 </dl>
 </li>
@@ -749,7 +749,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>map from event UUID to their respective time ranges.</dd>
@@ -771,7 +771,7 @@ extends java.lang.Object</pre>
  Required Permission: NONE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 </dl>
 </li>
@@ -794,7 +794,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE (self) or ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>targetUserUUID</code> - UUID of the user to operate on</dd>
 </dl>
@@ -814,7 +814,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>targetUUIDs</code> - UUIDs of the users to add to the conversation</dd>
 </dl>
@@ -833,7 +833,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 </dl>
 </li>
@@ -851,7 +851,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 </dl>
 </li>
@@ -869,7 +869,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 </dl>
 </li>
@@ -889,7 +889,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE (self) or ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>targetUserUUID</code> - UUID of the user to operate on</dd>
 <dd><code>eventUUID</code> - UUID of the event to register to</dd>
@@ -911,7 +911,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE (self) or ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>targetUserUUID</code> - UUID of the user to operate on</dd>
 <dd><code>eventUUID</code> - UUID of the event to register to</dd>
@@ -936,7 +936,7 @@ extends java.lang.Object</pre>
     Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>eventName</code> - name of the event</dd>
 <dd><code>timeRange</code> - TimeRange of the event</dd>
@@ -962,7 +962,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>eventUUID</code> - UUID of the event to operate on</dd>
 <dd><code>speakerUUID</code> - UUID of the speaker to add</dd>
@@ -986,7 +986,7 @@ extends java.lang.Object</pre>
     Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>eventUUID</code> - UUID of the event to operate on</dd>
 <dd><code>speakerUUID</code> - UUID of the speaker to add</dd>
@@ -1007,7 +1007,7 @@ extends java.lang.Object</pre>
     Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>eventUUID</code> - UUID of the event to operate on</dd>
 </dl>
@@ -1028,7 +1028,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>eventUUID</code> - UUID of the event to operate on</dd>
 <dd><code>eventName</code> - new event name</dd>
@@ -1050,7 +1050,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>eventUUID</code> - UUID of the event to operate on</dd>
 <dd><code>roomUUID</code> - UUID of the new room</dd>
@@ -1072,7 +1072,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>eventUUID</code> - UUID of the event to operate on</dd>
 <dd><code>timeRange</code> - new time range</dd>
@@ -1093,7 +1093,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>eventUUID</code> - UUID of the event to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1115,7 +1115,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>eventUUID</code> - UUID of the event to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1137,7 +1137,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>eventUUID</code> - UUID of the event to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1159,7 +1159,7 @@ extends java.lang.Object</pre>
  Required Permission: SPEAKER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>eventUUID</code> - UUID of the event to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1182,7 +1182,7 @@ extends java.lang.Object</pre>
  Required Permission: SPEAKER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>eventUUID</code> - UUID of the event to operate on</dd>
 </dl>
@@ -1201,7 +1201,7 @@ extends java.lang.Object</pre>
     Required Permission: ATTENDEE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>set of UUIDs of rooms associated with the convention</dd>
@@ -1223,7 +1223,7 @@ extends java.lang.Object</pre>
     Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>roomLocation</code> - location of the room</dd>
 <dd><code>roomCapacity</code> - capacity of the room</dd>
@@ -1247,7 +1247,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>roomUUID</code> - UUID of the room to operate on</dd>
 <dd><code>roomLocation</code> - new room location</dd>
@@ -1269,7 +1269,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>roomUUID</code> - UUID of the room to operate on</dd>
 <dd><code>roomCapacity</code> - new room capacity</dd>
@@ -1290,7 +1290,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>roomUUID</code> - UUID of the room to operate on</dd>
 </dl>
@@ -1310,7 +1310,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>roomUUID</code> - UUID of the room to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1332,7 +1332,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>roomUUID</code> - UUID of the room to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1354,7 +1354,7 @@ extends java.lang.Object</pre>
  Required Permission: ATTENDEE</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>roomUUID</code> - UUID of the room to operate on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1376,7 +1376,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>targetUserUUID</code> - UUID of the user to operate on</dd>
 </dl>
@@ -1397,7 +1397,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dd><code>targetUserUUID</code> - UUID of the user to operate on</dd>
 </dl>
@@ -1416,7 +1416,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>set of organizer UUIDs</dd>
@@ -1436,7 +1436,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>set of speaker UUIDs</dd>
@@ -1456,7 +1456,7 @@ extends java.lang.Object</pre>
  Required Permission: ORGANIZER</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>conferenceUUID</code> - UUID of the convention to operate on</dd>
+<dd><code>conferenceUUID</code> - UUID of the conference to operate on</dd>
 <dd><code>executorUUID</code> - UUID of the user executing the command</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>set of attendee UUIDs</dd>
