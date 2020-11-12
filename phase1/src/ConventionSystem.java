@@ -47,8 +47,14 @@ public class ConventionSystem {
         EventController eventController = new EventController(conferenceManager);
         ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager);
 
+        /**
+         * TODO: Remove test code here
+         */
+        userController.registerUser("Test", "Testerson", "test", "password");
+        userController.logout();
+
         // If we were to change this to a GUI, here is what we would switch out
-        UISystem uiSystem = new UISystem(userController, contactController, conferenceController, roomController, eventController, conferenceController);
+        UISystem uiSystem = new UISystem(userController, contactController, conversationController, roomController, eventController, conferenceController);
         uiSystem.run();
     }
 }

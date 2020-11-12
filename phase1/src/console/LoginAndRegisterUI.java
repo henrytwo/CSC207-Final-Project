@@ -34,6 +34,10 @@ public class LoginAndRegisterUI {
         return true;
     }
 
+    /**
+     * Run the LoginAndRegisterUI
+     * @return true iff the user wants to quit the program
+     */
     public boolean run() {
         boolean exit = false;
 
@@ -43,7 +47,7 @@ public class LoginAndRegisterUI {
             String[] options = new String[]{
                     "Login",
                     "Register",
-                    "Exit"
+                    "Exit System"
             };
 
             int selection = consoleUtilities.singleSelectMenu("Welcome to what's arguably the worst LinkedIn clone ever.", options);
@@ -55,11 +59,13 @@ public class LoginAndRegisterUI {
                 case 2:
                     exit = register();
                     break;
-                case 3:
-                    exit = true;
+                case 3: // User wants to Exit System
+                    return true;
                 default:
                     consoleUtilities.confirmBoxClear("An error occurred. Please try again.");
             }
         }
+
+        return false;
     }
 }

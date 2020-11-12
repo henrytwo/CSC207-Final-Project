@@ -30,6 +30,11 @@ public class UISystem {
         this.conferenceController = conferenceController;
     }
 
+    /**
+     * Runs the main UI loop
+     *
+     * If the user is not logged in, present login/register prompts. Otherwise, send them to the main menu.
+     */
     public void run() {
         LoginAndRegisterUI loginAndRegisterUI = new LoginAndRegisterUI(userController);
         MainMenuUI mainMenuUI = new MainMenuUI(userController, contactController, conversationController, roomController, eventController, conferenceController);

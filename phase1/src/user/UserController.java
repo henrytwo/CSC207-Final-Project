@@ -59,6 +59,10 @@ public class UserController {
         return userManager.login(username, password);
     }
 
+    public void logout() {
+        userManager.clearCurrentUser();
+    }
+
     public UUID getCurrentUser() {
         return userManager.getCurrentUser();
     }

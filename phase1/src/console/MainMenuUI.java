@@ -20,6 +20,8 @@ public class MainMenuUI {
     EventController eventController;
     ConferenceController conferenceController;
 
+    ConsoleUtilities consoleUtilities = new ConsoleUtilities();
+
     public MainMenuUI(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
         this.userController = userController;
         this.contactController = contactController;
@@ -30,21 +32,30 @@ public class MainMenuUI {
     }
 
     public boolean run() {
+        boolean exit = false;
+
         String[] options = new String[]{
                 "asd",
                 "asdasdas",
-                "asdsad"
+                "Log Out",
+                "Exit System"
         };
 
-        ConsoleUtilities consoleUtilities = new ConsoleUtilities();
-        int selection = consoleUtilities.singleSelectMenu("Welcome to our boi", "Cool system man", options);
+        while (!exit) {
+            int selection = consoleUtilities.singleSelectMenu("Welcome to our boi", "Cool system man", options);
 
-        switch (selection) {
-            case 1:
-                consoleUtilities.confirmBoxClear("u made the wrong choice");
-                break;
-            default:
-                consoleUtilities.confirmBoxClear("hi there stranger");
+            switch (selection) {
+                case 1:
+                    consoleUtilities.confirmBoxClear("u made the wrong choice");
+                    break;
+                case 3:
+                    userController.logout();
+                    return false; // Logout (i.e. return to parent menu without terminating program)
+                case 4:
+                    return true; // Terminate program
+            }
         }
+
+        return false;
     }
 }

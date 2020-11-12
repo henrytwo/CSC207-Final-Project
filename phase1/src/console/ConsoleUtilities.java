@@ -35,6 +35,7 @@ public class ConsoleUtilities {
 
         System.out.print("Username: ");
         String username = stdin.nextLine();
+
         System.out.print("Password: ");
         String password = stdin.nextLine();
 
@@ -140,7 +141,7 @@ public class ConsoleUtilities {
              * is found on menu.
              */
             try {
-                selection = stdin.nextInt();
+                selection = Integer.parseInt(stdin.nextLine());
 
                 if (selection > 0 && selection <= options.length) {
                     return selection;

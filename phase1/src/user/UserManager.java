@@ -86,6 +86,10 @@ public class UserManager {
         return null;
     }
 
+    public void clearCurrentUser() {
+        currentUser = null;
+    }
+
     public UUID getCurrentUser() {
         return currentUser;
     }
