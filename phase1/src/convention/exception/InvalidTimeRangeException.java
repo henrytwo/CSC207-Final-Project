@@ -1,4 +1,4 @@
-package util.exception;
+package convention.exception;
 
 public class InvalidTimeRangeException extends RuntimeException {
     public InvalidTimeRangeException() {

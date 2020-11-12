@@ -1,8 +1,8 @@
 package convention.event;
 
 import convention.calendar.TimeRange;
-import util.exception.InvalidNameException;
-import util.exception.NullEventException;
+import convention.exception.InvalidNameException;
+import convention.exception.NullEventException;
 
 import java.util.Map;
 import java.util.Set;

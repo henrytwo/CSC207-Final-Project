@@ -1,6 +1,6 @@
 package convention.calendar;
 
-import util.exception.DoubleBookingException;
+import convention.exception.DoubleBookingException;
 
 import java.util.Map;
 import java.util.UUID;

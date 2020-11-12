@@ -1,6 +1,6 @@
 package convention.calendar;
 
-import util.exception.InvalidTimeRangeException;
+import convention.exception.InvalidTimeRangeException;
 
 import java.time.LocalDateTime;
 

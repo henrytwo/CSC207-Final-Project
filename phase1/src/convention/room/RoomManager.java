@@ -5,7 +5,7 @@ import convention.calendar.Calendar;
 import java.util.*;
 
 import convention.calendar.CalendarManager;
-import util.exception.*;
+import convention.exception.*;
 
 public class RoomManager {
 

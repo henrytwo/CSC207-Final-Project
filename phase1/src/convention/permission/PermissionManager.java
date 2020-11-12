@@ -1,7 +1,7 @@
 package convention.permission;
 
 import convention.conference.ConferenceManager;
-import util.exception.PermissionException;
+import convention.exception.PermissionException;
 
 import java.util.HashSet;
 import java.util.Set;

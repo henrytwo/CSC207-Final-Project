@@ -3,9 +3,8 @@ import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
-import convention.permission.PermissionManager;
 import org.junit.*;
-import util.exception.*;
+import convention.exception.*;
 
 import java.time.LocalDateTime;
 import java.time.Month;

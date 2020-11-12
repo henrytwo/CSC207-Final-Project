@@ -1,4 +1,4 @@
-package util.exception;
+package convention.exception;
 
 public class LoneOrganizerException extends RuntimeException {
     public LoneOrganizerException() {

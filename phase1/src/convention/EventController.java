@@ -6,7 +6,7 @@ import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.permission.PermissionManager;
 import convention.room.RoomManager;
-import util.exception.DoubleBookingException;
+import convention.exception.DoubleBookingException;
 
 import java.util.HashSet;
 import java.util.Set;

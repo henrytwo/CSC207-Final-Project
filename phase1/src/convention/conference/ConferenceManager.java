@@ -6,7 +6,7 @@ import convention.event.Event;
 import convention.event.EventManager;
 import convention.room.Room;
 import convention.room.RoomManager;
-import util.exception.*;
+import convention.exception.*;
 
 import java.util.*;
 

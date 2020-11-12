@@ -3,4 +3,4 @@ convention
 convention.calendar
 convention.event
 convention.room
-util.exception
+convention.exception
