@@ -1,9 +1,6 @@
 package conference;
 
-import com.sun.security.auth.UnixNumericUserPrincipal;
-import conference.calendar.Calendar;
 import conference.calendar.CalendarManager;
-import conference.calendar.Pair;
 import conference.calendar.TimeRange;
 import conference.event.Event;
 import conference.event.EventManager;
@@ -11,8 +8,6 @@ import conference.room.Room;
 import conference.room.RoomManager;
 import util.exception.*;
 
-import java.sql.Time;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class ConferenceManager {
@@ -24,9 +19,9 @@ public class ConferenceManager {
 
     /**
      * TODO: Maybe add a method to getEventManager, which takes in a conferenceUUID and returns an EventManager
-     *       which is initialized with the hashmap of events for that conference
-     *
-     *       Similar idea for room.
+     * which is initialized with the hashmap of events for that conference
+     * <p>
+     * Similar idea for room.
      */
 
     public Map<UUID, TimeRange> getConferenceSchedule(UUID conferenceUUID) {
@@ -75,7 +70,7 @@ public class ConferenceManager {
 
     /**
      * Tests if a conference exists in the system.
-     *
+     * <p>
      * Returns if a conference exists the system.
      *
      * @param conferenceUUID
@@ -87,7 +82,7 @@ public class ConferenceManager {
 
     /**
      * Deletes a conference given its UUID.
-     *
+     * <p>
      * Throws NullConferenceException if the conferenceID does not correspond to a valid conference.
      *
      * @param conferenceUUID
@@ -175,7 +170,7 @@ public class ConferenceManager {
 
     /**
      * Gets a set of organizer UUIDs for a particular conference.
-     *
+     * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      *
      * @param conferenceUUID
@@ -187,7 +182,7 @@ public class ConferenceManager {
 
     /**
      * Adds an organizer to a conference.
-     *
+     * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      *
      * @param conferenceUUID
@@ -200,7 +195,7 @@ public class ConferenceManager {
 
     /**
      * Removes an organizer from a conference. There must always be at least one organizer left.
-     *
+     * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      * Throws NullUserException if the userUUID does not correspond to a valid organizer.
      *
@@ -222,7 +217,7 @@ public class ConferenceManager {
 
     /**
      * Gets a set of attendee UUIDs for a particular conference.
-     *
+     * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      *
      * @param conferenceUUID
@@ -234,7 +229,7 @@ public class ConferenceManager {
 
     /**
      * Adds an attendee to a conference.
-     *
+     * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      *
      * @param conferenceUUID
@@ -247,7 +242,7 @@ public class ConferenceManager {
 
     /**
      * Removes an attendee from a conference.
-     *
+     * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      * Throws NullUserException if the userUUID does not correspond to a valid user.
      *
@@ -267,7 +262,7 @@ public class ConferenceManager {
 
     /**
      * Gets a set of speaker UUIDs for a particular conference.
-     *
+     * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      *
      * @param conferenceUUID
@@ -279,7 +274,7 @@ public class ConferenceManager {
 
     /**
      * Adds an speaker to a conference.
-     *
+     * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      *
      * @param conferenceUUID
@@ -292,7 +287,7 @@ public class ConferenceManager {
 
     /**
      * Removes an speaker from a conference.
-     *
+     * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid conference.
      * Throws NullUserException if the userUUID does not correspond to a valid user.
      *
