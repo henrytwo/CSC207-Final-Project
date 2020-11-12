@@ -14,6 +14,13 @@ public class Conversation {
     private Set<UUID> readAccessUsers = new HashSet<>();
     private UUID convoId;
 
+    /**
+     * Constructor for Conversation
+     * @param convName name of the Conversation
+     * @param usersWrite The set of users that have write access to the chat/conversation
+     * @param usersRead The set of users that have read access to the chat/conversation
+     * @param convMessages A list of all the messages in the Chat/conversation
+     */
     public Conversation(String convName, Set<UUID> usersWrite, Set<UUID>
             usersRead, ArrayList<Message> convMessages){
         conversationName = convName;
