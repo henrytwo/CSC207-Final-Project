@@ -1,5 +1,5 @@
-import conference.ConferenceController;
-import conference.calendar.TimeRange;
+import convention.ConferenceController;
+import convention.calendar.TimeRange;
 import org.junit.*;
 import util.exception.*;
 
@@ -70,7 +70,7 @@ public class ConferenceTest {
 
     // User tasks
 
-    // Join conference
+    // Join convention
     //    - Invite? Search?
     // Register in event
     // List events
@@ -84,7 +84,7 @@ public class ConferenceTest {
     /* Conference creation */
 
     /**
-     * The conference should exist after it is created... duh
+     * The convention should exist after it is created... duh
      */
     @Test(timeout = 50)
     public void testCreateConference() {
@@ -104,7 +104,7 @@ public class ConferenceTest {
         conferenceController.createConference(emptyString, timeRangeA, myUser);
     }
 
-    /* Editing a conference */
+    /* Editing a convention */
     @Test(timeout = 50)
     public void testEditConferenceName() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
@@ -152,7 +152,7 @@ public class ConferenceTest {
         conferenceController.setConferenceTimeRange(conferenceUUID, randomUser, timeRangeB);
     }
 
-    /* Deleting a conference */
+    /* Deleting a convention */
     @Test(timeout = 50)
     public void testDeleteConference() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
@@ -161,7 +161,7 @@ public class ConferenceTest {
     }
 
     /**
-     * You can't delete a conference that doesn't exist
+     * You can't delete a convention that doesn't exist
      */
     @Test(timeout = 50, expected = NullConferenceException.class)
     public void testDeleteInvalidConference() {
