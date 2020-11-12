@@ -3,8 +3,10 @@ import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
-import org.junit.*;
 import convention.exception.*;
+import messaging.ConversationManager;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -46,12 +48,13 @@ public class ConferenceTest {
 
     @Before
     public void init() {
+        ConversationManager conversationManager = new ConversationManager();
         ConferenceManager conferenceManager = new ConferenceManager();
 
-        //ConversationController conversationController = new ConversationController();
+        // Convention controllers
         roomController = new RoomController(conferenceManager);
         eventController = new EventController(conferenceManager);
-        conferenceController = new ConferenceController(/*conversationController,*/ eventController, conferenceManager);
+        conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager);
     }
 
     // Test with and without permission
@@ -60,18 +63,18 @@ public class ConferenceTest {
 
     // Create conf X
     // Edit conf
-        // Add organizer X
-        // Remove organizer X
-        // Remove attendee
-        // Edit date X
-        // Edit name X
+    // Add organizer X
+    // Remove organizer X
+    // Remove attendee
+    // Edit date X
+    // Edit name X
     // Delete conf X
 
     // Create event
-        // Assign a speaker
+    // Assign a speaker
     // Edit event
     // Delete event
-        // Revoke speaker access if they don't have any more events
+    // Revoke speaker access if they don't have any more events
 
     // Create room
     // Edit room
@@ -312,7 +315,6 @@ public class ConferenceTest {
 
 
     /* Test attendee operations */
-
     @Test(timeout = 50)
     public void testJoinConference() {
 
