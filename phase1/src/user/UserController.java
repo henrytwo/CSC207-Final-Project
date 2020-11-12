@@ -51,7 +51,7 @@ public class UserController {
     }
 
     public  UUID registerUser(String firstName, String lastName, String username, String password){
-        userManager.registerUser(firstName, lastName, username, password);
+        currentUser = userManager.registerUser(firstName, lastName, username, password);
         return currentUser;
     }
 
