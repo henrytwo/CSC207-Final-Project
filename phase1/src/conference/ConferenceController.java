@@ -369,6 +369,9 @@ public class ConferenceController {
 
         CalendarManager roomCalendarManager = roomManager.getCalendarManager(roomUUID);
 
+        /**
+         * We need to make sure there is no other event booked at this time
+         */
         if (roomCalendarManager.timeRangeOccupied(timeRange)) {
             throw new DoubleBookingException();
         } else {
@@ -407,6 +410,11 @@ public class ConferenceController {
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
+        /**
+         * TODO: Delete the booking from the room
+         *       Update rooms method???
+         */
+
         eventManager.deleteEvent(eventUUID);
         updateSpeakers(conferenceUUID);
     }
@@ -423,6 +431,11 @@ public class ConferenceController {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+        RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);
+
+        /**
+         * TODO: Check to make sure there are no booking conflicts
+         */
 
         eventManager.setEventRoom(eventUUID, roomUUID);
     }
@@ -431,6 +444,11 @@ public class ConferenceController {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+        RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);
+
+        /**
+         * TODO: Check to make sure there are no booking conflicts
+         */
 
         eventManager.setEventTimeRange(eventUUID, timeRange);
     }
@@ -518,7 +536,8 @@ public class ConferenceController {
     public void deleteRoom(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
         /**
-         * TODO: If a room is deleted while it's hooked up to an event, just delete it and keep the event
+         * TODO: Do not allow this room to be deleted if it is being used by some events
+         *       Having an event without a room will cause all sorts of headaches
          */
 
         RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);

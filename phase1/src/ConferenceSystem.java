@@ -133,7 +133,6 @@ public class ConferenceSystem {
         /**
          * Big thinking
          *
-         * - Storing calendar
          * - Dealing with CompareBySpeaker
          * - Dealing with speaker conflicts
          */
