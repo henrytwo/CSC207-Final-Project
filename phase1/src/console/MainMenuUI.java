@@ -37,12 +37,14 @@ public class MainMenuUI {
                 "Messaging",
                 "Contacts",
                 "Conferences",
-                String.format("Log Out (Signed in as %s)", userController.getUserFullName(userController.getCurrentUser())),
+                "Log Out",
                 "Exit System"
         };
 
+        String userFullName = userController.getUserFullName(userController.getCurrentUser());
+
         while (true) {
-            int selection = consoleUtilities.singleSelectMenu("Welcome to our boi", "Cool system man", options);
+            int selection = consoleUtilities.singleSelectMenu(String.format("Signed in as %s", userFullName), options);
 
             switch (selection) {
                 case 1:
