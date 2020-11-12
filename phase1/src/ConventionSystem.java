@@ -1,13 +1,15 @@
-import console.LoginAndRegisterUI;
-import console.MainMenuUI;
+import contact.ContactController;
+import contact.ContactManager;
 import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.conference.ConferenceManager;
+import messaging.ConversationController;
+import messaging.ConversationManager;
+import messaging.Message;
 
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
@@ -27,81 +29,64 @@ public class ConventionSystem {
 
         ConferenceManager conferenceManager = new ConferenceManager();
 
-        //ConversationController conversationController = new ConversationController();
-        //RoomController roomController = new RoomController(conferenceManager);
-        //EventController eventController = new EventController(conferenceManager);
-        //ConferenceController conferenceController = new ConferenceController(/*conversationController,*/ eventController, conferenceManager);
+        ContactManager contactManager = new ContactManager();
+        ConversationManager conversationManager = new ConversationManager();
+        ContactController contactController = new ContactController(contactManager);
+        ConversationController conversationController = new ConversationController(contactManager, conversationManager);
 
+        RoomController roomController = new RoomController(conferenceManager);
+        EventController eventController = new EventController(conferenceManager);
+        ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager);
+
+
+        // Testing message sending
         /*
-         * User flow
-         *
-         * ** Make attendee operations executable by admins too
-         * ** So it'd be check if organizer OR (if target == self AND is attendee)
-         *
-         * /
-         * |-Login or Register                                           ** Ez clap menu thing (Shubhra)
-         *   |- Go to messaging
-         *   |  |-Look at the list of messages                           ** Ez clap menu thing
-         *   |  | |-Select a conversation                                ** Custom message boi (Mahak)
-         *   |  |   |-Send message
-         *   |  |   |-Read message
-         *   |  |   |-See users in conversation
-         *   |  |-Start a new message with someone on your contact list
-         *   |
-         *   |- Go to contacts                                            ** Ez clap menu thing (Pranjal)
-         *   |  |-View contacts                                           ** Custom stuff
-         *   |  |-Request someone to connect
-         *   |  |-View people who want to slide into your DMs
-         *   |
-         *   |- Go to conferences                                         ** Ez clap menu thing
-         *  |-> Create a conference                                   ** Form boi
-         *  |-> Join a conference                                     ** Ez clap menu thing
-         *  |   |-> Find a conference from a list and join it
-         *  |-> View a joined conference                              ** Ez clap menu thing (Ellie/Henry/Shubhra)
-         *      |-> View the general conference details (start, end, name, etc.)
-         *      |
-         *      |-> View the event calendar
-         *      |
-         *      |-> Event stuff (Emre)
-         *      |   |-> View list of events (Attendee)
-         *      |   |-> View list of events (Speaker)
-         *      |   |-> View event room
-         *      |   |-> View event time stuff
-         *      |   |-> Register for event
-         *      |   |-> Unregister from event
-         *      |   |-> Make a conversation for everyone in this event (Speaker)
-         *      |   |-> View a list of attendees, speakers
-         *      |   |-> Organizer related operations
-         *      |       |-> Edit the name, dates, etc.
-         *      |       |-> Create event
-         *      |       |-> Delete event
-         *      |
-         *      |-> Room stuff (Antara)
-         *      |   |-> View calendar
-         *      |   |-> Organizer related operations
-         *      |        |-> Edit the room capacity, location, etc.
-         *      |        |-> Create room
-         *      |        |-> Delete room
-         *      |
-         *      |-> Conference management stuff
-         *          |-> Delete the conference
-         *          |-> Slide into the DM of any attendee
-         *          |-> Add/Remove organizer
-         * */
+        UUID me = UUID.randomUUID();
+        UUID otherUser = UUID.randomUUID();
 
-        /**
-         * UI Components to build
-         * - n-column table with numbered rows (Talk to shubhra about it)
-         * - messaging thing
-         * - Form component
-         */
+        Set<UUID> myself = new HashSet<>() {
+            {
+                add(me);
+            }
+        };
 
-        /**
-         * Big thinking
-         *
-         * - Dealing with CompareBySpeaker
-         * - Dealing with speaker conflicts
-         */
+        Set<UUID> bois = new HashSet<>() {
+            {
+                add(me);
+                add(otherUser);
+            }
+        };
+
+        UUID adminConvo = conversationManager.createConversation("blah", myself, bois, new Message(me, "you're here whether you like it or not"));
+
+        // Create a chat with a single person
+        UUID convo1 = conversationController.initiateConversation("My cool chat", me, new HashSet<>() {
+
+        }, new Message(me, "Hi there"));
+
+        //contactController.sendRequest(me, otherUser);
+
+        // Send test messages
+        conversationController.sendMessage(new Message(me, "asdasd"), convo1);
+        conversationController.sendMessage(new Message(me, "asdasd"), convo1);
+        conversationController.sendMessage(new Message(me, "asdasd"), convo1);
+        conversationController.sendMessage(new Message(me, "asdasd"), convo1);
+        conversationController.sendMessage(new Message(me, "Cool message"), convo1);
+
+        UUID convo2 = conversationController.initiateConversation("My cool chat", me, new HashSet<>() {
+
+        }, new Message(me, "Nice convo bro"));
+
+        conversationController.sendMessage(new Message(me, "Hi"), adminConvo);
+        conversationController.sendMessage(new Message(me, "yes"), adminConvo);
+        conversationController.sendMessage(new Message(me, "cool messages"), adminConvo);
+
+        // Ok, now the user can take a look of the convos they're a part of
+        Set<UUID> convoList = conversationController.getConversationlist(otherUser);
+
+        for (UUID convoUUID : convoList) {
+            System.out.println("\n\nConvo UUID:" + convoUUID + "\n" + conversationController.getMessages(me, convoUUID));
+        }*/
 
         /*LoginAndRegisterUI loginAndRegisterUI = new LoginAndRegisterUI(userController);
         MainMenuUI mainMenuUI = new MainMenuUI();

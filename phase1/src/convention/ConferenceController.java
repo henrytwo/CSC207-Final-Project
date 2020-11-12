@@ -4,6 +4,7 @@ import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.permission.PermissionManager;
+import messaging.ConversationManager;
 
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +19,7 @@ public class ConferenceController {
     /**
      * TODO: Add conversation controller stuff
      */
-    //private ConversationController conversationController;
+    private ConversationManager conversationManager;
     private EventController eventController;
     private ConferenceManager conferenceManager;
     private PermissionManager permissionManager;
@@ -27,12 +28,12 @@ public class ConferenceController {
      * Creates an instance of ConferenceController. We store an instance of conversationController so we can
      * send instructions to it to create or mutate conversations that are created for conferences.
      *
-     * @param conversationController
+     * @param conversationManager
      * @param eventController
      * @param conferenceManager
      */
-    public ConferenceController(/*ConversationController conversationController,*/ EventController eventController, ConferenceManager conferenceManager) {
-        //this.conversationController = conversationController;
+    public ConferenceController(ConversationManager conversationManager, EventController eventController, ConferenceManager conferenceManager) {
+        this.conversationManager = conversationManager;
         this.eventController = eventController;
         this.conferenceManager = conferenceManager;
         this.permissionManager = new PermissionManager(conferenceManager);

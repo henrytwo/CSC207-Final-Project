@@ -1,5 +1,7 @@
 package console;
 
+import user.UserController;
+
 import java.util.HashMap;
 import java.util.Map;
 
