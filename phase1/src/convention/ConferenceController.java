@@ -15,7 +15,10 @@ public class ConferenceController {
 
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    private ConversationController conversationController;
+    /**
+     * TODO: Add conversation controller stuff
+     */
+    //private ConversationController conversationController;
     private EventController eventController;
     private ConferenceManager conferenceManager;
     private PermissionManager permissionManager;
@@ -26,8 +29,8 @@ public class ConferenceController {
      *
      * @param conversationController
      */
-    public ConferenceController(ConversationController conversationController, EventController eventController, ConferenceManager conferenceManager, PermissionManager permissionManager) {
-        this.conversationController = conversationController;
+    public ConferenceController(/*ConversationController conversationController,*/ EventController eventController, ConferenceManager conferenceManager, PermissionManager permissionManager) {
+        //this.conversationController = conversationController;
         this.eventController = eventController;
         this.conferenceManager = conferenceManager;
         this.permissionManager = permissionManager;
@@ -208,7 +211,7 @@ public class ConferenceController {
             // We'll handle revoking speaker access in updateSpeakers, since having speaker permissions is linked to
             // whether or not a user is a speaker of an event.
             for (UUID eventUUID : eventController.getSpeakerEvents(conferenceUUID, targetUserUUID)) {
-                eventManager.removeSpeaker(eventUUID, targetUserUUID);
+                eventManager.removeEventSpeaker(eventUUID, targetUserUUID);
             }
 
             // Refresh the list of speakers for this convention

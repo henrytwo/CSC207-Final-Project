@@ -1,9 +1,11 @@
 package conference;
 
-import conference.calendar.CalendarManager;
-import conference.calendar.TimeRange;
-import conference.event.EventManager;
-import conference.room.RoomManager;
+import convention.calendar.CalendarManager;
+import convention.calendar.TimeRange;
+import convention.conference.ConferenceManager;
+import convention.event.EventManager;
+import convention.permission.PermissionManager;
+import convention.room.RoomManager;
 import util.exception.DoubleBookingException;
 
 import java.util.*;
@@ -190,7 +192,7 @@ public class ConferenceController {
             // We'll handle revoking speaker access in updateSpeakers, since having speaker permissions is linked to
             // whether or not a user is a speaker of an event.
             for (UUID eventUUID : getSpeakerEvents(conferenceUUID, targetUserUUID)) {
-                eventManager.removeSpeaker(eventUUID, targetUserUUID);
+                eventManager.removeEventSpeaker(eventUUID, targetUserUUID);
             }
 
             // Refresh the list of speakers for this conference
@@ -230,7 +232,7 @@ public class ConferenceController {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
-        return eventManager.getEvents(conferenceUUID);
+        return eventManager.getEvents();
     }
 
     /**
@@ -271,7 +273,7 @@ public class ConferenceController {
         Set<UUID> registeredEventsUUIDs = new HashSet<>();
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-        for (UUID eventUUID : conferenceManager.getEvents()) {
+        for (UUID eventUUID : eventManager.getEvents()) {
             if (eventManager.getEventSpeakers(eventUUID).contains(executorUUID)) {
                 registeredEventsUUIDs.add(eventUUID);
             }
@@ -349,7 +351,7 @@ public class ConferenceController {
         speakerUUIDs.clear();
 
         for (UUID eventUUID : eventManager.getEvents()) {
-            Set<UUID> eventSpeakerUUIDs = eventManager.getEventSpeakers(conferenceUUID, eventUUID);
+            Set<UUID> eventSpeakerUUIDs = eventManager.getEventSpeakers(eventUUID);
 
             speakerUUIDs.addAll(eventSpeakerUUIDs);
         }
@@ -413,12 +415,12 @@ public class ConferenceController {
         updateSpeakers(conferenceUUID);
     }
 
-    public void setEventName(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, String eventName) {
+    public void setEventTitle(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, String eventName) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-        eventManager.setEventName(eventUUID, eventName);
+        eventManager.setEventTitle(eventUUID, eventName);
     }
 
     public void setEventRoom(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, UUID roomUUID) {
@@ -447,12 +449,12 @@ public class ConferenceController {
         eventManager.setEventTimeRange(eventUUID, timeRange);
     }
 
-    public String getEventName(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+    public String getEventTitle(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-        return eventManager.getEventName(eventUUID);
+        return eventManager.getEventTitle(eventUUID);
     }
 
     public Set<UUID> getEventSpeakers(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {

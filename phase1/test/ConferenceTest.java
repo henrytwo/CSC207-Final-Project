@@ -1,5 +1,9 @@
 import convention.ConferenceController;
+import convention.EventController;
+import convention.RoomController;
 import convention.calendar.TimeRange;
+import convention.conference.ConferenceManager;
+import convention.permission.PermissionManager;
 import org.junit.*;
 import util.exception.*;
 
@@ -37,12 +41,19 @@ public class ConferenceTest {
             Month.AUGUST, 29, 19, 30, 40);
 
     TimeRange timeRangeB = new TimeRange(dateC, dateD);
-
+    RoomController roomController;
+    EventController eventController;
     ConferenceController conferenceController;
 
     @Before
     public void init() {
-        conferenceController = new ConferenceController();
+        ConferenceManager conferenceManager = new ConferenceManager();
+        PermissionManager permissionManager = new PermissionManager(conferenceManager);
+
+        //ConversationController conversationController = new ConversationController();
+        roomController = new RoomController(conferenceManager, permissionManager);
+        eventController = new EventController(conferenceManager, permissionManager);
+        conferenceController = new ConferenceController(/*conversationController,*/ eventController, conferenceManager, permissionManager);
     }
 
     // Test with and without permission

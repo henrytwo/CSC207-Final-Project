@@ -1,8 +1,8 @@
 package convention;
 
-import convention.conference.ConferenceManager;
 import convention.calendar.CalendarManager;
 import convention.calendar.TimeRange;
+import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.permission.PermissionManager;
 import convention.room.RoomManager;
@@ -36,7 +36,7 @@ public class EventController {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
-        return eventManager.getEvents(conferenceUUID);
+        return eventManager.getEvents();
     }
 
     /**
@@ -77,7 +77,7 @@ public class EventController {
         Set<UUID> registeredEventsUUIDs = new HashSet<>();
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-        for (UUID eventUUID : conferenceManager.getEvents()) {
+        for (UUID eventUUID : eventManager.getEvents()) {
             if (eventManager.getEventSpeakers(eventUUID).contains(executorUUID)) {
                 registeredEventsUUIDs.add(eventUUID);
             }
@@ -160,7 +160,7 @@ public class EventController {
         speakerUUIDs.clear();
 
         for (UUID eventUUID : eventManager.getEvents()) {
-            Set<UUID> eventSpeakerUUIDs = eventManager.getEventSpeakers(conferenceUUID, eventUUID);
+            Set<UUID> eventSpeakerUUIDs = eventManager.getEventSpeakers(eventUUID);
 
             speakerUUIDs.addAll(eventSpeakerUUIDs);
         }
@@ -168,7 +168,7 @@ public class EventController {
 
     /**
      * Create a new event for this convention. This method will test for scheduling conflicts for both rooms, and speakers.
-     *
+     * <p>
      * Required Permission: ORGANIZER
      *
      * @param conferenceUUID UUID of the convention to operate on
@@ -208,7 +208,7 @@ public class EventController {
 
     /**
      * Add a speaker to the event. This method will perform a check to ensure there are no scheduling conflicts.
-     *
+     * <p>
      * Required Permission: ORGANIZER
      *
      * @param conferenceUUID UUID of the convention to operate on
@@ -236,7 +236,7 @@ public class EventController {
     /**
      * Remove a speaker from the event. If this was their only event, then speaker permissions will be revoked for the
      * convention.
-     *
+     * <p>
      * Required Permission: ORGANIZER
      *
      * @param conferenceUUID UUID of the convention to operate on
@@ -259,7 +259,7 @@ public class EventController {
 
     /**
      * Deletes an event from the convention. Room bookings linked to this event will be cancelled.
-     *
+     * <p>
      * Required Permission: ORGANIZER
      *
      * @param conferenceUUID UUID of the convention to operate on
@@ -281,26 +281,26 @@ public class EventController {
     }
 
     /**
-     * Set a new name for this event.
-     *
+     * Set a new title for this event.
+     * <p>
      * Required Permission: ORGANIZER
      *
      * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
-     * @param eventName      new event name
+     * @param eventTitle     new event title
      */
-    public void setEventName(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, String eventName) {
+    public void setEventTitle(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, String eventTitle) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-        eventManager.setEventName(eventUUID, eventName);
+        eventManager.setEventTitle(eventUUID, eventTitle);
     }
 
     /**
      * Set a new room for this event. This method will perform a check to ensure there are no booking conflicts.
-     *
+     * <p>
      * Required Permission: ORGANIZER
      *
      * @param conferenceUUID UUID of the convention to operate on
@@ -323,7 +323,7 @@ public class EventController {
 
     /**
      * Set a new time range for this event. This method will perform tests to ensure there are no booking conflicts.
-     *
+     * <p>
      * Required Permission: ORGANIZER
      *
      * @param conferenceUUID UUID of the convention to operate on
@@ -345,26 +345,26 @@ public class EventController {
     }
 
     /**
-     * Get the event name.
-     *
+     * Get the event title.
+     * <p>
      * Required Permission: ATTENDEE
      *
      * @param conferenceUUID UUID of the convention to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
-     * @return event name
+     * @return event title
      */
-    public String getEventName(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+    public String getEventTitle(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-        return eventManager.getEventName(eventUUID);
+        return eventManager.getEventTitle(eventUUID);
     }
 
     /**
      * Gets a set of UUIDs of speakers at this event.
-     *
+     * <p>
      * Required Permission: ATTENDEE
      *
      * @param conferenceUUID UUID of the convention to operate on
@@ -382,7 +382,7 @@ public class EventController {
 
     /**
      * Get the TimeRange for this event.
-     *
+     * <p>
      * Required Permission: ATTENDEE
      *
      * @param conferenceUUID UUID of the convention to operate on
@@ -400,7 +400,7 @@ public class EventController {
 
     /**
      * Get a set of attendees for this event.
-     *
+     * <p>
      * Required Permission: SPEAKER
      *
      * @param conferenceUUID UUID of the convention to operate on

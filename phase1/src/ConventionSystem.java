@@ -27,10 +27,10 @@ public class ConventionSystem {
         ConferenceManager conferenceManager = new ConferenceManager();
         PermissionManager permissionManager = new PermissionManager(conferenceManager);
 
-        ConversationController conversationController = new ConversationController();
+        //ConversationController conversationController = new ConversationController();
         RoomController roomController = new RoomController(conferenceManager, permissionManager);
         EventController eventController = new EventController(conferenceManager, permissionManager);
-        ConferenceController conferenceController = new ConferenceController(conversationController, eventController, conferenceManager, permissionManager);
+        ConferenceController conferenceController = new ConferenceController(/*conversationController,*/ eventController, conferenceManager, permissionManager);
 
         // Test stuff
 
