@@ -22,8 +22,37 @@ public class UserController {
     UUID currentUser;
     UserManager userManager = new UserManager();
 
-    public  boolean registerUser(String firstName, String lastName, String username, String password){
-        return userManager.registerUser(firstName, lastName, username, password);
+    public void setUserFirstName(String firstName) {
+        userManager.setUserFirstName(currentUser, firstName);;
+    }
+
+    public String getUserFirstName() {
+        return userManager.getUserFirstName(currentUser);
+    }
+
+    public void setUserLastName(String lastName) {
+        userManager.setUserLastName(currentUser, lastName);
+    }
+
+    public String getUserLastName() {
+        return userManager.getUserLastName(currentUser);
+    }
+
+    public void setUserUsername(String username) {
+        userManager.setUserUsername(currentUser, username);
+    }
+
+    public String getUserUsername() {
+        return userManager.getUserUsername(currentUser);
+    }
+
+    public void setUserPassword(String password){
+        userManager.setUserPassword(currentUser, password);
+    }
+
+    public  UUID registerUser(String firstName, String lastName, String username, String password){
+        userManager.registerUser(firstName, lastName, username, password);
+        return currentUser;
     }
 
     public boolean login(String username, String password) {
