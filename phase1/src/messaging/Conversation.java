@@ -23,18 +23,35 @@ public class Conversation {
         convoId = UUID.randomUUID();
     }
 
-    public void addUserToWrite(UUID user){
-        writeAccessUsers.add(user);
+    /**
+     *  Adds the User Id of the Person (user) to the list of Users that have write access
+     * @param userUUID UserId of the User
+     */
+    public void addUserToWrite(UUID userUUID){
+        writeAccessUsers.add(userUUID);
     }
 
-    public void addUsersToRead(UUID user){
-        readAccessUsers.add(user);
+    /**
+     *  Adds the User Id of the Person (user) to the list of Users that have read access
+     * @param userUUID UserId of the User
+     */
+    public void addUsersToRead(UUID userUUID){
+        readAccessUsers.add(userUUID);
     }
 
+    /**
+     *  Changes the name of the Chat (Group or private) to the new name provided
+     * @param newName UserId of the User
+     */
     public void changeConversationName(String newName){
         conversationName = newName;
     }
 
+    /**
+     *  Adds message to the list of messages in this Conversation
+     * @param message Message to be added in the conversation
+     * @return true iff message was sent successfully
+     */
     public boolean addMessage(Message message){
         if (conversationMessages.contains(message)){
             System.out.println("Message has already been added");
@@ -46,6 +63,11 @@ public class Conversation {
         }
     }
 
+    /**
+     *  Deletes a specific message in the Chat
+     * @param message Message to be deleted
+     * @return true iff message was deleted successfully
+     */
     public boolean deleteMessage(Message message){
         if (conversationMessages.contains(message)){
             conversationMessages.remove(message);
@@ -56,7 +78,18 @@ public class Conversation {
         }
     }
 
+    /**
+     *  Gets the name of the Conversation
+     */
     public String getConversationName(){
+        return conversationName;
+    }
+
+    /**
+     *  Gets the name of the Conversation
+     * @param conversationId The UUID associated with this Conversation
+     */
+    public String getConversationName(UUID conversationId){
         return conversationName;
     }
 
