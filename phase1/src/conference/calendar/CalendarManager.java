@@ -2,6 +2,8 @@ package conference.calendar;
 
 import util.exception.DoubleBookingException;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -13,8 +15,8 @@ public class CalendarManager {
         this.calendar = calendar;
     }
 
-    public Set<Pair<UUID, TimeRange>> getTimeRanges() {
-        return calendar.getEventUUIDTimeRangesPairs();
+    public Map<UUID, TimeRange> getUUIDtoTimeRanges() {
+        return calendar.getUUIDToTimeRange();
     }
 
     /**
@@ -29,14 +31,13 @@ public class CalendarManager {
      * adds the UUID and TimeRange of a Calendarable object to Calendar
      *
      * @param calendarableUUID the UUID of the calendarable object
-     * @param timeRange the TimeRange of the calendarable object
+     * @param timeRange        the TimeRange of the calendarable object
      */
     public void addTimeBlock(UUID calendarableUUID, TimeRange timeRange) {
         if (this.timeRangeOccupied(timeRange)) {
             throw new DoubleBookingException();
         } else {
-            Pair<UUID, TimeRange> p = new Pair<>(calendarableUUID, timeRange);
-            calendar.bookCalendarable(p);
+            calendar.bookCalendarable(calendarableUUID, timeRange);
         }
     }
 }

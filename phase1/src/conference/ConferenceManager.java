@@ -29,14 +29,14 @@ public class ConferenceManager {
      *       Similar idea for room.
      */
 
-    public Set<Pair<UUID, TimeRange>> getConferenceCalendarManager(UUID conferenceUUID) {
+    public Map<UUID, TimeRange> getConferenceSchedule(UUID conferenceUUID) {
         RoomManager roomManager = getRoomManager(conferenceUUID);
-        Set<Pair<UUID, TimeRange>> eventUUIDtoTimeRanges = new HashSet<>();
+        Map<UUID, TimeRange> eventUUIDtoTimeRanges = new HashMap<>();
 
         for (UUID roomUUID : roomManager.getRooms()) {
             CalendarManager calendarManager = roomManager.getCalendarManager(roomUUID);
 
-            eventUUIDtoTimeRanges.addAll(calendarManager.getTimeRanges());
+            eventUUIDtoTimeRanges.putAll(calendarManager.getUUIDtoTimeRanges());
         }
 
         return eventUUIDtoTimeRanges;

@@ -1,17 +1,11 @@
 package conference;
 
-import conference.calendar.Calendar;
 import conference.calendar.CalendarManager;
-import conference.calendar.Pair;
 import conference.calendar.TimeRange;
-import conference.event.Event;
 import conference.event.EventManager;
-import conference.room.Room;
 import conference.room.RoomManager;
 import util.exception.DoubleBookingException;
-import util.exception.NullUserException;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -143,10 +137,10 @@ public class ConferenceController {
      * @param conferenceUUID
      * @param executorUUID
      */
-    public Set<Pair<UUID, TimeRange>> getConferenceSchedule(UUID conferenceUUID, UUID executorUUID) {
+    public Map<UUID, TimeRange> getConferenceSchedule(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
-        return conferenceManager.getConferenceCalendarManager(conferenceUUID).getTimeRanges();
+        return conferenceManager.getConferenceSchedule(conferenceUUID);
     }
 
     /**
@@ -561,12 +555,12 @@ public class ConferenceController {
         return roomManager.getRoomCapacity(roomUUID);
     }
 
-    public Set<Pair<UUID, TimeRange>> getRoomTimeRanges(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
+    public Map<UUID, TimeRange> getRoomSchedule(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);
 
-        return roomManager.getCalendarManager(roomUUID).getTimeRanges();
+        return roomManager.getCalendarManager(roomUUID).getUUIDtoTimeRanges();
     }
 
     /* Organizer operations */
