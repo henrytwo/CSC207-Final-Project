@@ -135,7 +135,6 @@ public class ConferenceSystem {
          *
          * - Dealing with CompareBySpeaker
          * - Dealing with speaker conflicts
-         * - What is the purpose of calendarable
          */
 
         LocalDateTime dateA = LocalDateTime.of(2015,

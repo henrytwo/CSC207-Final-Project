@@ -42,11 +42,12 @@ public class Calendar {
     }
 
     /**
-     * add a Calendarable UUID, TimeRange pair to the set of all pairs for this calendar
-     * @param calendarableUUID UUID of the calendarable object
-     * @param timeRange Time range of the calendarable object
+     * Books a time slot for an event in this calendar
+     *
+     * @param eventUUID UUID of the event
+     * @param timeRange Time range of the event
      */
-    public void bookCalendarable(UUID calendarableUUID, TimeRange timeRange) {
-        this.uuidToTimeRange.put(calendarableUUID, timeRange);
+    public void addTimeBlock(UUID eventUUID, TimeRange timeRange) {
+        this.uuidToTimeRange.put(eventUUID, timeRange);
     }
 }
