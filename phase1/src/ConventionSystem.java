@@ -25,12 +25,11 @@ public class ConventionSystem {
         LOGGER.setUseParentHandlers(false);
 
         ConferenceManager conferenceManager = new ConferenceManager();
-        PermissionManager permissionManager = new PermissionManager(conferenceManager);
 
         //ConversationController conversationController = new ConversationController();
-        RoomController roomController = new RoomController(conferenceManager, permissionManager);
-        EventController eventController = new EventController(conferenceManager, permissionManager);
-        ConferenceController conferenceController = new ConferenceController(/*conversationController,*/ eventController, conferenceManager, permissionManager);
+        RoomController roomController = new RoomController(conferenceManager);
+        EventController eventController = new EventController(conferenceManager);
+        ConferenceController conferenceController = new ConferenceController(/*conversationController,*/ eventController, conferenceManager);
 
         // Test stuff
 

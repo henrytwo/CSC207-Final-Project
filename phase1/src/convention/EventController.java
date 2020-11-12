@@ -19,9 +19,9 @@ public class EventController {
     private ConferenceManager conferenceManager;
     private PermissionManager permissionManager;
 
-    public EventController(ConferenceManager conferenceManager, PermissionManager permissionManager) {
+    public EventController(ConferenceManager conferenceManager) {
         this.conferenceManager = conferenceManager;
-        this.permissionManager = permissionManager;
+        this.permissionManager = new PermissionManager(conferenceManager);
     }
 
     /**

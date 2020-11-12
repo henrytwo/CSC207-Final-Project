@@ -48,12 +48,11 @@ public class ConferenceTest {
     @Before
     public void init() {
         ConferenceManager conferenceManager = new ConferenceManager();
-        PermissionManager permissionManager = new PermissionManager(conferenceManager);
 
         //ConversationController conversationController = new ConversationController();
-        roomController = new RoomController(conferenceManager, permissionManager);
-        eventController = new EventController(conferenceManager, permissionManager);
-        conferenceController = new ConferenceController(/*conversationController,*/ eventController, conferenceManager, permissionManager);
+        roomController = new RoomController(conferenceManager);
+        eventController = new EventController(conferenceManager);
+        conferenceController = new ConferenceController(/*conversationController,*/ eventController, conferenceManager);
     }
 
     // Test with and without permission

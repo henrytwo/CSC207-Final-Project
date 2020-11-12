@@ -16,9 +16,9 @@ public class RoomController {
     private ConferenceManager conferenceManager;
     private PermissionManager permissionManager;
 
-    public RoomController(ConferenceManager conferenceManager, PermissionManager permissionManager) {
+    public RoomController(ConferenceManager conferenceManager) {
         this.conferenceManager = conferenceManager;
-        this.permissionManager = permissionManager;
+        this.permissionManager = new PermissionManager(conferenceManager);
     }
 
     /**

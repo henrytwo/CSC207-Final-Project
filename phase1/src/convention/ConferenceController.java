@@ -28,12 +28,14 @@ public class ConferenceController {
      * send instructions to it to create or mutate conversations that are created for conferences.
      *
      * @param conversationController
+     * @param eventController
+     * @param conferenceManager
      */
-    public ConferenceController(/*ConversationController conversationController,*/ EventController eventController, ConferenceManager conferenceManager, PermissionManager permissionManager) {
+    public ConferenceController(/*ConversationController conversationController,*/ EventController eventController, ConferenceManager conferenceManager) {
         //this.conversationController = conversationController;
         this.eventController = eventController;
         this.conferenceManager = conferenceManager;
-        this.permissionManager = permissionManager;
+        this.permissionManager = new PermissionManager(conferenceManager);
     }
 
     /* Conference operations */
