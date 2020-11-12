@@ -47,6 +47,10 @@ public class Conversation {
         readAccessUsers.add(userUUID);
     }
 
+    public Set<UUID> getWriteAccessUsers() {
+        return writeAccessUsers;
+    }
+
     /**
      *  Changes the name of the Chat (Group or private) to the new name provided
      * @param newName UserId of the User
