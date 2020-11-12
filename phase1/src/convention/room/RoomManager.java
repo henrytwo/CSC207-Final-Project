@@ -31,7 +31,7 @@ public class RoomManager {
      * @return the CalendarManager associated with this room
      */
     public CalendarManager getCalendarManager(UUID roomUUID) {
-        return new CalendarManager(getRoomCalendar(roomUUID));
+        return new CalendarManager(getRoom(roomUUID).getCalendar());
     }
 
     /**
@@ -49,10 +49,6 @@ public class RoomManager {
             throw new NullRoomException(roomUUID);
         }
         return rooms.get(roomUUID);
-    }
-
-    private Calendar getRoomCalendar(UUID roomUUID) {
-        return getRoom(roomUUID).getCalendar();
     }
 
     /**
