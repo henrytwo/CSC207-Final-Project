@@ -14,7 +14,7 @@ public class ConsoleUtilities {
      *
      * There's a special solution for Windows...
      */
-    public static void clearConsole() {
+    public void clearConsole() {
         if (os.contains("Windows")) {
             for(int i = 0; i < 100; i++) {
                 System.out.println("");
@@ -30,7 +30,7 @@ public class ConsoleUtilities {
      *
      * @return hashmap with username and password
      */
-    public static HashMap<String, String> loginPrompt() {
+    public HashMap<String, String> loginPrompt() {
         clearConsole();
 
         System.out.print("Username: ");
@@ -57,7 +57,7 @@ public class ConsoleUtilities {
      * @param options      String array with options
      * @return             Integer with array index of selected item
      */
-    public static int singleSelectMenu(String precaption, String caption, String[] options) {
+    public int singleSelectMenu(String precaption, String caption, String[] options) {
         return singleSelectMenu(precaption, caption, options,true);
     }
 
@@ -72,7 +72,7 @@ public class ConsoleUtilities {
      * @param clear        Whether to clear screen before menu is displayed
      * @return             Integer with array index of selected item
      */
-    public static int singleSelectMenu(String caption, String[] options, boolean clear) {
+    public int singleSelectMenu(String caption, String[] options, boolean clear) {
         return singleSelectMenu("", caption, options, clear);
     }
 
@@ -86,7 +86,7 @@ public class ConsoleUtilities {
      * @param options      String array with options
      * @return             Integer with array index of selected item
      */
-    public static int singleSelectMenu(String caption, String[] options) {
+    public int singleSelectMenu(String caption, String[] options) {
         return singleSelectMenu("", caption, options, true);
     }
 
@@ -104,7 +104,7 @@ public class ConsoleUtilities {
      * @param clear        Whether to clear screen before menu is displayed
      * @return             Integer with array index of selected item
      */
-    public static int singleSelectMenu(String preCaption, String caption, String[] options, boolean clear) {
+    public int singleSelectMenu(String preCaption, String caption, String[] options, boolean clear) {
 
         int selection;
 
@@ -164,7 +164,7 @@ public class ConsoleUtilities {
      * @param caption      String to be used as Main Caption
      * @return             Boolean response to caption
      */
-    public static boolean booleanSelectMenu(String caption) {
+    public boolean booleanSelectMenu(String caption) {
         while (true) {
 
             System.out.println(caption);
@@ -192,7 +192,7 @@ public class ConsoleUtilities {
      *
      * @param message      String with message
      */
-    public static void confirmBoxClear(String message) {
+    public void confirmBoxClear(String message) {
         clearConsole();
         confirmBox(message);
     }
@@ -204,7 +204,7 @@ public class ConsoleUtilities {
      *
      * @param message      String with message
      */
-    public static void confirmBox(String message) {
+    public void confirmBox(String message) {
         System.out.println(message);
         System.out.println("\nPress [Enter] to continue");
         try {
