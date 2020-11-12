@@ -15,13 +15,18 @@ public class ConsoleUtilities {
      * There's a special solution for Windows...
      */
     public void clearConsole() {
-        if (os.contains("Windows")) {
+        /*if (os.contains("Windows")) {
             for(int i = 0; i < 100; i++) {
                 System.out.println("");
             }
         }
         else {
+            // This doesn't work in intelliJ :/
             System.out.print("\033[H\033[2J");
+        }*/
+
+        for(int i = 0; i < 100; i++) {
+            System.out.println("");
         }
     }
 

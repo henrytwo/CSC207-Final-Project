@@ -50,7 +50,7 @@ public class LoginAndRegisterUI {
                     "Exit System"
             };
 
-            int selection = consoleUtilities.singleSelectMenu("Welcome to what's arguably the worst LinkedIn clone ever.", options);
+            int selection = consoleUtilities.singleSelectMenu("LinkedIn Clone", options);
 
             switch (selection) {
                 case 1:
