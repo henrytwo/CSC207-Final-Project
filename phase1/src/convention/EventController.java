@@ -390,7 +390,6 @@ public class EventController {
             // Update the event with the new room UUID
             eventManager.setEventRoom(eventUUID, newRoomUUID);
         }
-
     }
 
     /**
@@ -409,9 +408,24 @@ public class EventController {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
         RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);
 
-        /**
-         * TODO: Check to make sure there are no booking conflicts
-         */
+        UUID roomUUID = eventManager.getEventRoom(eventUUID);
+        Set<UUID> speakerUUIDs = eventManager.getEventSpeakers(eventUUID);
+
+        CalendarManager roomCalendarManager = roomManager.getCalendarManager(roomUUID);
+
+        // Test that there are no speaker conflicts
+        testSpeakersTimeRangeOccupied(conferenceUUID, speakerUUIDs, timeRange);
+
+        // Test that the room is not being double booked
+        if (roomCalendarManager.timeRangeOccupied(timeRange)) {
+            throw new CalendarDoubleBookingException();
+        } else {
+            // Cancel the booking
+            roomCalendarManager.removeTimeBlock(eventUUID);
+
+            // Create the new booking
+            roomCalendarManager.addTimeBlock(eventUUID, timeRange);
+        }
 
         eventManager.setEventTimeRange(eventUUID, timeRange);
     }
