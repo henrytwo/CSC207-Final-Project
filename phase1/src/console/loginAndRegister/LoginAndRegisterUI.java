@@ -1,5 +1,6 @@
-package console;
+package console.loginAndRegister;
 
+import console.ConsoleUtilities;
 import user.UserController;
 
 import java.util.HashMap;
@@ -14,6 +15,11 @@ public class LoginAndRegisterUI {
         this.userController = userController;
     }
 
+    /**
+     * Presents the login prompt and authenticates with userController
+     *
+     * @return false iff the UI loop is to break on the next iteration
+     */
     public boolean login() {
         Map<String, String> credentials = consoleUtilities.loginPrompt();
 
@@ -21,11 +27,11 @@ public class LoginAndRegisterUI {
         String password = credentials.get("password");
 
         if (userController.login(username, password) != null) {
-            return true;
+            return false;
         } else {
             consoleUtilities.confirmBoxClear("Incorrect credentials, please try again.");
 
-            return false;
+            return true;
         }
     }
 
@@ -36,12 +42,12 @@ public class LoginAndRegisterUI {
 
     /**
      * Run the LoginAndRegisterUI
-     * @return true iff the user wants to quit the program
+     * @return false iff the user wants to quit the program
      */
     public boolean run() {
-        boolean exit = false;
+        boolean running = true;
 
-        while (!exit) {
+        while (running) {
             consoleUtilities.clearConsole();
 
             String[] options = new String[]{
@@ -54,10 +60,10 @@ public class LoginAndRegisterUI {
 
             switch (selection) {
                 case 1:
-                    exit = login();
+                    running = login();
                     break;
                 case 2:
-                    exit = register();
+                    running = register();
                     break;
                 case 3: // User wants to Exit System
                     return true;

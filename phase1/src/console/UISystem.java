@@ -1,5 +1,6 @@
 package console;
 
+import console.loginAndRegister.LoginAndRegisterUI;
 import contact.ContactController;
 import convention.ConferenceController;
 import convention.EventController;
@@ -39,13 +40,13 @@ public class UISystem {
         LoginAndRegisterUI loginAndRegisterUI = new LoginAndRegisterUI(userController);
         MainMenuUI mainMenuUI = new MainMenuUI(userController, contactController, conversationController, roomController, eventController, conferenceController);
 
-        boolean exit = false;
+        boolean running = true;
 
-        while (!exit) {
+        while (running) {
             if (userController.getCurrentUser() == null) {
-                exit = loginAndRegisterUI.run();
+                running = loginAndRegisterUI.run();
             } else {
-                exit = mainMenuUI.run();
+                running = mainMenuUI.run();
             }
         }
     }

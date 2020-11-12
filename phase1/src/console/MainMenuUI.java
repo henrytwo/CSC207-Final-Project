@@ -1,5 +1,8 @@
 package console;
 
+import console.conferences.ConferencesUI;
+import console.contacts.ContactsUI;
+import console.conversation.MessagingUI;
 import contact.ContactController;
 import convention.ConferenceController;
 import convention.EventController;
@@ -29,7 +32,7 @@ public class MainMenuUI {
     /**
      * Run the MainMenuUI
      *
-     * @return true iff the user wants to quit the program
+     * @return false iff the user wants to quit the program in the following UI loop
      */
     public boolean run() {
 
@@ -58,9 +61,9 @@ public class MainMenuUI {
                     break;
                 case 4:
                     userController.logout();
-                    return false; // Logout (i.e. return to parent menu without terminating program)
+                    return true; // Logout (i.e. return to parent menu without terminating program)
                 case 5:
-                    return true; // Terminate program
+                    return false; // Terminate program
             }
         }
     }

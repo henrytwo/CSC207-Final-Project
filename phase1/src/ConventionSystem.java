@@ -1,5 +1,3 @@
-import console.LoginAndRegisterUI;
-import console.MainMenuUI;
 import console.UISystem;
 import contact.ContactController;
 import contact.ContactManager;

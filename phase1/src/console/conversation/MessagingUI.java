@@ -1,5 +1,6 @@
-package console;
+package console.conversation;
 
+import console.ConsoleUtilities;
 import messaging.ConversationController;
 
 public class MessagingUI {

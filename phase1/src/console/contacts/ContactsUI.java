@@ -1,5 +1,6 @@
-package console;
+package console.contacts;
 
+import console.ConsoleUtilities;
 import contact.ContactController;
 
 public class ContactsUI {
