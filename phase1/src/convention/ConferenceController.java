@@ -6,6 +6,7 @@ import convention.event.EventManager;
 import convention.permission.PermissionManager;
 import messaging.ConversationManager;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -50,6 +51,25 @@ public class ConferenceController {
      */
     public Set<UUID> getConferences() {
         return conferenceManager.getConferences();
+    }
+
+    /**
+     * Get a set of all conference that a user is part of.
+     * <p>
+     * Required Permission: NONE
+     *
+     * @return set of conference UUIDs
+     */
+    public Set<UUID> getUserConferences(UUID userUUID) {
+        Set<UUID> myConferences = new HashSet<>();
+
+        for (UUID conferenceUUID : conferenceManager.getConferences()) {
+            if (conferenceManager.isAffiliated(conferenceUUID, userUUID)) {
+                myConferences.add(conferenceUUID);
+            }
+        }
+
+        return myConferences;
     }
 
     /**

@@ -47,7 +47,7 @@ public class MainMenuUI {
         String userFullName = userController.getUserFullName(userController.getCurrentUser());
 
         while (true) {
-            int selection = consoleUtilities.singleSelectMenu(String.format("Signed in as %s", userFullName), options);
+            int selection = consoleUtilities.singleSelectMenu(String.format("Main Menu | Signed in as %s", userFullName), options);
 
             switch (selection) {
                 case 1:

@@ -175,7 +175,20 @@ public class ConferenceManager {
     }
 
     /**
-     * Tests if a UUID belongs to an attendee user for this convention
+     * Tests if a user is affiliated with this conference (i.e. has a role)
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @param userUUID       UUID of the user to test
+     * @return true iff the userUUID is affiliated with this conference
+     */
+    public boolean isAffiliated(UUID conferenceUUID, UUID userUUID) {
+        return isAttendee(conferenceUUID, userUUID) ||
+               isSpeaker(conferenceUUID, userUUID) ||
+               isOrganizer(conferenceUUID, userUUID);
+    }
+
+    /**
+     * Tests if a UUID belongs to an attendee user for this convention. (Or has a higher rank)
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to test
@@ -197,7 +210,7 @@ public class ConferenceManager {
     }
 
     /**
-     * Tests if a UUID belongs to a speaker user for this convention
+     * Tests if a UUID belongs to a speaker user for this convention. (Or has a higher rank)
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to test
