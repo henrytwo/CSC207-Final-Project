@@ -1,8 +1,8 @@
 package messaging;
 
-import exception.ConversationNotExistException;
+import exception.NoReadAccessException;
+import exception.NoWriteAccessException;
 import exception.NullConversationException;
-import exception.UserNotPartOfChatException;
 
 import java.util.*;
 
@@ -108,7 +108,7 @@ public class ConversationManager {
      *
      * @param userId the userid of the user for whom we want to know the set of Conversation lists
      */
-    public Set getConversationlist(UUID userId) {
+    public Set<UUID> getConversationlist(UUID userId) {
         return mapUserConvo.get(userId);
     }
 
@@ -126,12 +126,12 @@ public class ConversationManager {
         if (conversation.getWriteAccessUsers().contains(userId)) {
             conversation.addMessage(message);
         } else {
-            throw new UserNotPartOfChatException();
+            throw new NoWriteAccessException();
         }
     }
 
     /**
-     * Gets messages for a conversation a user has read access to. Throws UserNotPartOfChatException if the user has no
+     * Gets messages for a conversation a user has read access to. Throws NoReadAccessException if the user has no
      * read access.
      *
      * @param userUUID
@@ -144,7 +144,7 @@ public class ConversationManager {
         if (conversation.getReadAccessUsers().contains(userUUID)) {
             return conversation.getConversationMessages();
         } else {
-            throw new UserNotPartOfChatException();
+            throw new NoReadAccessException();
         }
     }
 }

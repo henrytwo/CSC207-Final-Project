@@ -3,6 +3,8 @@ package messaging;
 import contact.ContactManager;
 import exception.MessageDeniedException;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,7 +25,7 @@ public class ConversationController {
      * @return true iff the receiver is in the friend list of sender
      */
     private boolean checkAccess(UUID sender, UUID receiver) {
-        return contactManager.getContacts(sender).contains(receiver);
+        return contactManager.getContacts(sender) != null && contactManager.getContacts(sender).contains(receiver);
     }
 
     /**
@@ -45,15 +47,26 @@ public class ConversationController {
      * @param convMessages the message that initiated the need for this Chat to be created
      */
     public UUID initiateConversation(String convName, UUID executorUUID, Set<UUID> otherUsers, Message convMessages) {
-
         for (UUID otherUserUUID : otherUsers) {
             if (!checkAccess(executorUUID, otherUserUUID)) {
                 throw new MessageDeniedException(executorUUID, otherUserUUID);
             }
         }
 
-        // Let the other users read and write
-        return convoManager.createConversation(convName, otherUsers, otherUsers, convMessages);
+        // Give the executor user and the other users read and write permissions
+        HashSet<UUID> conversationUsers = new HashSet<>();
+        conversationUsers.addAll(otherUsers);
+        conversationUsers.add(executorUUID);
+
+        return convoManager.createConversation(convName, conversationUsers, conversationUsers, convMessages);
+    }
+
+    public ArrayList<Message> getMessages(UUID userUUID, UUID conversationUUID) {
+        return convoManager.getMessages(userUUID, conversationUUID);
+    }
+
+    public Set<UUID> getConversationlist(UUID userId) {
+        return convoManager.getConversationlist(userId);
     }
 
     /**
@@ -62,9 +75,10 @@ public class ConversationController {
      * @param userUUID         The userId of the user to be added to the Chat
      * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
      */
-    public boolean addUser(UUID userUUID, UUID conversationUUID) {
-        return convoManager.addUser(userUUID, conversationUUID);
-    }
+    //public void addUser(UUID userUUID, UUID conversationUUID) {
+    //    convoManager.addUser(userUUID, conversationUUID);
+    //}
+    // Not currently in use, need to add admin chat users for this
 
     /**
      * Adds user to the a specific chat
@@ -72,8 +86,8 @@ public class ConversationController {
      * @param userUUID         The userId of the user to be added to the Chat
      * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
      */
-    public boolean removeUser(UUID userUUID, UUID conversationUUID) {
-        return convoManager.removeUser(userUUID, conversationUUID);
-    }
-
+    //public void removeUser(UUID userUUID, UUID conversationUUID) {
+    //    convoManager.removeUser(userUUID, conversationUUID);
+    //}
+    // Not currently in use, need to add admin chat users for this
 }
