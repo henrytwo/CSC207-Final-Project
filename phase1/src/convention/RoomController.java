@@ -2,6 +2,8 @@ package convention;
 
 import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
+import convention.event.EventManager;
+import convention.exception.RoomInUseException;
 import convention.permission.PermissionManager;
 import convention.room.RoomManager;
 
@@ -101,12 +103,16 @@ public class RoomController {
      */
     public void deleteRoom(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
-        /**
-         * TODO: Do not allow this room to be deleted if it is being used by some events
-         *       Having an event without a room will cause all sorts of headaches
-         */
 
+        EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
         RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);
+
+        // Test if this room is being used by any events
+        for (UUID eventUUID : eventManager.getEvents()) {
+            if (eventManager.getEventRoom(eventUUID).equals(roomUUID)) {
+                throw new RoomInUseException(roomUUID, eventUUID);
+            }
+        }
 
         roomManager.deleteRoom(roomUUID);
     }
