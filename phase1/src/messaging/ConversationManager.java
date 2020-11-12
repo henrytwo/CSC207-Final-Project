@@ -1,5 +1,9 @@
 package messaging;
 
+import Exceptions.ConversationAlreadyExistsException;
+import Exceptions.ConversationNotExistException;
+import Exceptions.UserNotPartOfChatException;
+
 import java.util.*;
 
 public class ConversationManager {
@@ -66,8 +70,7 @@ public class ConversationManager {
     public boolean addUserToConversation(UUID userId, UUID newConversationId) {
         if (mapUserConvo.keySet().contains(userId)) {
             if (mapUserConvo.get(userId).contains(newConversationId)) {
-                System.out.println("This conversation has already been added.");
-                return false;
+                throw new ConversationAlreadyExistsException();
             } else {
                 mapUserConvo.get(userId).add(newConversationId);
                 return true;
@@ -108,14 +111,14 @@ public class ConversationManager {
                 if (conversationObject.getWriteAccessUsers().contains(convId)) {
                     conversationObject.addMessage(message);
                 } else {
-                    System.out.println("You are not allowed to message in this chat.");
+                    throw new UserNotPartOfChatException();
                 }
 
             } else {
-                System.out.println("You are not allowed to message in this chat.");
+                throw new UserNotPartOfChatException();
             }
         } else {
-            System.out.println("There is no conversation with this Id.");
+            throw new ConversationNotExistException();
         }
     }
 
