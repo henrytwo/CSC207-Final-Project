@@ -18,12 +18,11 @@ public class ConferenceManager {
     }
 
     /**
-     * TODO: Maybe add a method to getEventManager, which takes in a conferenceUUID and returns an EventManager
-     * which is initialized with the hashmap of events for that conference
-     * <p>
-     * Similar idea for room.
+     * Gets a map from Event UUID to their respective TimeRange
+     *
+     * @param conferenceUUID
+     * @return
      */
-
     public Map<UUID, TimeRange> getConferenceSchedule(UUID conferenceUUID) {
         RoomManager roomManager = getRoomManager(conferenceUUID);
         Map<UUID, TimeRange> eventUUIDtoTimeRanges = new HashMap<>();
