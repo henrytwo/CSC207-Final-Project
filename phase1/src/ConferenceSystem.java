@@ -31,25 +31,25 @@ public class ConferenceSystem {
         * ** So it'd be check if organizer OR (if target == self AND is attendee)
         *
         * /
-        * |-Login or Register
+        * |-Login or Register                                           ** Ez clap menu thing
         *   |- Go to messaging
-        *   |  |-Look at the list of messages
-        *   |  | |-Select a conversation
+        *   |  |-Look at the list of messages                           ** Ez clap menu thing
+        *   |  | |-Select a conversation                                ** Custom message boi
         *   |  |   |-Send message
         *   |  |   |-Read message
         *   |  |   |-See users in conversation
         *   |  |-Start a new message with someone on your contact list
         *   |
-        *   |- Go to contacts
-        *   |  |-View contacts
+        *   |- Go to contacts                                            ** Ez clap menu thing
+        *   |  |-View contacts                                           ** Custom stuff
         *   |  |-Request someone to connect
         *   |  |-View people who want to slide into your DMs
         *   |
-        *   |- Go to conferences
-            *  |-> Create a conference
-            *  |-> Join a conference
+        *   |- Go to conferences                                         ** Ez clap menu thing
+            *  |-> Create a conference                                   ** Form boi
+            *  |-> Join a conference                                     ** Ez clap menu thing
             *  |   |-> Find a conference from a list and join it
-            *  |-> View a joined conference
+            *  |-> View a joined conference                              ** Ez clap menu thing
             *      |-> View the general conference details (start, end, name, etc.)
             *      |
             *      |-> View the event calendar
@@ -82,52 +82,10 @@ public class ConferenceSystem {
         * */
 
         /**
-         * *      |-> Get conference name
-         *             *      |-> Get conference start
-         *             *      |-> Get conference end
-         *             *      |-> Set conference name
-         *             *      |-> Set conference start
-         *             *      |-> Set conference end
-         *             *      |
-         *             *      |-> View Conference schedule
-         *             *      |
-         *             *      |-> View Events UUIDs
-         *             *      |-> Register for event (Admin/Self)
-         *             *      |-> Unregister for event (Admin/Self)
-         *             *      |-> Edit event (Admin)
-         *             *      |    |-> Set name
-         *             *      |    |-> Set start time/date
-         *             *      |    |-> Set end time/date
-         *             *      |    |-> Add speaker(s)
-         *             *      |    |-> Remove speaker(s)
-         *             *      |    |-> Set room
-         *             *      |-> Create event (Admin)
-         *             *      |-> Delete event (Admin)
-         *             *      |-> Create event conversation (Speaker)
-         *             *      |-> Get event name
-         *             *      |-> Get event speakers
-         *             *      |-> Get event time range
-         *             *      |-> Get event room
-         *             *      |
-         *             *      |-> Create room (Admin)
-         *             *      |-> Edit room (Admin)
-         *             *      |    |-> Set room location
-         *             *      |    |-> Set room capacity
-         *             *      |-> Delete room (Admin)
-         *             *      |-> Get rooms
-         *             *      |-> Get room location
-         *             *      |-> Get room capacity
-         *             *      |
-         *             *      |-> Get organizer UUIDs (Admin)
-         *             *      |-> Add organizer (Admin)
-         *             *      |-> Remove as organizer (Admin)
-         *             *      |
-         *             *      |-> Get speaker UUIDs (Admin)
-         *             *      |-> Get attendee UUIDs (Admin)
-         *             *      |
-         *             *      |-> Message any registered users (Admin)
-         *             *      |-> Remove from conference (Admin/Self)
-         *
+         * UI Components to build
+         * - n-column table with numbered rows
+         * - messaging thing
+         * - Form component
          */
 
         /**
