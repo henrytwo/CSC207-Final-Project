@@ -11,6 +11,7 @@ public class ConversationManager {
 //    Handles sending messages
     private HashMap<UUID, Set<UUID>> mapUserConvo = new HashMap<UUID,
         Set<UUID>>();
+    private HashMap<UUID, Conversation> mapUUIDConvo = new HashMap<>();
 
     /**
      *  Creates an instance of Conversation
@@ -25,6 +26,8 @@ public class ConversationManager {
         ArrayList<Message> convMessages = new ArrayList<>();
         convMessages.add(convMessages1);
         Conversation newConversation = new Conversation(convName, usersWrite, usersRead, convMessages);
+        UUID convId = newConversation.getconvId();
+        mapUUIDConvo.put(convId, newConversation);
         return newConversation;
     }
 
@@ -38,6 +41,14 @@ public class ConversationManager {
     public Message messageCreator(UUID messageSender_id, String messageContent, Date messageTimestamp){
         Message newMessage = new Message(messageSender_id, messageContent, messageTimestamp);
         return newMessage;
+    }
+
+    public HashMap<UUID, Conversation> getMapUUIDConvo() {
+        return mapUUIDConvo;
+    }
+
+    public HashMap<UUID, Set<UUID>> getMapUserConvo() {
+        return mapUserConvo;
     }
 
     /**
@@ -87,5 +98,8 @@ public class ConversationManager {
     public Set getConversationlist(UUID userId){
         return mapUserConvo.get(userId);
     }
+
+
+
 
 }

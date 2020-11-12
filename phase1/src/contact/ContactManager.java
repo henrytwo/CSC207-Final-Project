@@ -20,7 +20,7 @@ public class ContactManager {
     }
 
     /**
-     *  returns connection requests received by a user
+     * Returns connection requests received by a user
      * @param user_id the userId of the person for whom we want to show the requests
      * @return The Set of UUID's of the users who have made a connection request
      */
@@ -29,7 +29,7 @@ public class ContactManager {
     }
 
     /**
-     *  returns connection requests sent by a user
+     * Returns connection requests sent by a user
      * @param user_id the userId of the person for whom we need to show the requests
      * @return The Set of UUID's of the users to whom this particular user have made a connection request
      */
@@ -38,7 +38,7 @@ public class ContactManager {
     }
 
     /**
-     *  Sets/updates the contact list of this particular User
+     * Sets/updates the contact list of this particular User
      * @param user_id the userId of the person for whom we need to update the contacts set
      */
     public void setContacts(UUID user_id, Set<UUID> contacts){
@@ -46,7 +46,7 @@ public class ContactManager {
     }
 
     /**
-     *  Sets/updates the requests(received) list of this particular User
+     * Sets/updates the requests(received) list of this particular User
      * @param user_id the userId of the person for whom we need to update the requests(received) set
      * @param requests the set of requests received by this user
      */

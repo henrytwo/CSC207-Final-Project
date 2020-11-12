@@ -23,6 +23,10 @@ public class Conversation {
         convoId = UUID.randomUUID();
     }
 
+    public UUID getconvId(){
+        return convoId;
+    }
+
     /**
      *  Adds the User Id of the Person (user) to the list of Users that have write access
      * @param userUUID UserId of the User
@@ -45,6 +49,22 @@ public class Conversation {
      */
     public void changeConversationName(String newName){
         conversationName = newName;
+    }
+
+
+    /**
+     *  Gets the name of the Conversation
+     */
+    public String getConversationName(){
+        return conversationName;
+    }
+
+    /**
+     *  Gets the name of the Conversation
+     * @param conversationId The UUID associated with this Conversation
+     */
+    public String getConversationName(UUID conversationId){
+        return conversationName;
     }
 
     /**
@@ -76,21 +96,6 @@ public class Conversation {
         else{
             return false;
         }
-    }
-
-    /**
-     *  Gets the name of the Conversation
-     */
-    public String getConversationName(){
-        return conversationName;
-    }
-
-    /**
-     *  Gets the name of the Conversation
-     * @param conversationId The UUID associated with this Conversation
-     */
-    public String getConversationName(UUID conversationId){
-        return conversationName;
     }
 
 }

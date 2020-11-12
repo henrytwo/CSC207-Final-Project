@@ -20,31 +20,28 @@ public class ConversationController {
         return linky.showContacts(sender).contains(receiver);
     }
 
-    public void sendMessage(Message message, UUID receiver, UUID sender, String convName1,
-                            Set<UUID> usersWrite, Set<UUID> usersRead, Message convMessages){
-//        boolean condition = false;
-//        Set<Conversation> conversation_set = convoManager.getConversationlist(receiver);
-//        Conversation[] convo = conversation_set.toArray(new Conversation[conversation_set.size()]);
-//        for(int i =0; i < conversation_set.size() ; i++){
-//            if (convo[i].getConversationName() == conversation_name){
-//                condition = true;
-//                break;
-//            }
-//        }
-        if (checkAccess(sender, receiver) && checkAccess(receiver, sender)){
-            Conversation newConversation = convoManager.conversationCreator(convName1, usersWrite, usersRead, convMessages);
-            convoManager.sendMessage(message, newConversation);
+    public void sendMessage(Message message, UUID convId){
+//        if (checkAccess(sender, receiver) && checkAccess(receiver, sender)){
+//            Conversation newConversation = convoManager.conversationCreator(convName1, usersWrite, usersRead, convMessages);
+//            convoManager.sendMessage(message, newConversation);
+        if (convoManager.getMapUUIDConvo().keySet().contains(convId)) {
+            UUID userId = message.getSenderId();
+            Conversation conversationObject = convoManager.getMapUUIDConvo().get(convId);
+            Set<Conversation> listofConversation = convoManager.getConversationlist(userId);
+            if (listofConversation.contains(conversationObject)) {
+                conversationObject.addMessage(message);
+            } else {
+                System.out.println("You are not allowed to message in this chat.");
+            }
         }
-    }
+        else{System.out.println("There is no conversation with this Id.");}
 
-//    public void sendMessageSpecificOrganizer(UUID organizer, String conversation_name, )
-
-    public void sendMessageToAttendeesofConference(Set<UUID> attendeesList, UUID organizerId, Message message,
-                                                   String convName1, Set<UUID> usersWrite, Set<UUID> usersRead,
-                                                   Message convMessages){
-        for(UUID id: attendeesList){
-            sendMessage(message, id, organizerId, convName1, usersWrite, usersRead, convMessages);
         }
+
+    public Conversation initiateConversation(String convName, Set<UUID> usersWrite, Set<UUID>
+            usersRead, Message convMessages1){
+        return convoManager.conversationCreator(convName, usersWrite, usersRead, convMessages1);
+
     }
 
 }
