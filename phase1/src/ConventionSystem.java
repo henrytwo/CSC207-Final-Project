@@ -1,22 +1,32 @@
 import console.LoginAndRegisterUI;
 import console.MainMenuUI;
+import convention.ConferenceController;
+import convention.EventController;
+import convention.RoomController;
+import convention.conference.ConferenceManager;
 
-import java.io.Serializable;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ConferenceSystem implements Serializable {
+public class ConventionSystem {
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public void run() {
         // Setup logger
         Handler handlerObj = new ConsoleHandler();
-        handlerObj.setLevel(Level.ALL);
+        handlerObj.setLevel(Level.OFF);
         LOGGER.addHandler(handlerObj);
         LOGGER.setLevel(Level.ALL);
         LOGGER.setUseParentHandlers(false);
+
+        ConferenceManager conferenceManager = new ConferenceManager();
+
+        //ConversationController conversationController = new ConversationController();
+        //RoomController roomController = new RoomController(conferenceManager);
+        //EventController eventController = new EventController(conferenceManager);
+        //ConferenceController conferenceController = new ConferenceController(/*conversationController,*/ eventController, conferenceManager);
 
         /*
          * User flow
@@ -25,16 +35,16 @@ public class ConferenceSystem implements Serializable {
          * ** So it'd be check if organizer OR (if target == self AND is attendee)
          *
          * /
-         * |-Login or Register                                           ** Ez clap menu thing
+         * |-Login or Register                                           ** Ez clap menu thing (Shubhra)
          *   |- Go to messaging
          *   |  |-Look at the list of messages                           ** Ez clap menu thing
-         *   |  | |-Select a conversation                                ** Custom message boi
+         *   |  | |-Select a conversation                                ** Custom message boi (Mahak)
          *   |  |   |-Send message
          *   |  |   |-Read message
          *   |  |   |-See users in conversation
          *   |  |-Start a new message with someone on your contact list
          *   |
-         *   |- Go to contacts                                            ** Ez clap menu thing
+         *   |- Go to contacts                                            ** Ez clap menu thing (Pranjal)
          *   |  |-View contacts                                           ** Custom stuff
          *   |  |-Request someone to connect
          *   |  |-View people who want to slide into your DMs
@@ -43,12 +53,12 @@ public class ConferenceSystem implements Serializable {
          *  |-> Create a conference                                   ** Form boi
          *  |-> Join a conference                                     ** Ez clap menu thing
          *  |   |-> Find a conference from a list and join it
-         *  |-> View a joined conference                              ** Ez clap menu thing
+         *  |-> View a joined conference                              ** Ez clap menu thing (Ellie/Henry/Shubhra)
          *      |-> View the general conference details (start, end, name, etc.)
          *      |
          *      |-> View the event calendar
          *      |
-         *      |-> Event stuff
+         *      |-> Event stuff (Emre)
          *      |   |-> View list of events (Attendee)
          *      |   |-> View list of events (Speaker)
          *      |   |-> View event room
@@ -62,7 +72,7 @@ public class ConferenceSystem implements Serializable {
          *      |       |-> Create event
          *      |       |-> Delete event
          *      |
-         *      |-> Room stuff
+         *      |-> Room stuff (Antara)
          *      |   |-> View calendar
          *      |   |-> Organizer related operations
          *      |        |-> Edit the room capacity, location, etc.
@@ -77,12 +87,19 @@ public class ConferenceSystem implements Serializable {
 
         /**
          * UI Components to build
-         * - n-column table with numbered rows
+         * - n-column table with numbered rows (Talk to shubhra about it)
          * - messaging thing
          * - Form component
          */
 
-        LoginAndRegisterUI loginAndRegisterUI = new LoginAndRegisterUI(userController);
+        /**
+         * Big thinking
+         *
+         * - Dealing with CompareBySpeaker
+         * - Dealing with speaker conflicts
+         */
+
+        /*LoginAndRegisterUI loginAndRegisterUI = new LoginAndRegisterUI(userController);
         MainMenuUI mainMenuUI = new MainMenuUI();
 
         while (true) {
@@ -91,6 +108,6 @@ public class ConferenceSystem implements Serializable {
             } else {
                 mainMenuUI.run();
             }
-        }
+        }*/
     }
 }
