@@ -2,7 +2,6 @@
 package conference.event;
 
 
-import conference.calendar.Calendar;
 import conference.calendar.TimeRange;
 
 import java.util.HashSet;
@@ -11,23 +10,29 @@ import java.util.UUID;
 
 public class Event{
     private UUID uuid;
+    private String title;
     private Set<UUID> speakerUUIDs = new HashSet<>();
     private Set<UUID> attendeeUUIDs = new HashSet<>();
+
 
     private TimeRange timeRange;
 
     private UUID conversationUUID;
     private UUID roomUUID;
 
-    public Event(UUID speakerUUID, TimeRange timeRange, UUID conversationUUID, UUID roomUUID){
+    public Event(String title, TimeRange timeRange, UUID roomUUID, Set<UUID> speakerUUIDs){
+        this.title = title;
         this.uuid = UUID.randomUUID();
-        this.speakerUUIDs.add(speakerUUID);
+        this.speakerUUIDs = speakerUUIDs;
         this.timeRange = timeRange;
-        this.conversationUUID = conversationUUID;
+        this.conversationUUID = UUID.randomUUID();
         this.roomUUID = roomUUID;
     }
 
     public UUID getUUID() { return uuid;}
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
     public Set<UUID> getSpeakers() { return this.speakerUUIDs; }
     public void addSpeaker(UUID speakerUUID) { speakerUUIDs.add(speakerUUID); }

@@ -190,7 +190,7 @@ public class ConferenceController {
             // We'll handle revoking speaker access in updateSpeakers, since having speaker permissions is linked to
             // whether or not a user is a speaker of an event.
             for (UUID eventUUID : getSpeakerEvents(conferenceUUID, targetUserUUID)) {
-                eventManager.removeSpeaker(eventUUID, targetUserUUID);
+                eventManager.removeEventSpeaker(eventUUID, targetUserUUID);
             }
 
             // Refresh the list of speakers for this conference
@@ -413,12 +413,12 @@ public class ConferenceController {
         updateSpeakers(conferenceUUID);
     }
 
-    public void setEventName(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, String eventName) {
+    public void setEventTitle(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, String eventName) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-        eventManager.setEventName(eventUUID, eventName);
+        eventManager.setEventTitle(eventUUID, eventName);
     }
 
     public void setEventRoom(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, UUID roomUUID) {
