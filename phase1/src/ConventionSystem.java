@@ -35,16 +35,16 @@ public class ConventionSystem {
          * ** So it'd be check if organizer OR (if target == self AND is attendee)
          *
          * /
-         * |-Login or Register                                           ** Ez clap menu thing
+         * |-Login or Register                                           ** Ez clap menu thing (Shubhra)
          *   |- Go to messaging
          *   |  |-Look at the list of messages                           ** Ez clap menu thing
-         *   |  | |-Select a conversation                                ** Custom message boi
+         *   |  | |-Select a conversation                                ** Custom message boi (Mahak)
          *   |  |   |-Send message
          *   |  |   |-Read message
          *   |  |   |-See users in conversation
          *   |  |-Start a new message with someone on your contact list
          *   |
-         *   |- Go to contacts                                            ** Ez clap menu thing
+         *   |- Go to contacts                                            ** Ez clap menu thing (Pranjal)
          *   |  |-View contacts                                           ** Custom stuff
          *   |  |-Request someone to connect
          *   |  |-View people who want to slide into your DMs
@@ -53,12 +53,12 @@ public class ConventionSystem {
          *  |-> Create a conference                                   ** Form boi
          *  |-> Join a conference                                     ** Ez clap menu thing
          *  |   |-> Find a conference from a list and join it
-         *  |-> View a joined conference                              ** Ez clap menu thing
+         *  |-> View a joined conference                              ** Ez clap menu thing (Ellie/Henry/Shubhra)
          *      |-> View the general conference details (start, end, name, etc.)
          *      |
          *      |-> View the event calendar
          *      |
-         *      |-> Event stuff
+         *      |-> Event stuff (Emre)
          *      |   |-> View list of events (Attendee)
          *      |   |-> View list of events (Speaker)
          *      |   |-> View event room
@@ -72,7 +72,7 @@ public class ConventionSystem {
          *      |       |-> Create event
          *      |       |-> Delete event
          *      |
-         *      |-> Room stuff
+         *      |-> Room stuff (Antara)
          *      |   |-> View calendar
          *      |   |-> Organizer related operations
          *      |        |-> Edit the room capacity, location, etc.
@@ -87,7 +87,7 @@ public class ConventionSystem {
 
         /**
          * UI Components to build
-         * - n-column table with numbered rows
+         * - n-column table with numbered rows (Talk to shubhra about it)
          * - messaging thing
          * - Form component
          */
