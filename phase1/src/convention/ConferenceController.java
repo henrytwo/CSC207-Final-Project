@@ -237,6 +237,9 @@ public class ConferenceController {
         permissionManager.testTargetsAreAttendee(conferenceUUID, executorUUID, targetUUIDs);
 
         // do stuff
+        /**
+         * TODO: Write this
+         */
     }
 
     /* Organizer operations */
