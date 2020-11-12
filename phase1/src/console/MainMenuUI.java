@@ -8,54 +8,59 @@ import messaging.ConversationController;
 import user.UserController;
 
 public class MainMenuUI {
-    // User controller
-    UserController userController;
-
-    // Messaging controllers
-    ContactController contactController;
-    ConversationController conversationController;
-
-    // Convention controllers
-    RoomController roomController;
-    EventController eventController;
-    ConferenceController conferenceController;
 
     ConsoleUtilities consoleUtilities = new ConsoleUtilities();
 
+    MessagingUI messagingUI;
+    ContactsUI contactsUI;
+    ConferencesUI conferencesUI;
+
+    // User controller
+    UserController userController;
+
+
     public MainMenuUI(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
         this.userController = userController;
-        this.contactController = contactController;
-        this.conversationController = conversationController;
-        this.roomController = roomController;
-        this.eventController = eventController;
-        this.conferenceController = conferenceController;
+
+        this.messagingUI = new MessagingUI(conversationController);
+        this.contactsUI = new ContactsUI(contactController);
+        this.conferencesUI = new ConferencesUI(userController, roomController, eventController, conferenceController);
     }
 
+
+    /**
+     * Run the MainMenuUI
+     * @return true iff the user wants to quit the program
+     */
     public boolean run() {
-        boolean exit = false;
 
         String[] options = new String[]{
-                "asd",
-                "asdasdas",
+                "Messaging",
+                "Contacts",
+                "Conferences",
                 "Log Out",
                 "Exit System"
         };
 
-        while (!exit) {
+        while (true) {
             int selection = consoleUtilities.singleSelectMenu("Welcome to our boi", "Cool system man", options);
 
             switch (selection) {
                 case 1:
-                    consoleUtilities.confirmBoxClear("u made the wrong choice");
+                    messagingUI.run();
+                    break;
+                case 2:
+                    contactsUI.run();
                     break;
                 case 3:
+                    conferencesUI.run();
+                    break;
+                case 4:
                     userController.logout();
                     return false; // Logout (i.e. return to parent menu without terminating program)
-                case 4:
+                case 5:
                     return true; // Terminate program
             }
         }
-
-        return false;
     }
 }
