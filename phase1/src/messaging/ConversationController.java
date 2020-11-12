@@ -10,6 +10,12 @@ public class ConversationController {
     ContactController linky = new ContactController();
     ConversationManager convoManager = new ConversationManager();
 
+    /**
+     *  Checks if the User have access to send message to another User
+     * @param sender UUID of the person who wants to send the message
+     * @param receiver UUID of the person to whom the message is to be sent
+     * @return true iff the receiver is in the friend list of sender
+     */
     public boolean checkAccess(UUID sender, UUID receiver){
         return linky.showContacts(sender).contains(receiver);
     }
