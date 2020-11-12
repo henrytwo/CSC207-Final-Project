@@ -66,12 +66,12 @@ public class LoginAndRegisterUI {
                     running = register();
                     break;
                 case 3: // User wants to Exit System
-                    return true;
+                    return false;
                 default:
                     consoleUtilities.confirmBoxClear("An error occurred. Please try again.");
             }
         }
 
-        return false;
+        return true;
     }
 }

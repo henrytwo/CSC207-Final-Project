@@ -21,6 +21,18 @@ public class ConferencesUI {
         this.conferenceController = conferenceController;
     }
 
+    public void createConference() {
+
+    }
+
+    public void joinConference() {
+
+    }
+
+    public void viewMyConferences() {
+
+    }
+
     public void run() {
         String[] options = new String[]{
                 "Create a conference",
@@ -36,8 +48,14 @@ public class ConferencesUI {
 
             switch (selection) {
                 case 1:
+                    createConference();
+                    break;
                 case 2:
+                    joinConference();
+                    break;
                 case 3:
+                    viewMyConferences();
+                    break;
                 case 4:
                     running = false;
             }
