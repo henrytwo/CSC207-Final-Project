@@ -66,7 +66,11 @@ public class ConversationController {
     }
 
     public Set<UUID> getConversationlist(UUID userId) {
-        return convoManager.getConversationlist(userId);
+        if (convoManager.getConversationlist(userId) != null) {
+            return convoManager.getConversationlist(userId);
+        } else {
+            return new HashSet<>();
+        }
     }
 
     /**

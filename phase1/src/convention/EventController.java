@@ -26,7 +26,7 @@ public class EventController {
 
     public EventController(ConferenceManager conferenceManager, ConversationManager conversationManager) {
         this.conferenceManager = conferenceManager;
-        this.conferenceManager = conferenceManager;
+        this.conversationManager = conversationManager;
         this.permissionManager = new PermissionManager(conferenceManager);
     }
 

@@ -1,9 +1,11 @@
+import contact.ContactManager;
 import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
 import convention.exception.*;
+import messaging.ConversationController;
 import messaging.ConversationManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,17 +54,28 @@ public class ConferenceTest {
             Month.AUGUST, 29, 19, 30, 40);
 
     TimeRange timeRangeB = new TimeRange(dateC, dateD);
+
+    LocalDateTime dateE = LocalDateTime.of(2030,
+            Month.APRIL, 2, 1, 3, 20);
+    LocalDateTime dateF = LocalDateTime.of(2049,
+            Month.AUGUST, 29, 19, 30, 40);
+
+    TimeRange timeRangeC = new TimeRange(dateE, dateF);
     RoomController roomController;
     EventController eventController;
     ConferenceController conferenceController;
+    ConversationController conversationController;
+
 
     @Before
     public void init() {
         UserManager userManager = new UserManager();
         ConversationManager conversationManager = new ConversationManager();
         ConferenceManager conferenceManager = new ConferenceManager();
+        ContactManager contactManager = new ContactManager();
 
         // Convention controllers
+        conversationController = new ConversationController(contactManager, conversationManager);
         roomController = new RoomController(conferenceManager);
         eventController = new EventController(conferenceManager, conversationManager);
         conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
@@ -530,20 +543,6 @@ public class ConferenceTest {
         assertEquals(eventController.getAttendeeEvents(conferenceUUID, myUser).size(), 0);
     }
 
-    @Test(timeout = 100, expected = NullEventException.class)
-    public void testUnregisterForUnregisteredEvent() {
-        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
-        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
-
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
-            {
-                add(someSpeaker);
-            }
-        });
-
-        eventController.unregisterForEvent(conferenceUUID, myUser, myUser, eventUUID);
-    }
-
     @Test(timeout = 100, expected = PermissionException.class)
     public void testUnregisterForEventInsufficientPermission() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
@@ -662,25 +661,25 @@ public class ConferenceTest {
             }
         });
 
-        assertEquals(eventController.getSpeakerEvents(conferenceUUID, myUser).size(), 1);
+        assertEquals(eventController.getSpeakerEvents(conferenceUUID, someSpeaker).size(), 1);
 
         UUID room2UUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
-        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeA, room2UUID, new HashSet<>() {
+        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeB, room2UUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
+
+        assertEquals(eventController.getSpeakerEvents(conferenceUUID, someSpeaker).size(), 2);
+
+        UUID room3UUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
+        UUID event3UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeC, room3UUID, new HashSet<>() {
             {
                 add(someSpeakerB);
             }
         });
 
-        assertEquals(eventController.getSpeakerEvents(conferenceUUID, myUser).size(), 2);
-
-        UUID room3UUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
-        UUID event3UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeA, room3UUID, new HashSet<>() {
-            {
-                add(someSpeakerC);
-            }
-        });
-
-        assertEquals(eventController.getSpeakerEvents(conferenceUUID, myUser).size(), 2);
+        assertEquals(eventController.getSpeakerEvents(conferenceUUID, someSpeaker).size(), 2);
     }
 
     // Test conflicts
@@ -736,16 +735,47 @@ public class ConferenceTest {
 
     @Test(timeout = 100)
     public void testCreateEventConversation() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-    }
+        conferenceController.addAttendee(conferenceUUID, someAttendee);
+        conferenceController.addAttendee(conferenceUUID, someAttendeeB);
 
-    @Test(timeout = 100, expected = NullEventException.class)
-    public void testListEventConversationInvalidEvent() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
 
+        eventController.registerForEvent(conferenceUUID, someAttendee, someAttendee, eventUUID);
+
+        assertEquals(conversationController.getConversationlist(someAttendee).size(), 0);
+
+        UUID eventConversationUUID = eventController.createEventConversation(conferenceUUID, someSpeaker, eventUUID);
+        assertEquals(conversationController.getConversationlist(someAttendee).size(), 1);
+
+        eventController.registerForEvent(conferenceUUID, someAttendeeB, someAttendeeB, eventUUID);
+        assertEquals(conversationController.getConversationlist(someAttendee).size(), 1);
+
+        System.out.println(conversationController.getMessages(someAttendee, eventConversationUUID));
+
+        assertEquals(conversationController.getMessages(someAttendee, eventConversationUUID).size(), 1);
     }
 
     @Test(timeout = 100, expected = PermissionException.class)
     public void testListEventConversationInsufficientPermission() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
+        conferenceController.addAttendee(conferenceUUID, someAttendee);
+        conferenceController.addAttendee(conferenceUUID, someAttendeeB);
+
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
+
+        UUID eventConversationUUID = eventController.createEventConversation(conferenceUUID, randomUser, eventUUID);
     }
 }
