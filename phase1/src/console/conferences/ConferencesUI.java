@@ -34,7 +34,6 @@ public class ConferencesUI {
 
     public void createConference() {
 
-
         LocalDateTime dateA = LocalDateTime.of(2015,
                 Month.JULY, 29, 19, 30, 40);
         LocalDateTime dateB = LocalDateTime.of(2018,
@@ -51,6 +50,35 @@ public class ConferencesUI {
 
         // don't show them conferences they're already in... duh
 
+    }
+
+    public void viewSpecificConference(UUID conferenceUUID) {
+
+        /**
+         * Display general information at the top of the menu
+         *  - Get event calendar
+         *  - View your events (Attendee)
+         *  - View your speaker events
+         *  - View all events
+         *      - <this is the event menu now>
+         *          - DISPLAY GENERAL EVENT INFORMATION
+         *          - Register for event/Unregister from event
+         *          - Create an event conversation/Open event conversation (Speaker)
+         *          - Delete event
+         *  - Create Event (Organizer)
+         *
+         *  - View rooms
+         *      - View room schedule
+         *      - Delete room
+         *  - Create Room
+         *
+         *  - Organizer settings
+         *    - Manage users
+         *      - Add/Remove users
+         *      - Promote/Demote organizer
+         *      - Create conversation
+     *        - Delete conference
+         */
     }
 
     public void viewMyConferences() {
@@ -76,7 +104,7 @@ public class ConferencesUI {
 
             UUID selectedConferenceUUID = conferenceUUIDs.get(selectionIndex);
 
-
+            viewSpecificConference(selectedConferenceUUID);
         }
     }
 
