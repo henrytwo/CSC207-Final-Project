@@ -11,6 +11,7 @@ import user.UserManager;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,6 +30,8 @@ public class ConferenceTest {
     String emptyString = "";
     String conferenceNameA = "Conference A";
     String conferenceNameB = "Conference B";
+    String eventNameA = "Event A";
+    String roomA = "Room A";
 
     LocalDateTime dateA = LocalDateTime.of(2015,
             Month.JULY, 29, 19, 30, 40);
@@ -268,47 +271,81 @@ public class ConferenceTest {
 
     @Test(timeout = 50)
     public void testGetSpeakers() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
 
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
+
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
+
+        assertTrue(eventController.getEventSpeakers(conferenceUUID, myUser, eventUUID).contains(randomUser));
+        assertEquals(eventController.getEventSpeakers(conferenceUUID, myUser, eventUUID).size(), 1);
     }
 
-    @Test(timeout = 50)
-    public void testGetSpeakersInsufficientPermission() {
-
-    }
 
     @Test(timeout = 50)
     public void testGetOrganizers() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
 
-    }
-
-    @Test(timeout = 50)
-    public void testGetOrganizersInsufficientPermission() {
-
+        assertTrue(conferenceController.getOrganizers(conferenceUUID, myUser).contains(randomUser));
+        assertEquals(conferenceController.getOrganizers(conferenceUUID, myUser).size(), 1);
     }
 
     @Test(timeout = 50)
     public void testGetAttendees() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
 
-    }
+        assertEquals(conferenceController.getAttendees(conferenceUUID, myUser).size(), 0);
 
-    @Test(timeout = 50)
-    public void testGetAttendeesInsufficientPermission() {
+        conferenceController.addAttendee(conferenceUUID, randomUser);
 
+        assertTrue(conferenceController.getAttendees(conferenceUUID, myUser).contains(randomUser));
+        assertEquals(conferenceController.getAttendees(conferenceUUID, myUser).size(), 1);
     }
 
     @Test(timeout = 50)
     public void testCreateEvent() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
 
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
+
+        assertEquals(eventController.getEvents(conferenceUUID, myUser).size(), 0);
+
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
+
+        assertEquals(eventController.getEvents(conferenceUUID, myUser).size(), 1);
+        assertTrue(eventController.getEvents(conferenceUUID, myUser).contains(eventUUID));
     }
 
-    @Test(timeout = 50)
+    @Test(timeout = 50, expected = InvalidNameException.class)
     public void testCreateEventInvalidName() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, emptyString, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
     }
 
-    @Test(timeout = 50)
+    @Test(timeout = 50, expected = PermissionException.class)
     public void testCreateEventInsufficientPermission() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
+        UUID eventUUID = eventController.createEvent(conferenceUUID, randomUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
     }
 
     /**
@@ -319,7 +356,60 @@ public class ConferenceTest {
     /* Test attendee operations */
     @Test(timeout = 50)
     public void testJoinConference() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
+
+        conferenceController.addAttendee(conferenceUUID, randomUser);
+        assertEquals(eventController.getEventAttendees(conferenceUUID, myUser, eventUUID).size(), 0);
+
+        eventController.registerForEvent(conferenceUUID, randomUser, randomUser, eventUUID);
+
+        assertEquals(eventController.getEventAttendees(conferenceUUID, myUser, eventUUID).size(), 1);
+        assertTrue(eventController.getEventAttendees(conferenceUUID, myUser, eventUUID).contains(randomUser));
+    }
+
+    @Test(timeout = 50, expected = FullRoomException.class)
+    public void testJoinConferenceFullRoom() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 1);
+
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
+
+        conferenceController.addAttendee(conferenceUUID, randomUser);
+        conferenceController.addAttendee(conferenceUUID, someAttendee);
+
+        assertEquals(eventController.getEventAttendees(conferenceUUID, myUser, eventUUID).size(), 0);
+
+        eventController.registerForEvent(conferenceUUID, randomUser, randomUser, eventUUID);
+
+        assertEquals(eventController.getEventAttendees(conferenceUUID, myUser, eventUUID).size(), 1);
+        assertTrue(eventController.getEventAttendees(conferenceUUID, myUser, eventUUID).contains(randomUser));
+
+        eventController.registerForEvent(conferenceUUID, someAttendee, someAttendee, eventUUID);
+    }
+
+    @Test(timeout = 50, expected = PermissionException.class)
+    public void testJoinConferenceRandomUser() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
+
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
+
+        eventController.registerForEvent(conferenceUUID, randomUser, randomUser, eventUUID);
     }
 
     @Test(timeout = 50)

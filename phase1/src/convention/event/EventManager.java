@@ -36,6 +36,10 @@ public class EventManager {
     }
 
     public UUID createEvent(String title, TimeRange timeRange, UUID roomUUID, Set<UUID> speakerUUIDs) {
+        if (!validateEventTitle(title)) {
+            throw new InvalidNameException();
+        }
+
         Event event = new Event(title, timeRange, roomUUID, speakerUUIDs);
         events.put(event.getUUID(), event);
 
