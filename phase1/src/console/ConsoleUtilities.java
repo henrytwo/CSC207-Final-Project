@@ -44,8 +44,33 @@ public class ConsoleUtilities {
         System.out.print("Password: ");
         String password = stdin.nextLine();
 
-        return new HashMap<>() {
+        return new HashMap<String, String>() {
             {
+                put("username", username);
+                put("password", password);
+            }
+        };
+    }
+
+    public HashMap<String, String> registerPrompt() {
+        clearConsole();
+
+        System.out.print("Enter your first name: ");
+        String firstname = stdin.nextLine();
+
+        System.out.print("Enter your last name: ");
+        String lastname = stdin.nextLine();
+
+        System.out.print("Enter your Username: ");
+        String username = stdin.nextLine();
+
+        System.out.print("Enter your Password: ");
+        String password = stdin.nextLine();
+
+        return new HashMap<String, String>() {
+            {
+                put("firstname", firstname);
+                put("lastname", lastname);
                 put("username", username);
                 put("password", password);
             }

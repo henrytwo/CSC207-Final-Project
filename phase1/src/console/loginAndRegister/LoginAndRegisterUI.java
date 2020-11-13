@@ -37,16 +37,21 @@ public class LoginAndRegisterUI {
 
     public boolean register() {
 
-        /**
-         * TODO: Remove test code here
-         */
-        userController.registerUser("Test", "Testerson", "test", "password");
-        userController.logout();
+        Map<String, String> credentials = consoleUtilities.registerPrompt();
 
-        consoleUtilities.confirmBoxClear("Ok ur new cred is:\nUsername: test\nPassword: password");
+        String firstname = credentials.get("firstname");
+        String lastname = credentials.get("lastname");
+        String username = credentials.get("username");
+        String password = credentials.get("password");
 
-        return false;
+        if (userController.registerUser(firstname, lastname, username, password) != null) {
+            return false;
+        } else {
+            consoleUtilities.confirmBoxClear("Username is already taken");
+            return true;
+        }
     }
+
 
     /**
      * Run the LoginAndRegisterUI
