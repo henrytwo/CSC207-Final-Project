@@ -1,6 +1,7 @@
 package contact;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,6 +24,9 @@ public class ContactManager {
      * @return The Set of UUID's of the contacts
      */
     public Set<UUID> getContacts(UUID user_id){
+        if(contactsMap.get(user_id) == null){
+            contactsMap.put(user_id, new HashSet<>());
+        }
         return contactsMap.get(user_id);
     }
 
@@ -32,6 +36,9 @@ public class ContactManager {
      * @return The Set of UUID's of the users who have made a connection request
      */
     public Set<UUID> getRequests(UUID user_id){
+        if(requestsMap.get(user_id) == null){
+            requestsMap.put(user_id, new HashSet<>());
+        }
         return requestsMap.get(user_id);
     }
 
@@ -41,6 +48,9 @@ public class ContactManager {
      * @return The Set of UUID's of the users to whom this particular user have made a connection request
      */
     public Set<UUID> getSentRequests(UUID user_id){
+        if(sentRequestsMap.get(user_id) == null){
+            sentRequestsMap.put(user_id, new HashSet<>());
+        }
         return sentRequestsMap.get(user_id);
     }
 
