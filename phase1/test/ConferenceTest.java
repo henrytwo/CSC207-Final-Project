@@ -7,6 +7,7 @@ import convention.exception.*;
 import messaging.ConversationManager;
 import org.junit.Before;
 import org.junit.Test;
+import user.UserManager;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -48,13 +49,14 @@ public class ConferenceTest {
 
     @Before
     public void init() {
+        UserManager userManager = new UserManager();
         ConversationManager conversationManager = new ConversationManager();
         ConferenceManager conferenceManager = new ConferenceManager();
 
         // Convention controllers
         roomController = new RoomController(conferenceManager);
-        eventController = new EventController(conferenceManager);
-        conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager);
+        eventController = new EventController(conferenceManager, conversationManager);
+        conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
     }
 
     // Test with and without permission

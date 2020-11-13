@@ -93,8 +93,12 @@ public class EventManager {
         return getEvent(eventUUID).getTimeRange();
     }
 
-    public UUID getConversationUUID(UUID eventUUID) {
+    public UUID getEventConversationUUID(UUID eventUUID) {
         return getEvent(eventUUID).getConversationUUID();
+    }
+
+    public void setEventConversationUUID(UUID eventUUID, UUID conversationUUID) {
+        getEvent(eventUUID).setConversationUUID(conversationUUID);
     }
 
     public Set<UUID> getEventAttendees(UUID eventUUID) {

@@ -70,6 +70,27 @@ public class ConversationManager {
     }
 
     /**
+     * Deletes a conversation
+     *
+     * @param conversationUUID The UUID of the conversation/chat to be deleted
+     */
+    public void deleteConversation(UUID conversationUUID) {
+        Conversation conversation = getConversation(conversationUUID);
+
+        // Fetch all the users that are in this conversation
+        Set<UUID> convoUsers = new HashSet<>();
+        convoUsers.addAll(conversation.getReadAccessUsers());
+        convoUsers.addAll(conversation.getWriteAccessUsers());
+
+        // Remove the conversation from all the user lists
+        for (UUID userUUID : convoUsers) {
+            removeConvoFromUserList(userUUID, conversationUUID);
+        }
+
+        mapUUIDConvo.remove(conversationUUID);
+    }
+
+    /**
      * Adds user to the a specific chat
      *
      * @param userUUID         The userId of the user to be added to the Chat
@@ -90,7 +111,7 @@ public class ConversationManager {
      * Remove user from a specific chat
      *
      * @param userUUID         The userId of the user to be added to the Chat
-     * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
+     * @param conversationUUID The UUID of the conversation/chat to which the user needs to be removed
      */
     public void removeUser(UUID userUUID, UUID conversationUUID) {
         Conversation conversation = getConversation(conversationUUID);

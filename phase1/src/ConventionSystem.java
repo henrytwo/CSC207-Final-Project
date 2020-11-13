@@ -42,8 +42,8 @@ public class ConventionSystem {
 
         // Convention controllers
         RoomController roomController = new RoomController(conferenceManager);
-        EventController eventController = new EventController(conferenceManager);
-        ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager);
+        EventController eventController = new EventController(conferenceManager, conversationManager);
+        ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
 
         /**
          * TODO: Remove test code here
