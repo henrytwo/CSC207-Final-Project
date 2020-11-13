@@ -8,10 +8,7 @@ import messaging.ConversationManager;
 import messaging.Message;
 import user.UserManager;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -323,15 +320,30 @@ public class ConferenceController {
     /**
      * Gets a set of UUIDs of organizers.
      * <p>
-     * Required Permission: ORGANIZER
+     * Required Permission: ATTENDEE
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @return set of organizer UUIDs
      */
     public Set<UUID> getOrganizers(UUID conferenceUUID, UUID executorUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
         return conferenceManager.getOrganizers(conferenceUUID);
+    }
+
+    /**
+     * Checks if the target user is an organizer.
+     * <p>
+     * Required Permission: ATTENDEE
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @param executorUUID   UUID of the user executing the command
+     * @param targetUUID     UUID of the user to operate on
+     * @return true iff target user is an organizer
+     */
+    public boolean isOrganizer(UUID conferenceUUID, UUID executorUUID, UUID targetUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+        return conferenceManager.getOrganizers(conferenceUUID).contains(targetUUID);
     }
 
     /* Some more getters */
@@ -339,28 +351,58 @@ public class ConferenceController {
     /**
      * Gets a set of UUIDs of speakers.
      * <p>
-     * Required Permission: ORGANIZER
+     * Required Permission: ATTENDEE
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @return set of speaker UUIDs
      */
     public Set<UUID> getSpeakers(UUID conferenceUUID, UUID executorUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
         return conferenceManager.getSpeakers(conferenceUUID);
+    }
+
+    /**
+     * Checks if the target user is an speaker.
+     * <p>
+     * Required Permission: ORGANIZER
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @param executorUUID   UUID of the user executing the command
+     * @param targetUUID     UUID of the user to operate on
+     * @return true iff target user is a speaker
+     */
+    public boolean isSpeaker(UUID conferenceUUID, UUID executorUUID, UUID targetUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+        return conferenceManager.getSpeakers(conferenceUUID).contains(targetUUID);
     }
 
     /**
      * Gets a set of UUIDs of attendees.
      * <p>
-     * Required Permission: ORGANIZER
+     * Required Permission: ATTENDEE
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @return set of attendee UUIDs
      */
     public Set<UUID> getAttendees(UUID conferenceUUID, UUID executorUUID) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
         return conferenceManager.getAttendees(conferenceUUID);
+    }
+
+    /**
+     * Checks if the target user is an attendee.
+     * <p>
+     * Required Permission: ATTENDEE
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @param executorUUID   UUID of the user executing the command
+     * @param targetUUID     UUID of the user to operate on
+     * @return true iff target user is a attendee
+     */
+    public boolean isAttendee(UUID conferenceUUID, UUID executorUUID, UUID targetUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+        return conferenceManager.getAttendees(conferenceUUID).contains(targetUUID);
     }
 }

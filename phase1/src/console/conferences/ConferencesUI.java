@@ -150,12 +150,19 @@ public class ConferencesUI {
         }
     }
 
+    public void messageUsers() {
+
+    }
+
     public void viewSpecificConference(UUID conferenceUUID) {
 
         /**
+         * Need a way to hide options in menu
+         *
          * Display general information at the top of the menu
-         *  - Get event calendar
-         *  - View your events (Have a section for attendee events and organizer events)
+         *  - Get conference calendar
+         *  - View your events (Attendee)
+         *  - View your events (Spepaker)
          *  - View all events
          *      - <this is the event menu now>
          *          - DISPLAY GENERAL EVENT INFORMATION
@@ -171,35 +178,108 @@ public class ConferencesUI {
          *
          *  - Organizer settings
          *    - Manage users
-         *      - Add/Remove users
-         *      - Promote/Demote organizer
          *      - Create conversation
          *        - Delete conference
          */
 
         String conferenceName = conferenceController.getConferenceName(conferenceUUID);
 
-        String[] options = new String[]{
-                "View Calendar",
-                "Your Events",
-                "Register for Event",
-                "Create Event",
-                "View Rooms",
-                "Do bad stuff",
-                "Back"
+        // We store a mapping from the menu ID to the label
+        // For each permission, we'll set out a different list of selection IDs, and then generate the selection menu using that
+        HashMap<String, String> selectionIDToLabel = new HashMap<>() {
+            {
+                put("calendar", "Calendar");
+                put("yourAttendeeEvents", "View Registered Events");
+                put("yourSpeakerEvents", "[Speaker] View Registered Events");
+                put("viewEvents", "View all Events");
+                put("createEvent", "[Organizer] Create Event");
+                put("createRoom", "[Organizer] Create Room");
+                put("messageUsers", "[Organizer] Message Users");
+                put("back", "Back");
+            }
         };
+
+        String[] attendeeSelectionIDs = {
+                "calendar",
+                "yourAttendeeEvents",
+                "viewEvents",
+                "back"
+        };
+
+        String[] speakerSelectionIDs = new String[] {
+                "calendar",
+                "yourAttendeeEvents",
+                "yourSpeakerEvents",
+                "viewEvents",
+                "back"
+        };
+
+        String[] organizerSelectionIDs = new String[] {
+                "calendar",
+                "yourAttendeeEvents",
+                "yourSpeakerEvents",
+                "viewEvents",
+                "createEvent",
+                "createRoom",
+                "messageUsers",
+                "back"
+        };
+
+        // Displays the menu options based on permission
+        boolean isSpeaker = conferenceController.isSpeaker(conferenceUUID, userUUID, userUUID);
+        boolean isOrganizer = conferenceController.isOrganizer(conferenceUUID, userUUID, userUUID);
+
+        String role;
+        String[] selectionIDs;
+
+        if (isOrganizer) {
+            role = "Organizer";
+            selectionIDs = organizerSelectionIDs;
+        } else if (isSpeaker) {
+            role = "Speaker";
+            selectionIDs = speakerSelectionIDs;
+        } else {
+            role = "Attendee";
+            selectionIDs = attendeeSelectionIDs;
+        }
+
+        /* Alright, lets get these labels ready */
+        String[] options = new String[selectionIDs.length];
+
+        for (int i = 0; i < selectionIDs.length; i++) {
+            options[i] = selectionIDToLabel.get(selectionIDs[i]);
+        }
 
         boolean running = true;
 
         while (running) {
-            int selection = consoleUtilities.singleSelectMenu(String.format("Conference: %s", conferenceName), options);
+            // We use the selection ID here instead of just the option index, as it may change with more or less options
+            int selection = consoleUtilities.singleSelectMenu(String.format("Conference: %s | Role: %s", conferenceName, role), options);
+            String selectionID = selectionIDs[selection - 1]; // Arrays start at 0
 
-            /**
-             * TODO: Finish this menu
-             */
-
-            switch (selection) {
-                case 1:
+            switch (selectionID) {
+                case "calendar":
+                    consoleUtilities.confirmBoxClear("Should be a calendar");
+                    break;
+                case "yourAttendeeEvents":
+                    consoleUtilities.confirmBoxClear("Should be attendee events");
+                    break;
+                case "yourSpeakerEvents":
+                    consoleUtilities.confirmBoxClear("Should be speaker events");
+                    break;
+                case "viewEvents":
+                    consoleUtilities.confirmBoxClear("Should be all events");
+                    break;
+                case "createEvent":
+                    consoleUtilities.confirmBoxClear("Create an event");
+                    break;
+                case "createRoom":
+                    consoleUtilities.confirmBoxClear("create a room ");
+                    break;
+                case "messageUsers":
+                    messageUsers();
+                    break;
+                case "back":
                     running = false;
             }
         }

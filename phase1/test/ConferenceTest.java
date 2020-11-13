@@ -316,6 +316,24 @@ public class ConferenceTest {
         assertEquals(eventController.getEventSpeakers(conferenceUUID, myUser, eventUUID).size(), 1);
     }
 
+    @Test(timeout = 100)
+    public void testIsSpeaker() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
+
+        assertFalse(conferenceController.isSpeaker(conferenceUUID, myUser, someSpeaker));
+
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
+
+        assertTrue(conferenceController.isSpeaker(conferenceUUID, myUser, someSpeaker));
+        assertFalse(conferenceController.isSpeaker(conferenceUUID, myUser, randomUser));
+    }
+
 
     @Test(timeout = 100)
     public void testGetOrganizers() {
@@ -323,6 +341,17 @@ public class ConferenceTest {
 
         assertTrue(conferenceController.getOrganizers(conferenceUUID, myUser).contains(myUser));
         assertEquals(conferenceController.getOrganizers(conferenceUUID, myUser).size(), 1);
+    }
+
+    @Test(timeout = 100)
+    public void testIsOrganizer() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+
+        assertFalse(conferenceController.isOrganizer(conferenceUUID, myUser, someOrganizer));
+        conferenceController.addOrganizer(conferenceUUID, myUser, someOrganizer);
+
+        assertTrue(conferenceController.isOrganizer(conferenceUUID, myUser, someOrganizer));
+        assertFalse(conferenceController.isOrganizer(conferenceUUID, myUser, randomUser));
     }
 
     @Test(timeout = 100)
@@ -335,6 +364,17 @@ public class ConferenceTest {
 
         assertTrue(conferenceController.getAttendees(conferenceUUID, myUser).contains(randomUser));
         assertEquals(conferenceController.getAttendees(conferenceUUID, myUser).size(), 1);
+    }
+
+    @Test(timeout = 100)
+    public void testIsAttendee() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+
+        assertFalse(conferenceController.isAttendee(conferenceUUID, myUser, someAttendee));
+        conferenceController.addAttendee(conferenceUUID, someAttendee);
+
+        assertTrue(conferenceController.isAttendee(conferenceUUID, myUser, someAttendee));
+        assertFalse(conferenceController.isAttendee(conferenceUUID, myUser, randomUser));
     }
 
     @Test(timeout = 100)

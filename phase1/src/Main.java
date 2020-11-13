@@ -66,6 +66,10 @@ public class Main {
      * - Calendar (Ellie)
      */
 
+    /**
+     * TODO: Don't pass around Message objects at the top level
+     */
+
     public static void main(String[] args) {
         ConventionSystem cs = new ConventionSystem();
         cs.run();
