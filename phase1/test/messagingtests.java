@@ -1,5 +1,7 @@
 import contact.ContactController;
 import contact.ContactManager;
+import contact.exception.GhostAcceptDeniedException;
+import contact.exception.GhostDeleteException;
 import contact.exception.RequestDeniedException;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,8 +56,60 @@ public class messagingtests {
         contactController.sendRequest(myUser1, myUser2);
         contactController.acceptRequests(myUser2, myUser1);
         assert contactController.showContacts(myUser2).contains(myUser1);
-        assert contactController.showRequests(myUser1).contains(myUser2) == false;
+        assert contactController.showRequests(myUser2).contains(myUser1) == false;
     }
 
+    @Test(timeout = 50, expected = GhostAcceptDeniedException.class)
+    public  void testAcceptRequests2(){
+        contactController.acceptRequests(myUser2, myUser1);
+    }
+
+    @Test(timeout = 50)
+    public void testAcceptRequests3(){
+        contactController.sendRequest(myUser1, myUser2);
+        contactController.sendRequest(myUser3, myUser2);
+        contactController.acceptRequests(myUser2, myUser1);
+        contactController.acceptRequests(myUser2, myUser3);
+        assert contactController.showContacts(myUser2).contains(myUser1);
+        assert contactController.showContacts(myUser1).contains(myUser2);
+        assert contactController.showContacts(myUser2).contains(myUser1);
+        assert contactController.showContacts(myUser1).contains(myUser2);
+        assert contactController.showRequests(myUser2).contains(myUser3) == false;
+        assert contactController.showRequests(myUser2).contains(myUser1) == false;
+    }
+
+    @Test(timeout = 50)
+    public void testDeleteContacts1(){
+        contactController.sendRequest(myUser1, myUser2);
+        contactController.acceptRequests(myUser2, myUser1);
+        assert contactController.showContacts(myUser2).contains(myUser1);
+        assert contactController.showRequests(myUser2).contains(myUser1) == false;
+        contactController.deleteContacts(myUser1, myUser2);
+        assert contactController.showContacts(myUser1).contains(myUser2) == false;
+        assert contactController.showContacts(myUser2).contains(myUser1) == false;
+    }
+
+    @Test(timeout = 50, expected = GhostDeleteException.class)
+    public  void testDeleteContacts2(){
+        contactController.deleteContacts(myUser1, myUser2);
+    }
+
+    @Test(timeout = 50)
+    public void testDeleteContacts3(){
+        contactController.sendRequest(myUser1, myUser2);
+        contactController.sendRequest(myUser3, myUser2);
+        contactController.acceptRequests(myUser2, myUser1);
+        contactController.acceptRequests(myUser2, myUser3);
+        assert contactController.showContacts(myUser2).contains(myUser1);
+        assert contactController.showContacts(myUser1).contains(myUser2);
+        assert contactController.showContacts(myUser2).contains(myUser1);
+        assert contactController.showContacts(myUser1).contains(myUser2);
+        contactController.deleteContacts(myUser2, myUser1);
+        contactController.deleteContacts(myUser3, myUser2);
+        assert contactController.showContacts(myUser1).contains(myUser2) == false;
+        assert contactController.showContacts(myUser2).contains(myUser1) == false;
+        assert contactController.showContacts(myUser3).contains(myUser2) == false;
+        assert contactController.showContacts(myUser2).contains(myUser3) == false;
+    }
 
 }

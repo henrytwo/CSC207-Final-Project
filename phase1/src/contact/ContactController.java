@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class ContactController {
-    ContactManager linker;
+    private ContactManager linker;
 
     public ContactController(ContactManager contactManager) {
         this.linker = contactManager;
@@ -43,10 +43,13 @@ public class ContactController {
     public void acceptRequests(UUID userId, UUID potentialContact){
         if(showRequests(userId).contains(potentialContact)){
             Set<UUID> contacts = showContacts(userId);
+            Set<UUID> contacts2 = showContacts(potentialContact);
             contacts.add(potentialContact);
+            contacts2.add(userId);
             Set<UUID> requestsList = linker.getRequests(userId);
             requestsList.remove(potentialContact);
             linker.setContacts(userId, contacts);
+            linker.setRequests(potentialContact, contacts2);
             linker.setRequests(userId, requestsList);
         }
         else{
@@ -61,10 +64,13 @@ public class ContactController {
      */
     public void deleteContacts(UUID userId, UUID extraContact){
         Set<UUID> contactsList = linker.getContacts(userId);
-        if (contactsList.contains(extraContact) == false){
+        Set<UUID> contactsList2 = linker.getContacts(extraContact);
+        if (!contactsList.contains(extraContact)){
             throw new GhostDeleteException(userId, extraContact);
         }
         contactsList.remove(extraContact);
+        contactsList2.remove(userId);
+        linker.setContacts(extraContact, contactsList2);
         linker.setContacts(userId, contactsList);
     }
 
