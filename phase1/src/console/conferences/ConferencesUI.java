@@ -191,7 +191,7 @@ public class ConferencesUI {
             int selection = consoleUtilities.singleSelectMenu("Add a user to the conversation", options) - 1;
 
             if (selection == availableUserUUIDs.size()) { // Finish creation
-                boolean confirm = consoleUtilities.booleanSelectMenu(String.format("Are you sure you want to create a conversation with %d users?", conferenceUserUUIDs.size()));
+                boolean confirm = consoleUtilities.booleanSelectMenu(String.format("Are you sure you want to create a conversation with %d users?", conversationUserUUIDs.size()));
 
                 if (confirm) {
                     running = false;
