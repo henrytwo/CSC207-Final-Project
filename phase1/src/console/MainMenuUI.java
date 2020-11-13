@@ -24,8 +24,8 @@ public class MainMenuUI {
     public MainMenuUI(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
         this.userController = userController;
 
-        this.messagingUI = new MessagingUI(conversationController);
-        this.contactsUI = new ContactsUI(contactController);
+        this.messagingUI = new MessagingUI(userController, conversationController);
+        this.contactsUI = new ContactsUI(userController, contactController);
         this.conferencesUI = new ConferencesUI(userController, roomController, eventController, conferenceController);
     }
 

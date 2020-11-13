@@ -2,13 +2,16 @@ package console.conversation;
 
 import console.ConsoleUtilities;
 import messaging.ConversationController;
+import user.UserController;
 
 public class MessagingUI {
     ConsoleUtilities consoleUtilities = new ConsoleUtilities();
     ConversationController conversationController;
+    UserController userController;
 
-    public MessagingUI(ConversationController conversationController) {
+    public MessagingUI(UserController userController, ConversationController conversationController) {
         this.conversationController = conversationController;
+        this.userController = userController;
     }
 
     public void run() {
