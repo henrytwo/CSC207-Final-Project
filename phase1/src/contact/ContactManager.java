@@ -1,6 +1,7 @@
 package contact;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -10,12 +11,22 @@ public class ContactManager {
     private HashMap<UUID, Set<UUID>> requestsMap = new HashMap<UUID, Set<UUID>>();
 
     private HashMap<UUID, Set<UUID>> sentRequestsMap = new HashMap<UUID, Set<UUID>>();
+
+    public ContactManager(){
+        super();
+        this.contactsMap = new HashMap<UUID, Set<UUID>>();
+        this.sentRequestsMap = new HashMap<UUID, Set<UUID>>();
+        this.requestsMap = new HashMap<UUID, Set<UUID>>();
+    }
     /**
      *  returns the Contacts (friends) list of a particular user
      * @param user_id the userId of the person for whom we need a list of contacts
      * @return The Set of UUID's of the contacts
      */
     public Set<UUID> getContacts(UUID user_id){
+        if(contactsMap.get(user_id) == null){
+            contactsMap.put(user_id, new HashSet<>());
+        }
         return contactsMap.get(user_id);
     }
 
@@ -25,6 +36,9 @@ public class ContactManager {
      * @return The Set of UUID's of the users who have made a connection request
      */
     public Set<UUID> getRequests(UUID user_id){
+        if(requestsMap.get(user_id) == null){
+            requestsMap.put(user_id, new HashSet<>());
+        }
         return requestsMap.get(user_id);
     }
 
@@ -34,6 +48,9 @@ public class ContactManager {
      * @return The Set of UUID's of the users to whom this particular user have made a connection request
      */
     public Set<UUID> getSentRequests(UUID user_id){
+        if(sentRequestsMap.get(user_id) == null){
+            sentRequestsMap.put(user_id, new HashSet<>());
+        }
         return sentRequestsMap.get(user_id);
     }
 
@@ -42,7 +59,12 @@ public class ContactManager {
      * @param user_id the userId of the person for whom we need to update the contacts set
      */
     public void setContacts(UUID user_id, Set<UUID> contacts){
-        contactsMap.put(user_id, contacts);
+        if(contactsMap.containsKey(user_id)){
+            contactsMap.replace(user_id, contacts);
+        }
+        else{
+            contactsMap.putIfAbsent(user_id, contacts);
+        }
     }
 
     /**
@@ -51,7 +73,12 @@ public class ContactManager {
      * @param requests the set of requests received by this user
      */
     public void setRequests(UUID user_id, Set<UUID> requests){
-        requestsMap.put(user_id, requests);
+        if(requestsMap.containsKey(user_id)){
+            requestsMap.replace(user_id, requests);
+        }
+        else{
+            requestsMap.putIfAbsent(user_id, requests);
+        }
     }
 
     /**
@@ -60,7 +87,12 @@ public class ContactManager {
      * @param sentrequests the set of requests sent by this user
      */
     public void setSentRequests(UUID user_id, Set<UUID> sentrequests){
-        sentRequestsMap.put(user_id, sentrequests);
+        if(sentRequestsMap.containsKey(user_id)){
+            sentRequestsMap.replace(user_id, sentrequests);
+        }
+        else{
+            sentRequestsMap.putIfAbsent(user_id, sentrequests);
+        }
     }
 
 }
