@@ -30,6 +30,9 @@ public class ConferencesUI {
         this.consoleUtilities = new ConsoleUtilities(userController);
     }
 
+    /**
+     * Create a new conference
+     */
     public void createConference() {
         String[] fieldIDs = {
                 "conferenceName",
@@ -48,13 +51,17 @@ public class ConferencesUI {
         try {
             Map<String, String> response = consoleUtilities.inputForm("Create New Conference", labels, fieldIDs);
 
+            // Parses input
             String conferenceName = response.get("conferenceName");
             LocalDateTime start = consoleUtilities.stringToDateTime(response.get("startTime"));
             LocalDateTime end = consoleUtilities.stringToDateTime(response.get("endTime"));
-
             TimeRange timeRange = new TimeRange(start, end);
 
-            conferenceController.createConference(conferenceName, timeRange, userUUID);
+            UUID newConferenceUUID = conferenceController.createConference(conferenceName, timeRange, userUUID);
+
+            consoleUtilities.confirmBoxClear("Successfully created new conference.");
+
+            viewSpecificConference(newConferenceUUID);
         } catch (InvalidNameException e) {
             consoleUtilities.confirmBoxClear("Invalid name. Conference name must be non empty.");
         } catch (InvalidTimeRangeException e) {
@@ -64,11 +71,83 @@ public class ConferencesUI {
         }
     }
 
+    /**
+     * Join an existing conference (that you're not part of, of course)
+     */
     public void joinConference() {
-        Set<UUID> allConferences = conferenceController.getNotUserConferences(userUUID);
+        Set<UUID> notMyConferences = conferenceController.getNotUserConferences(userUUID);
 
-        // don't show them conferences they're already in... duh
+        if (notMyConferences.size() == 0) {
+            consoleUtilities.confirmBoxClear("There aren't any conferences you can join.");
+        } else {
+            UUID selectedConferenceUUID = displayConferences("Select a conference to join", notMyConferences);
 
+            if (selectedConferenceUUID != null) {
+
+                conferenceController.addAttendee(selectedConferenceUUID, userUUID);
+
+                consoleUtilities.confirmBoxClear("Successfully joined conference.");
+
+                viewSpecificConference(selectedConferenceUUID);
+            }
+        }
+
+    }
+
+    /**
+     * Displays menu with conferences the user is affiliated with.
+     */
+    public void viewMyConferences() {
+        Set<UUID> myConferences = conferenceController.getUserConferences(userUUID);
+
+        if (myConferences.size() == 0) {
+            consoleUtilities.confirmBoxClear("You are currently not affiliated with any conferences.");
+        } else {
+            UUID selectedConferenceUUID = displayConferences("Select a conference to view", myConferences);
+
+            if (selectedConferenceUUID != null) {
+                viewSpecificConference(selectedConferenceUUID);
+            }
+        }
+    }
+
+    /**
+     * Displays a list of conferences and fetches relevant metadata
+     * <p>
+     * Allows user to select conference to operate on.
+     *
+     * @param instructions string with instructions for this menu
+     * @param conferences  set of conference UUIDs
+     * @return UUID of the selected conference. Null if the user makes no selection.
+     */
+    private UUID displayConferences(String instructions, Set<UUID> conferences) {
+
+        /**
+         * TODO: Update this to the more detailed table to show more metadata
+         */
+
+        // Now we have the UUIDs in order
+        List<UUID> conferenceUUIDs = new ArrayList<>(conferences);
+
+        // Time to grab the conference names
+        String[] conferenceNames = new String[conferenceUUIDs.size() + 1];
+
+        // Back button
+        conferenceNames[conferenceUUIDs.size()] = "Back";
+
+        for (int i = 0; i < conferenceUUIDs.size(); i++) {
+            UUID conferenceUUID = conferenceUUIDs.get(i);
+            conferenceNames[i] = conferenceController.getConferenceName(conferenceUUID) + " " + conferenceController.getConferenceTimeRange(conferenceUUID);
+        }
+
+        // Arrays start a 0, so subtract
+        int selectionIndex = consoleUtilities.singleSelectMenu(instructions, conferenceNames) - 1;
+
+        if (selectionIndex < conferenceUUIDs.size()) {
+            return conferenceUUIDs.get(selectionIndex);
+        } else {
+            return null; // Back button was pressed
+        }
     }
 
     public void viewSpecificConference(UUID conferenceUUID) {
@@ -98,33 +177,6 @@ public class ConferencesUI {
          *      - Create conversation
          *        - Delete conference
          */
-    }
-
-    public void viewMyConferences() {
-
-        Set<UUID> myConferences = conferenceController.getUserConferences(userUUID);
-
-        if (myConferences.size() == 0) {
-            consoleUtilities.confirmBoxClear("You are currently not affiliated with any conferences.");
-        } else {
-            // Now we have the UUIDs in order
-            List<UUID> conferenceUUIDs = new ArrayList<>(myConferences);
-
-            // Time to grab the conference names
-            String[] conferenceNames = new String[conferenceUUIDs.size()];
-
-            for (int i = 0; i < conferenceUUIDs.size(); i++) {
-                UUID conferenceUUID = conferenceUUIDs.get(i);
-                conferenceNames[i] = conferenceController.getConferenceName(conferenceUUID) + " " + conferenceController.getConferenceTimeRange(conferenceUUID);
-            }
-
-            // Arrays start a 0, so subtract
-            int selectionIndex = consoleUtilities.singleSelectMenu("Select a conference", conferenceNames) - 1;
-
-            UUID selectedConferenceUUID = conferenceUUIDs.get(selectionIndex);
-
-            viewSpecificConference(selectedConferenceUUID);
-        }
     }
 
     public void run() {
