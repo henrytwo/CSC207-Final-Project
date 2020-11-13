@@ -110,15 +110,11 @@ public class EventManager {
     }
 
     public void registerAttendee(UUID eventUUID, UUID attendeeUUID) {
-        if (!getEvent(eventUUID).isAttendee(attendeeUUID)) {
-            getEvent(eventUUID).addAttendee(attendeeUUID);
-        }
+        getEvent(eventUUID).addAttendee(attendeeUUID);
     }
 
     public void unregisterAttendee(UUID eventUUID, UUID attendeeUUID) {
-        if (getEvent(eventUUID).isAttendee(attendeeUUID)) {
-            getEvent(attendeeUUID).removeAttendee(attendeeUUID);
-        }
+        getEvent(eventUUID).removeAttendee(attendeeUUID);
     }
 
 }
