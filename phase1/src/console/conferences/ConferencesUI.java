@@ -155,8 +155,7 @@ public class ConferencesUI {
         /**
          * Display general information at the top of the menu
          *  - Get event calendar
-         *  - View your events (Attendee)
-         *  - View your speaker events
+         *  - View your events (Have a section for attendee events and organizer events)
          *  - View all events
          *      - <this is the event menu now>
          *          - DISPLAY GENERAL EVENT INFORMATION
@@ -177,6 +176,33 @@ public class ConferencesUI {
          *      - Create conversation
          *        - Delete conference
          */
+
+        String conferenceName = conferenceController.getConferenceName(conferenceUUID);
+
+        String[] options = new String[]{
+                "View Calendar",
+                "Your Events",
+                "Register for Event",
+                "Create Event",
+                "View Rooms",
+                "Do bad stuff",
+                "Back"
+        };
+
+        boolean running = true;
+
+        while (running) {
+            int selection = consoleUtilities.singleSelectMenu(String.format("Conference: %s", conferenceName), options);
+
+            /**
+             * TODO: Finish this menu
+             */
+
+            switch (selection) {
+                case 1:
+                    running = false;
+            }
+        }
     }
 
     public void run() {
