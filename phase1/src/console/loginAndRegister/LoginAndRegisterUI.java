@@ -37,7 +37,15 @@ public class LoginAndRegisterUI {
 
     public boolean register() {
 
-        return true;
+        /**
+         * TODO: Remove test code here
+         */
+        userController.registerUser("Test", "Testerson", "test", "password");
+        userController.logout();
+
+        consoleUtilities.confirmBoxClear("Ok ur new cred is:\nUsername: test\nPassword: password");
+
+        return false;
     }
 
     /**

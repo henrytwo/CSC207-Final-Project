@@ -4,9 +4,10 @@ import convention.calendar.TimeRange;
 import convention.event.Event;
 import convention.room.Room;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Conference {
+public class Conference implements Serializable {
     private Set<UUID> organizerUUIDs = new HashSet<>();
     private Set<UUID> speakerUUIDs = new HashSet<>();
     private Set<UUID> attendeeUUIDs = new HashSet<>();

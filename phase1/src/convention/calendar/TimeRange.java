@@ -2,9 +2,10 @@ package convention.calendar;
 
 import convention.exception.InvalidTimeRangeException;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class TimeRange {
+public class TimeRange implements Serializable {
     private LocalDateTime start;
     private LocalDateTime end;
 

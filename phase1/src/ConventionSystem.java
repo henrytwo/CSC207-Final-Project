@@ -5,6 +5,7 @@ import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.conference.ConferenceManager;
+import gateway.Serializer;
 import messaging.ConversationController;
 import messaging.ConversationManager;
 import user.UserController;
@@ -26,12 +27,18 @@ public class ConventionSystem {
         LOGGER.setLevel(Level.ALL);
         LOGGER.setUseParentHandlers(false);
 
+        // Create serializers
+        Serializer<UserManager> userManagerSerializer = new Serializer<>("userManager.ser");
+        Serializer<ContactManager> contactManagerSerializer = new Serializer<>("contactManager.ser");
+        Serializer<ConversationManager> conversationManagerSerializer = new Serializer<>("conversationManager.ser");
+        Serializer<ConferenceManager> conferenceManagerSerializer = new Serializer<>("conferenceManager.ser");
+
         // Create managers
         // These store the entities and other important stuff
-        UserManager userManager = new UserManager();
-        ContactManager contactManager = new ContactManager();
-        ConversationManager conversationManager = new ConversationManager();
-        ConferenceManager conferenceManager = new ConferenceManager();
+        UserManager userManager = userManagerSerializer.load(new UserManager());
+        ContactManager contactManager = contactManagerSerializer.load(new ContactManager());
+        ConversationManager conversationManager = conversationManagerSerializer.load(new ConversationManager());
+        ConferenceManager conferenceManager = conferenceManagerSerializer.load(new ConferenceManager());
 
         // User controller
         UserController userController = new UserController(userManager);
@@ -45,14 +52,14 @@ public class ConventionSystem {
         EventController eventController = new EventController(conferenceManager, conversationManager);
         ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
 
-        /**
-         * TODO: Remove test code here
-         */
-        userController.registerUser("Test", "Testerson", "test", "password");
-        userController.logout();
-
         // If we were to change this to a GUI, here is what we would switch out
         UISystem uiSystem = new UISystem(userController, contactController, conversationController, roomController, eventController, conferenceController);
         uiSystem.run();
+
+        // Serialize everything for the next run
+        userManagerSerializer.save(userManager);
+        contactManagerSerializer.save(contactManager);
+        conversationManagerSerializer.save(conversationManager);
+        conferenceManagerSerializer.save(conferenceManager);
     }
 }

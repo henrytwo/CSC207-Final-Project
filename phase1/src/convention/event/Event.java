@@ -2,11 +2,12 @@ package convention.event;
 
 import convention.calendar.TimeRange;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class Event {
+public class Event implements Serializable {
     private UUID uuid;
     private String title;
     private Set<UUID> speakerUUIDs;

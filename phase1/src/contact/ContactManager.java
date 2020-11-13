@@ -1,11 +1,12 @@
 package contact;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class ContactManager {
+public class ContactManager implements Serializable {
     private HashMap<UUID, Set<UUID>> contactsMap = new HashMap<UUID, Set<UUID>>();
 
     private HashMap<UUID, Set<UUID>> requestsMap = new HashMap<UUID, Set<UUID>>();

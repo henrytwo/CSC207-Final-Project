@@ -4,9 +4,10 @@ import messaging.exception.NoReadAccessException;
 import messaging.exception.NoWriteAccessException;
 import messaging.exception.NullConversationException;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class ConversationManager {
+public class ConversationManager implements Serializable {
 
     // Note that the mapUserConvo hashmap is only there for efficiency reasons
     // the permissions are decided based on the read/write access to each conversation

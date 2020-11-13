@@ -2,11 +2,12 @@ package user;
 
 import user.exception.NullUserException;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class UserManager {
+public class UserManager implements Serializable {
 
     /**
      * Responsibilities:

@@ -8,9 +8,10 @@ import convention.room.Room;
 import convention.room.RoomManager;
 import convention.exception.*;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class ConferenceManager {
+public class ConferenceManager implements Serializable {
     private Map<UUID, Conference> conferences = new HashMap<>();
 
     /**
