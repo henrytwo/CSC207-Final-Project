@@ -242,14 +242,6 @@ public class ConferenceController {
             conferenceManager.removeOrganizer(conferenceUUID, targetUserUUID);
         }
 
-        if (conferenceManager.isAttendee(conferenceUUID, targetUserUUID)) {
-            conferenceManager.removeAttendee(conferenceUUID, targetUserUUID);
-
-            for (UUID eventUUID : eventController.getAttendeeEvents(conferenceUUID, targetUserUUID)) {
-                eventController.doUnregisterForEvent(conferenceUUID, targetUserUUID, eventUUID);
-            }
-        }
-
         if (conferenceManager.isSpeaker(conferenceUUID, targetUserUUID)) {
             // We'll handle revoking speaker access in updateSpeakers, since having speaker permissions is linked to
             // whether or not a user is a speaker of an event.
@@ -259,6 +251,14 @@ public class ConferenceController {
 
             // Refresh the list of speakers for this conference
             eventController.updateSpeakers(conferenceUUID);
+        }
+
+        if (conferenceManager.isAttendee(conferenceUUID, targetUserUUID)) {
+            for (UUID eventUUID : eventController.getAttendeeEvents(conferenceUUID, targetUserUUID)) {
+                eventController.doUnregisterForEvent(conferenceUUID, targetUserUUID, eventUUID);
+            }
+
+            conferenceManager.removeAttendee(conferenceUUID, targetUserUUID);
         }
 
         LOGGER.log(Level.INFO, String.format("User left conference\n Conference UUID: %s\n Target: %s\n Executor: %s", conferenceUUID, targetUserUUID, executorUUID));

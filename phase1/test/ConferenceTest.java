@@ -281,7 +281,7 @@ public class ConferenceTest {
             }
         });
 
-        assertTrue(eventController.getEventSpeakers(conferenceUUID, myUser, eventUUID).contains(randomUser));
+        assertTrue(eventController.getEventSpeakers(conferenceUUID, myUser, eventUUID).contains(someSpeaker));
         assertEquals(eventController.getEventSpeakers(conferenceUUID, myUser, eventUUID).size(), 1);
     }
 
@@ -290,7 +290,7 @@ public class ConferenceTest {
     public void testGetOrganizers() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
 
-        assertTrue(conferenceController.getOrganizers(conferenceUUID, myUser).contains(randomUser));
+        assertTrue(conferenceController.getOrganizers(conferenceUUID, myUser).contains(myUser));
         assertEquals(conferenceController.getOrganizers(conferenceUUID, myUser).size(), 1);
     }
 
@@ -413,18 +413,53 @@ public class ConferenceTest {
     }
 
     @Test(timeout = 50)
-    public void testLeaveConference() {
+    public void testLeaveConferenceAttendee() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
 
+        conferenceController.addAttendee(conferenceUUID, someAttendee);
+
+        assertTrue(conferenceController.getAttendees(conferenceUUID, myUser).contains(someAttendee));
+
+        conferenceController.leaveConference(conferenceUUID, someAttendee, someAttendee);
+
+        assertFalse(conferenceController.getAttendees(conferenceUUID, myUser).contains(someAttendee));
     }
 
-    @Test(timeout = 50, expected = NullUserException.class)
-    public void testLeaveConferenceInvalidUser() {
+    @Test(timeout = 50)
+    public void testLeaveConferenceSpeaker() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
+
+        assertTrue(conferenceController.getSpeakers(conferenceUUID, myUser).contains(someSpeaker));
+        assertTrue(eventController.getEventSpeakers(conferenceUUID, myUser, eventUUID).contains(someSpeaker));
+
+        conferenceController.leaveConference(conferenceUUID, someSpeaker, someSpeaker);
+
+        assertFalse(conferenceController.getSpeakers(conferenceUUID, myUser).contains(someSpeaker));
+        assertFalse(eventController.getEventSpeakers(conferenceUUID, myUser, eventUUID).contains(someSpeaker));
+    }
+
+    @Test(timeout = 50, expected = NullConferenceException.class)
+    public void testLeaveConferenceInvalidConference() {
+        conferenceController.leaveConference(randomConference, randomUser, randomUser);
+    }
+
+    @Test(timeout = 50, expected = PermissionException.class)
+    public void testLeaveConferenceInvalidUser() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+        conferenceController.leaveConference(conferenceUUID, randomUser, randomUser);
     }
 
     @Test(timeout = 50, expected = LoneOrganizerException.class)
     public void testLeaveConferenceLastOrganizer() {
-
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+        conferenceController.leaveConference(conferenceUUID, myUser, myUser);
     }
 
     @Test(timeout = 50)
@@ -449,6 +484,7 @@ public class ConferenceTest {
 
     @Test(timeout = 50, expected = NullEventException.class)
     public void testUnregisterForInvalidEvent() {
+
 
     }
 
