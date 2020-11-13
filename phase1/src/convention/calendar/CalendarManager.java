@@ -44,7 +44,6 @@ public class CalendarManager {
      * Removes a booking from the calendar
      *
      * @param eventUUID the UUID of the event object
-     * @param timeRange the TimeRange of the event object
      */
     public void removeTimeBlock(UUID eventUUID) {
         if (calendar.getBooking(eventUUID) == null) {

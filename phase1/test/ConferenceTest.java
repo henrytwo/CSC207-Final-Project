@@ -213,7 +213,19 @@ public class ConferenceTest {
         conferenceController.deleteConference(conferenceUUID, randomUser);
     }
 
+    /* Time range */
+    @Test(timeout = 100)
+    public void testTimeRange() {
+        new TimeRange(dateA, dateB);
+    }
+
+    @Test(timeout = 100, expected = InvalidTimeRangeException.class)
+    public void testInvalidTimeRange() {
+        new TimeRange(dateB, dateA);
+    }
+
     /* Managing organizers */
+
     @Test(timeout = 100)
     public void testAddOrganizer() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
