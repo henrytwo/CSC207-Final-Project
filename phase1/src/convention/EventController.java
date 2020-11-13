@@ -9,6 +9,8 @@ import convention.exception.FullRoomException;
 import convention.exception.SpeakerDoubleBookingException;
 import convention.permission.PermissionManager;
 import convention.room.RoomManager;
+import messaging.ConversationManager;
+import messaging.Message;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,8 +22,10 @@ public class EventController {
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private ConferenceManager conferenceManager;
     private PermissionManager permissionManager;
+    private ConversationManager conversationManager;
 
-    public EventController(ConferenceManager conferenceManager) {
+    public EventController(ConferenceManager conferenceManager, ConversationManager conversationManager) {
+        this.conferenceManager = conferenceManager;
         this.conferenceManager = conferenceManager;
         this.permissionManager = new PermissionManager(conferenceManager);
     }
@@ -112,10 +116,10 @@ public class EventController {
         }
 
         // If this event has a conversation between the speaker and attendees, add this user to it
-        if (eventManager.getConversationUUID(eventUUID) != null) {
-            /**
-             * TODO: Add user to the group chat with write access
-             */
+        UUID eventConversationUUID = eventManager.getEventConversationUUID(eventUUID);
+
+        if (eventConversationUUID != null) {
+            conversationManager.addUser(targetUserUUID, eventConversationUUID);
         }
 
         eventManager.registerAttendee(eventUUID, targetUserUUID);
@@ -133,10 +137,10 @@ public class EventController {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
         // If this event has a conversation between the speaker and attendees, remove the user from it
-        if (eventManager.getConversationUUID(eventUUID) != null) {
-            /**
-             * TODO: Remove the user from the groupchat
-             */
+        UUID eventConversationUUID = eventManager.getEventConversationUUID(eventUUID);
+
+        if (eventConversationUUID != null) {
+            conversationManager.removeUser(targetUserUUID, eventConversationUUID);
         }
 
         eventManager.unregisterAttendee(eventUUID, targetUserUUID);
@@ -277,9 +281,12 @@ public class EventController {
             }
         }, eventTimeRange);
 
-        /**
-         * TODO: Add the speaker to the conversation (if created)
-         */
+        // Add speaker to the existing conversation for this event
+        UUID eventConversationUUID = eventManager.getEventConversationUUID(eventUUID);
+
+        if (eventConversationUUID != null) {
+            conversationManager.addUser(speakerUUID, eventConversationUUID);
+        }
 
         eventManager.addEventSpeaker(eventUUID, speakerUUID);
         updateSpeakers(conferenceUUID);
@@ -301,10 +308,12 @@ public class EventController {
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-        /**
-         * TODO: Remove the speaker to the conversation (if created)
-         */
+        // Remove speaker to the existing conversation for this event
+        UUID eventConversationUUID = eventManager.getEventConversationUUID(eventUUID);
 
+        if (eventConversationUUID != null) {
+            conversationManager.removeUser(speakerUUID, eventConversationUUID);
+        }
         eventManager.removeEventSpeaker(eventUUID, speakerUUID);
         updateSpeakers(conferenceUUID);
     }
@@ -329,9 +338,12 @@ public class EventController {
         CalendarManager roomCalendarManager = roomManager.getCalendarManager(roomUUID);
         roomCalendarManager.removeTimeBlock(eventUUID);
 
-        /**
-         * TODO: Delete the associated conversation
-         */
+        // Delete the conversation corresponding to this event
+        UUID eventConversationUUID = eventManager.getEventConversationUUID(eventUUID);
+
+        if (eventConversationUUID != null) {
+            conversationManager.deleteConversation(eventConversationUUID);
+        }
 
         eventManager.deleteEvent(eventUUID);
         updateSpeakers(conferenceUUID);
@@ -363,7 +375,7 @@ public class EventController {
      * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
-     * @param newRoomUUID       UUID of the new room
+     * @param newRoomUUID    UUID of the new room
      */
     public void setEventRoom(UUID conferenceUUID, UUID executorUUID, UUID eventUUID, UUID newRoomUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
@@ -511,13 +523,28 @@ public class EventController {
      * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
+     * @return UUID of the new conversation
      */
-    public void createEventConversation(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+    public UUID createEventConversation(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
         permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
 
-        // do stuff
-        /**
-         * TODO: Implement this
-         */
+        EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+        String eventTitle = eventManager.getEventTitle(eventUUID);
+        String conferenceName = conferenceManager.getConferenceName(conferenceUUID);
+
+        String conversationName = String.format("%s Discussion [%s]", eventTitle, conferenceName);
+        Message initialMessage = new Message(executorUUID, String.format("Welcome to the event: %s", eventTitle));
+
+        // Give all event speaker and attendees read and write access to the converastion
+        Set<UUID> conversationUsers = new HashSet<>();
+        conversationUsers.addAll(eventManager.getEventAttendees(eventUUID));
+        conversationUsers.addAll(eventManager.getEventSpeakers(eventUUID));
+
+        UUID conversationUUID = conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, initialMessage);
+
+        // Save the conversation for future reference
+        eventManager.setEventConversationUUID(eventUUID, conversationUUID);
+
+        return conversationUUID;
     }
 }

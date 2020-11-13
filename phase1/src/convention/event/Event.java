@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Event {
     private UUID uuid;
     private String title;
-    private Set<UUID> speakerUUIDs = new HashSet<>();
+    private Set<UUID> speakerUUIDs;
     private Set<UUID> attendeeUUIDs = new HashSet<>();
 
     private TimeRange timeRange;
@@ -22,7 +22,6 @@ public class Event {
         this.uuid = UUID.randomUUID();
         this.speakerUUIDs = speakerUUIDs;
         this.timeRange = timeRange;
-        this.conversationUUID = UUID.randomUUID();
         this.roomUUID = roomUUID;
     }
 

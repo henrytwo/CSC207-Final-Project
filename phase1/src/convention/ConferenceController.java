@@ -5,6 +5,8 @@ import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.permission.PermissionManager;
 import messaging.ConversationManager;
+import messaging.Message;
+import user.UserManager;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -17,9 +19,7 @@ public class ConferenceController {
 
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    /**
-     * TODO: Add conversation controller stuff
-     */
+    private UserManager userManager;
     private ConversationManager conversationManager;
     private EventController eventController;
     private ConferenceManager conferenceManager;
@@ -33,10 +33,11 @@ public class ConferenceController {
      * @param eventController
      * @param conferenceManager
      */
-    public ConferenceController(ConversationManager conversationManager, EventController eventController, ConferenceManager conferenceManager) {
+    public ConferenceController(ConversationManager conversationManager, EventController eventController, ConferenceManager conferenceManager, UserManager userManager) {
         this.conversationManager = conversationManager;
         this.eventController = eventController;
         this.conferenceManager = conferenceManager;
+        this.userManager = new UserManager();
         this.permissionManager = new PermissionManager(conferenceManager);
     }
 
@@ -70,6 +71,25 @@ public class ConferenceController {
         }
 
         return myConferences;
+    }
+
+    /**
+     * Get a set of all conference that a user is not a part of.
+     * <p>
+     * Required Permission: NONE
+     *
+     * @return set of conference UUIDs
+     */
+    public Set<UUID> getNotUserConferences(UUID userUUID) {
+        Set<UUID> myNotConferences = new HashSet<>();
+
+        for (UUID conferenceUUID : conferenceManager.getConferences()) {
+            if (!conferenceManager.isAffiliated(conferenceUUID, userUUID)) {
+                myNotConferences.add(conferenceUUID);
+            }
+        }
+
+        return myNotConferences;
     }
 
     /**
@@ -222,14 +242,6 @@ public class ConferenceController {
             conferenceManager.removeOrganizer(conferenceUUID, targetUserUUID);
         }
 
-        if (conferenceManager.isAttendee(conferenceUUID, targetUserUUID)) {
-            conferenceManager.removeAttendee(conferenceUUID, targetUserUUID);
-
-            for (UUID eventUUID : eventController.getAttendeeEvents(conferenceUUID, targetUserUUID)) {
-                eventController.doUnregisterForEvent(conferenceUUID, targetUserUUID, eventUUID);
-            }
-        }
-
         if (conferenceManager.isSpeaker(conferenceUUID, targetUserUUID)) {
             // We'll handle revoking speaker access in updateSpeakers, since having speaker permissions is linked to
             // whether or not a user is a speaker of an event.
@@ -239,6 +251,14 @@ public class ConferenceController {
 
             // Refresh the list of speakers for this conference
             eventController.updateSpeakers(conferenceUUID);
+        }
+
+        if (conferenceManager.isAttendee(conferenceUUID, targetUserUUID)) {
+            for (UUID eventUUID : eventController.getAttendeeEvents(conferenceUUID, targetUserUUID)) {
+                eventController.doUnregisterForEvent(conferenceUUID, targetUserUUID, eventUUID);
+            }
+
+            conferenceManager.removeAttendee(conferenceUUID, targetUserUUID);
         }
 
         LOGGER.log(Level.INFO, String.format("User left conference\n Conference UUID: %s\n Target: %s\n Executor: %s", conferenceUUID, targetUserUUID, executorUUID));
@@ -252,15 +272,21 @@ public class ConferenceController {
      * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param targetUUIDs    UUIDs of the users to add to the conversation
+     * @return UUID of the new conversation
      */
-    public void createConversationWithUsers(UUID conferenceUUID, UUID executorUUID, Set<UUID> targetUUIDs) {
+    public UUID createConversationWithUsers(UUID conferenceUUID, UUID executorUUID, Set<UUID> targetUUIDs) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
         permissionManager.testTargetsAreAttendee(conferenceUUID, executorUUID, targetUUIDs);
 
-        // do stuff
-        /**
-         * TODO: Write this
-         */
+        // Allow all the target users + the organizer running this to have read/write access to the new convo
+        Set<UUID> conversationUsers = new HashSet<>(targetUUIDs);
+        conversationUsers.add(executorUUID);
+
+        String organizerName = userManager.getUserFirstName(executorUUID);
+        String conversationName = String.format("Organizer Chat with %s @ %s", organizerName, getConferenceName(conferenceUUID));
+        Message initialMessage = new Message(executorUUID, String.format("Hi, this is %s.", organizerName));
+
+        return conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, initialMessage);
     }
 
     /* Organizer operations */

@@ -1,5 +1,7 @@
 package user;
 
+import user.exception.NullUserException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -49,9 +51,9 @@ public class UserManager {
     }
 
     private User getUser(UUID uuid) {
-        /**
-         * TODO: Raise NullUserException if invalid
-         */
+        if (userMap.get(uuid) == null) {
+            throw new NullUserException(uuid);
+        }
         return userMap.get(uuid);
     }
 

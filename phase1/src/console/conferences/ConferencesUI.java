@@ -47,7 +47,9 @@ public class ConferencesUI {
     }
 
     public void joinConference() {
-        Set<UUID> allConferences = conferenceController.getConferences();
+        Set<UUID> allConferences = conferenceController.getNotUserConferences(userUUID);
+
+        // don't show them conferences they're already in... duh
 
     }
 
