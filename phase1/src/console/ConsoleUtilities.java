@@ -3,7 +3,10 @@ package console;
 import user.UserController;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ConsoleUtilities {
@@ -11,6 +14,8 @@ public class ConsoleUtilities {
     private static Scanner stdin = new Scanner(System.in);
     private static final String os = System.getProperty("os.name");
     private UserController userController;
+
+    String dateTimeFormat = "MM-dd-yyyy HH:mm";
 
     public ConsoleUtilities(UserController userController) {
         this.userController = userController;
@@ -38,14 +43,44 @@ public class ConsoleUtilities {
     }
 
     /**
+     * Date time format used by the system
+     * @return
+     */
+    public String getDateTimeFormat() {
+        return dateTimeFormat;
+    }
+
+    /**
+     * Method to convert a string to a LocalDateTime object
+     *
+     * @param inputDateTime string to convert
+     * @return date time object
+     */
+    public LocalDateTime stringToDateTime(String inputDateTime) {
+        return stringToDateTime(inputDateTime, dateTimeFormat);
+    }
+
+    /**
+     * Method to convert a string to a LocalDateTime object
+     *
+     * @param inputDateTime string to convert
+     * @param template      date format template
+     * @return date time object
+     */
+    public LocalDateTime stringToDateTime(String inputDateTime, String template) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(template);
+        return LocalDateTime.parse(inputDateTime, formatter);
+    }
+
+    /**
      * Displays a generic input form and returns a hashmap with the user's responses
      *
-     * @param title Title displayed at the top of the form
-     * @param labels Hashmap from fieldID -> Label
+     * @param title    Title displayed at the top of the form
+     * @param labels   Hashmap from fieldID -> Label
      * @param fieldIDs list of field IDs in the order to be displayed
      * @return hashmap with the user input to the form (fieldID -> response)
      */
-    public HashMap<String, String> inputForm(String title, HashMap<String, String> labels, String[] fieldIDs) {
+    public HashMap<String, String> inputForm(String title, Map<String, String> labels, String[] fieldIDs) {
         clearConsole();
 
         HashMap<String, String> responses = new HashMap<>();
@@ -70,7 +105,7 @@ public class ConsoleUtilities {
      * @return hashmap with username and password
      */
     public HashMap<String, String> loginPrompt() {
-        HashMap<String, String> labels = new HashMap<>() {
+        Map<String, String> labels = new HashMap<>() {
             {
                 put("username", "Username");
                 put("password", "Password");
@@ -86,7 +121,7 @@ public class ConsoleUtilities {
     }
 
     public HashMap<String, String> registerPrompt() {
-        HashMap<String, String> labels = new HashMap<>() {
+        Map<String, String> labels = new HashMap<>() {
             {
                 put("username", "Username");
                 put("password", "Password");
@@ -107,6 +142,7 @@ public class ConsoleUtilities {
 
     /**
      * Generates the text that goes before a menu that displays the user's name (if logged in)
+     *
      * @return
      */
     private String getUserFirstNamePrecaption() {

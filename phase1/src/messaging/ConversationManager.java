@@ -12,8 +12,8 @@ public class ConversationManager implements Serializable {
     // Note that the mapUserConvo hashmap is only there for efficiency reasons
     // the permissions are decided based on the read/write access to each conversation
     // (looping thru all the convos is O(n), but accessing the hashmap is O(1) time)
-    private HashMap<UUID, Set<UUID>> mapUserConvo = new HashMap<>();
-    private HashMap<UUID, Conversation> mapUUIDConvo = new HashMap<>();
+    private Map<UUID, Set<UUID>> mapUserConvo = new HashMap<>();
+    private Map<UUID, Conversation> mapUUIDConvo = new HashMap<>();
 
     /**
      * Creates an instance of Conversation

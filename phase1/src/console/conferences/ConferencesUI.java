@@ -5,14 +5,13 @@ import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
+import convention.exception.InvalidNameException;
+import convention.exception.InvalidTimeRangeException;
 import user.UserController;
 
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 
 public class ConferencesUI {
     ConsoleUtilities consoleUtilities;
@@ -32,16 +31,37 @@ public class ConferencesUI {
     }
 
     public void createConference() {
+        String[] fieldIDs = {
+                "conferenceName",
+                "startTime",
+                "endTime"
+        };
 
-        LocalDateTime dateA = LocalDateTime.of(2015,
-                Month.JULY, 29, 19, 30, 40);
-        LocalDateTime dateB = LocalDateTime.of(2018,
-                Month.JULY, 29, 19, 30, 40);
+        Map<String, String> labels = new HashMap<>() {
+            {
+                put("conferenceName", "Conference Name");
+                put("startTime", String.format("Start Time/Date [%s]", consoleUtilities.getDateTimeFormat()));
+                put("endTime", String.format("End Time/Date [%s]", consoleUtilities.getDateTimeFormat()));
+            }
+        };
 
-        TimeRange timeRangeA = new TimeRange(dateA, dateB);
+        try {
+            Map<String, String> response = consoleUtilities.inputForm("Create New Conference", labels, fieldIDs);
 
-        conferenceController.createConference("test", timeRangeA, userUUID);
+            String conferenceName = response.get("conferenceName");
+            LocalDateTime start = consoleUtilities.stringToDateTime(response.get("startTime"));
+            LocalDateTime end = consoleUtilities.stringToDateTime(response.get("endTime"));
 
+            TimeRange timeRange = new TimeRange(start, end);
+
+            conferenceController.createConference(conferenceName, timeRange, userUUID);
+        } catch (InvalidNameException e) {
+            consoleUtilities.confirmBoxClear("Invalid name. Conference name must be non empty.");
+        } catch (InvalidTimeRangeException e) {
+            consoleUtilities.confirmBoxClear("Invalid date range. End time must be after start time.");
+        } catch (DateTimeParseException e) {
+            consoleUtilities.confirmBoxClear(String.format("Invalid date. Please follow the given format. [%s]", consoleUtilities.getDateTimeFormat()));
+        }
     }
 
     public void joinConference() {
@@ -76,7 +96,7 @@ public class ConferencesUI {
          *      - Add/Remove users
          *      - Promote/Demote organizer
          *      - Create conversation
-     *        - Delete conference
+         *        - Delete conference
          */
     }
 
