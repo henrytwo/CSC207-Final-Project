@@ -648,6 +648,51 @@ public class ConferenceTest {
         assertEquals(eventController.getAttendeeEvents(conferenceUUID, someAttendee).size(), 2);
     }
 
+    @Test(timeout = 100, expected = CalendarDoubleBookingException.class)
+    public void testDoubleBookRoom() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+
+        conferenceController.addAttendee(conferenceUUID, someAttendee);
+
+        assertEquals(eventController.getAttendeeEvents(conferenceUUID, myUser).size(), 0);
+
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
+
+        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeakerB);
+            }
+        });
+    }
+
+    @Test(timeout = 100, expected = SpeakerDoubleBookingException.class)
+    public void testDoubleBookSpeaker() {
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+
+        conferenceController.addAttendee(conferenceUUID, someAttendee);
+
+        assertEquals(eventController.getAttendeeEvents(conferenceUUID, myUser).size(), 0);
+
+        UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
+
+        UUID room2UUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
+        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeA, room2UUID, new HashSet<>() {
+            {
+                add(someSpeaker);
+            }
+        });
+    }
+
     @Test(timeout = 100)
     public void testGetSpeakerEvents() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
