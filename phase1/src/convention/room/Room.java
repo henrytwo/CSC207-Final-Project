@@ -2,9 +2,10 @@ package convention.room;
 
 import convention.calendar.Calendar;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Room {
+public class Room implements Serializable {
 
     //unique ID for the room
     private UUID roomUUID;

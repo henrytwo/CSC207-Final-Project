@@ -4,12 +4,13 @@ import convention.calendar.TimeRange;
 import convention.exception.InvalidNameException;
 import convention.exception.NullEventException;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 
-public class EventManager {
+public class EventManager implements Serializable {
     private Map<UUID, Event> events;
 
     public EventManager(Map<UUID, Event> events) {

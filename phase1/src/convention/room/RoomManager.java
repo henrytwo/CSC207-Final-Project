@@ -2,12 +2,13 @@ package convention.room;
 
 import convention.calendar.Calendar;
 
+import java.io.Serializable;
 import java.util.*;
 
 import convention.calendar.CalendarManager;
 import convention.exception.*;
 
-public class RoomManager {
+public class RoomManager implements Serializable {
 
     private Map<UUID, Room> rooms;
 

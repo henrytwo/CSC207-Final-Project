@@ -203,6 +203,9 @@ public class ConferencesUI {
          */
 
         String conferenceName = conferenceController.getConferenceName(conferenceUUID);
+        int numEvents;
+        int numRooms;
+        int numAttendees;
 
         // We store a mapping from the menu ID to the label
         // For each permission, we'll set out a different list of selection IDs, and then generate the selection menu using that
@@ -273,8 +276,13 @@ public class ConferencesUI {
         boolean running = true;
 
         while (running) {
+            // These statistics may change every loop, so we'll update them here
+            numEvents = eventController.getEvents(conferenceUUID, userUUID).size();
+            numRooms = roomController.getRooms(conferenceUUID, userUUID).size();
+            numAttendees = conferenceController.getAttendees(conferenceUUID, userUUID).size();
+
             // We use the selection ID here instead of just the option index, as it may change with more or less options
-            int selection = consoleUtilities.singleSelectMenu(String.format("Conference: %s | Role: %s", conferenceName, role), options);
+            int selection = consoleUtilities.singleSelectMenu(String.format("Conference: %s | Role: %s | # Events: %d | # Rooms: %d | # Attendees: %d", conferenceName, role, numEvents, numRooms, numAttendees), options);
             String selectionID = selectionIDs[selection - 1]; // Arrays start at 0
 
             switch (selectionID) {
