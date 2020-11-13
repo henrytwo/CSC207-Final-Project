@@ -1,5 +1,9 @@
 package contact;
 
+import contact.exception.GhostAcceptDeniedException;
+import contact.exception.GhostDeleteException;
+import contact.exception.RequestDeniedException;
+
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,7 +30,7 @@ public class ContactController {
             linker.setSentRequests(userId, sentList);
         }
         else {
-            System.out.println("Sorry, You have already sent a request to this user.");
+            throw new RequestDeniedException(userId, potentialContact);
         }
     }
 
@@ -45,6 +49,9 @@ public class ContactController {
             linker.setContacts(userId, contacts);
             linker.setRequests(userId, requestsList);
         }
+        else{
+            throw new GhostAcceptDeniedException(userId, potentialContact);
+        }
     }
 
     /**
@@ -54,6 +61,9 @@ public class ContactController {
      */
     public void deleteContacts(UUID userId, UUID extraContact){
         Set<UUID> contactsList = linker.getContacts(userId);
+        if (contactsList.contains(extraContact) == false){
+            throw new GhostDeleteException(userId, extraContact);
+        }
         contactsList.remove(extraContact);
         linker.setContacts(userId, contactsList);
     }

@@ -10,6 +10,13 @@ public class ContactManager {
     private HashMap<UUID, Set<UUID>> requestsMap = new HashMap<UUID, Set<UUID>>();
 
     private HashMap<UUID, Set<UUID>> sentRequestsMap = new HashMap<UUID, Set<UUID>>();
+
+    public ContactManager(){
+        super();
+        this.contactsMap = new HashMap<UUID, Set<UUID>>();
+        this.sentRequestsMap = new HashMap<UUID, Set<UUID>>();
+        this.requestsMap = new HashMap<UUID, Set<UUID>>();
+    }
     /**
      *  returns the Contacts (friends) list of a particular user
      * @param user_id the userId of the person for whom we need a list of contacts
