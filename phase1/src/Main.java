@@ -60,15 +60,10 @@ public class Main {
 
     /**
      * UI Components to build
-     * - n-column table with numbered rows (Talk to shubhra about it)
-     * - messaging thing
-     * - Form component
-     */
-
-    /**
-     * Big thinking
-     *
-     * - Dealing with CompareBySpeaker
+     * - n-column table with numbered rows (Shubhra)
+     * - messaging thing (Mahak)
+     * - Form component (Henry)
+     * - Calendar (Ellie)
      */
 
     public static void main(String[] args) {

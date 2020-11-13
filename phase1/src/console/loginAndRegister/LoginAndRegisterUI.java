@@ -70,7 +70,7 @@ public class LoginAndRegisterUI {
                     "Exit System"
             };
 
-            int selection = consoleUtilities.singleSelectMenu("LinkedIn Clone", options);
+            int selection = consoleUtilities.singleSelectMenu("LinkedIn Clone | Please authenticate to continue", options);
 
             switch (selection) {
                 case 1:

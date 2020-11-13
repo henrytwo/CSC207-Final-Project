@@ -38,52 +38,71 @@ public class ConsoleUtilities {
     }
 
     /**
+     * Displays a generic input form and returns a hashmap with the user's responses
+     *
+     * @param title Title displayed at the top of the form
+     * @param labels Hashmap from fieldID -> Label
+     * @param fieldIDs list of field IDs in the order to be displayed
+     * @return hashmap with the user input to the form (fieldID -> response)
+     */
+    public HashMap<String, String> inputForm(String title, HashMap<String, String> labels, String[] fieldIDs) {
+        clearConsole();
+
+        HashMap<String, String> responses = new HashMap<>();
+
+        if (title.length() > 0) {
+            System.out.println(String.format("%s\n", title));
+        }
+
+        for (String fieldID : fieldIDs) {
+            System.out.printf("%s: ", labels.get(fieldID));
+            String response = stdin.nextLine();
+
+            responses.put(fieldID, response);
+        }
+
+        return responses;
+    }
+
+    /**
      * Displays a login prompt
      *
      * @return hashmap with username and password
      */
     public HashMap<String, String> loginPrompt() {
-        clearConsole();
-
-        System.out.print("Login\n\n");
-        System.out.print("Username: ");
-        String username = stdin.nextLine();
-
-        System.out.print("Password: ");
-        String password = stdin.nextLine();
-
-        return new HashMap<String, String>() {
+        HashMap<String, String> labels = new HashMap<>() {
             {
-                put("username", username);
-                put("password", password);
+                put("username", "Username");
+                put("password", "Password");
             }
         };
+
+        String[] fieldIDs = {
+                "username",
+                "password"
+        };
+
+        return inputForm("Login", labels, fieldIDs);
     }
 
     public HashMap<String, String> registerPrompt() {
-        clearConsole();
-
-        System.out.print("Register\n\n");
-        System.out.print("Enter your first name: ");
-        String firstname = stdin.nextLine();
-
-        System.out.print("Enter your last name: ");
-        String lastname = stdin.nextLine();
-
-        System.out.print("Enter your Username: ");
-        String username = stdin.nextLine();
-
-        System.out.print("Enter your Password: ");
-        String password = stdin.nextLine();
-
-        return new HashMap<String, String>() {
+        HashMap<String, String> labels = new HashMap<>() {
             {
-                put("firstname", firstname);
-                put("lastname", lastname);
-                put("username", username);
-                put("password", password);
+                put("username", "Username");
+                put("password", "Password");
+                put("firstname", "First Name");
+                put("lastname", "Last Name");
             }
         };
+
+        String[] fieldIDs = {
+                "firstname",
+                "lastname",
+                "username",
+                "password"
+        };
+
+        return inputForm("Register", labels, fieldIDs);
     }
 
     /**
