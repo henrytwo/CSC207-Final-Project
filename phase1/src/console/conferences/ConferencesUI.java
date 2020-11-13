@@ -150,8 +150,28 @@ public class ConferencesUI {
         }
     }
 
-    public void messageUsers() {
+    /**
+     * Create a conversation with any number of users in this conference
+     * @param conferenceUUID
+     */
+    public void messageUsers(UUID conferenceUUID) {
 
+    }
+
+    /**
+     * Create a room in this conference
+     * @param conferenceUUID
+     */
+    public void createRoom(UUID conferenceUUID) {
+
+        /**
+         * TODO: Remove test code
+         */
+        // Create two mock rooms
+        roomController.createRoom(conferenceUUID, userUUID, "BA6969", 2);
+        roomController.createRoom(conferenceUUID, userUUID, "BA6970", 2);
+
+        consoleUtilities.confirmBoxClear("two test rooms created");
     }
 
     public void viewSpecificConference(UUID conferenceUUID) {
@@ -274,10 +294,10 @@ public class ConferencesUI {
                     consoleUtilities.confirmBoxClear("Create an event");
                     break;
                 case "createRoom":
-                    consoleUtilities.confirmBoxClear("create a room ");
+                    createRoom(conferenceUUID);
                     break;
                 case "messageUsers":
-                    messageUsers();
+                    messageUsers(conferenceUUID);
                     break;
                 case "back":
                     running = false;
