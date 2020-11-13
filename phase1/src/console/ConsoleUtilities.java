@@ -38,6 +38,7 @@ public class ConsoleUtilities {
     public HashMap<String, String> loginPrompt() {
         clearConsole();
 
+        System.out.print("Login\n\n");
         System.out.print("Username: ");
         String username = stdin.nextLine();
 
@@ -55,6 +56,7 @@ public class ConsoleUtilities {
     public HashMap<String, String> registerPrompt() {
         clearConsole();
 
+        System.out.print("Register\n\n");
         System.out.print("Enter your first name: ");
         String firstname = stdin.nextLine();
 

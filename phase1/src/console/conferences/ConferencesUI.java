@@ -28,8 +28,6 @@ public class ConferencesUI {
         this.roomController = roomController;
         this.eventController = eventController;
         this.conferenceController = conferenceController;
-
-        this.userUUID = userController.getCurrentUser();
     }
 
     public void createConference() {
@@ -100,7 +98,7 @@ public class ConferencesUI {
             }
 
             // Arrays start a 0, so subtract
-            int selectionIndex = consoleUtilities.singleSelectMenu("Select a conference", conferenceNames) - 1;
+            int selectionIndex = consoleUtilities.singleSelectMenu(userController.getUserFullName(userUUID),"Select a conference", conferenceNames) - 1;
 
             UUID selectedConferenceUUID = conferenceUUIDs.get(selectionIndex);
 
@@ -109,6 +107,9 @@ public class ConferencesUI {
     }
 
     public void run() {
+        // We fetch the user UUID here so we keep it up to date
+        this.userUUID = userController.getCurrentUser();
+
         String[] options = new String[]{
                 "Create a conference",
                 "Join a conference",
