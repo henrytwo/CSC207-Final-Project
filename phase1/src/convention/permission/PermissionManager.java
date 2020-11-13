@@ -108,7 +108,7 @@ public class PermissionManager {
      * @param targetUserUUID UUID of the user the command is operating on
      */
     public void testTargetIsAttendee(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID) {
-        testTargetsAreAttendee(conferenceUUID, executorUUID, new HashSet<>() {
+        testTargetsAreAttendee(conferenceUUID, executorUUID, new HashSet<UUID>() {
             {
                 add(targetUserUUID);
             }

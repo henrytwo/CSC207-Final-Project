@@ -47,7 +47,7 @@ public class ConferencesUI {
                 "endTime"
         };
 
-        Map<String, String> labels = new HashMap<>() {
+        Map<String, String> labels = new HashMap<String, String>() {
             {
                 put("conferenceName", "Conference Name");
                 put("startTime", String.format("Start Time/Date [%s]", consoleUtilities.getDateTimeFormat()));
@@ -271,7 +271,7 @@ public class ConferencesUI {
 
         // We store a mapping from the menu ID to the label
         // For each permission, we'll set out a different list of selection IDs, and then generate the selection menu using that
-        HashMap<String, String> selectionIDToLabel = new HashMap<>() {
+        HashMap<String, String> selectionIDToLabel = new HashMap<String, String>() {
             {
                 put("calendar", "Calendar");
                 put("yourAttendeeEvents", "View Registered Events");

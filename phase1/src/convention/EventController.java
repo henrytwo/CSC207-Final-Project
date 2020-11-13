@@ -275,7 +275,7 @@ public class EventController {
         TimeRange eventTimeRange = eventManager.getEventTimeRange(eventUUID);
 
         // Test that the speaker is not being double booked
-        testSpeakersTimeRangeOccupied(conferenceUUID, new HashSet<>() {
+        testSpeakersTimeRangeOccupied(conferenceUUID, new HashSet<UUID>() {
             {
                 add(speakerUUID);
             }
