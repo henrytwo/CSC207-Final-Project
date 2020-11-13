@@ -85,4 +85,13 @@ public class ContactController {
     public Set<UUID> showRequests(UUID userId){
         return linker.getRequests(userId);
     }
+
+    /**
+     * Return a list of a user's sent requests.
+     * @param userId UUID of the user for whom the list of requests is being requested.
+     * @return set of UUIDs of the users who received requests from user with UUID userId.
+     */
+    public Set<UUID> showSentRequests(UUID userId){
+        return linker.getSentRequests(userId);
+    }
 }

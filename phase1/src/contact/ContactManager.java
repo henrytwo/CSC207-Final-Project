@@ -49,7 +49,12 @@ public class ContactManager {
      * @param user_id the userId of the person for whom we need to update the contacts set
      */
     public void setContacts(UUID user_id, Set<UUID> contacts){
-        contactsMap.put(user_id, contacts);
+        if(contactsMap.containsKey(user_id)){
+            contactsMap.replace(user_id, contacts);
+        }
+        else{
+            contactsMap.putIfAbsent(user_id, contacts);
+        }
     }
 
     /**
@@ -58,7 +63,12 @@ public class ContactManager {
      * @param requests the set of requests received by this user
      */
     public void setRequests(UUID user_id, Set<UUID> requests){
-        requestsMap.put(user_id, requests);
+        if(requestsMap.containsKey(user_id)){
+            requestsMap.replace(user_id, requests);
+        }
+        else{
+            requestsMap.putIfAbsent(user_id, requests);
+        }
     }
 
     /**
@@ -67,7 +77,12 @@ public class ContactManager {
      * @param sentrequests the set of requests sent by this user
      */
     public void setSentRequests(UUID user_id, Set<UUID> sentrequests){
-        sentRequestsMap.put(user_id, sentrequests);
+        if(sentRequestsMap.containsKey(user_id)){
+            sentRequestsMap.replace(user_id, sentrequests);
+        }
+        else{
+            sentRequestsMap.putIfAbsent(user_id, sentrequests);
+        }
     }
 
 }
