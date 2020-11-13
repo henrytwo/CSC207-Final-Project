@@ -105,7 +105,7 @@ public class ConsoleUtilities {
      * @return hashmap with username and password
      */
     public HashMap<String, String> loginPrompt() {
-        Map<String, String> labels = new HashMap<>() {
+        Map<String, String> labels = new HashMap<String, String>() {
             {
                 put("username", "Username");
                 put("password", "Password");
@@ -121,7 +121,7 @@ public class ConsoleUtilities {
     }
 
     public HashMap<String, String> registerPrompt() {
-        Map<String, String> labels = new HashMap<>() {
+        Map<String, String> labels = new HashMap<String, String>() {
             {
                 put("username", "Username");
                 put("password", "Password");
