@@ -1,9 +1,10 @@
 package messaging;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class Message {
+public class Message implements Serializable {
     private String content;
     private Set<Message> responses = new HashSet<>();
     private LocalDateTime timestamp;

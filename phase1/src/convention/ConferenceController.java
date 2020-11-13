@@ -34,7 +34,7 @@ public class ConferenceController {
         this.conversationManager = conversationManager;
         this.eventController = eventController;
         this.conferenceManager = conferenceManager;
-        this.userManager = new UserManager();
+        this.userManager = userManager;
         this.permissionManager = new PermissionManager(conferenceManager);
     }
 
@@ -404,5 +404,25 @@ public class ConferenceController {
     public boolean isAttendee(UUID conferenceUUID, UUID executorUUID, UUID targetUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
         return conferenceManager.getAttendees(conferenceUUID).contains(targetUUID);
+    }
+
+    /**
+     * Gets a set of UUIDs of all users affiliated with this conference.
+     * <p>
+     * Required Permission: ATTENDEE
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @param executorUUID   UUID of the user executing the command
+     * @return set of user UUIDs
+     */
+    public Set<UUID> getUsers(UUID conferenceUUID, UUID executorUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+
+        Set<UUID> userUUIDs = new HashSet<>();
+        userUUIDs.addAll(conferenceManager.getAttendees(conferenceUUID));
+        userUUIDs.addAll(conferenceManager.getSpeakers(conferenceUUID));
+        userUUIDs.addAll(conferenceManager.getOrganizers(conferenceUUID));
+
+        return userUUIDs;
     }
 }

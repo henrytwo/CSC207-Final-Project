@@ -20,8 +20,15 @@ public class ConferencesUI {
     RoomController roomController;
     EventController eventController;
     ConferenceController conferenceController;
-    UUID userUUID;
+    UUID signedInUserUUID;
 
+    /**
+     * Creates the ConferenceUI
+     * @param userController
+     * @param roomController
+     * @param eventController
+     * @param conferenceController
+     */
     public ConferencesUI(UserController userController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
         this.userController = userController;
         this.roomController = roomController;
@@ -57,7 +64,7 @@ public class ConferencesUI {
             LocalDateTime end = consoleUtilities.stringToDateTime(response.get("endTime"));
             TimeRange timeRange = new TimeRange(start, end);
 
-            UUID newConferenceUUID = conferenceController.createConference(conferenceName, timeRange, userUUID);
+            UUID newConferenceUUID = conferenceController.createConference(conferenceName, timeRange, signedInUserUUID);
 
             consoleUtilities.confirmBoxClear("Successfully created new conference.");
 
@@ -75,7 +82,7 @@ public class ConferencesUI {
      * Join an existing conference (that you're not part of, of course)
      */
     public void joinConference() {
-        Set<UUID> notMyConferences = conferenceController.getNotUserConferences(userUUID);
+        Set<UUID> notMyConferences = conferenceController.getNotUserConferences(signedInUserUUID);
 
         if (notMyConferences.size() == 0) {
             consoleUtilities.confirmBoxClear("There aren't any conferences you can join.");
@@ -84,7 +91,7 @@ public class ConferencesUI {
 
             if (selectedConferenceUUID != null) {
 
-                conferenceController.addAttendee(selectedConferenceUUID, userUUID);
+                conferenceController.addAttendee(selectedConferenceUUID, signedInUserUUID);
 
                 consoleUtilities.confirmBoxClear("Successfully joined conference.");
 
@@ -98,7 +105,7 @@ public class ConferencesUI {
      * Displays menu with conferences the user is affiliated with.
      */
     public void viewMyConferences() {
-        Set<UUID> myConferences = conferenceController.getUserConferences(userUUID);
+        Set<UUID> myConferences = conferenceController.getUserConferences(signedInUserUUID);
 
         if (myConferences.size() == 0) {
             consoleUtilities.confirmBoxClear("You are currently not affiliated with any conferences.");
@@ -156,6 +163,57 @@ public class ConferencesUI {
      */
     public void messageUsers(UUID conferenceUUID) {
 
+        Set<UUID> conferenceUserUUIDs = conferenceController.getUsers(conferenceUUID, signedInUserUUID);
+        Set<UUID> conversationUserUUIDs = new HashSet<>();
+        conversationUserUUIDs.add(signedInUserUUID);
+
+        // Fetch the users to add tot he conversation
+        boolean running = true;
+
+        while (running) {
+            // Gets a set of users who aren't currently set to be added to the conversation
+            Set<UUID> availableUserUUIDs = new HashSet<>(conferenceUserUUIDs);
+            availableUserUUIDs.removeAll(conversationUserUUIDs);
+
+            // Now, we'll grab the user's names
+            ArrayList<UUID> orderedAvailableUserUUIDs = new ArrayList<>(availableUserUUIDs);
+            String[] options = new String[orderedAvailableUserUUIDs.size() + 2];
+
+            for (int i = 0; i < availableUserUUIDs.size(); i++) {
+                options[i] = userController.getUserFullName(orderedAvailableUserUUIDs.get(i));
+            }
+
+            // The last two options are the back button
+            options[availableUserUUIDs.size()] = "Done";
+            options[availableUserUUIDs.size() + 1] = "Cancel";
+
+            // Arrays start at 0, so subtract 1
+            int selection = consoleUtilities.singleSelectMenu("Add a user to the conversation", options) - 1;
+
+            if (selection == availableUserUUIDs.size()) { // Finish creation
+                boolean confirm = consoleUtilities.booleanSelectMenu(String.format("Are you sure you want to create a conversation with %d users?", conferenceUserUUIDs.size()));
+
+                if (confirm) {
+                    running = false;
+                }
+            } else if (selection == availableUserUUIDs.size() + 1) { // Cancel
+                boolean confirm = consoleUtilities.booleanSelectMenu("Are you sure you want to cancel creating this conversation?");
+
+                if (confirm) {
+                    return;
+                }
+            } else { // Add user to list
+                conversationUserUUIDs.add(orderedAvailableUserUUIDs.get(selection));
+            }
+        }
+
+        // Actually create the conversation
+        UUID newConversationUUID = conferenceController.createConversationWithUsers(conferenceUUID, signedInUserUUID, conversationUserUUIDs);
+        consoleUtilities.confirmBoxClear(String.format("New conversation created with %d users (including you)", conversationUserUUIDs.size()));
+
+        /**
+         * TODO: Open the new conversation?
+         */
     }
 
     /**
@@ -168,12 +226,16 @@ public class ConferencesUI {
          * TODO: Remove test code
          */
         // Create two mock rooms
-        roomController.createRoom(conferenceUUID, userUUID, "BA6969", 2);
-        roomController.createRoom(conferenceUUID, userUUID, "BA6970", 2);
+        roomController.createRoom(conferenceUUID, signedInUserUUID, "BA6969", 2);
+        roomController.createRoom(conferenceUUID, signedInUserUUID, "BA6970", 2);
 
         consoleUtilities.confirmBoxClear("two test rooms created");
     }
 
+    /**
+     * UI Menu for specific conference
+     * @param conferenceUUID UUID of conference to view
+     */
     public void viewSpecificConference(UUID conferenceUUID) {
 
         /**
@@ -249,8 +311,8 @@ public class ConferencesUI {
         };
 
         // Displays the menu options based on permission
-        boolean isSpeaker = conferenceController.isSpeaker(conferenceUUID, userUUID, userUUID);
-        boolean isOrganizer = conferenceController.isOrganizer(conferenceUUID, userUUID, userUUID);
+        boolean isSpeaker = conferenceController.isSpeaker(conferenceUUID, signedInUserUUID, signedInUserUUID);
+        boolean isOrganizer = conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID);
 
         String role;
         String[] selectionIDs;
@@ -277,9 +339,9 @@ public class ConferencesUI {
 
         while (running) {
             // These statistics may change every loop, so we'll update them here
-            numEvents = eventController.getEvents(conferenceUUID, userUUID).size();
-            numRooms = roomController.getRooms(conferenceUUID, userUUID).size();
-            numAttendees = conferenceController.getAttendees(conferenceUUID, userUUID).size();
+            numEvents = eventController.getEvents(conferenceUUID, signedInUserUUID).size();
+            numRooms = roomController.getRooms(conferenceUUID, signedInUserUUID).size();
+            numAttendees = conferenceController.getAttendees(conferenceUUID, signedInUserUUID).size();
 
             // We use the selection ID here instead of just the option index, as it may change with more or less options
             int selection = consoleUtilities.singleSelectMenu(String.format("Conference: %s | Role: %s | # Events: %d | # Rooms: %d | # Attendees: %d", conferenceName, role, numEvents, numRooms, numAttendees), options);
@@ -313,9 +375,12 @@ public class ConferencesUI {
         }
     }
 
+    /**
+     * Run conference UI
+     */
     public void run() {
         // We fetch the user UUID here so we keep it up to date
-        this.userUUID = userController.getCurrentUser();
+        this.signedInUserUUID = userController.getCurrentUser();
 
         String[] options = new String[]{
                 "Create a conference",

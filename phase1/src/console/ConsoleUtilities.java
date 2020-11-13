@@ -275,12 +275,13 @@ public class ConsoleUtilities {
      */
     public boolean booleanSelectMenu(String caption) {
         while (true) {
+            clearConsole();
 
             System.out.println(caption);
-            System.out.println("[Enter Selection]> ");
+            System.out.print("[Enter Selection] [y/n]> ");
 
             try {
-                char selection = stdin.next().toLowerCase().charAt(0);
+                char selection = stdin.nextLine().toLowerCase().charAt(0);
                 if (selection == 'y' || selection == 'n') {
                     return selection == 'y';
                 } else {

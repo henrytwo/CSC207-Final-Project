@@ -65,6 +65,16 @@ public class ConversationController {
         return convoManager.getMessages(userUUID, conversationUUID);
     }
 
+    /**
+     * Ge the conversation name
+     *
+     * @param conversationUUID UUID of the conversation to operate on
+     * @return Conversation name
+     */
+    public String getConversationName(UUID conversationUUID) {
+        return convoManager.getConversationName(conversationUUID);
+    }
+
     public Set<UUID> getConversationlist(UUID userId) {
         if (convoManager.getConversationlist(userId) != null) {
             return convoManager.getConversationlist(userId);

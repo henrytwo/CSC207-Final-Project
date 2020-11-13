@@ -1,11 +1,12 @@
 package messaging;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class Conversation {
+public class Conversation implements Serializable {
     private String conversationName; // either group chat or 2 person chat
     private ArrayList<Message> conversationMessages = new ArrayList<>();
     private Set<UUID> writeAccessUsers = new HashSet<>();

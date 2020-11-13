@@ -135,6 +135,16 @@ public class ConversationManager implements Serializable {
     }
 
     /**
+     * Gets the Conversation name
+     *
+     * @param conversationUUID UUID of the conversation to operate on
+     * @return Conversation name
+     */
+    public String getConversationName(UUID conversationUUID) {
+        return getConversation(conversationUUID).getConversationName();
+    }
+
+    /**
      * Sends a particular message to a specific chat
      *
      * @param message the message to be sent

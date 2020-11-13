@@ -10,7 +10,7 @@ public class ContactsUI {
     ConsoleUtilities consoleUtilities;
     ContactController contactController;
     UserController userController;
-    UUID userUUID;
+    UUID signedInUserUUID;
 
     public ContactsUI(UserController userController, ContactController contactController) {
         this.contactController = contactController;
@@ -20,7 +20,7 @@ public class ContactsUI {
 
     public void run() {
         // We fetch the user UUID here so we keep it up to date
-        this.userUUID = userController.getCurrentUser();
+        this.signedInUserUUID = userController.getCurrentUser();
 
 
         consoleUtilities.confirmBoxClear("This should be the contacts menu");

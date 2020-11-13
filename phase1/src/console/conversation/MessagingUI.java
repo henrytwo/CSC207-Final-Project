@@ -11,7 +11,7 @@ public class MessagingUI {
     ConsoleUtilities consoleUtilities;
     ConversationController conversationController;
     UserController userController;
-    UUID userUUID;
+    UUID signedInUserUUID;
 
     public MessagingUI(UserController userController, ConversationController conversationController) {
         this.conversationController = conversationController;
@@ -21,18 +21,19 @@ public class MessagingUI {
 
     public void run() {
         // We fetch the user UUID here so we keep it up to date
-        this.userUUID = userController.getCurrentUser();
+        this.signedInUserUUID = userController.getCurrentUser();
 
         /**
          * TODO: Remove this placeholder code
          */
-        Set<UUID> conversationList = conversationController.getConversationlist(userUUID);
+        consoleUtilities.clearConsole();
+        Set<UUID> conversationList = conversationController.getConversationlist(signedInUserUUID);
 
         for(UUID conversationUUID : conversationList) {
-            System.out.printf("Conversation: %s\n", conversationUUID);
-            System.out.println(conversationController.getMessages(userUUID, conversationUUID));
+            System.out.printf("Conversation: %s\n", conversationController.getConversationName(conversationUUID));
+            System.out.println(conversationController.getMessages(signedInUserUUID, conversationUUID));
         }
 
-        consoleUtilities.confirmBoxClear("This should be the messaging menu");
+        consoleUtilities.confirmBox("This should be the messaging menu");
     }
 }
