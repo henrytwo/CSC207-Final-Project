@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class ConferencesUI {
-    ConsoleUtilities consoleUtilities = new ConsoleUtilities();
+    ConsoleUtilities consoleUtilities;
 
     UserController userController;
     RoomController roomController;
@@ -28,6 +28,7 @@ public class ConferencesUI {
         this.roomController = roomController;
         this.eventController = eventController;
         this.conferenceController = conferenceController;
+        this.consoleUtilities = new ConsoleUtilities(userController);
     }
 
     public void createConference() {
@@ -94,11 +95,11 @@ public class ConferencesUI {
 
             for (int i = 0; i < conferenceUUIDs.size(); i++) {
                 UUID conferenceUUID = conferenceUUIDs.get(i);
-                conferenceNames[i] = conferenceController.getConferenceName(conferenceUUID);
+                conferenceNames[i] = conferenceController.getConferenceName(conferenceUUID) + " " + conferenceController.getConferenceTimeRange(conferenceUUID);
             }
 
             // Arrays start a 0, so subtract
-            int selectionIndex = consoleUtilities.singleSelectMenu(userController.getUserFullName(userUUID),"Select a conference", conferenceNames) - 1;
+            int selectionIndex = consoleUtilities.singleSelectMenu("Select a conference", conferenceNames) - 1;
 
             UUID selectedConferenceUUID = conferenceUUIDs.get(selectionIndex);
 

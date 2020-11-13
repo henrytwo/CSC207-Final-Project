@@ -7,7 +7,7 @@ import user.UserController;
 import java.util.UUID;
 
 public class MessagingUI {
-    ConsoleUtilities consoleUtilities = new ConsoleUtilities();
+    ConsoleUtilities consoleUtilities;
     ConversationController conversationController;
     UserController userController;
     UUID userUUID;
@@ -15,6 +15,7 @@ public class MessagingUI {
     public MessagingUI(UserController userController, ConversationController conversationController) {
         this.conversationController = conversationController;
         this.userController = userController;
+        this.consoleUtilities = new ConsoleUtilities(userController);
     }
 
     public void run() {

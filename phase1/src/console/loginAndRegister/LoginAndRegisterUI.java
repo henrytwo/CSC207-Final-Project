@@ -8,11 +8,12 @@ import java.util.Map;
 
 public class LoginAndRegisterUI {
 
-    ConsoleUtilities consoleUtilities = new ConsoleUtilities();
+    ConsoleUtilities consoleUtilities;
     UserController userController;
 
     public LoginAndRegisterUI(UserController userController) {
         this.userController = userController;
+        this.consoleUtilities = new ConsoleUtilities(userController);
     }
 
     /**

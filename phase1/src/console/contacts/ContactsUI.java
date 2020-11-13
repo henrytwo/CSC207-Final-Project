@@ -7,7 +7,7 @@ import user.UserController;
 import java.util.UUID;
 
 public class ContactsUI {
-    ConsoleUtilities consoleUtilities = new ConsoleUtilities();
+    ConsoleUtilities consoleUtilities;
     ContactController contactController;
     UserController userController;
     UUID userUUID;
@@ -15,6 +15,7 @@ public class ContactsUI {
     public ContactsUI(UserController userController, ContactController contactController) {
         this.contactController = contactController;
         this.userController = userController;
+        this.consoleUtilities = new ConsoleUtilities(userController);
     }
 
     public void run() {

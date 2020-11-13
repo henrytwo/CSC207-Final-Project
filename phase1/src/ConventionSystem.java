@@ -35,6 +35,7 @@ public class ConventionSystem {
 
         // Create managers
         // These store the entities and other important stuff
+        System.out.println("Reading from disk...");
         UserManager userManager = userManagerSerializer.load(new UserManager());
         ContactManager contactManager = contactManagerSerializer.load(new ContactManager());
         ConversationManager conversationManager = conversationManagerSerializer.load(new ConversationManager());
@@ -57,6 +58,7 @@ public class ConventionSystem {
         uiSystem.run();
 
         // Serialize everything for the next run
+        System.out.println("Writing to disk...");
         userManagerSerializer.save(userManager);
         contactManagerSerializer.save(contactManager);
         conversationManagerSerializer.save(conversationManager);

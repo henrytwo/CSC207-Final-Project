@@ -1,5 +1,7 @@
 package console;
 
+import user.UserController;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -8,10 +10,15 @@ public class ConsoleUtilities {
 
     private static Scanner stdin = new Scanner(System.in);
     private static final String os = System.getProperty("os.name");
+    private UserController userController;
+
+    public ConsoleUtilities(UserController userController) {
+        this.userController = userController;
+    }
 
     /**
      * Clears the console
-     *
+     * <p>
      * There's a special solution for Windows...
      */
     public void clearConsole() {
@@ -25,7 +32,7 @@ public class ConsoleUtilities {
             System.out.print("\033[H\033[2J");
         }*/
 
-        for(int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             System.out.println("");
         }
     }
@@ -80,47 +87,61 @@ public class ConsoleUtilities {
     }
 
     /**
+     * Generates the text that goes before a menu that displays the user's name (if logged in)
+     * @return
+     */
+    private String getUserFirstNamePrecaption() {
+        if (userController.getCurrentUser() != null) {
+            String fullName = userController.getUserFullName(userController.getCurrentUser());
+
+            return String.format("Signed in as %s", fullName);
+        }
+
+        return "";
+    }
+
+    /**
      * Helper method for singleSelectMenu
      * Generates numerical menu based on String[] of options
-     *
+     * <p>
      * Courtesy of Henry Tu (github.com/henrytwo)
      *
-     * @param precaption   Caption displayed before menu
-     * @param caption      Main Caption displayed on menu
-     * @param options      String array with options
-     * @return             Integer with array index of selected item
+     * @param precaption Caption displayed before menu
+     * @param caption    Main Caption displayed on menu
+     * @param options    String array with options
+     * @return Integer with array index of selected item
      */
     public int singleSelectMenu(String precaption, String caption, String[] options) {
-        return singleSelectMenu(precaption, caption, options,true);
+        return singleSelectMenu(precaption, caption, options, true);
     }
 
     /**
      * Helper method for singleSelectMenu
      * Generates numerical menu based on String[] of options
-     *
+     * <p>
      * Courtesy of Henry Tu (github.com/henrytwo)
      *
-     * @param caption      Main Caption displayed on menu
-     * @param options      String array with options
-     * @param clear        Whether to clear screen before menu is displayed
-     * @return             Integer with array index of selected item
+     * @param caption Main Caption displayed on menu
+     * @param options String array with options
+     * @param clear   Whether to clear screen before menu is displayed
+     * @return Integer with array index of selected item
      */
     public int singleSelectMenu(String caption, String[] options, boolean clear) {
-        return singleSelectMenu("", caption, options, clear);
+        return singleSelectMenu(getUserFirstNamePrecaption(), caption, options, clear);
     }
 
     /**
      * Helper method for singleSelectMenu
      * Generates numerical menu based on String[] of options
-     *
+     * <p>
      * Courtesy of Henry Tu (github.com/henrytwo)
      *
-     * @param caption      Main Caption displayed on menu
-     * @param options      String array with options
-     * @return             Integer with array index of selected item
+     * @param caption Main Caption displayed on menu
+     * @param options String array with options
+     * @return Integer with array index of selected item
      */
     public int singleSelectMenu(String caption, String[] options) {
-        return singleSelectMenu("", caption, options, true);
+        return singleSelectMenu(getUserFirstNamePrecaption(), caption, options, true);
     }
 
     /**
@@ -128,14 +149,14 @@ public class ConsoleUtilities {
      * and returns the index of
      * selected item. Verifies that
      * selection is found on menu.
-     *
+     * <p>
      * Courtesy of Henry Tu (github.com/henrytwo)
      *
      * @param preCaption
-     * @param caption      String to be used as the title
-     * @param options      String Array with all possible options order of items is maintained with index
-     * @param clear        Whether to clear screen before menu is displayed
-     * @return             Integer with array index of selected item
+     * @param caption    String to be used as the title
+     * @param options    String Array with all possible options order of items is maintained with index
+     * @param clear      Whether to clear screen before menu is displayed
+     * @return Integer with array index of selected item
      */
     public int singleSelectMenu(String preCaption, String caption, String[] options, boolean clear) {
 
@@ -155,15 +176,15 @@ public class ConsoleUtilities {
              * Displays table with options
              * along with corresponding value
              */
-            System.out.println("╔═════════════════════════════════════════════════════════╗");
-            System.out.println(String.format("║ %-55s ║", caption));
-            System.out.println("╠════╦════════════════════════════════════════════════════╣");
+            System.out.println("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println(String.format("║ %-105s ║", caption));
+            System.out.println("╠════╦══════════════════════════════════════════════════════════════════════════════════════════════════════╣");
 
             for (int i = 0; i < options.length; i++) {
-                System.out.println(String.format("║ %-2d ║ %-50s ║", i + 1, options[i]));
+                System.out.println(String.format("║ %-2d ║ %-100s ║", i + 1, options[i]));
             }
 
-            System.out.println("╚════╩════════════════════════════════════════════════════╝");
+            System.out.println("╚════╩══════════════════════════════════════════════════════════════════════════════════════════════════════╝");
             System.out.print("[Enter Selection]> ");
 
             /*
@@ -191,11 +212,11 @@ public class ConsoleUtilities {
 
     /**
      * Displays a caption and presents a [y/n] prompt
-     *
+     * <p>
      * Courtesy of Henry Tu (github.com/henrytwo)
      *
-     * @param caption      String to be used as Main Caption
-     * @return             Boolean response to caption
+     * @param caption String to be used as Main Caption
+     * @return Boolean response to caption
      */
     public boolean booleanSelectMenu(String caption) {
         while (true) {
@@ -220,10 +241,10 @@ public class ConsoleUtilities {
     /**
      * Helper Method for confirmBox
      * Clears Screen before prompt
-     *
+     * <p>
      * Courtesy of Henry Tu (github.com/henrytwo)
      *
-     * @param message      String with message
+     * @param message String with message
      */
     public void confirmBoxClear(String message) {
         clearConsole();
@@ -232,18 +253,17 @@ public class ConsoleUtilities {
 
     /**
      * Displays message and prompts for confirmation [Enter]
-     *
+     * <p>
      * Courtesy of Henry Tu (github.com/henrytwo)
      *
-     * @param message      String with message
+     * @param message String with message
      */
     public void confirmBox(String message) {
         System.out.println(message);
         System.out.println("\nPress [Enter] to continue");
         try {
             System.in.read();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
         clearConsole();

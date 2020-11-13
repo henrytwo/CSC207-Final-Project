@@ -12,7 +12,7 @@ import user.UserController;
 
 public class MainMenuUI {
 
-    ConsoleUtilities consoleUtilities = new ConsoleUtilities();
+    ConsoleUtilities consoleUtilities;
 
     MessagingUI messagingUI;
     ContactsUI contactsUI;
@@ -23,6 +23,7 @@ public class MainMenuUI {
 
     public MainMenuUI(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
         this.userController = userController;
+        this.consoleUtilities= new ConsoleUtilities(userController);
 
         this.messagingUI = new MessagingUI(userController, conversationController);
         this.contactsUI = new ContactsUI(userController, contactController);
@@ -44,10 +45,8 @@ public class MainMenuUI {
                 "Exit System"
         };
 
-        String userFullName = userController.getUserFullName(userController.getCurrentUser());
-
         while (true) {
-            int selection = consoleUtilities.singleSelectMenu(String.format("Main Menu | Signed in as %s", userFullName), options);
+            int selection = consoleUtilities.singleSelectMenu("Main Menu", options);
 
             switch (selection) {
                 case 1:
