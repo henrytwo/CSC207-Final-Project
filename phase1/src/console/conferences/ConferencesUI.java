@@ -5,10 +5,7 @@ import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
-import convention.exception.CalendarDoubleBookingException;
-import convention.exception.InvalidNameException;
-import convention.exception.InvalidTimeRangeException;
-import convention.exception.SpeakerDoubleBookingException;
+import convention.exception.*;
 import user.UserController;
 
 import java.time.LocalDateTime;
@@ -287,19 +284,39 @@ public class ConferencesUI {
 
     /**
      * Create a room in this conference
-     *
      * @param conferenceUUID
      */
     public void createRoom(UUID conferenceUUID) {
+        String[] fieldIDs = {
+                "roomLocation",
+                "capacity"
+        };
 
-        /**
-         * TODO: Remove test code
-         */
-        // Create two mock rooms
-        roomController.createRoom(conferenceUUID, signedInUserUUID, "BA6969", 2);
-        roomController.createRoom(conferenceUUID, signedInUserUUID, "BA6970", 2);
+        Map<String, String> labels = new HashMap<String, String>() {
+            {
+                put("roomLocation", String.format("Room Location [%s]", consoleUtilities.getRoomLocationFormat()));
+                put("capacity", "Room capacity");
+            }
+        };
 
-        consoleUtilities.confirmBoxClear("two test rooms created");
+        try {
+            Map<String, String> response = consoleUtilities.inputForm("Create New Room", labels, fieldIDs);
+
+            // Parses input
+            String roomLocation = response.get("roomLocation");
+            String capacityStr = response.get("capacity");
+            //convert the input string for capacity into an int
+            int capacity = Integer.parseInt(capacityStr);
+
+            UUID newRoomUUID = roomController.createRoom(conferenceUUID, signedInUserUUID, roomLocation, capacity);
+
+            consoleUtilities.confirmBoxClear("Successfully created new room.");
+
+        } catch (InvalidNameException e) {
+            consoleUtilities.confirmBoxClear("Invalid name. Room name must be non empty.");
+        } catch (InvalidCapacityException e) {
+            consoleUtilities.confirmBoxClear("Invalid room capacity. Please enter a number greater than zero.");
+        }
     }
 
     /**

@@ -153,7 +153,7 @@ public class ConsoleUtilities {
      * Room location format used by the system
      *
      */
-    public String getLocationFormat() { return locationFormat; }
+    public String getRoomLocationFormat() { return locationFormat; }
 
     /**
      * Method to convert a string to a LocalDateTime object
