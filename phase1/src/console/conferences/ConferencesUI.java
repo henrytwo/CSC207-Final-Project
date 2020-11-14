@@ -167,7 +167,7 @@ public class ConferencesUI {
      *
      * @param instructions   string with instructions for this menu
      * @param rooms          set of room UUIDs
-     * @param conferenceUUID UUID of the conference to fetch frooms from
+     * @param conferenceUUID UUID of the conference to fetch rooms from
      * @return UUID of the selected conference. Null if the user makes no selection.
      */
     private UUID roomPicker(String instructions, Set<UUID> rooms, UUID conferenceUUID) {
@@ -197,6 +197,106 @@ public class ConferencesUI {
             return roomUUIDs.get(selectionIndex);
         } else {
             return null; // Back button was pressed
+        }
+    }
+
+
+    /**
+     * Displays a list of events and fetches relevant metadata.
+     * <p>
+     * Allows user to select event to operate on.
+     *
+     * @param instructions   string with instructions for this menu
+     * @param events         set of event UUIDs
+     * @param conferenceUUID UUID of the conference to fetch events from
+     * @return UUID of the selected conference. Null if the user makes no selection.
+     */
+    private UUID eventPicker(String instructions, Set<UUID> events, UUID conferenceUUID) {
+
+        /**
+         * TODO: Update this to the more detailed table to show more metadata
+         */
+
+        // Now we have the UUIDs in order
+        List<UUID> eventUUIDs = new ArrayList<>(events);
+
+        // Time to grab the conference names
+        String[] options = new String[eventUUIDs.size() + 1];
+
+        // Back button
+        options[eventUUIDs.size()] = "Back";
+
+        for (int i = 0; i < eventUUIDs.size(); i++) {
+            UUID eventUUID = eventUUIDs.get(i);
+            options[i] = "Name: " + eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUID) + " | Time: " + eventController.getEventTimeRange(conferenceUUID, signedInUserUUID, eventUUID);
+        }
+
+        // Arrays start a 0, so subtract
+        int selectionIndex = consoleUtilities.singleSelectMenu(instructions, options) - 1;
+
+        if (selectionIndex < eventUUIDs.size()) {
+            return eventUUIDs.get(selectionIndex);
+        } else {
+            return null; // Back button was pressed
+        }
+    }
+
+    /**
+     * View a list of all events for a conference
+     *
+     * @param conferenceUUID
+     */
+    private void viewEvents(UUID conferenceUUID) {
+        Set<UUID> eventUUIDs = eventController.getEvents(conferenceUUID, signedInUserUUID);
+
+        UUID selectedEventUUID = eventPicker("All Events", eventUUIDs, conferenceUUID);
+
+        if (selectedEventUUID != null) {
+            /**
+             * TODO: Open up a menu for this event
+             */
+        }
+    }
+
+    /**
+     * View a list of all events for a conference (Ones that this user has registered with as an attendee)
+     *
+     * @param conferenceUUID
+     */
+    private void viewAttendeeRegisteredEvents(UUID conferenceUUID) {
+        Set<UUID> eventUUIDs = eventController.getAttendeeEvents(conferenceUUID, signedInUserUUID);
+
+        if (eventUUIDs.size() == 0) {
+            consoleUtilities.confirmBoxClear("You are currently not registered to any events.");
+        } else {
+            UUID selectedEventUUID = eventPicker("Events you're registered in", eventUUIDs, conferenceUUID);
+
+            if (selectedEventUUID != null) {
+                /**
+                 * TODO: Open up a menu for this event
+                 */
+            }
+        }
+    }
+
+    /**
+     * View a list of all events for a conference (Ones that this user has registered with as an speaker)
+     *
+     * @param conferenceUUID
+     */
+    private void viewSpeakerRegisteredEvents(UUID conferenceUUID) {
+        Set<UUID> eventUUIDs = eventController.getSpeakerEvents(conferenceUUID, signedInUserUUID);
+
+        if (eventUUIDs.size() == 0) {
+            consoleUtilities.confirmBoxClear("You are currently not scheduled to speak at any events.");
+        } else {
+            UUID selectedEventUUID = eventPicker("Events you're speaking at ", eventUUIDs, conferenceUUID);
+
+            if (selectedEventUUID != null) {
+                /**
+                 * TODO: Open up a menu for this event
+                 */
+            }
         }
     }
 
@@ -428,13 +528,13 @@ public class ConferencesUI {
 
             switch (selectionID) {
                 case "yourAttendeeEvents":
-                    consoleUtilities.confirmBoxClear("Should be attendee events");
+                    viewAttendeeRegisteredEvents(conferenceUUID);
                     break;
                 case "yourSpeakerEvents":
-                    consoleUtilities.confirmBoxClear("Should be speaker events");
+                    viewSpeakerRegisteredEvents(conferenceUUID);
                     break;
                 case "viewEvents":
-                    consoleUtilities.confirmBoxClear("Should be all events");
+                    viewEvents(conferenceUUID);
                     break;
                 case "createEvent":
                     createEvent(conferenceUUID);
