@@ -65,7 +65,7 @@ public class ConsoleUtilities {
                     return selectedUserUUIDs;
                 }
             } else if (selection == availableUserUUIDs.size() + 1) { // Cancel
-                boolean confirm = booleanSelectMenu("Are you sure you want to cancel?");
+                boolean confirm = booleanSelectMenu("Are you sure you want to cancel user selection?");
 
                 if (confirm) {
                     return null;
