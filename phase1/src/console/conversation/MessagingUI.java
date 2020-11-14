@@ -34,6 +34,7 @@ public class MessagingUI {
 
         /**
          * TODO: Remove this placeholder code
+         */
 
         consoleUtilities.clearConsole();
         Set<UUID> conversationList = conversationController.getConversationlist(signedInUserUUID);
@@ -42,8 +43,11 @@ public class MessagingUI {
             System.out.printf("Conversation: %s\n", conversationController.getConversationName(conversationUUID));
             System.out.println(conversationController.getMessages(signedInUserUUID, conversationUUID));
         }
-         */
 
+        consoleUtilities.confirmBox("This should be the messaging menu");
+
+
+        /*
         String[] options = new String[]{
                 "Send message"
 
@@ -57,9 +61,9 @@ public class MessagingUI {
                     sendMessage();
                     break;
             }
-        }
+        }*/
 
 
-        // consoleUtilities.confirmBox("This should be the messaging menu");
+        //
     }
 }

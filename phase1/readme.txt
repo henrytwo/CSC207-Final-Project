@@ -55,7 +55,14 @@ Attendees may view a list of events they are registered in and amend their regis
 Similarly, speakers may view a list of events which they have been assigned as a speaker. They may also create a
 conversation for a particular event, which will automatically add all the users who are registered for the event.
 Any users who join the event later will be automatically added as well. If an attendee unregisters, they will no longer
-be allowed to access the conversation.
+be allowed to access the conversation. This conversation is special as the EventController will constantly keep it up
+to date.
+
+Speakers may also message any subset of the users that are registered to an event. This type of conversation is not
+directly linked to the Event and is essentially "free standing". This can be done through the "View/Message Attendees" menu.
+
+Additionally, organizers may message any user affiliated with the conference, either as a group or individual from the
+conference menu through "View/Message Users".
 
 Organizers essentially have the ultimate authority when it comes to conferences. They have the permission to do
 anything that the other roles are able to do. Two of the most important operations are creating Events and Rooms.
