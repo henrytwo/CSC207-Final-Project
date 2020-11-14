@@ -16,6 +16,10 @@ public class RoomManager implements Serializable {
         this.rooms = rooms;
     }
 
+    private boolean validateRoomCapacity(int capacity) {
+        return capacity > 0;
+    }
+
     /**
      * Gets a set of all the Room UUIDs in the system.
      *
@@ -60,6 +64,10 @@ public class RoomManager implements Serializable {
      * @return the UUID of the newly created Room
      */
     public UUID createRoom(String roomLocation, int roomCapacity) {
+        if (!validateRoomCapacity(roomCapacity)) {
+            throw new NegativeCapacityException();
+        }
+
         Room room = new Room(roomLocation, roomCapacity);// make the room here and stuff
         rooms.put(room.getUUID(), room);
 
@@ -89,6 +97,10 @@ public class RoomManager implements Serializable {
     public void setRoomCapacity(UUID roomUUID, int capacity) {
         if (!roomExists(roomUUID)){
             throw new NullRoomException(roomUUID);
+        }
+
+        if (!validateRoomCapacity(capacity)) {
+            throw new NegativeCapacityException();
         }
 
         getRoom(roomUUID).setCapacity(capacity);
