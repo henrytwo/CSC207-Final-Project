@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
 
 public class ConsoleUtilities {
 
@@ -23,7 +24,7 @@ public class ConsoleUtilities {
      * Displays a prompt and allows operator to select any number of users
      *
      * @param instructions instructions displayed at the top of the menu
-     * @param userUUIDs set of UUID of users that should be available to be picked
+     * @param userUUIDs    set of UUID of users that should be available to be picked
      * @return set of chosen user UUIDs
      */
     public Set<UUID> userPicker(String instructions, Set<UUID> userUUIDs) {
@@ -52,8 +53,8 @@ public class ConsoleUtilities {
             options[availableUserUUIDs.size() + 1] = "Cancel";
 
             String preCaption = selectedUserNames.size() > 0
-                                  ? "Selected Users: " + String.join(", ", selectedUserNames)
-                                  : "Selected Users: None";
+                    ? "Selected Users: " + String.join(", ", selectedUserNames)
+                    : "Selected Users: None";
 
             // Arrays start at 0, so subtract 1
             int selection = singleSelectMenu(preCaption, instructions, options) - 1;
@@ -77,6 +78,42 @@ public class ConsoleUtilities {
                 // Add user to list
                 selectedUserUUIDs.add(orderedAvailableUserUUIDs.get(selection));
             }
+        }
+    }
+
+
+    /**
+     * Generic prompt to pick a UUID from metadata.
+     *
+     * @param instructions  string with instructions for this menu
+     * @param uuids         set of UUIDs to pick from
+     * @param fetchMetadata anonymous function called to fetch metadata associated with each UUID
+     * @return UUID of the selected conference. Null if the user makes no selection.
+     */
+    public UUID singleUUIDPicker(String instructions, Set<UUID> uuids, Function<UUID, String> fetchMetadata) {
+        /**
+         * TODO: Update this to the more detailed table to show more metadata
+         */
+
+        // Convert to array so that UUIDs have order
+        List<UUID> orderedUUIDs = new ArrayList<>(uuids);
+        String[] options = new String[orderedUUIDs.size() + 1];
+
+        // Back button
+        options[orderedUUIDs.size()] = "Back";
+
+        for (int i = 0; i < orderedUUIDs.size(); i++) {
+            UUID selectedUUID = orderedUUIDs.get(i);
+            options[i] = fetchMetadata.apply(selectedUUID);
+        }
+
+        // Arrays start a 0, so subtract
+        int selectionIndex = singleSelectMenu(instructions, options) - 1;
+
+        if (selectionIndex < orderedUUIDs.size()) {
+            return orderedUUIDs.get(selectionIndex);
+        } else {
+            return null; // Back button was pressed
         }
     }
 
