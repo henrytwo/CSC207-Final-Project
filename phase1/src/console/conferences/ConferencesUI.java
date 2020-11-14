@@ -24,6 +24,7 @@ public class ConferencesUI {
 
     /**
      * Creates the ConferenceUI
+     *
      * @param userController
      * @param roomController
      * @param eventController
@@ -159,65 +160,39 @@ public class ConferencesUI {
 
     /**
      * Create a conversation with any number of users in this conference
+     *
      * @param conferenceUUID
      */
     public void messageUsers(UUID conferenceUUID) {
 
+        // Remove the current user from the list, since you can't message yourself
         Set<UUID> conferenceUserUUIDs = conferenceController.getUsers(conferenceUUID, signedInUserUUID);
+        conferenceUserUUIDs.remove(signedInUserUUID);
+
+        // Add the current user as a user in the convo
         Set<UUID> conversationUserUUIDs = new HashSet<>();
         conversationUserUUIDs.add(signedInUserUUID);
 
-        // Fetch the users to add tot he conversation
-        boolean running = true;
+        Set<UUID> pickedUserUUIDs = consoleUtilities.userPicker("Choose users to add to the conversation", conferenceUserUUIDs);
 
-        while (running) {
-            // Gets a set of users who aren't currently set to be added to the conversation
-            Set<UUID> availableUserUUIDs = new HashSet<>(conferenceUserUUIDs);
-            availableUserUUIDs.removeAll(conversationUserUUIDs);
+        // Null means the user want to cancel
+        if (pickedUserUUIDs != null) {
+            // Choose users to add to the convo
+            conversationUserUUIDs.addAll(pickedUserUUIDs);
 
-            // Now, we'll grab the user's names
-            ArrayList<UUID> orderedAvailableUserUUIDs = new ArrayList<>(availableUserUUIDs);
-            String[] options = new String[orderedAvailableUserUUIDs.size() + 2];
+            // Actually create the conversation
+            UUID newConversationUUID = conferenceController.createConversationWithUsers(conferenceUUID, signedInUserUUID, conversationUserUUIDs);
+            consoleUtilities.confirmBoxClear(String.format("New conversation created with %d users (including you)", conversationUserUUIDs.size()));
 
-            for (int i = 0; i < availableUserUUIDs.size(); i++) {
-                options[i] = userController.getUserFullName(orderedAvailableUserUUIDs.get(i));
-            }
-
-            // The last two options are the back button
-            options[availableUserUUIDs.size()] = "Done";
-            options[availableUserUUIDs.size() + 1] = "Cancel";
-
-            // Arrays start at 0, so subtract 1
-            int selection = consoleUtilities.singleSelectMenu("Add a user to the conversation", options) - 1;
-
-            if (selection == availableUserUUIDs.size()) { // Finish creation
-                boolean confirm = consoleUtilities.booleanSelectMenu(String.format("Are you sure you want to create a conversation with %d users?", conversationUserUUIDs.size()));
-
-                if (confirm) {
-                    running = false;
-                }
-            } else if (selection == availableUserUUIDs.size() + 1) { // Cancel
-                boolean confirm = consoleUtilities.booleanSelectMenu("Are you sure you want to cancel creating this conversation?");
-
-                if (confirm) {
-                    return;
-                }
-            } else { // Add user to list
-                conversationUserUUIDs.add(orderedAvailableUserUUIDs.get(selection));
-            }
+            /**
+             * TODO: Open the new conversation?
+             */
         }
-
-        // Actually create the conversation
-        UUID newConversationUUID = conferenceController.createConversationWithUsers(conferenceUUID, signedInUserUUID, conversationUserUUIDs);
-        consoleUtilities.confirmBoxClear(String.format("New conversation created with %d users (including you)", conversationUserUUIDs.size()));
-
-        /**
-         * TODO: Open the new conversation?
-         */
     }
 
     /**
      * Create a room in this conference
+     *
      * @param conferenceUUID
      */
     public void createRoom(UUID conferenceUUID) {
@@ -234,6 +209,7 @@ public class ConferencesUI {
 
     /**
      * UI Menu for specific conference
+     *
      * @param conferenceUUID UUID of conference to view
      */
     public void viewSpecificConference(UUID conferenceUUID) {
@@ -288,14 +264,14 @@ public class ConferencesUI {
                 "back"
         };
 
-        String[] speakerSelectionIDs = new String[] {
+        String[] speakerSelectionIDs = new String[]{
                 "yourAttendeeEvents",
                 "yourSpeakerEvents",
                 "viewEvents",
                 "back"
         };
 
-        String[] organizerSelectionIDs = new String[] {
+        String[] organizerSelectionIDs = new String[]{
                 "yourAttendeeEvents",
                 "yourSpeakerEvents",
                 "viewEvents",
