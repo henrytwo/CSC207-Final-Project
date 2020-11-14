@@ -77,7 +77,7 @@ public class Main {
      *                - Room form should be done by now
      *                - Event form should be done by now
      *                - Need to be able to display events (waiting on table)
-     *                - Generic table UI thing should be done
+     *                - Generic table UI thing should be done'
      */
 
     public static void main(String[] args) {
