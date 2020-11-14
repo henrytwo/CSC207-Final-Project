@@ -5,9 +5,8 @@ import user.UserController;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+import java.util.function.Function;
 
 public class ConsoleUtilities {
 
@@ -16,9 +15,108 @@ public class ConsoleUtilities {
     private UserController userController;
 
     String dateTimeFormat = "MM-dd-yyyy HH:mm";
+    //for room
+    String locationFormat = "Building code followed by room number (AB123)";
 
     public ConsoleUtilities(UserController userController) {
         this.userController = userController;
+    }
+
+    /**
+     * Displays a prompt and allows operator to select any number of users
+     *
+     * @param instructions instructions displayed at the top of the menu
+     * @param userUUIDs    set of UUID of users that should be available to be picked
+     * @return set of chosen user UUIDs
+     */
+    public Set<UUID> userPicker(String instructions, Set<UUID> userUUIDs) {
+        Set<UUID> availableUserUUIDs = new HashSet<>(userUUIDs);
+        Set<UUID> selectedUserUUIDs = new HashSet<>();
+        ArrayList<String> selectedUserNames = new ArrayList<>();
+
+        /**
+         * TODO: Update this with the full metadata table
+         */
+
+        while (true) {
+            // Don't include users that we've already selected
+            availableUserUUIDs.removeAll(selectedUserUUIDs);
+
+            // Now, we'll grab the user's names and generate the menu options
+            ArrayList<UUID> orderedAvailableUserUUIDs = new ArrayList<>(availableUserUUIDs);
+            String[] options = new String[orderedAvailableUserUUIDs.size() + 2];
+
+            for (int i = 0; i < availableUserUUIDs.size(); i++) {
+                options[i] = userController.getUserFullName(orderedAvailableUserUUIDs.get(i));
+            }
+
+            // The last two options are the back button
+            options[availableUserUUIDs.size()] = "Done";
+            options[availableUserUUIDs.size() + 1] = "Cancel";
+
+            String preCaption = selectedUserNames.size() > 0
+                    ? "Selected Users: " + String.join(", ", selectedUserNames)
+                    : "Selected Users: None";
+
+            // Arrays start at 0, so subtract 1
+            int selection = singleSelectMenu(preCaption, instructions, options) - 1;
+
+            if (selection == availableUserUUIDs.size()) { // Finish creation
+                boolean confirm = booleanSelectMenu("Are you sure you want to select these users?\n" + preCaption);
+
+                if (confirm) {
+                    return selectedUserUUIDs;
+                }
+            } else if (selection == availableUserUUIDs.size() + 1) { // Cancel
+                boolean confirm = booleanSelectMenu("Are you sure you want to cancel user selection?");
+
+                if (confirm) {
+                    return null;
+                }
+            } else {
+                // Store the user's name
+                selectedUserNames.add(options[selection]);
+
+                // Add user to list
+                selectedUserUUIDs.add(orderedAvailableUserUUIDs.get(selection));
+            }
+        }
+    }
+
+
+    /**
+     * Generic prompt to pick a UUID from metadata.
+     *
+     * @param instructions  string with instructions for this menu
+     * @param uuids         set of UUIDs to pick from
+     * @param fetchMetadata anonymous function called to fetch metadata associated with each UUID
+     * @return UUID of the selected conference. Null if the user makes no selection.
+     */
+    public UUID singleUUIDPicker(String instructions, Set<UUID> uuids, Function<UUID, String> fetchMetadata) {
+        /**
+         * TODO: Update this to the more detailed table to show more metadata
+         */
+
+        // Convert to array so that UUIDs have order
+        List<UUID> orderedUUIDs = new ArrayList<>(uuids);
+        String[] options = new String[orderedUUIDs.size() + 1];
+
+        // Back button
+        options[orderedUUIDs.size()] = "Back";
+
+        for (int i = 0; i < orderedUUIDs.size(); i++) {
+            UUID selectedUUID = orderedUUIDs.get(i);
+            options[i] = fetchMetadata.apply(selectedUUID);
+        }
+
+        // Arrays start a 0, so subtract
+        int selectionIndex = singleSelectMenu(instructions, options) - 1;
+
+        if (selectionIndex < orderedUUIDs.size()) {
+            return orderedUUIDs.get(selectionIndex);
+        } else {
+            return null; // Back button was pressed
+        }
     }
 
     /**
@@ -44,11 +142,18 @@ public class ConsoleUtilities {
 
     /**
      * Date time format used by the system
+     *
      * @return
      */
     public String getDateTimeFormat() {
         return dateTimeFormat;
     }
+
+    /**
+     * Room location format used by the system
+     *
+     */
+    public String getRoomLocationFormat() { return locationFormat; }
 
     /**
      * Method to convert a string to a LocalDateTime object

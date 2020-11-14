@@ -74,8 +74,6 @@ public class Main {
      *                  - GUI? (would count as two features)
      *                - Still waiting on Messaging + Contact UI to be built
      *                - Messaging has higher priority than Contact, since contact technically isn't a Phase 1 requirement
-     *                - Room form should be done by now
-     *                - Event form should be done by now
      *                - Need to be able to display events (waiting on table)
      *                - Generic table UI thing should be done'
      */
