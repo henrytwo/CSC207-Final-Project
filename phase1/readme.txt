@@ -3,6 +3,8 @@ CSC207 Group 11 - Phase 1
 Note: Data is serialized and saved when the program is exited gracefully. In other words, please exit the program by
       going to the main menu and selecting "Exit System". Abruptly terminating the program may result in lost data.
 
+The entry point for this application is Main.java
+
 The first menu will be a login/register prompt if no user is currently logged in. Registering account will automatically
 log you into that account. Assuming the aforementioned shutdown procedure is followed, you will remained logged in the
 next time the program is started. You may also logout to clear this.
