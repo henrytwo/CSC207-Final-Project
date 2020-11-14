@@ -14,7 +14,8 @@ This program is split into two sections:
 2. Conferences
 
 Note that some entities contain other entities. This is by design (for example, Conferences contain Events and Rooms),
-since a Room and Event must be attached to a Conference to make sense. This is cleaner
+since a Room and Event must be attached to a Conference to make sense. This is cleaner than storing the Events and Rooms
+separately and having to potentially chase them down if the conference is deleted. (Also Jonathan said it was ok)
 
 
 + Messaging/Contacts
