@@ -443,6 +443,22 @@ public class EventController {
     }
 
     /**
+     * Get the room UUID for this event;
+     * <p>
+     * Required Permission: ATTENDEE
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @param executorUUID   UUID of the user executing the command
+     * @param eventUUID      UUID of the event to operate on
+     */
+    public UUID getEventRoom(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+
+        EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+        return eventManager.getEventRoom(eventUUID);
+    }
+
+    /**
      * Get the event title.
      * <p>
      * Required Permission: ATTENDEE
@@ -512,6 +528,24 @@ public class EventController {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
         return eventManager.getEventAttendees(eventUUID);
+    }
+
+    /**
+     * Get the number of attendees registered for an event.
+     * <p>
+     * Required Permission: ATTENDEE
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @param executorUUID   UUID of the user executing the command
+     * @param eventUUID      UUID of the event to operate on
+     * @return set of attendee UUIDs
+     */
+    public int getNumRegistered(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+
+        EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+
+        return eventManager.getEventAttendees(eventUUID).size();
     }
 
     /**

@@ -71,11 +71,11 @@ public class ConferencesUI {
 
             viewSpecificConference(newConferenceUUID);
         } catch (InvalidNameException e) {
-            consoleUtilities.confirmBoxClear("Invalid name. Conference name must be non empty.");
+            consoleUtilities.confirmBoxClear("Unable to create Conference: Invalid name. Conference name must be non empty.");
         } catch (InvalidTimeRangeException e) {
-            consoleUtilities.confirmBoxClear("Invalid date range. End time must be after start time.");
+            consoleUtilities.confirmBoxClear("Unable to create Conference: Invalid date range. End time must be after start time.");
         } catch (DateTimeParseException e) {
-            consoleUtilities.confirmBoxClear(String.format("Invalid date. Please follow the given format. [%s]", consoleUtilities.getDateTimeFormat()));
+            consoleUtilities.confirmBoxClear(String.format("Unable to create Conference: Invalid date. Please follow the given format. [%s]", consoleUtilities.getDateTimeFormat()));
         }
     }
 
@@ -88,7 +88,7 @@ public class ConferencesUI {
         if (notMyConferences.size() == 0) {
             consoleUtilities.confirmBoxClear("There aren't any conferences you can join.");
         } else {
-            UUID selectedConferenceUUID = conferencePicker("Select a conference to join", notMyConferences);
+            UUID selectedConferenceUUID = conferencePickerMenu("Select a conference to join", notMyConferences);
 
             if (selectedConferenceUUID != null) {
 
@@ -99,19 +99,18 @@ public class ConferencesUI {
                 viewSpecificConference(selectedConferenceUUID);
             }
         }
-
     }
 
     /**
      * Displays menu with conferences the user is affiliated with.
      */
-    private void viewMyConferences() {
+    private void selectConference() {
         Set<UUID> myConferences = conferenceController.getUserConferences(signedInUserUUID);
 
         if (myConferences.size() == 0) {
             consoleUtilities.confirmBoxClear("You are currently not affiliated with any conferences.");
         } else {
-            UUID selectedConferenceUUID = conferencePicker("Select a conference to view", myConferences);
+            UUID selectedConferenceUUID = conferencePickerMenu("Select a conference to view", myConferences);
 
             if (selectedConferenceUUID != null) {
                 viewSpecificConference(selectedConferenceUUID);
@@ -128,7 +127,7 @@ public class ConferencesUI {
      * @param conferences  set of conference UUIDs
      * @return UUID of the selected conference. Null if the user makes no selection.
      */
-    private UUID conferencePicker(String instructions, Set<UUID> conferences) {
+    private UUID conferencePickerMenu(String instructions, Set<UUID> conferences) {
         Function<UUID, String> fetchRoomMetadata = conferenceUUID -> conferenceController.getConferenceName(conferenceUUID) + " " + conferenceController.getConferenceTimeRange(conferenceUUID);
 
         return consoleUtilities.singleUUIDPicker(instructions, conferences, fetchRoomMetadata);
@@ -144,7 +143,7 @@ public class ConferencesUI {
      * @param conferenceUUID UUID of the conference to fetch rooms from
      * @return UUID of the selected conference. Null if the user makes no selection.
      */
-    private UUID roomPicker(String instructions, Set<UUID> rooms, UUID conferenceUUID) {
+    private UUID roomPickerMenu(String instructions, Set<UUID> rooms, UUID conferenceUUID) {
         Function<UUID, String> fetchRoomMetadata = roomUUID -> "Location: " + roomController.getRoomLocation(conferenceUUID, signedInUserUUID, roomUUID) + " | Capacity: " + roomController.getRoomCapacity(conferenceUUID, signedInUserUUID, roomUUID);
 
         return consoleUtilities.singleUUIDPicker(instructions, rooms, fetchRoomMetadata);
@@ -161,8 +160,19 @@ public class ConferencesUI {
      * @param conferenceUUID UUID of the conference to fetch events from
      * @return UUID of the selected conference. Null if the user makes no selection.
      */
-    private UUID eventPicker(String instructions, Set<UUID> events, UUID conferenceUUID) {
-        Function<UUID, String> fetchEventMetadata = eventUUID -> "Name: " + eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUID) + " | Time: " + eventController.getEventTimeRange(conferenceUUID, signedInUserUUID, eventUUID);
+    private UUID selectEvent(String instructions, Set<UUID> events, UUID conferenceUUID) {
+        Function<UUID, String> fetchEventMetadata = eventUUID -> {
+
+            String eventTitle = eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUID);
+            String eventTimeRange = eventController.getEventTimeRange(conferenceUUID, signedInUserUUID, eventUUID).toString();
+            int eventNumBooking = eventController.getNumRegistered(conferenceUUID, signedInUserUUID, eventUUID);
+
+            UUID eventRoomUUID = eventController.getEventRoom(conferenceUUID, signedInUserUUID, eventUUID);
+            String eventRoomLocation = roomController.getRoomLocation(conferenceUUID, signedInUserUUID, eventRoomUUID);
+            int eventRoomCapacity = roomController.getRoomCapacity(conferenceUUID, signedInUserUUID, eventRoomUUID);
+
+            return String.format("Name: %s | Time: %s | Location: %s | [%d / %d]", eventTitle, eventTimeRange, eventRoomLocation, eventNumBooking, eventRoomCapacity);
+        };
 
         return consoleUtilities.singleUUIDPicker(instructions, events, fetchEventMetadata);
     }
@@ -176,7 +186,7 @@ public class ConferencesUI {
         if (eventUUIDs.size() == 0) {
             consoleUtilities.confirmBoxClear(emptyListText);
         } else {
-            UUID selectedEventUUID = eventPicker(title, eventUUIDs, conferenceUUID);
+            UUID selectedEventUUID = selectEvent("Select an event to view | " + title, eventUUIDs, conferenceUUID);
 
             if (selectedEventUUID != null) {
                 viewSpecificEvent(conferenceUUID, selectedEventUUID);
@@ -209,7 +219,7 @@ public class ConferencesUI {
         Map<String, String> response = consoleUtilities.inputForm("Create New Event", labels, fieldIDs);
 
         // Fetch the room to host the event in
-        UUID roomUUID = roomPicker("Select a room to host this event in", roomController.getRooms(conferenceUUID, signedInUserUUID), conferenceUUID);
+        UUID roomUUID = roomPickerMenu("Select a room to host this event in", roomController.getRooms(conferenceUUID, signedInUserUUID), conferenceUUID);
 
         // Both of these indicate the user wants to quit
         if (roomUUID == null) {
@@ -238,15 +248,15 @@ public class ConferencesUI {
             viewSpecificEvent(conferenceUUID, newEventUUID);
 
         } catch (InvalidNameException e) {
-            consoleUtilities.confirmBoxClear("Invalid name. Event name must be non empty.");
+            consoleUtilities.confirmBoxClear("Unable to create event: Invalid name. Event name must be non empty.");
         } catch (InvalidTimeRangeException e) {
-            consoleUtilities.confirmBoxClear("Invalid date range. End time must be after start time.");
+            consoleUtilities.confirmBoxClear("Unable to create event: Invalid date range. End time must be after start time.");
         } catch (DateTimeParseException e) {
             consoleUtilities.confirmBoxClear(String.format("Invalid date. Please follow the given format. [%s]", consoleUtilities.getDateTimeFormat()));
         } catch (SpeakerDoubleBookingException e) {
-            consoleUtilities.confirmBoxClear("One or more speakers are not available at the selected time.");
+            consoleUtilities.confirmBoxClear("Unable to create event: One or more speakers are not available at the selected time.");
         } catch (CalendarDoubleBookingException e) {
-            consoleUtilities.confirmBoxClear("The room is not available at the selected time.");
+            consoleUtilities.confirmBoxClear("Unable to create event: The room is not available at the selected time.");
         }
     }
 
@@ -313,9 +323,9 @@ public class ConferencesUI {
             consoleUtilities.confirmBoxClear("Successfully created new room.");
 
         } catch (InvalidNameException e) {
-            consoleUtilities.confirmBoxClear("Invalid name. Room name must be non empty.");
+            consoleUtilities.confirmBoxClear("Unable to create Room: Invalid name. Room name must be non empty.");
         } catch (InvalidCapacityException e) {
-            consoleUtilities.confirmBoxClear("Invalid room capacity. Please enter a number greater than zero.");
+            consoleUtilities.confirmBoxClear("Unable to create Room: Invalid room capacity. Please enter a number greater than zero.");
         }
     }
 
@@ -494,7 +504,7 @@ public class ConferencesUI {
                     joinConference();
                     break;
                 case 3:
-                    viewMyConferences();
+                    selectConference();
                     break;
                 case 4:
                     running = false;
