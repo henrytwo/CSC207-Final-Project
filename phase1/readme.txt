@@ -59,7 +59,10 @@ be allowed to access the conversation. This conversation is special as the Event
 to date.
 
 Speakers may also message any subset of the users that are registered to an event. This type of conversation is not
-directly linked to the Event and is essentially "free standing". This can be done through the "View Attendees" menu.
+directly linked to the Event and is essentially "free standing". This can be done through the "View/Message Attendees" menu.
+
+Additionally, organizers may message any user affiliated with the conference, either as a group or individual from the
+conference menu through "View/Message Users".
 
 Organizers essentially have the ultimate authority when it comes to conferences. They have the permission to do
 anything that the other roles are able to do. Two of the most important operations are creating Events and Rooms.

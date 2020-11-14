@@ -368,7 +368,7 @@ public class ConferencesUI {
                 put("selectEvent", "View all Events");
                 put("createEvent", "Create Event");
                 put("createRoom", "Create Room");
-                put("messageUsers", "Message Users");
+                put("messageUsers", "View/Message Users");
                 put("back", "Back");
             }
         };
@@ -489,7 +489,6 @@ public class ConferencesUI {
     }
 
     private void registerForEvent(UUID conferenceUUID, UUID eventUUID) {
-
         try {
             eventController.registerForEvent(conferenceUUID, signedInUserUUID, signedInUserUUID, eventUUID);
             consoleUtilities.confirmBoxClear("You have successfully registered for this event.");
@@ -517,7 +516,7 @@ public class ConferencesUI {
                 put("register", "Register for this event");
                 put("unregister", "Unregister from this event");
                 put("eventConversation", "Event conversation");
-                put("viewAttendees", "View/Message event attendees");
+                put("messageAttendees", "View/Message event attendees");
                 put("back", "Back");
             }
         };
@@ -569,7 +568,7 @@ public class ConferencesUI {
                 case "eventConversation":
                     openEventConversation(conferenceUUID, eventUUID);
                     break;
-                case "viewAttendees":
+                case "messageAttendees":
                     messageUsers(conferenceUUID, eventController.getEventAttendees(conferenceUUID, signedInUserUUID, eventUUID));
                     break;
                 case "back":

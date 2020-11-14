@@ -51,8 +51,8 @@ public class ConsoleUtilities {
             }
 
             // The last two options are the back button
-            options[availableUserUUIDs.size()] = "Done";
-            options[availableUserUUIDs.size() + 1] = "Cancel";
+            options[availableUserUUIDs.size()] = "<DONE>";
+            options[availableUserUUIDs.size() + 1] = "<CANCEL>";
 
             String preCaption = selectedUserNames.size() > 0
                     ? "Selected Users: " + String.join(", ", selectedUserNames)
