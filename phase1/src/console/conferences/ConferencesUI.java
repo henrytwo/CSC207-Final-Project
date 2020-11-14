@@ -5,6 +5,7 @@ import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
+import convention.exception.InvalidCapacityException;
 import convention.exception.InvalidNameException;
 import convention.exception.InvalidTimeRangeException;
 import user.UserController;
@@ -221,15 +222,44 @@ public class ConferencesUI {
      * @param conferenceUUID
      */
     public void createRoom(UUID conferenceUUID) {
+        String[] fieldIDs = {
+                "roomLocation",
+                "capacity"
+        };
 
+        Map<String, String> labels = new HashMap<String, String>() {
+            {
+                put("roomLocation", String.format("Room Location [%s]", consoleUtilities.getLocationFormat()));
+                put("capacity", "Room capacity");
+            }
+        };
+
+        try {
+            Map<String, String> response = consoleUtilities.inputForm("Create New Room", labels, fieldIDs);
+
+            // Parses input
+            String roomLocation = response.get("roomLocation");
+            String capacity = response.get("capacity");
+            //convert the input string for capacity into an int
+            int capacity2 = Integer.parseInt(capacity);
+
+            UUID newRoomUUID = roomController.createRoom(conferenceUUID, signedInUserUUID, roomLocation, capacity2);
+
+            consoleUtilities.confirmBoxClear("Successfully created new room.");
+
+        } catch (InvalidNameException e) {
+            consoleUtilities.confirmBoxClear("Invalid name. Room name must be non empty.");
+        } catch (InvalidCapacityException e) {
+            consoleUtilities.confirmBoxClear("Invalid room capacity. Please enter a number greater than zero.");
+        }
         /**
          * TODO: Remove test code
          */
         // Create two mock rooms
-        roomController.createRoom(conferenceUUID, signedInUserUUID, "BA6969", 2);
-        roomController.createRoom(conferenceUUID, signedInUserUUID, "BA6970", 2);
+        //roomController.createRoom(conferenceUUID, signedInUserUUID, "BA6969", 2);
+        //roomController.createRoom(conferenceUUID, signedInUserUUID, "BA6970", 2);
 
-        consoleUtilities.confirmBoxClear("two test rooms created");
+        //consoleUtilities.confirmBoxClear("two test rooms created");
     }
 
     /**

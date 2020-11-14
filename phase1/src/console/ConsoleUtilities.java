@@ -16,6 +16,8 @@ public class ConsoleUtilities {
     private UserController userController;
 
     String dateTimeFormat = "MM-dd-yyyy HH:mm";
+    //for room
+    String locationFormat = "Building code followed by room number (AB123)";
 
     public ConsoleUtilities(UserController userController) {
         this.userController = userController;
@@ -49,6 +51,12 @@ public class ConsoleUtilities {
     public String getDateTimeFormat() {
         return dateTimeFormat;
     }
+
+    /**
+     * Room location format used by the system
+     *
+     */
+    public String getLocationFormat() { return locationFormat; }
 
     /**
      * Method to convert a string to a LocalDateTime object
