@@ -19,6 +19,13 @@ public class Main {
      *                - Generic table UI thing should be done' (Ellie is working on it)
      */
 
+    /**
+     * Things to check before submission
+     * - Java docs
+     * - UML diagram
+     * - Testing
+     */
+
     public static void main(String[] args) {
         ConventionSystem cs = new ConventionSystem();
         cs.run();

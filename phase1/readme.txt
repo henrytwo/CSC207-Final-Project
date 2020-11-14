@@ -13,6 +13,9 @@ This program is split into two sections:
 1. Messaging/Contacts
 2. Conferences
 
+Note that some entities contain other entities. This is by design (for example, Conferences contain Events and Rooms),
+since a Room and Event must be attached to a Conference to make sense. This is cleaner
+
 
 + Messaging/Contacts
 
@@ -76,6 +79,7 @@ Organizers are able to set a room capacity, which will be enforced when a user a
 
 The controllers have been built to enable organizers to edit metadata and even delete Rooms, Events, etc; however,
 those features are not enabled in this build as they aren't part of the requirements.
+
 
 + UI
 
