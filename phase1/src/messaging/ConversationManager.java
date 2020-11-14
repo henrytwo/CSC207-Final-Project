@@ -21,11 +21,13 @@ public class ConversationManager implements Serializable {
      * @param convName       name of the conversation
      * @param usersWrite     The set of users that have writing access to this conversation
      * @param usersRead      The set of users that have reading access to this conversation
-     * @param initialMessage the first message to be sent to this conversation if it exists
+     * @param messageSender_id the Id of the sender of the message
+     * @param messageContent The content of the message to be sent
      * @return A chat with the given specifications
      */
-    public UUID createConversation(String convName, Set<UUID> usersWrite, Set<UUID> usersRead, Message initialMessage) {
-
+    public UUID createConversation(String convName, Set<UUID> usersWrite, Set<UUID> usersRead, UUID messageSender_id, String messageContent) {
+        // Create an initial message that initiates a conversation
+        Message initialMessage = new Message(messageSender_id, messageContent);
         // Adds the initial messages
         ArrayList<Message> messages = new ArrayList<>();
         messages.add(initialMessage);
@@ -147,10 +149,12 @@ public class ConversationManager implements Serializable {
     /**
      * Sends a particular message to a specific chat
      *
-     * @param message the message to be sent
+     * @param messageSender_id the Id of the sender of the message
+     * @param messageContent The content of the message to be sent
      * @param convId  the conversation Id of the conversation to which this message has to be added
      */
-    public void sendMessage(Message message, UUID convId) {
+    public void sendMessage(UUID messageSender_id, String messageContent, UUID convId) {
+        Message message = new Message(messageSender_id, messageContent);
         Conversation conversation = getConversation(convId);
 
         UUID userId = message.getSenderId();

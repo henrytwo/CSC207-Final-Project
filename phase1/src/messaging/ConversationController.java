@@ -31,11 +31,12 @@ public class ConversationController {
     /**
      * Sends a particular message to a specific chat
      *
-     * @param message the message to be sent
+     * @param messageSender_id the Id of the sender of the message
+     * @param messageContent The content of the message to be sent
      * @param convId  the conversation Id of the conversation to which this message has to be added
      */
-    public void sendMessage(Message message, UUID convId) {
-        convoManager.sendMessage(message, convId);
+    public void sendMessage(UUID messageSender_id, String messageContent, UUID convId) {
+        convoManager.sendMessage(messageSender_id, messageContent, convId);
     }
 
     /**
@@ -44,9 +45,11 @@ public class ConversationController {
      * @param convName     the name of the Chat to be initiated
      * @param executorUUID the UUID of the user running this operation
      * @param otherUsers   the set of other users in this conversation
-     * @param convMessages the message that initiated the need for this Chat to be created
+     * @param messageSender_id the Id of the sender of the message
+     * @param messageContent The content of the message to be sent
      */
-    public UUID initiateConversation(String convName, UUID executorUUID, Set<UUID> otherUsers, Message convMessages) {
+    public UUID initiateConversation(String convName, UUID executorUUID, Set<UUID> otherUsers, UUID messageSender_id,
+                                     String messageContent) {
         for (UUID otherUserUUID : otherUsers) {
             if (!checkAccess(executorUUID, otherUserUUID)) {
                 throw new MessageDeniedException(executorUUID, otherUserUUID);
@@ -58,7 +61,7 @@ public class ConversationController {
         conversationUsers.addAll(otherUsers);
         conversationUsers.add(executorUUID);
 
-        return convoManager.createConversation(convName, conversationUsers, conversationUsers, convMessages);
+        return convoManager.createConversation(convName, conversationUsers, conversationUsers, messageSender_id, messageContent);
     }
 
     public ArrayList<Message> getMessages(UUID userUUID, UUID conversationUUID) {
@@ -66,7 +69,7 @@ public class ConversationController {
     }
 
     /**
-     * Ge the conversation name
+     * Get the conversation name
      *
      * @param conversationUUID UUID of the conversation to operate on
      * @return Conversation name
@@ -75,6 +78,13 @@ public class ConversationController {
         return convoManager.getConversationName(conversationUUID);
     }
 
+
+    /**
+     * Get the set of Id's of Conversation that the user is part of
+     *
+     * @param userId UUID of the user for which the set of conversation is required
+     * @return set of UUID's of conversations that the user is part of
+     */
     public Set<UUID> getConversationlist(UUID userId) {
         if (convoManager.getConversationlist(userId) != null) {
             return convoManager.getConversationlist(userId);
