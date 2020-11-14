@@ -346,23 +346,14 @@ public class ConferencesUI {
          *
          * Display general information at the top of the menu
          *  - View your events (Attendee)
-         *  - View your events (Spepaker)
+         *  - View your events (Speaker)
          *  - View all events
          *      - <this is the event menu now>
          *          - DISPLAY GENERAL EVENT INFORMATION
          *          - Register for event/Unregister from event
          *          - Create an event conversation/Open event conversation (Speaker)
          *  - Create Event (Organizer)
-         *
-         *  - View rooms
-         *      - View room schedule
-         *      - Delete room
          *  - Create Room
-         *
-         *  - Organizer settings
-         *    - Manage users
-         *      - Create conversation
-         *        - Delete conference
          */
 
         String conferenceName = conferenceController.getConferenceName(conferenceUUID);
