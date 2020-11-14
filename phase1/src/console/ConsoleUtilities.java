@@ -409,7 +409,7 @@ public class ConsoleUtilities {
      * @param clear      Whether to clear screen before menu is displayed
      * @return Integer with array index of selected item
      */
-    public int singleSelectMenu(String preCaption, String caption, String[][] options, boolean clear) {
+    public int singleSelectMenu(String preCaption, String caption, String[] options, boolean clear) {
 
         int selection;
 
