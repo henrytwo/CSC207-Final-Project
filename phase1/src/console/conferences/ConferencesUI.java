@@ -242,7 +242,6 @@ public class ConferencesUI {
          * Need a way to hide options in menu
          *
          * Display general information at the top of the menu
-         *  - Get conference calendar
          *  - View your events (Attendee)
          *  - View your events (Spepaker)
          *  - View all events
@@ -273,7 +272,6 @@ public class ConferencesUI {
         // For each permission, we'll set out a different list of selection IDs, and then generate the selection menu using that
         HashMap<String, String> selectionIDToLabel = new HashMap<String, String>() {
             {
-                put("calendar", "Calendar");
                 put("yourAttendeeEvents", "View Registered Events");
                 put("yourSpeakerEvents", "[Speaker] View Registered Events");
                 put("viewEvents", "View all Events");
@@ -285,14 +283,12 @@ public class ConferencesUI {
         };
 
         String[] attendeeSelectionIDs = {
-                "calendar",
                 "yourAttendeeEvents",
                 "viewEvents",
                 "back"
         };
 
         String[] speakerSelectionIDs = new String[] {
-                "calendar",
                 "yourAttendeeEvents",
                 "yourSpeakerEvents",
                 "viewEvents",
@@ -300,7 +296,6 @@ public class ConferencesUI {
         };
 
         String[] organizerSelectionIDs = new String[] {
-                "calendar",
                 "yourAttendeeEvents",
                 "yourSpeakerEvents",
                 "viewEvents",
@@ -348,9 +343,6 @@ public class ConferencesUI {
             String selectionID = selectionIDs[selection - 1]; // Arrays start at 0
 
             switch (selectionID) {
-                case "calendar":
-                    consoleUtilities.confirmBoxClear("Should be a calendar");
-                    break;
                 case "yourAttendeeEvents":
                     consoleUtilities.confirmBoxClear("Should be attendee events");
                     break;
