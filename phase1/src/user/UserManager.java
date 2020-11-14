@@ -14,6 +14,7 @@ public class UserManager implements Serializable {
      * - Stores a map of UUID -> User objects (i.e. instances of User)
      * - Method to create a user + add it to the map
      * - Method to test a username/password combination + loop through the users to see if there's a match
+     * - Method to logout the user
      */
 
     UUID currentUser;
