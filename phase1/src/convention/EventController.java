@@ -601,14 +601,13 @@ public class EventController {
         String conferenceName = conferenceManager.getConferenceName(conferenceUUID);
 
         String conversationName = String.format("%s Discussion [%s]", eventTitle, conferenceName);
-        Message initialMessage = new Message(executorUUID, String.format("Welcome to the event: %s", eventTitle));
 
         // Give all event speaker and attendees read and write access to the converastion
         Set<UUID> conversationUsers = new HashSet<>();
         conversationUsers.addAll(eventManager.getEventAttendees(eventUUID));
         conversationUsers.addAll(eventManager.getEventSpeakers(eventUUID));
 
-        UUID conversationUUID = conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, initialMessage);
+        UUID conversationUUID = conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, executorUUID, String.format("Welcome to the event: %s", eventTitle));
 
         // Save the conversation for future reference
         eventManager.setEventConversationUUID(eventUUID, conversationUUID);

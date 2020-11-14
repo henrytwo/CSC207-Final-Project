@@ -281,9 +281,8 @@ public class ConferenceController {
 
         String executorName = userManager.getUserFirstName(executorUUID);
         String conversationName = String.format("Chat with %s @ %s", executorName, getConferenceName(conferenceUUID));
-        Message initialMessage = new Message(executorUUID, String.format("Hi, this is %s.", executorName));
 
-        return conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, initialMessage);
+        return conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, executorUUID, String.format("Hi, this is %s.", executorName));
     }
 
     /* Organizer operations */

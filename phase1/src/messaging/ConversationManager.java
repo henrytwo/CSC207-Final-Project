@@ -18,11 +18,11 @@ public class ConversationManager implements Serializable {
     /**
      * Creates an instance of Conversation
      *
-     * @param convName       name of the conversation
-     * @param usersWrite     The set of users that have writing access to this conversation
-     * @param usersRead      The set of users that have reading access to this conversation
+     * @param convName         name of the conversation
+     * @param usersWrite       The set of users that have writing access to this conversation
+     * @param usersRead        The set of users that have reading access to this conversation
      * @param messageSender_id the Id of the sender of the message
-     * @param messageContent The content of the message to be sent
+     * @param messageContent   The content of the message to be sent
      * @return A chat with the given specifications
      */
     public UUID createConversation(String convName, Set<UUID> usersWrite, Set<UUID> usersRead, UUID messageSender_id, String messageContent) {
@@ -150,8 +150,8 @@ public class ConversationManager implements Serializable {
      * Sends a particular message to a specific chat
      *
      * @param messageSender_id the Id of the sender of the message
-     * @param messageContent The content of the message to be sent
-     * @param convId  the conversation Id of the conversation to which this message has to be added
+     * @param messageContent   The content of the message to be sent
+     * @param convId           the conversation Id of the conversation to which this message has to be added
      */
     public void sendMessage(UUID messageSender_id, String messageContent, UUID convId) {
         Message message = new Message(messageSender_id, messageContent);

@@ -24,6 +24,7 @@ public class Main {
      * - Java docs
      * - UML diagram
      * - Testing
+     * - Update README if contact is not added in this phase
      */
 
     public static void main(String[] args) {

@@ -140,9 +140,9 @@ public class ConsoleUtilities {
      * @param a a 2D Arraylist of Strings
      * @return a text table for the 2D array for display
      */
-    public String twoDArrayToTable(ArrayList<ArrayList<String>> a) {
+    public String twoDArrayToTable(ArrayList<String[]> a) {
         StringBuilder table = new StringBuilder();
-        int width = a.get(0).size() * 21 +1;
+        int width = a.get(0).length * 21 +1;
         StringBuilder topLine = new StringBuilder();
         StringBuilder bottomLine = new StringBuilder();
         topLine.append("╔");
@@ -156,7 +156,7 @@ public class ConsoleUtilities {
         topLine.append("\r\n");
         bottomLine.append("\r\n");
         table.append(topLine);
-        for(ArrayList<String> sub: a) {
+        for(String[] sub: a) {
             StringBuilder row = new StringBuilder();
             for(String s: sub) {
                 row.append(String.format("║%-20s", s));
@@ -409,7 +409,7 @@ public class ConsoleUtilities {
      * @param clear      Whether to clear screen before menu is displayed
      * @return Integer with array index of selected item
      */
-    public int singleSelectMenu(String preCaption, String caption, String[] options, boolean clear) {
+    public int singleSelectMenu(String preCaption, String caption, String[][] options, boolean clear) {
 
         int selection;
 
@@ -431,37 +431,13 @@ public class ConsoleUtilities {
             System.out.println(String.format("║ %-105s ║", caption));
             System.out.println("╠════╦══════════════════════════════════════════════════════════════════════════════════════════════════════╣");
 
+
             for (int i = 0; i < options.length; i++) {
                 System.out.println(String.format("║ %-2d ║ %-100s ║", i + 1, options[i]));
             }
 
-            System.out.println("╚════╩══════════════════════════════════════════════════════════════════════════════════════════════════════    public String twoDArrayToTable(ArrayList<ArrayList<String>> a) {\n" +
-                    "        StringBuilder table = new StringBuilder();\n" +
-                    "        int width = a.get(0).size() * 21 +1;\n" +
-                    "        StringBuilder topLine = new StringBuilder();\n" +
-                    "        StringBuilder bottomLine = new StringBuilder();\n" +
-                    "        topLine.append(\"╔\");\n" +
-                    "        bottomLine.append(\"╚\");\n" +
-                    "        for(int i = 0; i < width - 2 ; i++){\n" +
-                    "            topLine.append(\"-\");\n" +
-                    "            bottomLine.append(\"-\");\n" +
-                    "        }\n" +
-                    "        topLine.append(\"╗\");\n" +
-                    "        bottomLine.append(\"╝\");\n" +
-                    "        topLine.append(\"\\r\\n\");\n" +
-                    "        bottomLine.append(\"\\r\\n\");\n" +
-                    "        table.append(topLine);\n" +
-                    "        for(ArrayList<String> sub: a) {\n" +
-                    "            StringBuilder row = new StringBuilder();\n" +
-                    "            for(String s: sub) {\n" +
-                    "                row.append(String.format(\"║%-20s\", s));\n" +
-                    "            }\n" +
-                    "            row.append(\"║\\r\\n\");\n" +
-                    "            table.append(row);\n" +
-                    "        }\n" +
-                    "        table.append(bottomLine);\n" +
-                    "        return table.toString();\n" +
-                    "    }");
+            System.out.println("╚════╩══════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
             System.out.print("[Enter Selection]> ");
 
             /*
