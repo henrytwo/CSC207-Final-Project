@@ -141,7 +141,7 @@ public class ConferencesUI {
      * @param instructions   string with instructions for this menu
      * @param rooms          set of room UUIDs
      * @param conferenceUUID UUID of the conference to fetch rooms from
-     * @return UUID of the selected conference. Null if the user makes no selection.
+     * @return UUID of the selected room. Null if the user makes no selection.
      */
     private UUID roomPickerMenu(String instructions, Set<UUID> rooms, UUID conferenceUUID) {
         Function<UUID, String> fetchRoomMetadata = roomUUID -> "Location: " + roomController.getRoomLocation(conferenceUUID, signedInUserUUID, roomUUID) + " | Capacity: " + roomController.getRoomCapacity(conferenceUUID, signedInUserUUID, roomUUID);
@@ -158,7 +158,7 @@ public class ConferencesUI {
      * @param instructions   string with instructions for this menu
      * @param events         set of event UUIDs
      * @param conferenceUUID UUID of the conference to fetch events from
-     * @return UUID of the selected conference. Null if the user makes no selection.
+     * @return UUID of the selected event. Null if the user makes no selection.
      */
     private UUID selectEvent(String instructions, Set<UUID> events, UUID conferenceUUID) {
         Function<UUID, String> fetchEventMetadata = eventUUID -> {
@@ -180,7 +180,10 @@ public class ConferencesUI {
     /**
      * View a list of all events for a conference
      *
-     * @param conferenceUUID
+     * @param conferenceUUID UUID of the selected conference
+     * @param eventUUIDs     set of UUIDs of events to display in the list
+     * @param emptyListText  text displayed if no results are found
+     * @param title          text displayed at the top
      */
     private void viewEvents(UUID conferenceUUID, Set<UUID> eventUUIDs, String emptyListText, String title) {
         if (eventUUIDs.size() == 0) {
@@ -197,7 +200,7 @@ public class ConferencesUI {
     /**
      * Create a event in this conference
      *
-     * @param conferenceUUID
+     * @param conferenceUUID UUID of the selected conference
      */
     private void createEvent(UUID conferenceUUID) {
 
@@ -263,7 +266,7 @@ public class ConferencesUI {
     /**
      * Create a conversation with any number of users in this conference
      *
-     * @param conferenceUUID
+     * @param conferenceUUID UUID of the selected conference
      */
     private void messageUsers(UUID conferenceUUID) {
 
@@ -294,7 +297,8 @@ public class ConferencesUI {
 
     /**
      * Create a room in this conference
-     * @param conferenceUUID
+     *
+     * @param conferenceUUID UUID of the selected conference
      */
     public void createRoom(UUID conferenceUUID) {
         String[] fieldIDs = {
