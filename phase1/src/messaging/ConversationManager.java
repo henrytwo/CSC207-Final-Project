@@ -170,15 +170,23 @@ public class ConversationManager implements Serializable {
      * Gets messages for a conversation a user has read access to. Throws NoReadAccessException if the user has no
      * read access.
      *
-     * @param userUUID
-     * @param conversationUUID
-     * @return
+     * @param userUUID The ID of the User
+     * @param conversationUUID The Id of the Conversation for which the messages need to be seen
+     * @return returns an arraylist of Hashmaps. Each Hashmap stores information about a message in the conversation.
      */
-    public ArrayList<Message> getMessages(UUID userUUID, UUID conversationUUID) {
+    public ArrayList<Map<String, String>> getMessages(UUID userUUID, UUID conversationUUID) {
         Conversation conversation = getConversation(conversationUUID);
 
         if (conversation.getReadAccessUsers().contains(userUUID)) {
-            return conversation.getConversationMessages();
+            ArrayList<Map<String, String>> newList = new ArrayList<>();
+            for(Message message:conversation.getConversationMessages()){
+                HashMap<String, String> messageAsHashmap = new HashMap<>();
+                messageAsHashmap.put("sender", message.getSenderId().toString());
+                messageAsHashmap.put("timestamp", message.getTimestamp().toString());
+                messageAsHashmap.put("content", message.getContent());
+                newList.add(messageAsHashmap);
+            }
+            return newList;
         } else {
             throw new NoReadAccessException();
         }

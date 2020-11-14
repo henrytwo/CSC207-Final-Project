@@ -10,6 +10,13 @@ public class Message implements Serializable {
     private LocalDateTime timestamp;
     private UUID senderId;
 
+    /**
+     * Constructor for Message.
+     *
+     * @param messageSender_id The ID of the sender of the message
+     * @param messageContent The content of the message to be sent.
+     * @return Returns an instance of Message
+     */
     public Message(UUID messageSender_id, String messageContent){
         content = messageContent;
         timestamp = LocalDateTime.now();

@@ -3,10 +3,7 @@ package messaging;
 import contact.ContactManager;
 import messaging.exception.MessageDeniedException;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class ConversationController {
     private ConversationManager convoManager;
@@ -64,7 +61,15 @@ public class ConversationController {
         return convoManager.createConversation(convName, conversationUsers, conversationUsers, messageSender_id, messageContent);
     }
 
-    public ArrayList<Message> getMessages(UUID userUUID, UUID conversationUUID) {
+    /**
+     * Gets messages for a conversation a user has read access to. Throws NoReadAccessException if the user has no
+     * read access.
+     *
+     * @param userUUID The ID of the User
+     * @param conversationUUID The Id of the Conversation for which the messages need to be seen
+     * @return returns an arraylist of Hashmaps. Each Hashmap stores information about a message in the conversation.
+     */
+    public ArrayList<Map<String, String>> getMessages(UUID userUUID, UUID conversationUUID) {
         return convoManager.getMessages(userUUID, conversationUUID);
     }
 
