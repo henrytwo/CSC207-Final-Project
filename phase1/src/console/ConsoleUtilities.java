@@ -151,9 +151,10 @@ public class ConsoleUtilities {
 
     /**
      * Room location format used by the system
-     *
      */
-    public String getRoomLocationFormat() { return locationFormat; }
+    public String getRoomLocationFormat() {
+        return locationFormat;
+    }
 
     /**
      * Method to convert a string to a LocalDateTime object
@@ -302,6 +303,68 @@ public class ConsoleUtilities {
      */
     public int singleSelectMenu(String caption, String[] options) {
         return singleSelectMenu(getUserFirstNamePrecaption(), caption, options, true);
+    }
+
+    /**
+     * Displays a menu with options in the order of selectionIDs, with the labels being the key value of the mapping
+     * from the selectionID to the label hashmap.
+     * <p>
+     * Returning a string with the selection ID allows for advanced options, such as dynamically changing the order of the options.
+     * <p>
+     * Courtesy of Henry Tu (github.com/henrytwo)
+     *
+     * @param caption            String to be used as the title
+     * @param selectionIDs       String Array with the ID of the selections to be displayed
+     * @param selectionIDToLabel Hashmap with mappings from selection ID to the label to be displayed
+     * @return String with the selected selectionID
+     */
+    public String singleSelectMenu(String caption, String[] selectionIDs, HashMap<String, String> selectionIDToLabel) {
+        return singleSelectMenu(getUserFirstNamePrecaption(), caption, selectionIDs, selectionIDToLabel, true);
+    }
+
+    /**
+     * Displays a menu with options in the order of selectionIDs, with the labels being the key value of the mapping
+     * from the selectionID to the label hashmap.
+     * <p>
+     * Returning a string with the selection ID allows for advanced options, such as dynamically changing the order of the options.
+     * <p>
+     * Courtesy of Henry Tu (github.com/henrytwo)
+     *
+     * @param preCaption         text to be displayed before the menu box
+     * @param caption            String to be used as the title
+     * @param selectionIDs       String Array with the ID of the selections to be displayed
+     * @param selectionIDToLabel Hashmap with mappings from selection ID to the label to be displayed
+     * @return String with the selected selectionID
+     */
+    public String singleSelectMenu(String preCaption, String caption, String[] selectionIDs, HashMap<String, String> selectionIDToLabel) {
+        return singleSelectMenu(preCaption, caption, selectionIDs, selectionIDToLabel, true);
+    }
+
+    /**
+     * Displays a menu with options in the order of selectionIDs, with the labels being the key value of the mapping
+     * from the selectionID to the label hashmap.
+     * <p>
+     * Returning a string with the selection ID allows for advanced options, such as dynamically changing the order of the options.
+     * <p>
+     * Courtesy of Henry Tu (github.com/henrytwo)
+     *
+     * @param preCaption         text to be displayed before the menu box
+     * @param caption            String to be used as the title
+     * @param selectionIDs       String Array with the ID of the selections to be displayed
+     * @param selectionIDToLabel Hashmap with mappings from selection ID to the label to be displayed
+     * @param clear              Whether to clear screen before menu is displayed
+     * @return String with the selected selectionID
+     */
+    public String singleSelectMenu(String preCaption, String caption, String[] selectionIDs, HashMap<String, String> selectionIDToLabel, boolean clear) {
+
+        String[] options = new String[selectionIDs.length];
+
+        for (int i = 0; i < selectionIDs.length; i++) {
+            options[i] = selectionIDToLabel.get(selectionIDs[i]);
+        }
+
+        int selection = singleSelectMenu(preCaption, caption, options, clear);
+        return selectionIDs[selection - 1]; // Arrays start at 0
     }
 
     /**

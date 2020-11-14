@@ -416,13 +416,6 @@ public class ConferencesUI {
             selectionIDs = attendeeSelectionIDs;
         }
 
-        /* Alright, lets get these labels ready */
-        String[] options = new String[selectionIDs.length];
-
-        for (int i = 0; i < selectionIDs.length; i++) {
-            options[i] = selectionIDToLabel.get(selectionIDs[i]);
-        }
-
         boolean running = true;
 
         while (running) {
@@ -432,8 +425,7 @@ public class ConferencesUI {
             numAttendees = conferenceController.getAttendees(conferenceUUID, signedInUserUUID).size();
 
             // We use the selection ID here instead of just the option index, as it may change with more or less options
-            int selection = consoleUtilities.singleSelectMenu(String.format("Conference: %s | Role: %s | # Events: %d | # Rooms: %d | # Attendees: %d", conferenceName, role, numEvents, numRooms, numAttendees), options);
-            String selectionID = selectionIDs[selection - 1]; // Arrays start at 0
+            String selectionID = consoleUtilities.singleSelectMenu(String.format("Conference: %s | Role: %s | # Events: %d | # Rooms: %d | # Attendees: %d", conferenceName, role, numEvents, numRooms, numAttendees), selectionIDs, selectionIDToLabel);
 
             switch (selectionID) {
                 case "yourAttendeeEvents":
