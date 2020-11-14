@@ -102,98 +102,40 @@ public class ConferencesUI {
     }
 
     /**
-     * Displays menu with conferences the user is affiliated with.
-     */
-    private void selectConference() {
-        Set<UUID> myConferences = conferenceController.getUserConferences(signedInUserUUID);
-
-        if (myConferences.size() == 0) {
-            consoleUtilities.confirmBoxClear("You are currently not affiliated with any conferences.");
-        } else {
-            UUID selectedConferenceUUID = conferencePickerMenu("Select a conference to view", myConferences);
-
-            if (selectedConferenceUUID != null) {
-                viewSpecificConference(selectedConferenceUUID);
-            }
-        }
-    }
-
-    /**
-     * Displays a list of conferences and fetches relevant metadata.
-     * <p>
-     * Allows user to select conference to operate on.
-     *
-     * @param instructions string with instructions for this menu
-     * @param conferences  set of conference UUIDs
-     * @return UUID of the selected conference. Null if the user makes no selection.
-     */
-    private UUID conferencePickerMenu(String instructions, Set<UUID> conferences) {
-        Function<UUID, String> fetchRoomMetadata = conferenceUUID -> conferenceController.getConferenceName(conferenceUUID) + " " + conferenceController.getConferenceTimeRange(conferenceUUID);
-
-        return consoleUtilities.singleUUIDPicker(instructions, conferences, fetchRoomMetadata);
-    }
-
-    /**
-     * Displays a list of rooms and fetches relevant metadata.
-     * <p>
-     * Allows user to select conference to operate on.
-     *
-     * @param instructions   string with instructions for this menu
-     * @param rooms          set of room UUIDs
-     * @param conferenceUUID UUID of the conference to fetch rooms from
-     * @return UUID of the selected room. Null if the user makes no selection.
-     */
-    private UUID roomPickerMenu(String instructions, Set<UUID> rooms, UUID conferenceUUID) {
-        Function<UUID, String> fetchRoomMetadata = roomUUID -> "Location: " + roomController.getRoomLocation(conferenceUUID, signedInUserUUID, roomUUID) + " | Capacity: " + roomController.getRoomCapacity(conferenceUUID, signedInUserUUID, roomUUID);
-
-        return consoleUtilities.singleUUIDPicker(instructions, rooms, fetchRoomMetadata);
-    }
-
-
-    /**
-     * Displays a list of events and fetches relevant metadata.
-     * <p>
-     * Allows user to select event to operate on.
-     *
-     * @param instructions   string with instructions for this menu
-     * @param events         set of event UUIDs
-     * @param conferenceUUID UUID of the conference to fetch events from
-     * @return UUID of the selected event. Null if the user makes no selection.
-     */
-    private UUID selectEvent(String instructions, Set<UUID> events, UUID conferenceUUID) {
-        Function<UUID, String> fetchEventMetadata = eventUUID -> {
-
-            String eventTitle = eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUID);
-            String eventTimeRange = eventController.getEventTimeRange(conferenceUUID, signedInUserUUID, eventUUID).toString();
-            int eventNumBooking = eventController.getNumRegistered(conferenceUUID, signedInUserUUID, eventUUID);
-
-            UUID eventRoomUUID = eventController.getEventRoom(conferenceUUID, signedInUserUUID, eventUUID);
-            String eventRoomLocation = roomController.getRoomLocation(conferenceUUID, signedInUserUUID, eventRoomUUID);
-            int eventRoomCapacity = roomController.getRoomCapacity(conferenceUUID, signedInUserUUID, eventRoomUUID);
-
-            return String.format("Name: %s | Time: %s | Location: %s | [%d / %d]", eventTitle, eventTimeRange, eventRoomLocation, eventNumBooking, eventRoomCapacity);
-        };
-
-        return consoleUtilities.singleUUIDPicker(instructions, events, fetchEventMetadata);
-    }
-
-    /**
-     * View a list of all events for a conference
+     * Create a room in this conference
      *
      * @param conferenceUUID UUID of the selected conference
-     * @param eventUUIDs     set of UUIDs of events to display in the list
-     * @param emptyListText  text displayed if no results are found
-     * @param title          text displayed at the top
      */
-    private void viewEvents(UUID conferenceUUID, Set<UUID> eventUUIDs, String emptyListText, String title) {
-        if (eventUUIDs.size() == 0) {
-            consoleUtilities.confirmBoxClear(emptyListText);
-        } else {
-            UUID selectedEventUUID = selectEvent("Select an event to view | " + title, eventUUIDs, conferenceUUID);
+    public void createRoom(UUID conferenceUUID) {
+        String[] fieldIDs = {
+                "roomLocation",
+                "capacity"
+        };
 
-            if (selectedEventUUID != null) {
-                viewSpecificEvent(conferenceUUID, selectedEventUUID);
+        Map<String, String> labels = new HashMap<String, String>() {
+            {
+                put("roomLocation", String.format("Room Location [%s]", consoleUtilities.getRoomLocationFormat()));
+                put("capacity", "Room capacity");
             }
+        };
+
+        try {
+            Map<String, String> response = consoleUtilities.inputForm("Create New Room", labels, fieldIDs);
+
+            // Parses input
+            String roomLocation = response.get("roomLocation");
+            String capacityStr = response.get("capacity");
+            //convert the input string for capacity into an int
+            int capacity = Integer.parseInt(capacityStr);
+
+            UUID newRoomUUID = roomController.createRoom(conferenceUUID, signedInUserUUID, roomLocation, capacity);
+
+            consoleUtilities.confirmBoxClear("Successfully created new room.");
+
+        } catch (InvalidNameException e) {
+            consoleUtilities.confirmBoxClear("Unable to create Room: Invalid name. Room name must be non empty.");
+        } catch (InvalidCapacityException e) {
+            consoleUtilities.confirmBoxClear("Unable to create Room: Invalid room capacity. Please enter a number greater than zero.");
         }
     }
 
@@ -264,6 +206,101 @@ public class ConferencesUI {
     }
 
     /**
+     * View a list of all conferences a user is affiliated with. Prompts the user to pick one and navigates them to that conference.
+     */
+    private void selectConference() {
+        Set<UUID> myConferences = conferenceController.getUserConferences(signedInUserUUID);
+
+        if (myConferences.size() == 0) {
+            consoleUtilities.confirmBoxClear("You are currently not affiliated with any conferences.");
+        } else {
+            UUID selectedConferenceUUID = conferencePickerMenu("Select a conference to view", myConferences);
+
+            if (selectedConferenceUUID != null) {
+                viewSpecificConference(selectedConferenceUUID);
+            }
+        }
+    }
+
+    /**
+     * View a list of all events for a conference. Prompts the user to pick one and navigates them to that event.
+     *
+     * @param conferenceUUID UUID of the selected conference
+     * @param eventUUIDs     set of UUIDs of events to display in the list
+     * @param emptyListText  text displayed if no results are found
+     * @param title          text displayed at the top
+     */
+    private void selectEvent(UUID conferenceUUID, Set<UUID> eventUUIDs, String emptyListText, String title) {
+        if (eventUUIDs.size() == 0) {
+            consoleUtilities.confirmBoxClear(emptyListText);
+        } else {
+            UUID selectedEventUUID = eventPickerMenu("Select an event to view | " + title, eventUUIDs, conferenceUUID);
+
+            if (selectedEventUUID != null) {
+                viewSpecificEvent(conferenceUUID, selectedEventUUID);
+            }
+        }
+    }
+
+    /**
+     * Displays a list of conferences and fetches relevant metadata.
+     * <p>
+     * Allows user to select conference to operate on.
+     *
+     * @param instructions string with instructions for this menu
+     * @param conferences  set of conference UUIDs
+     * @return UUID of the selected conference. Null if the user makes no selection.
+     */
+    private UUID conferencePickerMenu(String instructions, Set<UUID> conferences) {
+        Function<UUID, String> fetchRoomMetadata = conferenceUUID -> conferenceController.getConferenceName(conferenceUUID) + " " + conferenceController.getConferenceTimeRange(conferenceUUID);
+
+        return consoleUtilities.singleUUIDPicker(instructions, conferences, fetchRoomMetadata);
+    }
+
+    /**
+     * Displays a list of rooms and fetches relevant metadata.
+     * <p>
+     * Allows user to select conference to operate on.
+     *
+     * @param instructions   string with instructions for this menu
+     * @param rooms          set of room UUIDs
+     * @param conferenceUUID UUID of the conference to fetch rooms from
+     * @return UUID of the selected room. Null if the user makes no selection.
+     */
+    private UUID roomPickerMenu(String instructions, Set<UUID> rooms, UUID conferenceUUID) {
+        Function<UUID, String> fetchRoomMetadata = roomUUID -> "Location: " + roomController.getRoomLocation(conferenceUUID, signedInUserUUID, roomUUID) + " | Capacity: " + roomController.getRoomCapacity(conferenceUUID, signedInUserUUID, roomUUID);
+
+        return consoleUtilities.singleUUIDPicker(instructions, rooms, fetchRoomMetadata);
+    }
+
+    /**
+     * Displays a list of events and fetches relevant metadata.
+     * <p>
+     * Allows user to select event to operate on.
+     *
+     * @param instructions   string with instructions for this menu
+     * @param events         set of event UUIDs
+     * @param conferenceUUID UUID of the conference to fetch events from
+     * @return UUID of the selected event. Null if the user makes no selection.
+     */
+    private UUID eventPickerMenu(String instructions, Set<UUID> events, UUID conferenceUUID) {
+        Function<UUID, String> fetchEventMetadata = eventUUID -> {
+
+            String eventTitle = eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUID);
+            String eventTimeRange = eventController.getEventTimeRange(conferenceUUID, signedInUserUUID, eventUUID).toString();
+            int eventNumBooking = eventController.getNumRegistered(conferenceUUID, signedInUserUUID, eventUUID);
+
+            UUID eventRoomUUID = eventController.getEventRoom(conferenceUUID, signedInUserUUID, eventUUID);
+            String eventRoomLocation = roomController.getRoomLocation(conferenceUUID, signedInUserUUID, eventRoomUUID);
+            int eventRoomCapacity = roomController.getRoomCapacity(conferenceUUID, signedInUserUUID, eventRoomUUID);
+
+            return String.format("Name: %s | Time: %s | Location: %s | [%d / %d]", eventTitle, eventTimeRange, eventRoomLocation, eventNumBooking, eventRoomCapacity);
+        };
+
+        return consoleUtilities.singleUUIDPicker(instructions, events, fetchEventMetadata);
+    }
+
+    /**
      * Create a conversation with any number of users in this conference
      *
      * @param conferenceUUID UUID of the selected conference
@@ -293,54 +330,6 @@ public class ConferencesUI {
              * TODO: Open the new conversation?
              */
         }
-    }
-
-    /**
-     * Create a room in this conference
-     *
-     * @param conferenceUUID UUID of the selected conference
-     */
-    public void createRoom(UUID conferenceUUID) {
-        String[] fieldIDs = {
-                "roomLocation",
-                "capacity"
-        };
-
-        Map<String, String> labels = new HashMap<String, String>() {
-            {
-                put("roomLocation", String.format("Room Location [%s]", consoleUtilities.getRoomLocationFormat()));
-                put("capacity", "Room capacity");
-            }
-        };
-
-        try {
-            Map<String, String> response = consoleUtilities.inputForm("Create New Room", labels, fieldIDs);
-
-            // Parses input
-            String roomLocation = response.get("roomLocation");
-            String capacityStr = response.get("capacity");
-            //convert the input string for capacity into an int
-            int capacity = Integer.parseInt(capacityStr);
-
-            UUID newRoomUUID = roomController.createRoom(conferenceUUID, signedInUserUUID, roomLocation, capacity);
-
-            consoleUtilities.confirmBoxClear("Successfully created new room.");
-
-        } catch (InvalidNameException e) {
-            consoleUtilities.confirmBoxClear("Unable to create Room: Invalid name. Room name must be non empty.");
-        } catch (InvalidCapacityException e) {
-            consoleUtilities.confirmBoxClear("Unable to create Room: Invalid room capacity. Please enter a number greater than zero.");
-        }
-    }
-
-    /**
-     * UI menu for specific event
-     *
-     * @param conferenceUUID UUID of conference event belongs to
-     * @param eventUUID      UUID of event to view
-     */
-    private void viewSpecificEvent(UUID conferenceUUID, UUID eventUUID) {
-        consoleUtilities.confirmBoxClear("Awesome, you selected " + eventUUID);
     }
 
     /**
@@ -385,7 +374,7 @@ public class ConferencesUI {
             {
                 put("yourAttendeeEvents", "View Registered Events");
                 put("yourSpeakerEvents", "[Speaker] View Registered Events");
-                put("viewEvents", "View all Events");
+                put("selectEvent", "View all Events");
                 put("createEvent", "[Organizer] Create Event");
                 put("createRoom", "[Organizer] Create Room");
                 put("messageUsers", "[Organizer] Message Users");
@@ -395,21 +384,21 @@ public class ConferencesUI {
 
         String[] attendeeSelectionIDs = {
                 "yourAttendeeEvents",
-                "viewEvents",
+                "selectEvent",
                 "back"
         };
 
         String[] speakerSelectionIDs = new String[]{
                 "yourAttendeeEvents",
                 "yourSpeakerEvents",
-                "viewEvents",
+                "selectEvent",
                 "back"
         };
 
         String[] organizerSelectionIDs = new String[]{
                 "yourAttendeeEvents",
                 "yourSpeakerEvents",
-                "viewEvents",
+                "selectEvent",
                 "createEvent",
                 "createRoom",
                 "messageUsers",
@@ -456,15 +445,15 @@ public class ConferencesUI {
             switch (selectionID) {
                 case "yourAttendeeEvents":
                     Set<UUID> attendeeEventUUIDs = eventController.getAttendeeEvents(conferenceUUID, signedInUserUUID);
-                    viewEvents(conferenceUUID, attendeeEventUUIDs, "You are currently not registered to any events.", "Events you registered for");
+                    selectEvent(conferenceUUID, attendeeEventUUIDs, "You are currently not registered to any events.", "Events you registered for");
                     break;
                 case "yourSpeakerEvents":
                     Set<UUID> speakerEventUUIDs = eventController.getSpeakerEvents(conferenceUUID, signedInUserUUID);
-                    viewEvents(conferenceUUID, speakerEventUUIDs, "You are currently not scheduled to speak at any events.", "Events you're speaking at");
+                    selectEvent(conferenceUUID, speakerEventUUIDs, "You are currently not scheduled to speak at any events.", "Events you're speaking at");
                     break;
-                case "viewEvents":
+                case "selectEvent":
                     Set<UUID> eventUUIDs = eventController.getEvents(conferenceUUID, signedInUserUUID);
-                    viewEvents(conferenceUUID, eventUUIDs, "No events available.", "All events");
+                    selectEvent(conferenceUUID, eventUUIDs, "No events available.", "All events");
                     break;
                 case "createEvent":
                     createEvent(conferenceUUID);
@@ -480,6 +469,17 @@ public class ConferencesUI {
             }
         }
     }
+
+    /**
+     * UI menu for specific event
+     *
+     * @param conferenceUUID UUID of conference event belongs to
+     * @param eventUUID      UUID of event to view
+     */
+    private void viewSpecificEvent(UUID conferenceUUID, UUID eventUUID) {
+        consoleUtilities.confirmBoxClear("Awesome, you selected " + eventUUID);
+    }
+
 
     /**
      * Run conference UI
