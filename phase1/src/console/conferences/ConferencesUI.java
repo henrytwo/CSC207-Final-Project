@@ -5,6 +5,7 @@ import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
+import convention.exception.CalendarDoubleBookingException;
 import convention.exception.InvalidNameException;
 import convention.exception.InvalidTimeRangeException;
 import convention.exception.SpeakerDoubleBookingException;
@@ -253,23 +254,6 @@ public class ConferencesUI {
     }
 
     /**
-     * Create a room in this conference
-     *
-     * @param conferenceUUID
-     */
-    private void createRoom(UUID conferenceUUID) {
-
-        /**
-         * TODO: Remove test code
-         */
-        // Create two mock rooms
-        roomController.createRoom(conferenceUUID, signedInUserUUID, "BA6969", 2);
-        roomController.createRoom(conferenceUUID, signedInUserUUID, "BA6970", 2);
-
-        consoleUtilities.confirmBoxClear("two test rooms created");
-    }
-
-    /**
      * Create a conversation with any number of users in this conference
      *
      * @param conferenceUUID
@@ -295,13 +279,15 @@ public class ConferencesUI {
             UUID newConversationUUID = conferenceController.createConversationWithUsers(conferenceUUID, signedInUserUUID, conversationUserUUIDs);
             consoleUtilities.confirmBoxClear(String.format("New conversation created with %d users (including you)", conversationUserUUIDs.size()));
 
-        /**
-         * TODO: Open the new conversation?
-         */
+            /**
+             * TODO: Open the new conversation?
+             */
+        }
     }
 
     /**
      * Create a room in this conference
+     *
      * @param conferenceUUID
      */
     public void createRoom(UUID conferenceUUID) {
