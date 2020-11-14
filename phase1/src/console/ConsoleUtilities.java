@@ -68,11 +68,7 @@ public class ConsoleUtilities {
                     return selectedUserUUIDs;
                 }
             } else if (selection == availableUserUUIDs.size() + 1) { // Cancel
-                boolean confirm = booleanSelectMenu("Are you sure you want to cancel user selection?");
-
-                if (confirm) {
-                    return null;
-                }
+                return null;
             } else {
                 // Store the user's name
                 selectedUserNames.add(options[selection]);
@@ -356,7 +352,7 @@ public class ConsoleUtilities {
      * @return String with the selected selectionID
      */
     public String singleSelectMenu(String preCaption, String caption, String[] selectionIDs, HashMap<String, String> selectionIDToLabel, boolean clear) {
-
+        // Generates the options by fetching the labels used on the selectionIDs
         String[] options = new String[selectionIDs.length];
 
         for (int i = 0; i < selectionIDs.length; i++) {

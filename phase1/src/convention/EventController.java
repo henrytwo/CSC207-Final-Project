@@ -450,12 +450,30 @@ public class EventController {
      * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param eventUUID      UUID of the event to operate on
+     * @return UUID of the event room
      */
     public UUID getEventRoom(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
         return eventManager.getEventRoom(eventUUID);
+    }
+
+    /**
+     * Get the event conversation UUID for this event;
+     * <p>
+     * Required Permission: ATTENDEE
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @param executorUUID   UUID of the user executing the command
+     * @param eventUUID      UUID of the event to operate on
+     * @return UUID of the event conversation, or null if not available
+     */
+    public UUID getEventConversationUUID(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+
+        EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+        return eventManager.getEventConversationUUID(eventUUID);
     }
 
     /**

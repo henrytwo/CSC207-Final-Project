@@ -264,7 +264,7 @@ public class ConferenceController {
     /**
      * Creates a conversation between the organizer and any number of users with conference membership.
      * <p>
-     * Required Permission: ORGANIZER
+     * Required Permission: SPEAKER
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
@@ -272,16 +272,16 @@ public class ConferenceController {
      * @return UUID of the new conversation
      */
     public UUID createConversationWithUsers(UUID conferenceUUID, UUID executorUUID, Set<UUID> targetUUIDs) {
-        permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
+        permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
         permissionManager.testTargetsAreAttendee(conferenceUUID, executorUUID, targetUUIDs);
 
         // Allow all the target users + the organizer running this to have read/write access to the new convo
         Set<UUID> conversationUsers = new HashSet<>(targetUUIDs);
         conversationUsers.add(executorUUID);
 
-        String organizerName = userManager.getUserFirstName(executorUUID);
-        String conversationName = String.format("Organizer Chat with %s @ %s", organizerName, getConferenceName(conferenceUUID));
-        Message initialMessage = new Message(executorUUID, String.format("Hi, this is %s.", organizerName));
+        String executorName = userManager.getUserFirstName(executorUUID);
+        String conversationName = String.format("Chat with %s @ %s", executorName, getConferenceName(conferenceUUID));
+        Message initialMessage = new Message(executorUUID, String.format("Hi, this is %s.", executorName));
 
         return conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, initialMessage);
     }
