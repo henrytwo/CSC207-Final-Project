@@ -459,6 +459,22 @@ public class EventController {
     }
 
     /**
+     * Returns if the executor is registered for this event
+     * <p>
+     * Required Permission: ATTENDEE
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @param executorUUID   UUID of the user executing the command
+     * @param eventUUID      UUID of the event to operate on
+     */
+    public boolean isRegistered(UUID conferenceUUID, UUID executorUUID, UUID eventUUID) {
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+
+        EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+        return eventManager.getEventAttendees(eventUUID).contains(executorUUID);
+    }
+
+    /**
      * Get the event title.
      * <p>
      * Required Permission: ATTENDEE

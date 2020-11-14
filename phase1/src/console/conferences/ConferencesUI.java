@@ -294,7 +294,9 @@ public class ConferencesUI {
             String eventRoomLocation = roomController.getRoomLocation(conferenceUUID, signedInUserUUID, eventRoomUUID);
             int eventRoomCapacity = roomController.getRoomCapacity(conferenceUUID, signedInUserUUID, eventRoomUUID);
 
-            return String.format("Name: %s | Time: %s | Location: %s | [%d / %d]", eventTitle, eventTimeRange, eventRoomLocation, eventNumBooking, eventRoomCapacity);
+            boolean isRegistered = eventController.isRegistered(conferenceUUID, signedInUserUUID, eventUUID);
+
+            return String.format("%s | %s | Location: %s | [%d / %d] | Registered: %s", eventTitle, eventTimeRange, eventRoomLocation, eventNumBooking, eventRoomCapacity, isRegistered ? "Y" : "N");
         };
 
         return consoleUtilities.singleUUIDPicker(instructions, events, fetchEventMetadata);
@@ -372,12 +374,12 @@ public class ConferencesUI {
         // For each permission, we'll set out a different list of selection IDs, and then generate the selection menu using that
         HashMap<String, String> selectionIDToLabel = new HashMap<String, String>() {
             {
-                put("yourAttendeeEvents", "View Registered Events");
-                put("yourSpeakerEvents", "[Speaker] View Registered Events");
+                put("yourAttendeeEvents", "View Events you're registered to");
+                put("yourSpeakerEvents", "View Events you're speaking at");
                 put("selectEvent", "View all Events");
-                put("createEvent", "[Organizer] Create Event");
-                put("createRoom", "[Organizer] Create Room");
-                put("messageUsers", "[Organizer] Message Users");
+                put("createEvent", "Create Event");
+                put("createRoom", "Create Room");
+                put("messageUsers", "Message Users");
                 put("back", "Back");
             }
         };
