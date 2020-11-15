@@ -21,12 +21,11 @@ public class Event implements Serializable {
     /**
      * Event constructor.
      *
-     * @param title name of new event
-     * @param timeRange      TimeRange of the event
-     * @param roomUUID  UUID of the room in which event is held
+     * @param title        name of new event
+     * @param timeRange    TimeRange of the event
+     * @param roomUUID     UUID of the room in which event is held
      * @param speakerUUIDs set of speakers for this event
      */
-
     public Event(String title, TimeRange timeRange, UUID roomUUID, Set<UUID> speakerUUIDs) {
         this.title = title;
         this.uuid = UUID.randomUUID();
@@ -40,7 +39,6 @@ public class Event implements Serializable {
      *
      * @return UUID of the event being referred to
      */
-
     public UUID getUUID() {
         return uuid;
     }
@@ -50,7 +48,6 @@ public class Event implements Serializable {
      *
      * @return String title of the event being referred to
      */
-
     public String getTitle() {
         return title;
     }
@@ -60,7 +57,6 @@ public class Event implements Serializable {
      *
      * @param title new title of event
      */
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -70,7 +66,6 @@ public class Event implements Serializable {
      *
      * @return a set of UUIDs of all speakers for the event
      */
-
     public Set<UUID> getSpeakers() {
         return this.speakerUUIDs;
     }
@@ -80,7 +75,6 @@ public class Event implements Serializable {
      *
      * @param speakerUUID the UUID of the speaker being added
      */
-
     public void addSpeaker(UUID speakerUUID) {
         speakerUUIDs.add(speakerUUID);
     }
@@ -90,7 +84,6 @@ public class Event implements Serializable {
      *
      * @param speakerUUID the UUID of the speaker being removed
      */
-
     public void removeSpeaker(UUID speakerUUID) {
         speakerUUIDs.remove(speakerUUID);
     }
@@ -101,7 +94,6 @@ public class Event implements Serializable {
      * @param speakerUUID UUID of user in question
      * @return True if the user is a speaker in this event, False otherwise
      */
-
     public boolean isSpeaker(UUID speakerUUID) {
         return speakerUUIDs.contains(speakerUUID);
     }
@@ -111,7 +103,6 @@ public class Event implements Serializable {
      *
      * @return the set of UUIDs of users registered for this event
      */
-
     public Set<UUID> getAttendeeUUIDs() {
         return attendeeUUIDs;
     }
@@ -121,7 +112,6 @@ public class Event implements Serializable {
      *
      * @param attendeeUUID user being registered
      */
-
     public void addAttendee(UUID attendeeUUID) {
         attendeeUUIDs.add(attendeeUUID);
     }
@@ -131,7 +121,6 @@ public class Event implements Serializable {
      *
      * @param attendeeUUID user being removed
      */
-
     public void removeAttendee(UUID attendeeUUID) {
         attendeeUUIDs.remove(attendeeUUID);
     }
@@ -139,10 +128,9 @@ public class Event implements Serializable {
     /**
      * Checks if a user is registered for this event
      *
-     * @param attendeeUUID UUIF of the user in question
+     * @param attendeeUUID UUID of the user in question
      * @return True if the user is registered for this event, False otherwise
      */
-
     public boolean isAttendee(UUID attendeeUUID) {
         return attendeeUUIDs.contains(attendeeUUID);
     }
@@ -152,7 +140,6 @@ public class Event implements Serializable {
      *
      * @return TimeRange of this event
      */
-
     public TimeRange getTimeRange() {
         return timeRange;
     }
@@ -162,7 +149,6 @@ public class Event implements Serializable {
      *
      * @param timeRange the new TimeRange of this event
      */
-
     public void setTimeRange(TimeRange timeRange) {
         this.timeRange = timeRange;
     }
@@ -172,7 +158,6 @@ public class Event implements Serializable {
      *
      * @return the UUID of the room holding this event
      */
-
     public UUID getRoomUUID() {
         return roomUUID;
     }
@@ -182,7 +167,6 @@ public class Event implements Serializable {
      *
      * @param roomUUID the UUID of the new room
      */
-
     public void setRoomUUID(UUID roomUUID) {
         this.roomUUID = roomUUID;
     }
@@ -192,7 +176,6 @@ public class Event implements Serializable {
      *
      * @return the UUID of the conversation for this event
      */
-
     public UUID getConversationUUID() {
         return conversationUUID;
     }
@@ -202,7 +185,6 @@ public class Event implements Serializable {
      *
      * @param conversationUUID the UUID of the new conversation
      */
-
     public void setConversationUUID(UUID conversationUUID) {
         this.conversationUUID = conversationUUID;
     }
