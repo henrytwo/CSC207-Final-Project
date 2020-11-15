@@ -30,7 +30,7 @@ public class MessagingUI {
 //            UUID receiverID = UUID.fromString(stdin.nextLine());
             System.out.println("Enter message:");
             String message = stdin.nextLine();
-            HashSet<UUID> others = new HashSet<UUID>();
+//            HashSet<UUID> others = new HashSet<UUID>();
 //            others.add(receiverID);
             conversationController.initiateConversation(convoName, signedInUserUUID, others, signedInUserUUID, message);
         }catch (MessageDeniedException e){
