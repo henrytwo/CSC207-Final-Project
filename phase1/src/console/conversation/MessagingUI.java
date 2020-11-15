@@ -32,10 +32,12 @@ public class MessagingUI {
             String message = stdin.nextLine();
 //            HashSet<UUID> others = new HashSet<UUID>();
 //            others.add(receiverID);
-            conversationController.initiateConversation(convoName, signedInUserUUID, others, signedInUserUUID, message);
+            UUID convoUUID = conversationController.initiateConversation(convoName, signedInUserUUID, others, signedInUserUUID, message);
+            showMenuOfMessages(convoUUID);
         }catch (MessageDeniedException e){
             consoleUtilities.confirmBoxClear("Cannot send messages to users not on contact list.");
         }
+
     }
 
     /**
@@ -77,7 +79,7 @@ public class MessagingUI {
         else{
             UUID selectedConversationUUID = conversationPickerMenu("Choose an active conversation to view.", conversationList);
             if(selectedConversationUUID != null){
-                // Mahak's menu
+                showMenuOfMessages(selectedConversationUUID);
             }
         }
     }
