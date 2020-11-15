@@ -49,7 +49,7 @@ public class EventManager implements Serializable {
     /**
      * Event titles must be non-empty, this methods checks for this
      *
-     * @param title
+     * @param title title of this event
      * @return True iff the name is valid
      */
 
