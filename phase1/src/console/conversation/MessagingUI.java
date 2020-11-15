@@ -25,6 +25,9 @@ public class MessagingUI {
         this.consoleUtilities = new ConsoleUtilities(userController);
     }
 
+    /**
+     * Create conversation prompt
+     */
     public void createConversation() {
         UUID signedInUserUUID = userController.getCurrentUser();
 
@@ -106,6 +109,9 @@ public class MessagingUI {
         }
     }
 
+    /**
+     * Prompts list of conversations and opens the one the user chose
+     */
     public void selectConversation() {
         UUID signedInUserUUID = userController.getCurrentUser();
         Set<UUID> conversationList = conversationController.getConversationlist(signedInUserUUID);
@@ -120,6 +126,13 @@ public class MessagingUI {
         }
     }
 
+    /**
+     * Special UI menu to pick a conversation.
+     *
+     * @param instructions  instructions for menu
+     * @param conversations set of UUID of available conversations
+     * @return UUID of selected conversation
+     */
     public UUID conversationPickerMenu(String instructions, Set<UUID> conversations) {
         Function<UUID, String> fetchRoomMetadata = convoUUID -> conversationController.getConversationName(convoUUID);
 
@@ -128,6 +141,7 @@ public class MessagingUI {
 
     /**
      * Run the MessagingUI
+     *
      * @return false iff the user wants to quit the current menu
      */
     public void run() {
