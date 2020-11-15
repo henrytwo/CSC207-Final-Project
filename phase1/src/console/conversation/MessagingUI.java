@@ -27,6 +27,10 @@ public class MessagingUI {
             String convoName = stdin.nextLine();
             Set<UUID> userall = userController.getUsers();
             userall.remove(signedInUserUUID);
+            if(userall.isEmpty()){
+                System.out.println("You can't create a chat with 0 users.");
+                System.exit(0);
+            }
             Set<UUID> others = consoleUtilities.userPicker("Select users you want to create conversation with:", userall);
 //            System.out.println("Enter UUID of user you want to create conversation with:");
 //            UUID receiverID = UUID.fromString(stdin.nextLine());
