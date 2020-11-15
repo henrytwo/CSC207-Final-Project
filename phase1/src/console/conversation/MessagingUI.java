@@ -64,7 +64,7 @@ public class MessagingUI {
         System.out.println("\n\n");
         System.out.print("Enter your message here");
         String newMessageToSend = enteredMessage.nextLine();
-        if (newMessageToSend.equals("")){
+        if (newMessageToSend != ""){
             conversationController.sendMessage(signedInUserUUID, newMessageToSend, conversationUUID);
             System.out.println("  Message Sent  ");
         }
