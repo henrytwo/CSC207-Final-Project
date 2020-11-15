@@ -1,5 +1,6 @@
 package user;
 
+import java.util.Set;
 import java.util.UUID;
 
 public class UserController {
@@ -69,6 +70,10 @@ public class UserController {
 
     public UUID getCurrentUser() {
         return userManager.getCurrentUser();
+    }
+
+    public Set<UUID> getUsers(){
+        return userManager.getAllUsers();
     }
 
 }

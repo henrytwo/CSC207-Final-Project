@@ -41,63 +41,70 @@ public class EventUI {
 
         UUID signedInUserUUID = userController.getCurrentUser();
         RoomUI roomUI = new RoomUI(userController, roomController);
+        Set<UUID> roomUUIDs = roomController.getRooms(conferenceUUID, signedInUserUUID);
 
-        String[] fieldIDs = {
-                "eventName",
-                "startTime",
-                "endTime"
-        };
+        if (roomUUIDs.size() == 0) {
+            consoleUtilities.confirmBoxClear("This conference has no rooms. You must create a room before you can create an event.");
+        } else {
+            String[] fieldIDs = {
+                    "eventName",
+                    "startTime",
+                    "endTime"
+            };
 
-        Map<String, String> labels = new HashMap<String, String>() {
-            {
-                put("eventName", "Event Name");
-                put("startTime", String.format("Start Time/Date [%s]", consoleUtilities.getDateTimeFormat()));
-                put("endTime", String.format("End Time/Date [%s]", consoleUtilities.getDateTimeFormat()));
+            Map<String, String> labels = new HashMap<String, String>() {
+                {
+                    put("eventName", "Event Name");
+                    put("startTime", String.format("Start Time/Date [%s]", consoleUtilities.getDateTimeFormat()));
+                    put("endTime", String.format("End Time/Date [%s]", consoleUtilities.getDateTimeFormat()));
+                }
+            };
+
+            // Fetch core event metadata
+            Map<String, String> response = consoleUtilities.inputForm("Create New Event", labels, fieldIDs);
+
+            // Fetch the room to host the event in
+            UUID roomUUID = roomUI.roomPickerMenu("Select a room to host this event in", roomUUIDs, conferenceUUID);
+
+            // Both of these indicate the user wants to quit
+            if (roomUUID == null) {
+                consoleUtilities.confirmBoxClear("Event Creation has been terminated by the user.");
+                return;
             }
-        };
 
-        // Fetch core event metadata
-        Map<String, String> response = consoleUtilities.inputForm("Create New Event", labels, fieldIDs);
+            // Fetch the speakers to add to the room
+            Set<UUID> speakerUUIDs = consoleUtilities.userPicker("Select speakers for this room", conferenceController.getUsers(conferenceUUID, signedInUserUUID));
 
-        // Fetch the room to host the event in
-        UUID roomUUID = roomUI.roomPickerMenu("Select a room to host this event in", roomController.getRooms(conferenceUUID, signedInUserUUID), conferenceUUID);
+            // Both of these indicate the user wants to quit
+            if (speakerUUIDs == null) {
+                consoleUtilities.confirmBoxClear("Event Creation has been terminated by the user.");
+                return;
+            }
 
-        // Both of these indicate the user wants to quit
-        if (roomUUID == null) {
-            return;
-        }
+            try {
+                // Parses input
+                String eventName = response.get("eventName");
+                LocalDateTime start = consoleUtilities.stringToDateTime(response.get("startTime"));
+                LocalDateTime end = consoleUtilities.stringToDateTime(response.get("endTime"));
+                TimeRange timeRange = new TimeRange(start, end);
 
-        // Fetch the speakers to add to the room
-        Set<UUID> speakerUUIDs = consoleUtilities.userPicker("Select speakers for this room", conferenceController.getUsers(conferenceUUID, signedInUserUUID));
+                UUID newEventUUID = eventController.createEvent(conferenceUUID, signedInUserUUID, eventName, timeRange, roomUUID, speakerUUIDs);
 
-        // Both of these indicate the user wants to quit
-        if (speakerUUIDs == null) {
-            return;
-        }
+                consoleUtilities.confirmBoxClear("Successfully created new event.");
 
-        try {
-            // Parses input
-            String eventName = response.get("eventName");
-            LocalDateTime start = consoleUtilities.stringToDateTime(response.get("startTime"));
-            LocalDateTime end = consoleUtilities.stringToDateTime(response.get("endTime"));
-            TimeRange timeRange = new TimeRange(start, end);
+                viewSpecificEvent(conferenceUUID, newEventUUID);
 
-            UUID newEventUUID = eventController.createEvent(conferenceUUID, signedInUserUUID, eventName, timeRange, roomUUID, speakerUUIDs);
-
-            consoleUtilities.confirmBoxClear("Successfully created new event.");
-
-            viewSpecificEvent(conferenceUUID, newEventUUID);
-
-        } catch (InvalidNameException e) {
-            consoleUtilities.confirmBoxClear("Unable to create event: Invalid name. Event name must be non empty.");
-        } catch (InvalidTimeRangeException e) {
-            consoleUtilities.confirmBoxClear("Unable to create event: Invalid date range. End time must be after start time.");
-        } catch (DateTimeParseException e) {
-            consoleUtilities.confirmBoxClear(String.format("Invalid date. Please follow the given format. [%s]", consoleUtilities.getDateTimeFormat()));
-        } catch (SpeakerDoubleBookingException e) {
-            consoleUtilities.confirmBoxClear("Unable to create event: One or more speakers are not available at the selected time.");
-        } catch (CalendarDoubleBookingException e) {
-            consoleUtilities.confirmBoxClear("Unable to create event: The room is not available at the selected time.");
+            } catch (InvalidNameException e) {
+                consoleUtilities.confirmBoxClear("Unable to create event: Invalid name. Event name must be non empty.");
+            } catch (InvalidTimeRangeException e) {
+                consoleUtilities.confirmBoxClear("Unable to create event: Invalid date range. End time must be after start time.");
+            } catch (DateTimeParseException e) {
+                consoleUtilities.confirmBoxClear(String.format("Invalid date. Please follow the given format. [%s]", consoleUtilities.getDateTimeFormat()));
+            } catch (SpeakerDoubleBookingException e) {
+                consoleUtilities.confirmBoxClear("Unable to create event: One or more speakers are not available at the selected time.");
+            } catch (CalendarDoubleBookingException e) {
+                consoleUtilities.confirmBoxClear("Unable to create event: The room is not available at the selected time.");
+            }
         }
     }
 

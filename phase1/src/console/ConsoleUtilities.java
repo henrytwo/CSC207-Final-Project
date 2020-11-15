@@ -254,6 +254,11 @@ public class ConsoleUtilities {
         return inputForm("Login", labels, fieldIDs);
     }
 
+    /**
+     * Displays a registration prompt
+     *
+     * @return hashmap with name, username, and password
+     */
     public HashMap<String, String> registerPrompt() {
         Map<String, String> labels = new HashMap<String, String>() {
             {
