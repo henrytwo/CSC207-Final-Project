@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Contains information about individual messages, such as the sender, timestamp, etc.
+ */
 public class Message implements Serializable {
     private String content;
 //    private Set<Message> responses = new HashSet<>();

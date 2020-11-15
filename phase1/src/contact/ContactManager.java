@@ -3,6 +3,9 @@ package contact;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Stores and performs actions on contacts
+ */
 public class ContactManager implements Serializable {
     private Map<UUID, Set<UUID>> contactsMap = new HashMap<UUID, Set<UUID>>();
 
@@ -10,6 +13,9 @@ public class ContactManager implements Serializable {
 
     private Map<UUID, Set<UUID>> sentRequestsMap = new HashMap<UUID, Set<UUID>>();
 
+    /**
+     * Constructs ContactManager
+     */
     public ContactManager(){
         super();
         this.contactsMap = new HashMap<UUID, Set<UUID>>();

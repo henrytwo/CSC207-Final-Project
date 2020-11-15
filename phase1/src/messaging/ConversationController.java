@@ -4,10 +4,18 @@ import contact.ContactManager;
 
 import java.util.*;
 
+/**
+ * Operations on Conversations
+ */
 public class ConversationController {
     private ConversationManager convoManager;
     private ContactManager contactManager;
 
+    /**
+     * Constructor for ConversationController
+     * @param contactManager
+     * @param conversationManager
+     */
     public ConversationController(ContactManager contactManager, ConversationManager conversationManager) {
         this.contactManager = contactManager;
         this.convoManager = conversationManager;

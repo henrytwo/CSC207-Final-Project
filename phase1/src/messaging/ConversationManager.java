@@ -7,6 +7,9 @@ import messaging.exception.NullConversationException;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Manages Conversation entities
+ */
 public class ConversationManager implements Serializable {
 
     // Note that the mapUserConvo hashmap is only there for efficiency reasons

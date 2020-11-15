@@ -12,12 +12,21 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
+/**
+ * UI components for creating and managing rooms
+ */
 public class RoomUI {
 
     ConsoleUtilities consoleUtilities;
     RoomController roomController;
     UserController userController;
 
+    /**
+     * Constructs RoomUI
+     *
+     * @param userController
+     * @param roomController
+     */
     RoomUI(UserController userController, RoomController roomController) {
         consoleUtilities = new ConsoleUtilities(userController);
         this.userController = userController;

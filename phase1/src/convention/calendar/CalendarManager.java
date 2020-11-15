@@ -6,6 +6,9 @@ import convention.exception.NullBookingException;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Manages the Calendar entity
+ */
 public class CalendarManager {
 
     private Calendar calendar;
@@ -14,6 +17,11 @@ public class CalendarManager {
         this.calendar = calendar;
     }
 
+    /**
+     * Gets the full mapping from UUID to Time range
+     *
+     * @return
+     */
     public Map<UUID, TimeRange> getUUIDtoTimeRanges() {
         return calendar.getUUIDToTimeRange();
     }

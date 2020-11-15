@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Event object. Stores details about the room, attendees, speakers, etc.
+ */
 public class Event implements Serializable {
     private UUID uuid;
     private String title;

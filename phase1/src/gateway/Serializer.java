@@ -2,6 +2,11 @@ package gateway;
 
 import java.io.*;
 
+/**
+ * Serializes an object and writes it to a file. Loads the file into memory if possible, or initialize new object.
+ *
+ * @param <T> type of object being serialized
+ */
 public class Serializer<T> {
     String fileName;
 

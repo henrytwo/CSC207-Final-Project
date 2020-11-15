@@ -8,6 +8,9 @@ import user.UserController;
 import java.util.*;
 import java.util.function.Function;
 
+/**
+ * UI components for creating and managing messages
+ */
 public class MessagingUI {
     ConsoleUtilities consoleUtilities;
     ConversationController conversationController;

@@ -6,6 +6,9 @@ import java.util.*;
 import convention.calendar.CalendarManager;
 import convention.exception.*;
 
+/**
+ * Manages room entities
+ */
 public class RoomManager implements Serializable {
 
     private Map<UUID, Room> rooms;

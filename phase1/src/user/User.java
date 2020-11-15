@@ -3,13 +3,10 @@ package user;
 import java.io.Serializable;
 import java.util.UUID;
 
-
+/**
+ * Stores name, username, password, UUID of a user
+ */
 public class User implements Serializable {
-
-    /**
-     * Responsibilities:
-     * - Store name, username, password, UUID
-     */
 
     private String firstName;
     private String lastName;
@@ -33,6 +30,11 @@ public class User implements Serializable {
         this.uuid = UUID.randomUUID();
     }
 
+    /**
+     * Setter for first name
+     *
+     * @param firstName
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -46,6 +48,11 @@ public class User implements Serializable {
         return this.firstName;
     }
 
+    /**
+     * Setter for last name
+     *
+     * @param lastName
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -68,6 +75,11 @@ public class User implements Serializable {
         return getFirstName() + " " + getLastName();
     }
 
+    /**
+     * Setter for username
+     *
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
@@ -81,10 +93,20 @@ public class User implements Serializable {
         return this.username;
     }
 
+    /**
+     * Setter for password
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Returns the password of the user
+     *
+     * @return
+     */
     public String getPassword() {
         return this.password;
     }

@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Conversation object. Contains messages and metadata such as conversation name, users who have read and write access, etc.
+ */
 public class Conversation implements Serializable {
     private String conversationName; // either group chat or 2 person chat
     private ArrayList<Message> conversationMessages = new ArrayList<>();

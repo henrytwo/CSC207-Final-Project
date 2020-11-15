@@ -12,6 +12,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+/**
+ * Operations on Rooms
+ */
 public class RoomController {
 
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);

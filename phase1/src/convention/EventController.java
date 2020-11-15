@@ -16,6 +16,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+/**
+ * Operations on Events
+ */
 public class EventController {
 
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);

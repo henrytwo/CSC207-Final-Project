@@ -10,7 +10,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-
+/**
+ * Manager for Event entities
+ */
 public class EventManager implements Serializable {
     private Map<UUID, Event> events;
 

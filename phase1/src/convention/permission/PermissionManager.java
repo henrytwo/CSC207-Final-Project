@@ -9,6 +9,10 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Provides tests for conferences to determine the role of a particular user. Denies execution of an operation
+ * if the user has insufficient permissions.
+ */
 public class PermissionManager {
 
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);

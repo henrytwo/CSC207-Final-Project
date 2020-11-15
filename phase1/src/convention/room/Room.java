@@ -5,6 +5,9 @@ import convention.calendar.Calendar;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Room entity
+ */
 public class Room implements Serializable {
 
     //unique ID for the room
