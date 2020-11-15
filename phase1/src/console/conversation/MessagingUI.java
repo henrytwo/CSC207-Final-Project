@@ -33,6 +33,9 @@ public class MessagingUI {
         //TODO: send the message
     }
 
+    /**
+     *
+     */
     public void createConversation(){
         try {
             System.out.println("Enter conversation name:");
@@ -49,6 +52,9 @@ public class MessagingUI {
         }
     }
 
+    /**
+     *
+     */
     public void selectConversation(){
         Set<UUID> conversationList = conversationController.getConversationlist(signedInUserUUID);
 
@@ -73,19 +79,19 @@ public class MessagingUI {
         // We fetch the user UUID here so we keep it up to date
         this.signedInUserUUID = userController.getCurrentUser();
 
-        /**
-         * TODO: Remove this placeholder code
-         */
-
-        consoleUtilities.clearConsole();
-        Set<UUID> conversationList = conversationController.getConversationlist(signedInUserUUID);
-
-        for(UUID conversationUUID : conversationList) {
-            System.out.printf("Conversation: %s\n", conversationController.getConversationName(conversationUUID));
-            System.out.println(conversationController.getMessages(signedInUserUUID, conversationUUID));
-        }
-
-        consoleUtilities.confirmBox("This should be the messaging menu");
+//        /**
+//         * TODO: Remove this placeholder code
+//         */
+//
+//        consoleUtilities.clearConsole();
+//        Set<UUID> conversationList = conversationController.getConversationlist(signedInUserUUID);
+//
+//        for(UUID conversationUUID : conversationList) {
+//            System.out.printf("Conversation: %s\n", conversationController.getConversationName(conversationUUID));
+//            System.out.println(conversationController.getMessages(signedInUserUUID, conversationUUID));
+//        }
+//
+//        consoleUtilities.confirmBox("This should be the messaging menu");
 
         String[] options = new String[]{
                 "View all active conversations.",
