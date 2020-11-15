@@ -1,10 +1,7 @@
 package user;
 
 import java.io.Serializable;
-import java.util.*;
 import java.util.UUID;
-import java.util.HashSet;
-import java.util.Set;
 
 
 public class User implements Serializable {
@@ -65,7 +62,7 @@ public class User implements Serializable {
     /**
      * Returns the full name of the user
      *
-     * @return  the full name of the user by combining first and last name
+     * @return the full name of the user by combining first and last name
      */
     public String getName() {
         return getFirstName() + " " + getLastName();
@@ -84,11 +81,11 @@ public class User implements Serializable {
         return this.username;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return this.password;
     }
 

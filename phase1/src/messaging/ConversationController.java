@@ -51,8 +51,7 @@ public class ConversationController {
 //        }
 
         // Give the executor user and the other users read and write permissions
-        HashSet<UUID> conversationUsers = new HashSet<>();
-        conversationUsers.addAll(otherUsers);
+        HashSet<UUID> conversationUsers = new HashSet<>(otherUsers);
         conversationUsers.add(executorUUID);
 
         return convoManager.createConversation(convName, conversationUsers, conversationUsers, executorUUID, messageContent);

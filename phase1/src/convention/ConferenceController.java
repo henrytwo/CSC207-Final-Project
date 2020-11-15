@@ -5,7 +5,6 @@ import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.permission.PermissionManager;
 import messaging.ConversationManager;
-import messaging.Message;
 import user.UserManager;
 
 import java.util.*;

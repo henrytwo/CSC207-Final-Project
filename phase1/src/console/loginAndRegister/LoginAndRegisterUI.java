@@ -3,7 +3,6 @@ package console.loginAndRegister;
 import console.ConsoleUtilities;
 import user.UserController;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class LoginAndRegisterUI {

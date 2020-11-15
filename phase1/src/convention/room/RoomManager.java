@@ -1,7 +1,5 @@
 package convention.room;
 
-import convention.calendar.Calendar;
-
 import java.io.Serializable;
 import java.util.*;
 
