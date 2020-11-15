@@ -1,7 +1,9 @@
 package console.conferences;
 
 import console.ConsoleUtilities;
+import console.conversation.MessagingUI;
 import convention.ConferenceController;
+import messaging.ConversationController;
 import user.UserController;
 
 import java.util.HashSet;
@@ -13,11 +15,13 @@ public class ConferenceMessageUI {
     ConferenceController conferenceController;
     UserController userController;
     ConsoleUtilities consoleUtilities;
+    ConversationController conversationController;
 
-    public ConferenceMessageUI(ConferenceController conferenceController, UserController userController) {
+    public ConferenceMessageUI(ConferenceController conferenceController, UserController userController, ConversationController conversationController) {
         this.conferenceController = conferenceController;
         this.userController = userController;
         this.consoleUtilities = new ConsoleUtilities(userController);
+        this.conversationController = conversationController;
     }
 
     /**
@@ -50,9 +54,8 @@ public class ConferenceMessageUI {
                 UUID newConversationUUID = conferenceController.createConversationWithUsers(conferenceUUID, signedInUserUUID, conversationUserUUIDs);
                 consoleUtilities.confirmBoxClear(String.format("New conversation created with %d users (including you)", conversationUserUUIDs.size()));
 
-                /**
-                 * TODO: Open the new conversation?
-                 */
+                MessagingUI messagingUI = new MessagingUI(userController, conversationController);
+                messagingUI.showMenuOfMessages(newConversationUUID);
             }
         }
     }

@@ -98,7 +98,7 @@ public class ConsoleUtilities {
         String[] options = new String[orderedUUIDs.size() + 1];
 
         // Back button
-        options[orderedUUIDs.size()] = "Back";
+        options[orderedUUIDs.size()] = "<CANCEL>";
 
         for (int i = 0; i < orderedUUIDs.size(); i++) {
             UUID selectedUUID = orderedUUIDs.get(i);

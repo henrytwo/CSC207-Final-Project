@@ -6,6 +6,7 @@ import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
 import convention.exception.*;
+import messaging.ConversationController;
 import user.UserController;
 
 import java.time.LocalDateTime;
@@ -23,13 +24,15 @@ public class EventUI {
     EventController eventController;
     ConferenceController conferenceController;
     RoomController roomController;
+    ConversationController conversationController;
 
-    public EventUI(UserController userController, EventController eventController, RoomController roomController, ConferenceController conferenceController) {
+    public EventUI(UserController userController, EventController eventController, RoomController roomController, ConferenceController conferenceController, ConversationController conversationController) {
         this.userController = userController;
         this.eventController = eventController;
         this.roomController = roomController;
         this.conferenceController = conferenceController;
         this.consoleUtilities = new ConsoleUtilities(userController);
+        this.conversationController = conversationController;
     }
 
     /**
@@ -232,7 +235,7 @@ public class EventUI {
      */
     void viewSpecificEvent(UUID conferenceUUID, UUID eventUUID) {
         UUID signedInUserUUID = userController.getCurrentUser();
-        ConferenceMessageUI conferenceMessageUI = new ConferenceMessageUI(conferenceController, userController);
+        ConferenceMessageUI conferenceMessageUI = new ConferenceMessageUI(conferenceController, userController, conversationController);
 
         // We store a mapping from the menu ID to the label
         // For each permission, we'll set out a different list of selection IDs, and then generate the selection menu using that

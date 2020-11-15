@@ -6,6 +6,7 @@ import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
 import convention.exception.*;
+import messaging.ConversationController;
 import user.UserController;
 
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ public class ConferencesUI {
     RoomController roomController;
     EventController eventController;
     ConferenceController conferenceController;
+    ConversationController conversationController;
     UUID signedInUserUUID;
 
     /**
@@ -30,12 +32,13 @@ public class ConferencesUI {
      * @param eventController
      * @param conferenceController
      */
-    public ConferencesUI(UserController userController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
+    public ConferencesUI(UserController userController, RoomController roomController, EventController eventController, ConferenceController conferenceController, ConversationController conversationController) {
         this.userController = userController;
         this.roomController = roomController;
         this.eventController = eventController;
         this.conferenceController = conferenceController;
         this.consoleUtilities = new ConsoleUtilities(userController);
+        this.conversationController = conversationController;
     }
 
     /**
@@ -141,8 +144,8 @@ public class ConferencesUI {
     private void viewSpecificConference(UUID conferenceUUID) {
 
         RoomUI roomUI = new RoomUI(userController, roomController);
-        EventUI eventUI = new EventUI(userController, eventController, roomController, conferenceController);
-        ConferenceMessageUI conferenceMessageUI = new ConferenceMessageUI(conferenceController, userController);
+        EventUI eventUI = new EventUI(userController, eventController, roomController, conferenceController, conversationController);
+        ConferenceMessageUI conferenceMessageUI = new ConferenceMessageUI(conferenceController, userController, conversationController);
 
         String conferenceName = conferenceController.getConferenceName(conferenceUUID);
         int numEvents;
