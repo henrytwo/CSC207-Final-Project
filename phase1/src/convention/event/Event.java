@@ -36,7 +36,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Gets the UUID of the event
+     * Gets the UUID of this event
      *
      * @return UUID of the event being referred to
      */
@@ -46,7 +46,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Gets the title of the event
+     * Gets the title of this event
      *
      * @return String title of the event being referred to
      */
@@ -56,7 +56,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Overwrites the initial title of the event
+     * chnages the title of this event
      *
      * @param title new title of event
      */
@@ -66,7 +66,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Gets the set of UUIDs of all speakers for the event
+     * Gets the set of all speakers for this event
      *
      * @return a set of UUIDs of all speakers for the event
      */
@@ -96,10 +96,9 @@ public class Event implements Serializable {
     }
 
     /**
-     * Checks if a UUID is that of a speaker
+     * Checks if a user is a speaker for this event
      *
      * @param speakerUUID UUID of user in question
-     *
      * @return True if the user is a speaker in this event, False otherwise
      */
 
@@ -108,7 +107,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Gets the set of UUIDs of all users registered for this event
+     * Gets the set of  all users registered for this event
      *
      * @return the set of UUIDs of users registered for this event
      */
@@ -141,7 +140,6 @@ public class Event implements Serializable {
      * Checks if a user is registered for this event
      *
      * @param attendeeUUID UUIF of the user in question
-     *
      * @return True if the user is registered for this event, False otherwise
      */
 
@@ -160,7 +158,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Overwrites the TimeRange of this event
+     * Changes the time of this event
      *
      * @param timeRange the new TimeRange of this event
      */
@@ -170,7 +168,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * gets the UUID of the room holding this event
+     * gets the the room holding this event
      *
      * @return the UUID of the room holding this event
      */
@@ -180,7 +178,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Overwrites the UUID of the room holding this event
+     * Changes the room the event is being held in
      *
      * @param roomUUID the UUID of the new room
      */
@@ -200,7 +198,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Overwrite the UUID of the conversation for this event
+     * Change the chat for this event
      *
      * @param conversationUUID the UUID of the new conversation
      */
