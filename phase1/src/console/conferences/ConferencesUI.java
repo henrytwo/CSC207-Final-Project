@@ -128,9 +128,9 @@ public class ConferencesUI {
      * @return UUID of the selected conference. Null if the user makes no selection.
      */
     private UUID conferencePickerMenu(String instructions, Set<UUID> conferences) {
-        Function<UUID, String> fetchRoomMetadata = conferenceUUID -> conferenceController.getConferenceName(conferenceUUID) + " " + conferenceController.getConferenceTimeRange(conferenceUUID);
+        Function<UUID, String> fetchConferenceMetadata = conferenceUUID -> conferenceController.getConferenceName(conferenceUUID) + " " + conferenceController.getConferenceTimeRange(conferenceUUID);
 
-        return consoleUtilities.singleUUIDPicker(instructions, conferences, fetchRoomMetadata);
+        return consoleUtilities.singleUUIDPicker(instructions, conferences, fetchConferenceMetadata);
     }
 
     /**

@@ -13,10 +13,16 @@ This program is split into two sections:
 1. Messaging/Contacts
 2. Conferences
 
-Note that some entities contain other entities. This is by design (for example, Conferences contain Events and Rooms),
+Note: that some entities contain other entities. This is by design (for example, Conferences contain Events and Rooms),
 since a Room and Event must be attached to a Conference to make sense. This is cleaner than storing the Events and Rooms
 separately and having to potentially chase them down if the conference is deleted. (Also Jonathan said it was ok)
 
+Note: Speaker accounts are a bit special. A user is assigned speaker permissions when they are assigned as a speaker for
+      an event.
+
+Note: User roles are only valid within the scope of a conference. This means a user may be an organizer of one conference,
+      but an attendee of another one. This is similar to how Discord works. You may be the admin of one server, but you
+      could also be a regular user in another server -- all with a single user account.
 
 + Messaging/Contacts
 
