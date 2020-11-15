@@ -25,7 +25,9 @@ public class MessagingUI {
         try {
             System.out.println("Enter conversation name:");
             String convoName = stdin.nextLine();
-            Set<UUID> others = consoleUtilities.userPicker("Select users you want to create conversation with:", userController.getUsers());
+            Set<UUID> userall = userController.getUsers();
+            userall.remove(signedInUserUUID);
+            Set<UUID> others = consoleUtilities.userPicker("Select users you want to create conversation with:", userall);
 //            System.out.println("Enter UUID of user you want to create conversation with:");
 //            UUID receiverID = UUID.fromString(stdin.nextLine());
             System.out.println("Enter message:");
@@ -64,7 +66,7 @@ public class MessagingUI {
         System.out.println("\n\n");
         System.out.print("Enter your message here");
         String newMessageToSend = enteredMessage.nextLine();
-        if (newMessageToSend != ""){
+        if (!newMessageToSend.equals("")){
             conversationController.sendMessage(signedInUserUUID, newMessageToSend, conversationUUID);
             System.out.println("  Message Sent  ");
         }
