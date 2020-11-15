@@ -20,6 +20,14 @@ public class User implements Serializable {
     private String password;
     private UUID uuid;
 
+    /**
+     * Contructor for User
+     *
+     * @param firstName first name of the user
+     * @param lastName  last name of the user
+     * @param username  username the user wants to keep
+     * @param password  password of the user
+     */
     public User(String firstName, String lastName, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,6 +40,11 @@ public class User implements Serializable {
         this.firstName = firstName;
     }
 
+    /**
+     * Returns first name of the user
+     *
+     * @return the firstname associated with this user
+     */
     public String getFirstName() {
         return this.firstName;
     }
@@ -40,10 +53,20 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
+    /**
+     * Returns last name of the user
+     *
+     * @return the lastname associated with this user
+     */
     public String getLastName() {
         return this.lastName;
     }
 
+    /**
+     * Returns the full name of the user
+     *
+     * @return  the full name of the user by combining first and last name
+     */
     public String getName() {
         return getFirstName() + " " + getLastName();
     }
@@ -52,6 +75,11 @@ public class User implements Serializable {
         this.username = username;
     }
 
+    /**
+     * Returns the username of the user
+     *
+     * @return the username of the associated user
+     */
     public String getUsername() {
         return this.username;
     }
@@ -64,6 +92,11 @@ public class User implements Serializable {
         return this.password;
     }
 
+    /**
+     * Returns UUID of the user
+     *
+     * @return the UUID associated with this user
+     */
     public UUID getUuid() {
         return uuid;
     }
