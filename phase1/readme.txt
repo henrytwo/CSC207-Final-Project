@@ -27,26 +27,23 @@ Note: User roles are only valid within the scope of a conference. This means a u
 + Messaging/Contacts
 
 The Messaging/Contacts portion of the system works independently of the Conferences part, but the Conference system has
-the authority to create conversations bypassing any restrictions imposed by the Messaging system (e.g. there is a rule
-that users can only message people on their friends list).
+the authority to create conversations bypassing any restrictions imposed by the Messaging system.
+
+Note: In phase 1, there are no restrictions about who users may message, but we have constructed the backend to allow
+      for this to be a possibility.
 
 Definitions:
 "Conversation" - A collection of messages and metadata about which users have read/write access to these messages (think
-                 of it like a group chat with any number of users -- a groupchat of size 2 is essentially a direct msg).
+                 of it like a group chat with any number of users -- a group chat of size 2 is essentially a direct msg).
 
 "Message" - A single contribute to the conversation by a user. It contains additional metadata, such as the timestamp
             and the sender UUID, which is why it is its own object.
-
-Users may send contact requests to other people and view who has requested to contact them. A user may initiate a
-conversation with another party if the other person is on the contact list of the sender.
 
 Conversations are designed with read/write access in mind so that it would be possible to expand in the future and add
 functionality such as announcement channels, etc.
 
 Speaker and Organizers are able to message users in their respective conferences through the Conference System. This
 will be addressed in the section part
-
-Attendees may add speakers or other attendees as friends and message them that way.
 
 
 + Conferences
@@ -69,10 +66,14 @@ be allowed to access the conversation. This conversation is special as the Event
 to date.
 
 Speakers may also message any subset of the users that are registered to an event. This type of conversation is not
-directly linked to the Event and is essentially "free standing". This can be done through the "View/Message Attendees" menu.
+directly linked to the Event and is essentially "free standing" (meaning it won't be updated if a user leaves).
+This can be done through the "View/Message Attendees" menu.
 
 Additionally, organizers may message any user affiliated with the conference, either as a group or individual from the
 conference menu through "View/Message Users".
+
+When a speaker/organizer messages an attendee though these options, a new chat will be created. This can be thought
+of as a special "business email" used for administering the conference.
 
 Organizers essentially have the ultimate authority when it comes to conferences. They have the permission to do
 anything that the other roles are able to do. Two of the most important operations are creating Events and Rooms.

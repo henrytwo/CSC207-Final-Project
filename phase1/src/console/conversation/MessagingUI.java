@@ -12,7 +12,6 @@ public class MessagingUI {
     ConsoleUtilities consoleUtilities;
     ConversationController conversationController;
     UserController userController;
-    UUID signedInUserUUID;
 
     public MessagingUI(UserController userController, ConversationController conversationController) {
         this.conversationController = conversationController;
@@ -21,6 +20,8 @@ public class MessagingUI {
     }
 
     public void createConversation() {
+        UUID signedInUserUUID = userController.getCurrentUser();
+
         Scanner stdin = new Scanner(System.in);
         try {
             consoleUtilities.clearConsole();
@@ -63,14 +64,17 @@ public class MessagingUI {
         // prints list of messages in a particular conversation and then takes in an input from the user if they want to
         // send a message otherwise returns back to previous menu
 
+        UUID signedInUserUUID = userController.getCurrentUser();
         Scanner enteredMessage = new Scanner(System.in);
         String conversationName = conversationController.getConversationName(conversationUUID);
 
         while (true) {
             consoleUtilities.clearConsole();
             System.out.println("Showing messages for Chat group: " + conversationName);
+
             ArrayList<Map<String, String>> arrayListMessagesMap = conversationController.getMessages(signedInUserUUID, conversationUUID);
             ArrayList<String> messageSet = new ArrayList<>();
+
             for (Map<String, String> messageMap : arrayListMessagesMap) {
                 UUID senderUUID = UUID.fromString(messageMap.get("sender"));
                 String sender_name = userController.getUserUsername(senderUUID);
@@ -78,13 +82,16 @@ public class MessagingUI {
                         messageMap.get("content");
                 messageSet.add(messageInfo);
             }
+
             for (String message : messageSet) {
                 System.out.println(message);
                 System.out.println("------------------------------------------------------------------------------");
             }
+
             System.out.println("\n\n");
             System.out.print("[Send Message - Empty message to quit]> ");
             String newMessageToSend = enteredMessage.nextLine();
+
             if (!newMessageToSend.equals("")) {
                 conversationController.sendMessage(signedInUserUUID, newMessageToSend, conversationUUID);
             } else {
@@ -94,6 +101,7 @@ public class MessagingUI {
     }
 
     public void selectConversation() {
+        UUID signedInUserUUID = userController.getCurrentUser();
         Set<UUID> conversationList = conversationController.getConversationlist(signedInUserUUID);
 
         if (conversationList.size() == 0) {
@@ -113,9 +121,6 @@ public class MessagingUI {
     }
 
     public void run() {
-        // We fetch the user UUID here so we keep it up to date
-        this.signedInUserUUID = userController.getCurrentUser();
-
         String[] options = new String[]{
                 "View all active conversations",
                 "Create a new conversation",

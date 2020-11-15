@@ -280,7 +280,7 @@ public class ConferenceController {
         conversationUsers.add(executorUUID);
 
         String executorName = userManager.getUserFirstName(executorUUID);
-        String conversationName = String.format("Chat with %s @ %s", executorName, getConferenceName(conferenceUUID));
+        String conversationName = String.format("Executive chat with %s @ %s", executorName, getConferenceName(conferenceUUID));
 
         return conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, executorUUID, String.format("Hi, this is %s.", executorName));
     }

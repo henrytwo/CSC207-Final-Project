@@ -601,7 +601,7 @@ public class EventController {
         String eventTitle = eventManager.getEventTitle(eventUUID);
         String conferenceName = conferenceManager.getConferenceName(conferenceUUID);
 
-        String conversationName = String.format("%s Discussion [%s]", eventTitle, conferenceName);
+        String conversationName = String.format("%s Event Chat @ %s", eventTitle, conferenceName);
 
         // Give all event speaker and attendees read and write access to the converastion
         Set<UUID> conversationUsers = new HashSet<>();
