@@ -1,7 +1,6 @@
 package messaging;
 
 import contact.ContactManager;
-import messaging.exception.MessageDeniedException;
 
 import java.util.*;
 
@@ -47,11 +46,11 @@ public class ConversationController {
      */
     public UUID initiateConversation(String convName, UUID executorUUID, Set<UUID> otherUsers, UUID messageSender_id,
                                      String messageContent) {
-        for (UUID otherUserUUID : otherUsers) {
-            if (!checkAccess(executorUUID, otherUserUUID)) {
-                throw new MessageDeniedException(executorUUID, otherUserUUID);
-            }
-        }
+//        for (UUID otherUserUUID : otherUsers) {
+//            if (!checkAccess(executorUUID, otherUserUUID)) {
+//                throw new MessageDeniedException(executorUUID, otherUserUUID);
+//            }
+//        }
 
         // Give the executor user and the other users read and write permissions
         HashSet<UUID> conversationUsers = new HashSet<>();
