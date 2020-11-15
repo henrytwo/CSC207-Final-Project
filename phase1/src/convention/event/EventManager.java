@@ -5,6 +5,7 @@ import convention.exception.InvalidNameException;
 import convention.exception.NullEventException;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -30,7 +31,7 @@ public class EventManager implements Serializable {
      * @return the set of all events in this conference
      */
     public Set<UUID> getEvents() {
-        return events.keySet();
+        return new HashSet<>(events.keySet());
     }
 
     /**

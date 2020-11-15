@@ -167,15 +167,16 @@ public class EventController {
      * @param conferenceUUID UUID of the conference to operate on
      */
     void updateSpeakers(UUID conferenceUUID) {
-        Set<UUID> speakerUUIDs = conferenceManager.getSpeakers(conferenceUUID);
+        Set<UUID> speakerUUIDs = new HashSet<>();
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
-        speakerUUIDs.clear();
 
         for (UUID eventUUID : eventManager.getEvents()) {
             Set<UUID> eventSpeakerUUIDs = eventManager.getEventSpeakers(eventUUID);
 
             speakerUUIDs.addAll(eventSpeakerUUIDs);
         }
+
+        conferenceManager.setSpeakers(conferenceUUID, speakerUUIDs);
     }
 
     /**

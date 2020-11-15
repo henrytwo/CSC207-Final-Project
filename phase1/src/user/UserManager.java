@@ -3,10 +3,7 @@ package user;
 import user.exception.NullUserException;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class UserManager implements Serializable {
 
@@ -104,7 +101,7 @@ public class UserManager implements Serializable {
     }
 
     public Set<UUID> getAllUsers(){
-        return userMap.keySet();
+        return new HashSet<>(userMap.keySet());
     }
 
 }

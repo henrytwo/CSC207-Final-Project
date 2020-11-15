@@ -20,27 +20,31 @@ public class MessagingUI {
         this.consoleUtilities = new ConsoleUtilities(userController);
     }
 
-    public void createConversation(){
+    public void createConversation() {
         Scanner stdin = new Scanner(System.in);
         try {
-            System.out.println("Enter conversation name:");
-            String convoName = stdin.nextLine();
+            consoleUtilities.clearConsole();
+
             Set<UUID> userall = userController.getUsers();
             userall.remove(signedInUserUUID);
-            if(userall.isEmpty()){
-                System.out.println("You can't create a chat with 0 users.");
-                System.exit(0);
+            if (userall.isEmpty()) {
+                consoleUtilities.confirmBoxClear("There are no other users available to create a conversation with.");
+                return;
             }
+
+            System.out.print("Enter conversation name: ");
+            String convoName = stdin.nextLine();
+
             Set<UUID> others = consoleUtilities.userPicker("Select users you want to create conversation with:", userall);
 //            System.out.println("Enter UUID of user you want to create conversation with:");
 //            UUID receiverID = UUID.fromString(stdin.nextLine());
-            System.out.println("Enter message:");
+            System.out.print("Enter message: ");
             String message = stdin.nextLine();
 //            HashSet<UUID> others = new HashSet<UUID>();
 //            others.add(receiverID);
-            UUID convoUUID = conversationController.initiateConversation(convoName, signedInUserUUID, others, signedInUserUUID, message);
+            UUID convoUUID = conversationController.initiateConversation(convoName, signedInUserUUID, others, message);
             showMenuOfMessages(convoUUID);
-        }catch (MessageDeniedException e){
+        } catch (MessageDeniedException e) {
             consoleUtilities.confirmBoxClear("Cannot send messages to users not on contact list.");
         }
 
@@ -48,9 +52,10 @@ public class MessagingUI {
 
     /**
      * Prints a list of messages sent in this Chat(Conversation)
+     *
      * @param conversationUUID The Id of the selected conversation for which the messages are to be shown
      */
-    public void showMenuOfMessages(UUID conversationUUID){
+    public void showMenuOfMessages(UUID conversationUUID) {
         // prints list of messages in a particular conversation and then takes in an input from the user if they want to
         // send a message otherwise returns back to previous menu
         Scanner enteredMessage = new Scanner(System.in);
@@ -58,35 +63,34 @@ public class MessagingUI {
         System.out.println("Showing messages for Chat group: " + conversationName);
         ArrayList<Map<String, String>> arrayListMessagesMap = conversationController.getMessages(signedInUserUUID, conversationUUID);
         ArrayList<String> messageSet = new ArrayList<>();
-        for(Map<String, String> messageMap: arrayListMessagesMap){
+        for (Map<String, String> messageMap : arrayListMessagesMap) {
             UUID senderUUID = UUID.fromString(messageMap.get("sender"));
             String sender_name = userController.getUserUsername(senderUUID);
-            String messageInfo = "[" + sender_name + '@'+ messageMap.get("timestamp") + "] " +
+            String messageInfo = "[" + sender_name + '@' + messageMap.get("timestamp") + "] " +
                     messageMap.get("content");
             messageSet.add(messageInfo);
         }
-        for(String message: messageSet){
+        for (String message : messageSet) {
             System.out.println(message);
             System.out.println("------------------------------------------------------------------------------");
         }
         System.out.println("\n\n");
         System.out.print("Enter your message here");
         String newMessageToSend = enteredMessage.nextLine();
-        if (!newMessageToSend.equals("")){
+        if (!newMessageToSend.equals("")) {
             conversationController.sendMessage(signedInUserUUID, newMessageToSend, conversationUUID);
             System.out.println("  Message Sent  ");
         }
     }
 
-    public void selectConversation(){
+    public void selectConversation() {
         Set<UUID> conversationList = conversationController.getConversationlist(signedInUserUUID);
 
         if (conversationList.size() == 0) {
             consoleUtilities.confirmBoxClear("You currently do not have any active conversations.");
-        }
-        else{
+        } else {
             UUID selectedConversationUUID = conversationPickerMenu("Choose an active conversation to view.", conversationList);
-            if(selectedConversationUUID != null){
+            if (selectedConversationUUID != null) {
                 showMenuOfMessages(selectedConversationUUID);
             }
         }
@@ -102,29 +106,16 @@ public class MessagingUI {
         // We fetch the user UUID here so we keep it up to date
         this.signedInUserUUID = userController.getCurrentUser();
 
-        /**
-         * TODO: Remove this placeholder code
-         */
-
-        consoleUtilities.clearConsole();
-        Set<UUID> conversationList = conversationController.getConversationlist(signedInUserUUID);
-
-        for (UUID conversationUUID : conversationList) {
-            System.out.printf("Conversation: %s\n", conversationController.getConversationName(conversationUUID));
-            System.out.println(conversationController.getMessages(signedInUserUUID, conversationUUID));
-        }
-
-        consoleUtilities.confirmBox("This should be the messaging menu");
-
         String[] options = new String[]{
-                "View all active conversations.",
-                "Create a new conversation."
+                "View all active conversations",
+                "Create a new conversation",
+                "Back"
         };
 
         boolean running = true;
-        while(running){
+        while (running) {
             int choice = consoleUtilities.singleSelectMenu("Messaging Menu Options", options);
-            switch (choice){
+            switch (choice) {
                 case 1:
                     selectConversation();
                     break;

@@ -322,6 +322,18 @@ public class ConferenceManager implements Serializable {
     }
 
     /**
+     * Gets a set of speaker UUIDs for a particular convention.
+     * <p>
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @return set of UUIDs speaker users
+     */
+    public void setSpeakers(UUID conferenceUUID, Set<UUID> speakers) {
+        getConference(conferenceUUID).setSpeakerUUIDs(speakers);
+    }
+
+    /**
      * Adds an speaker to a convention.
      * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.

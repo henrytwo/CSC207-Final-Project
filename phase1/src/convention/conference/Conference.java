@@ -154,6 +154,13 @@ public class Conference implements Serializable {
     }
 
     /**
+     * Sets speaker UUIDs
+     */
+    public void setSpeakerUUIDs(Set<UUID> speakerUUIDs) {
+        this.speakerUUIDs = speakerUUIDs;
+    }
+
+    /**
      * Grant a user organizer permissions
      *
      * @param speakerUUID UUID of the user to promote
@@ -186,7 +193,7 @@ public class Conference implements Serializable {
      * @return set of UUIDs
      */
     public Set<UUID> getAttendeeUUIDs() {
-        return attendeeUUIDs;
+        return new HashSet<>(attendeeUUIDs);
     }
 
     /**

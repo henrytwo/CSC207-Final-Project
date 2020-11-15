@@ -28,8 +28,8 @@ public class ConversationController {
      * Sends a particular message to a specific chat
      *
      * @param messageSender_id the Id of the sender of the message
-     * @param messageContent The content of the message to be sent
-     * @param convId  the conversation Id of the conversation to which this message has to be added
+     * @param messageContent   The content of the message to be sent
+     * @param convId           the conversation Id of the conversation to which this message has to be added
      */
     public void sendMessage(UUID messageSender_id, String messageContent, UUID convId) {
         convoManager.sendMessage(messageSender_id, messageContent, convId);
@@ -38,14 +38,12 @@ public class ConversationController {
     /**
      * Initiates a new Chat(Conversation) between 2 or more users.
      *
-     * @param convName     the name of the Chat to be initiated
-     * @param executorUUID the UUID of the user running this operation
-     * @param otherUsers   the set of other users in this conversation
-     * @param messageSender_id the Id of the sender of the message
-     * @param messageContent The content of the message to be sent
+     * @param convName         the name of the Chat to be initiated
+     * @param executorUUID     the UUID of the user running this operation
+     * @param otherUsers       the set of other users in this conversation
+     * @param messageContent   The content of the initial message to be sent
      */
-    public UUID initiateConversation(String convName, UUID executorUUID, Set<UUID> otherUsers, UUID messageSender_id,
-                                     String messageContent) {
+    public UUID initiateConversation(String convName, UUID executorUUID, Set<UUID> otherUsers, String messageContent) {
 //        for (UUID otherUserUUID : otherUsers) {
 //            if (!checkAccess(executorUUID, otherUserUUID)) {
 //                throw new MessageDeniedException(executorUUID, otherUserUUID);
@@ -57,14 +55,14 @@ public class ConversationController {
         conversationUsers.addAll(otherUsers);
         conversationUsers.add(executorUUID);
 
-        return convoManager.createConversation(convName, conversationUsers, conversationUsers, messageSender_id, messageContent);
+        return convoManager.createConversation(convName, conversationUsers, conversationUsers, executorUUID, messageContent);
     }
 
     /**
      * Gets messages for a conversation a user has read access to. Throws NoReadAccessException if the user has no
      * read access.
      *
-     * @param userUUID The ID of the User
+     * @param userUUID         The ID of the User
      * @param conversationUUID The Id of the Conversation for which the messages need to be seen
      * @return returns an arraylist of Hashmaps. Each Hashmap stores information about a message in the conversation.
      */
