@@ -107,7 +107,7 @@ public class EventManager implements Serializable {
      * @return set of UUIDs of speakers for this event
      */
     public Set<UUID> getEventSpeakers(UUID eventUUID) {
-        return getEvent(eventUUID).getSpeakers();
+        return new HashSet<>(getEvent(eventUUID).getSpeakers());
     }
 
     /**
@@ -224,7 +224,7 @@ public class EventManager implements Serializable {
      * @return set of UUIDs of users registered for this event
      */
     public Set<UUID> getEventAttendees(UUID eventUUID) {
-        return getEvent(eventUUID).getAttendeeUUIDs();
+        return new HashSet<>(getEvent(eventUUID).getAttendeeUUIDs());
     }
 
     /**

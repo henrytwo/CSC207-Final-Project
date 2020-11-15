@@ -42,7 +42,7 @@ public class RoomManager implements Serializable {
      * @return set of UUIDs
      */
     public Set<UUID> getRooms() {
-        return rooms.keySet();
+        return new HashSet<>(rooms.keySet());
     }
 
     /**

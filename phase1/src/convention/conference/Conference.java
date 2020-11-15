@@ -193,7 +193,7 @@ public class Conference implements Serializable {
      * @return set of UUIDs
      */
     public Set<UUID> getAttendeeUUIDs() {
-        return new HashSet<>(attendeeUUIDs);
+        return attendeeUUIDs;
     }
 
     /**

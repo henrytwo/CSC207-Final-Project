@@ -25,7 +25,7 @@ public class ContactManager implements Serializable {
         if(contactsMap.get(user_id) == null){
             contactsMap.put(user_id, new HashSet<>());
         }
-        return contactsMap.get(user_id);
+        return new HashSet<>(contactsMap.get(user_id));
     }
 
     /**
@@ -37,7 +37,7 @@ public class ContactManager implements Serializable {
         if(requestsMap.get(user_id) == null){
             requestsMap.put(user_id, new HashSet<>());
         }
-        return requestsMap.get(user_id);
+        return new HashSet<>(requestsMap.get(user_id));
     }
 
     /**
@@ -49,7 +49,7 @@ public class ContactManager implements Serializable {
         if(sentRequestsMap.get(user_id) == null){
             sentRequestsMap.put(user_id, new HashSet<>());
         }
-        return sentRequestsMap.get(user_id);
+        return new HashSet<>(sentRequestsMap.get(user_id));
     }
 
     /**

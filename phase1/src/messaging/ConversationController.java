@@ -88,11 +88,7 @@ public class ConversationController {
      * @return set of UUID's of conversations that the user is part of
      */
     public Set<UUID> getConversationlist(UUID userId) {
-        if (convoManager.getConversationlist(userId) != null) {
-            return convoManager.getConversationlist(userId);
-        } else {
-            return new HashSet<>();
-        }
+        return convoManager.getConversationlist(userId);
     }
 
     /**

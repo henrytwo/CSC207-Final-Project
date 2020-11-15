@@ -133,7 +133,10 @@ public class ConversationManager implements Serializable {
      * @param userId the userid of the user for whom we want to know the set of Conversation lists
      */
     public Set<UUID> getConversationlist(UUID userId) {
-        return mapUserConvo.get(userId);
+        if (mapUserConvo.get(userId) == null) {
+            return new HashSet<>();
+        }
+        return new HashSet<>(mapUserConvo.get(userId));
     }
 
     /**
