@@ -25,12 +25,13 @@ public class MessagingUI {
         try {
             System.out.println("Enter conversation name:");
             String convoName = stdin.nextLine();
-            System.out.println("Enter UUID of user you want to create conversation with:");
-            UUID receiverID = UUID.fromString(stdin.nextLine());
+            Set<UUID> others = consoleUtilities.userPicker("Select users you want to create conversation with:", userController.getUsers());
+//            System.out.println("Enter UUID of user you want to create conversation with:");
+//            UUID receiverID = UUID.fromString(stdin.nextLine());
             System.out.println("Enter message:");
             String message = stdin.nextLine();
             HashSet<UUID> others = new HashSet<UUID>();
-            others.add(receiverID);
+//            others.add(receiverID);
             conversationController.initiateConversation(convoName, signedInUserUUID, others, signedInUserUUID, message);
         }catch (MessageDeniedException e){
             consoleUtilities.confirmBoxClear("Cannot send messages to users not on contact list.");
