@@ -36,14 +36,18 @@ public class MessagingUI {
             String convoName = stdin.nextLine();
 
             Set<UUID> others = consoleUtilities.userPicker("Select users you want to create conversation with:", userall);
+
+            if (others != null) {
+
 //            System.out.println("Enter UUID of user you want to create conversation with:");
 //            UUID receiverID = UUID.fromString(stdin.nextLine());
-            System.out.print("Enter message: ");
-            String message = stdin.nextLine();
+                System.out.print("Enter message: ");
+                String message = stdin.nextLine();
 //            HashSet<UUID> others = new HashSet<UUID>();
 //            others.add(receiverID);
-            UUID convoUUID = conversationController.initiateConversation(convoName, signedInUserUUID, others, message);
-            showMenuOfMessages(convoUUID);
+                UUID convoUUID = conversationController.initiateConversation(convoName, signedInUserUUID, others, message);
+                showMenuOfMessages(convoUUID);
+            }
         } catch (MessageDeniedException e) {
             consoleUtilities.confirmBoxClear("Cannot send messages to users not on contact list.");
         }
@@ -58,28 +62,34 @@ public class MessagingUI {
     public void showMenuOfMessages(UUID conversationUUID) {
         // prints list of messages in a particular conversation and then takes in an input from the user if they want to
         // send a message otherwise returns back to previous menu
+
         Scanner enteredMessage = new Scanner(System.in);
         String conversationName = conversationController.getConversationName(conversationUUID);
-        System.out.println("Showing messages for Chat group: " + conversationName);
-        ArrayList<Map<String, String>> arrayListMessagesMap = conversationController.getMessages(signedInUserUUID, conversationUUID);
-        ArrayList<String> messageSet = new ArrayList<>();
-        for (Map<String, String> messageMap : arrayListMessagesMap) {
-            UUID senderUUID = UUID.fromString(messageMap.get("sender"));
-            String sender_name = userController.getUserUsername(senderUUID);
-            String messageInfo = "[" + sender_name + '@' + messageMap.get("timestamp") + "] " +
-                    messageMap.get("content");
-            messageSet.add(messageInfo);
-        }
-        for (String message : messageSet) {
-            System.out.println(message);
-            System.out.println("------------------------------------------------------------------------------");
-        }
-        System.out.println("\n\n");
-        System.out.print("Enter your message here");
-        String newMessageToSend = enteredMessage.nextLine();
-        if (!newMessageToSend.equals("")) {
-            conversationController.sendMessage(signedInUserUUID, newMessageToSend, conversationUUID);
-            System.out.println("  Message Sent  ");
+
+        while (true) {
+            consoleUtilities.clearConsole();
+            System.out.println("Showing messages for Chat group: " + conversationName);
+            ArrayList<Map<String, String>> arrayListMessagesMap = conversationController.getMessages(signedInUserUUID, conversationUUID);
+            ArrayList<String> messageSet = new ArrayList<>();
+            for (Map<String, String> messageMap : arrayListMessagesMap) {
+                UUID senderUUID = UUID.fromString(messageMap.get("sender"));
+                String sender_name = userController.getUserUsername(senderUUID);
+                String messageInfo = "[" + sender_name + '@' + messageMap.get("timestamp") + "] " +
+                        messageMap.get("content");
+                messageSet.add(messageInfo);
+            }
+            for (String message : messageSet) {
+                System.out.println(message);
+                System.out.println("------------------------------------------------------------------------------");
+            }
+            System.out.println("\n\n");
+            System.out.print("[Send Message - Empty message to quit]> ");
+            String newMessageToSend = enteredMessage.nextLine();
+            if (!newMessageToSend.equals("")) {
+                conversationController.sendMessage(signedInUserUUID, newMessageToSend, conversationUUID);
+            } else {
+                break;
+            }
         }
     }
 

@@ -27,7 +27,7 @@ public class MainMenuUI {
 
         this.messagingUI = new MessagingUI(userController, conversationController);
         this.contactsUI = new ContactsUI(userController, contactController);
-        this.conferencesUI = new ConferencesUI(userController, roomController, eventController, conferenceController);
+        this.conferencesUI = new ConferencesUI(userController, roomController, eventController, conferenceController, conversationController);
     }
 
     /**
