@@ -59,7 +59,9 @@ public class MessagingUI {
         ArrayList<Map<String, String>> arrayListMessagesMap = conversationController.getMessages(signedInUserUUID, conversationUUID);
         ArrayList<String> messageSet = new ArrayList<>();
         for(Map<String, String> messageMap: arrayListMessagesMap){
-            String messageInfo = "[" + messageMap.get("sender") + '@'+ messageMap.get("timestamp") + "] " +
+            UUID senderUUID = UUID.fromString(messageMap.get("sender"));
+            String sender_name = userController.getUserUsername(senderUUID);
+            String messageInfo = "[" + sender_name + '@'+ messageMap.get("timestamp") + "] " +
                     messageMap.get("content");
             messageSet.add(messageInfo);
         }
