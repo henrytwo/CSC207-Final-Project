@@ -8,6 +8,9 @@ import convention.RoomController;
 import messaging.ConversationController;
 import user.UserController;
 
+/**
+ * Main UI system
+ */
 public class UISystem {
 
     // User controller
@@ -22,6 +25,16 @@ public class UISystem {
     EventController eventController;
     ConferenceController conferenceController;
 
+    /**
+     * Constructs the main UI system
+     *
+     * @param userController
+     * @param contactController
+     * @param conversationController
+     * @param roomController
+     * @param eventController
+     * @param conferenceController
+     */
     public UISystem(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
         this.userController = userController;
         this.contactController = contactController;

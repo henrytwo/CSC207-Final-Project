@@ -11,6 +11,9 @@ import convention.exception.*;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Manages conferences
+ */
 public class ConferenceManager implements Serializable {
     private Map<UUID, Conference> conferences = new HashMap<>();
 

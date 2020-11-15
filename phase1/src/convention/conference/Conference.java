@@ -7,6 +7,10 @@ import convention.room.Room;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Conference object containing all the details about a specific conference. Includes events, rooms, and data about
+ * the roles of users.
+ */
 public class Conference implements Serializable {
     private Set<UUID> organizerUUIDs = new HashSet<>();
     private Set<UUID> speakerUUIDs = new HashSet<>();

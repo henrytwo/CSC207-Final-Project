@@ -18,6 +18,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
+/**
+ * UI for event related operations.
+ */
 public class EventUI {
 
     ConsoleUtilities consoleUtilities;
@@ -27,6 +30,15 @@ public class EventUI {
     RoomController roomController;
     ConversationController conversationController;
 
+    /**
+     * Constructs EventUI page
+     *
+     * @param userController
+     * @param eventController
+     * @param roomController
+     * @param conferenceController
+     * @param conversationController
+     */
     public EventUI(UserController userController, EventController eventController, RoomController roomController, ConferenceController conferenceController, ConversationController conversationController) {
         this.userController = userController;
         this.eventController = eventController;
@@ -204,17 +216,29 @@ public class EventUI {
         }
     }
 
+    /**
+     * Register user for event
+     *
+     * @param conferenceUUID UUID of conference event belongs to
+     * @param eventUUID      UUID of event to operate on
+     */
     void registerForEvent(UUID conferenceUUID, UUID eventUUID) {
         UUID signedInUserUUID = userController.getCurrentUser();
 
         try {
             eventController.registerForEvent(conferenceUUID, signedInUserUUID, signedInUserUUID, eventUUID);
             consoleUtilities.confirmBoxClear("You have successfully registered for this event.");
-        } catch (FullRoomException e) {
+        } catch (FullEventException e) {
             consoleUtilities.confirmBoxClear("Sorry, you can't register for this event since the room is full.");
         }
     }
 
+    /**
+     * Unregister user from event
+     *
+     * @param conferenceUUID UUID of conference event belongs to
+     * @param eventUUID      UUID of event to operate on
+     */
     void unregisterFromEvent(UUID conferenceUUID, UUID eventUUID) {
         UUID signedInUserUUID = userController.getCurrentUser();
         eventController.unregisterForEvent(conferenceUUID, signedInUserUUID, signedInUserUUID, eventUUID);

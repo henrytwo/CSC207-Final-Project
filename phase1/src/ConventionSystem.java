@@ -16,9 +16,15 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Main convention system. This where the fun begins.
+ */
 public class ConventionSystem {
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
+    /**
+     * Runs the Convention System
+     */
     public void run() {
         // Setup logger
         Handler handlerObj = new ConsoleHandler();

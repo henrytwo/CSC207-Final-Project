@@ -453,7 +453,7 @@ public class ConferenceTest {
         assertTrue(eventController.getEventAttendees(conferenceUUID, myUser, eventUUID).contains(randomUser));
     }
 
-    @Test(timeout = 100, expected = FullRoomException.class)
+    @Test(timeout = 100, expected = FullEventException.class)
     public void testJoinConferenceFullRoom() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 1);

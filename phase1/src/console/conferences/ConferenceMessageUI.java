@@ -10,6 +10,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Messaging UI for conferences. Allows organizers and speakers to create a conversation through the authority of the
+ * conference controller.
+ */
 public class ConferenceMessageUI {
 
     ConferenceController conferenceController;
@@ -17,6 +21,13 @@ public class ConferenceMessageUI {
     ConsoleUtilities consoleUtilities;
     ConversationController conversationController;
 
+    /**
+     * Constructs ConferenceMessageUI
+     *
+     * @param conferenceController
+     * @param userController
+     * @param conversationController
+     */
     public ConferenceMessageUI(ConferenceController conferenceController, UserController userController, ConversationController conversationController) {
         this.conferenceController = conferenceController;
         this.userController = userController;

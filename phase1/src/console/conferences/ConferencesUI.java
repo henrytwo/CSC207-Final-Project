@@ -14,6 +14,9 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.function.Function;
 
+/**
+ * UI for conference related operations
+ */
 public class ConferencesUI {
     ConsoleUtilities consoleUtilities;
 

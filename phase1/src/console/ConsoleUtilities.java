@@ -8,6 +8,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
 
+/**
+ * General console UI utilities
+ */
 public class ConsoleUtilities {
 
     private static Scanner stdin = new Scanner(System.in);
@@ -15,9 +18,13 @@ public class ConsoleUtilities {
     private UserController userController;
 
     String dateTimeFormat = "MM-dd-yyyy HH:mm";
-    //for room
-    String locationFormat = "Building code followed by room number (AB123)";
+    String roomLocationFormat = "Building code followed by room number (AB123)";
 
+    /**
+     * Constructs ConsoleUtilities
+     *
+     * @param userController user controller to fetch current user data from
+     */
     public ConsoleUtilities(UserController userController) {
         this.userController = userController;
     }
@@ -142,12 +149,12 @@ public class ConsoleUtilities {
      */
     public String twoDArrayToTable(ArrayList<String[]> a) {
         StringBuilder table = new StringBuilder();
-        int width = a.get(0).length * 21 +1;
+        int width = a.get(0).length * 21 + 1;
         StringBuilder topLine = new StringBuilder();
         StringBuilder bottomLine = new StringBuilder();
         topLine.append("╔");
         bottomLine.append("╚");
-        for(int i = 0; i < width - 2 ; i++){
+        for (int i = 0; i < width - 2; i++) {
             topLine.append("-");
             bottomLine.append("-");
         }
@@ -156,9 +163,9 @@ public class ConsoleUtilities {
         topLine.append("\r\n");
         bottomLine.append("\r\n");
         table.append(topLine);
-        for(String[] sub: a) {
+        for (String[] sub : a) {
             StringBuilder row = new StringBuilder();
-            for(String s: sub) {
+            for (String s : sub) {
                 row.append(String.format("║%-20s", s));
             }
             row.append("║\r\n");
@@ -181,7 +188,7 @@ public class ConsoleUtilities {
      * Room location format used by the system
      */
     public String getRoomLocationFormat() {
-        return locationFormat;
+        return roomLocationFormat;
     }
 
     /**

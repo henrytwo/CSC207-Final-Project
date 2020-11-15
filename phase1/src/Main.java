@@ -1,6 +1,9 @@
+/**
+ * Entry point of the application
+ */
 public class Main {
 
-    /**     *
+    /**
      * Meeting notes: - We're basically set for the phase 2 mandatory extensions
      *                - Optional extensions
      *                  - Users can pick which conference they want to participate in (already implemented)

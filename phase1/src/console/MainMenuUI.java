@@ -10,6 +10,9 @@ import convention.RoomController;
 import messaging.ConversationController;
 import user.UserController;
 
+/**
+ * Main menu page (Post login)
+ */
 public class MainMenuUI {
 
     ConsoleUtilities consoleUtilities;
@@ -21,6 +24,16 @@ public class MainMenuUI {
     // User controller
     UserController userController;
 
+    /**
+     * Constructs the main menu
+     *
+     * @param userController
+     * @param contactController
+     * @param conversationController
+     * @param roomController
+     * @param eventController
+     * @param conferenceController
+     */
     public MainMenuUI(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
         this.userController = userController;
         this.consoleUtilities= new ConsoleUtilities(userController);

@@ -5,12 +5,11 @@ import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.exception.CalendarDoubleBookingException;
-import convention.exception.FullRoomException;
+import convention.exception.FullEventException;
 import convention.exception.SpeakerDoubleBookingException;
 import convention.permission.PermissionManager;
 import convention.room.RoomManager;
 import messaging.ConversationManager;
-import messaging.Message;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -112,7 +111,7 @@ public class EventController {
 
         // Verify the event can take additional attendees
         if (currentEventAttendeeCount + 1 > roomManager.getRoomCapacity(roomUUID)) {
-            throw new FullRoomException();
+            throw new FullEventException();
         }
 
         // If this event has a conversation between the speaker and attendees, add this user to it
