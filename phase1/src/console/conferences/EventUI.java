@@ -1,6 +1,7 @@
 package console.conferences;
 
 import console.ConsoleUtilities;
+import console.conversation.MessagingUI;
 import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
@@ -184,6 +185,7 @@ public class EventUI {
         String eventTitle = eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUID);
         UUID eventConversationUUID = eventController.getEventConversationUUID(conferenceUUID, signedInUserUUID, eventUUID);
 
+        MessagingUI messagingUI = new MessagingUI(userController, conversationController);
         if (eventConversationUUID == null) {
             boolean confirm = consoleUtilities.booleanSelectMenu(String.format("Are you sure you want to create an event conversation for %s?", eventTitle));
 
@@ -193,20 +195,12 @@ public class EventUI {
 
                 consoleUtilities.confirmBoxClear(String.format("Successfully created an event conversation for %s", eventTitle));
 
-                /**
-                 * TODO: Open the event conversation
-                 */
-                consoleUtilities.confirmBoxClear("This should open up the event conversation, but that code hasn't been written yet so...");
-
+                messagingUI.showMenuOfMessages(newEventConversationUUID);
             } else {
                 consoleUtilities.confirmBoxClear("Event conversation creation was cancelled.");
             }
         } else {
-
-            /**
-             * TODO: Open the event conversation
-             */
-            consoleUtilities.confirmBoxClear("This should open up the event conversation, but that code hasn't been written yet so...");
+            messagingUI.showMenuOfMessages(eventConversationUUID);
         }
     }
 
