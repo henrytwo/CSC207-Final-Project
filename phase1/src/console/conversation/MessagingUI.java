@@ -13,6 +13,12 @@ public class MessagingUI {
     ConversationController conversationController;
     UserController userController;
 
+    /**
+     * Constructor for MessagingUI
+     *
+     * @param userController
+     * @param conversationController
+     */
     public MessagingUI(UserController userController, ConversationController conversationController) {
         this.conversationController = conversationController;
         this.userController = userController;
@@ -120,6 +126,10 @@ public class MessagingUI {
         return consoleUtilities.singleUUIDPicker(instructions, conversations, fetchRoomMetadata);
     }
 
+    /**
+     * Run the MessagingUI
+     * @return false iff the user wants to quit the current menu
+     */
     public void run() {
         String[] options = new String[]{
                 "View all active conversations",

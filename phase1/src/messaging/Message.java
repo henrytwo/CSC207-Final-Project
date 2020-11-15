@@ -31,14 +31,27 @@ public class Message implements Serializable {
         return senderId;
     }
 
+    /**
+     * Getter for the content of the message
+     *
+     * @return the content of the message
+     */
     public String getContent() {
         return content;
     }
 
+    /**
+     * Getter for the date and time of the creation of message
+     *
+     * @return the date and time that the message was sent by the sender
+     */
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
+    /**
+     * The toString method for the message
+     */
     @Override
     public String toString() {
         return String.format("[%s @ %s] %s\n", senderId, timestamp, content);
