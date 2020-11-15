@@ -279,7 +279,7 @@ public class ConsoleUtilities {
      *
      * @return
      */
-    private String getUserFirstNamePrecaption() {
+    private String getUserFullNamePrecaption() {
         if (userController.getCurrentUser() != null) {
             String fullName = userController.getUserFullName(userController.getCurrentUser());
 
@@ -316,7 +316,7 @@ public class ConsoleUtilities {
      * @return Integer with array index of selected item
      */
     public int singleSelectMenu(String caption, String[] options, boolean clear) {
-        return singleSelectMenu(getUserFirstNamePrecaption(), caption, options, clear);
+        return singleSelectMenu(getUserFullNamePrecaption(), caption, options, clear);
     }
 
     /**
@@ -330,7 +330,7 @@ public class ConsoleUtilities {
      * @return Integer with array index of selected item
      */
     public int singleSelectMenu(String caption, String[] options) {
-        return singleSelectMenu(getUserFirstNamePrecaption(), caption, options, true);
+        return singleSelectMenu(getUserFullNamePrecaption(), caption, options, true);
     }
 
     /**
@@ -347,7 +347,7 @@ public class ConsoleUtilities {
      * @return String with the selected selectionID
      */
     public String singleSelectMenu(String caption, String[] selectionIDs, HashMap<String, String> selectionIDToLabel) {
-        return singleSelectMenu(getUserFirstNamePrecaption(), caption, selectionIDs, selectionIDToLabel, true);
+        return singleSelectMenu(getUserFullNamePrecaption(), caption, selectionIDs, selectionIDToLabel, true);
     }
 
     /**
