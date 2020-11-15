@@ -75,14 +75,29 @@ public class Conversation implements Serializable {
         readAccessUsers.remove(userUUID);
     }
 
+    /**
+     * Returns a set of UUID's of users that have write access in this conversation
+     *
+     * @return Set of UUID's of users that have write access for this conversation
+     */
     public Set<UUID> getWriteAccessUsers() {
         return writeAccessUsers;
     }
 
+    /**
+     * Returns a set of UUID's of users that have read access in this conversation
+     *
+     * @return Set of UUID's of users that have read access for this conversation
+     */
     public Set<UUID> getReadAccessUsers() {
         return readAccessUsers;
     }
 
+    /**
+     * Returns a list of messages in this conversation
+     *
+     * @return list of messages in this conversation
+     */
     public ArrayList<Message> getConversationMessages() {
         return conversationMessages;
     }
