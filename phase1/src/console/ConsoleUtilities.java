@@ -202,20 +202,6 @@ public class ConsoleUtilities {
     }
 
 
-    /**
-     * @param tr A hashmap with UUID as keys and TimeRange as values
-     * @param txt A hashmap with UUID as keys and String as values
-     * @return a table in which cells display the TimeRange and the corresponding String
-     */
-    public String twoHashmapsToTable(HashMap<UUID, TimeRange> tr, HashMap<UUID, String> txt) {
-        HashMap<TimeRange, String> map = new HashMap<>();
-        for(UUID id: tr.keySet()) {
-            map.put(tr.get(id), txt.get(id));
-        }
-        StringBuilder table = new StringBuilder();
-        int width =
-    }
-
 
     /**
      * Date time format used by the system
