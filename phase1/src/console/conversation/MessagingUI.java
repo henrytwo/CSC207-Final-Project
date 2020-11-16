@@ -38,9 +38,10 @@ public class MessagingUI {
         try {
             consoleUtilities.clearConsole();
 
-            Set<UUID> userall = userController.getUsers();
-            userall.remove(signedInUserUUID);
-            if (userall.isEmpty()) {
+            Set<UUID> allUsers = userController.getUsers();
+            allUsers.remove(signedInUserUUID);
+
+            if (allUsers.isEmpty()) {
                 consoleUtilities.confirmBoxClear("There are no other users available to create a conversation with.");
                 return;
             }
@@ -48,17 +49,13 @@ public class MessagingUI {
             System.out.print("Enter conversation name: ");
             String convoName = stdin.nextLine();
 
-            Set<UUID> others = consoleUtilities.userPicker("Select users you want to create conversation with:", userall);
+            Set<UUID> otherConversationUsers = consoleUtilities.userPicker("Select users you want to create conversation with:", allUsers);
 
-            if (others != null) {
-
-//            System.out.println("Enter UUID of user you want to create conversation with:");
-//            UUID receiverID = UUID.fromString(stdin.nextLine());
+            if (otherConversationUsers != null) {
                 System.out.print("Enter message: ");
                 String message = stdin.nextLine();
-//            HashSet<UUID> others = new HashSet<UUID>();
-//            others.add(receiverID);
-                UUID convoUUID = conversationController.initiateConversation(convoName, signedInUserUUID, others, message);
+
+                UUID convoUUID = conversationController.initiateConversation(convoName, signedInUserUUID, otherConversationUsers, message);
                 showMenuOfMessages(convoUUID);
             }
         } catch (MessageDeniedException e) {
