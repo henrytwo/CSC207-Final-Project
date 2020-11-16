@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.IntStream;
 
 public class ConsoleUtilities {
 
@@ -168,8 +167,6 @@ public class ConsoleUtilities {
         table.append(bottomLine);
         return table.toString();
     }
-
-
 
     /**
      * Date time format used by the system
@@ -548,60 +545,5 @@ public class ConsoleUtilities {
 
         }
         clearConsole();
-    }
-
-    public String getTextTable(ArrayList<ArrayList<String>> a, int[] colWidths, String title) {
-        int width = IntStream.of(colWidths).sum() + a.get(0).size() - 1;
-        StringBuilder table = new StringBuilder();
-        StringBuilder topLine = new StringBuilder();
-        StringBuilder bottomLine = new StringBuilder();
-        topLine.append("╔");
-        bottomLine.append("╚");
-        for (int i = 0; i < width; i++) {
-            topLine.append("═");
-            bottomLine.append("═");
-        }
-        topLine.append("╗\r\n");
-        bottomLine.append("╝");
-        table.append(topLine);
-
-        StringBuilder titleLine = new StringBuilder();
-        titleLine.append("║");
-        titleLine.append(title);
-        while (titleLine.length() < width+1) {
-            titleLine.append(" ");
-        }
-        titleLine.append("║\r\n");
-        table.append(titleLine);
-
-        StringBuilder hline = new StringBuilder();
-        hline.append("╠");
-        while (hline.length() < width + 1) {
-            hline.append("-");
-        }
-        hline.append("╣\r\n");
-        table.append(hline);
-
-        for (ArrayList<String> sub : a) {
-            StringBuilder row = new StringBuilder();
-            row.append("║");
-            for (int i = 0; i < colWidths.length; i++) {
-                StringBuilder cell = new StringBuilder();
-
-                cell.append(sub.get(i));
-                while (cell.length() <= colWidths[i]-1) {
-                    cell.append(" ");
-                }
-                cell.append("│");
-                row.append(cell);
-            }
-            row.deleteCharAt(row.length() - 1);
-            table.append(row);
-
-            table.append("║\r\n");
-        }
-
-        table.append(bottomLine);
-        return table.toString();
     }
 }
