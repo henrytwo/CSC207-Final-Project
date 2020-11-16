@@ -1,23 +1,38 @@
 package console.conferences;
 
 import console.ConsoleUtilities;
+import console.conversation.MessagingUI;
 import convention.ConferenceController;
+import messaging.ConversationController;
 import user.UserController;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Messaging UI for conferences. Allows organizers and speakers to create a conversation through the authority of the
+ * conference controller.
+ */
 public class ConferenceMessageUI {
 
     ConferenceController conferenceController;
     UserController userController;
     ConsoleUtilities consoleUtilities;
+    ConversationController conversationController;
 
-    public ConferenceMessageUI(ConferenceController conferenceController, UserController userController) {
+    /**
+     * Constructs ConferenceMessageUI
+     *
+     * @param conferenceController
+     * @param userController
+     * @param conversationController
+     */
+    public ConferenceMessageUI(ConferenceController conferenceController, UserController userController, ConversationController conversationController) {
         this.conferenceController = conferenceController;
         this.userController = userController;
         this.consoleUtilities = new ConsoleUtilities(userController);
+        this.conversationController = conversationController;
     }
 
     /**
@@ -50,9 +65,8 @@ public class ConferenceMessageUI {
                 UUID newConversationUUID = conferenceController.createConversationWithUsers(conferenceUUID, signedInUserUUID, conversationUserUUIDs);
                 consoleUtilities.confirmBoxClear(String.format("New conversation created with %d users (including you)", conversationUserUUIDs.size()));
 
-                /**
-                 * TODO: Open the new conversation?
-                 */
+                MessagingUI messagingUI = new MessagingUI(userController, conversationController);
+                messagingUI.showMenuOfMessages(newConversationUUID);
             }
         }
     }

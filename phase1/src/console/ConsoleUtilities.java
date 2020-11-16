@@ -1,7 +1,5 @@
 package console;
 
-import convention.calendar.TimeRange;
-import org.omg.CORBA.TIMEOUT;
 import user.UserController;
 
 import java.io.IOException;
@@ -9,7 +7,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.IntStream;
 
 public class ConsoleUtilities {
 
@@ -139,69 +136,37 @@ public class ConsoleUtilities {
         }
     }
 
-
     /**
-     * @param a 2D ArrayList that can be converted to table
-     * @param colWidths width of each column in order
-     * @param title title of this table
-     * @return a table for display
+     * @param a a 2D Arraylist of Strings
+     * @return a text table for the 2D array for display
      */
-    public String getTextTable(ArrayList<ArrayList<String>> a, int[] colWidths, String title) {
-        int width = IntStream.of(colWidths).sum() + a.get(0).size() - 1;
+    public String twoDArrayToTable(ArrayList<ArrayList<String>> a) {
         StringBuilder table = new StringBuilder();
+        int width = a.get(0).size() * 21 +1;
         StringBuilder topLine = new StringBuilder();
         StringBuilder bottomLine = new StringBuilder();
         topLine.append("╔");
         bottomLine.append("╚");
-        for (int i = 0; i < width; i++) {
-            topLine.append("═");
-            bottomLine.append("═");
+        for(int i = 0; i < width - 2 ; i++){
+            topLine.append("-");
+            bottomLine.append("-");
         }
-        topLine.append("╗\r\n");
+        topLine.append("╗");
         bottomLine.append("╝");
+        topLine.append("\r\n");
+        bottomLine.append("\r\n");
         table.append(topLine);
-
-        StringBuilder titleLine = new StringBuilder();
-        titleLine.append("║");
-        titleLine.append(title);
-        while (titleLine.length() < width+1) {
-            titleLine.append(" ");
-        }
-        titleLine.append("║\r\n");
-        table.append(titleLine);
-
-        StringBuilder hline = new StringBuilder();
-        hline.append("╠");
-        while (hline.length() < width + 1) {
-            hline.append("-");
-        }
-        hline.append("╣\r\n");
-        table.append(hline);
-
-        for (ArrayList<String> sub : a) {
+        for(ArrayList<String> sub: a) {
             StringBuilder row = new StringBuilder();
-            row.append("║");
-            for (int i = 0; i < colWidths.length; i++) {
-                StringBuilder cell = new StringBuilder();
-
-                cell.append(sub.get(i));
-                while (cell.length() <= colWidths[i]-1) {
-                    cell.append(" ");
-                }
-                cell.append("│");
-                row.append(cell);
+            for(String s: sub) {
+                row.append(String.format("║%-20s", s));
             }
-            row.deleteCharAt(row.length() - 1);
+            row.append("║\r\n");
             table.append(row);
-
-            table.append("║\r\n");
         }
-
         table.append(bottomLine);
         return table.toString();
     }
-
-
 
     /**
      * Date time format used by the system

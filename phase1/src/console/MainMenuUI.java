@@ -10,6 +10,9 @@ import convention.RoomController;
 import messaging.ConversationController;
 import user.UserController;
 
+/**
+ * Main menu page (Post login)
+ */
 public class MainMenuUI {
 
     ConsoleUtilities consoleUtilities;
@@ -21,13 +24,23 @@ public class MainMenuUI {
     // User controller
     UserController userController;
 
+    /**
+     * Constructs the main menu
+     *
+     * @param userController
+     * @param contactController
+     * @param conversationController
+     * @param roomController
+     * @param eventController
+     * @param conferenceController
+     */
     public MainMenuUI(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
         this.userController = userController;
-        this.consoleUtilities= new ConsoleUtilities(userController);
+        this.consoleUtilities = new ConsoleUtilities(userController);
 
         this.messagingUI = new MessagingUI(userController, conversationController);
         this.contactsUI = new ContactsUI(userController, contactController);
-        this.conferencesUI = new ConferencesUI(userController, roomController, eventController, conferenceController);
+        this.conferencesUI = new ConferencesUI(userController, roomController, eventController, conferenceController, conversationController);
     }
 
     /**
@@ -39,7 +52,7 @@ public class MainMenuUI {
 
         String[] options = new String[]{
                 "Messaging",
-                "Contacts",
+                //"Contacts",
                 "Conferences",
                 "Log Out",
                 "Exit System"
@@ -52,16 +65,16 @@ public class MainMenuUI {
                 case 1:
                     messagingUI.run();
                     break;
-                case 2:
+                /*case 2:
                     contactsUI.run();
-                    break;
-                case 3:
+                    break;*/
+                case 2:
                     conferencesUI.run();
                     break;
-                case 4:
+                case 3:
                     userController.logout();
                     return true; // Logout (i.e. return to parent menu without terminating program)
-                case 5:
+                case 4:
                     return false; // Terminate program
             }
         }

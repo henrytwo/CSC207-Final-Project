@@ -5,18 +5,20 @@ import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.exception.CalendarDoubleBookingException;
-import convention.exception.FullRoomException;
+import convention.exception.FullEventException;
 import convention.exception.SpeakerDoubleBookingException;
 import convention.permission.PermissionManager;
 import convention.room.RoomManager;
 import messaging.ConversationManager;
-import messaging.Message;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+/**
+ * Operations on Events
+ */
 public class EventController {
 
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -112,7 +114,7 @@ public class EventController {
 
         // Verify the event can take additional attendees
         if (currentEventAttendeeCount + 1 > roomManager.getRoomCapacity(roomUUID)) {
-            throw new FullRoomException();
+            throw new FullEventException();
         }
 
         // If this event has a conversation between the speaker and attendees, add this user to it
@@ -167,15 +169,16 @@ public class EventController {
      * @param conferenceUUID UUID of the conference to operate on
      */
     void updateSpeakers(UUID conferenceUUID) {
-        Set<UUID> speakerUUIDs = conferenceManager.getSpeakers(conferenceUUID);
+        Set<UUID> speakerUUIDs = new HashSet<>();
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
-        speakerUUIDs.clear();
 
         for (UUID eventUUID : eventManager.getEvents()) {
             Set<UUID> eventSpeakerUUIDs = eventManager.getEventSpeakers(eventUUID);
 
             speakerUUIDs.addAll(eventSpeakerUUIDs);
         }
+
+        conferenceManager.setSpeakers(conferenceUUID, speakerUUIDs);
     }
 
     /**
@@ -600,15 +603,14 @@ public class EventController {
         String eventTitle = eventManager.getEventTitle(eventUUID);
         String conferenceName = conferenceManager.getConferenceName(conferenceUUID);
 
-        String conversationName = String.format("%s Discussion [%s]", eventTitle, conferenceName);
-        Message initialMessage = new Message(executorUUID, String.format("Welcome to the event: %s", eventTitle));
+        String conversationName = String.format("%s Event Chat @ %s", eventTitle, conferenceName);
 
         // Give all event speaker and attendees read and write access to the converastion
         Set<UUID> conversationUsers = new HashSet<>();
         conversationUsers.addAll(eventManager.getEventAttendees(eventUUID));
         conversationUsers.addAll(eventManager.getEventSpeakers(eventUUID));
 
-        UUID conversationUUID = conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, initialMessage);
+        UUID conversationUUID = conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, executorUUID, String.format("Welcome to the event: %s", eventTitle));
 
         // Save the conversation for future reference
         eventManager.setEventConversationUUID(eventUUID, conversationUUID);

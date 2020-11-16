@@ -7,6 +7,9 @@ import messaging.exception.NullConversationException;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Manages Conversation entities
+ */
 public class ConversationManager implements Serializable {
 
     // Note that the mapUserConvo hashmap is only there for efficiency reasons
@@ -18,11 +21,11 @@ public class ConversationManager implements Serializable {
     /**
      * Creates an instance of Conversation
      *
-     * @param convName       name of the conversation
-     * @param usersWrite     The set of users that have writing access to this conversation
-     * @param usersRead      The set of users that have reading access to this conversation
+     * @param convName         name of the conversation
+     * @param usersWrite       The set of users that have writing access to this conversation
+     * @param usersRead        The set of users that have reading access to this conversation
      * @param messageSender_id the Id of the sender of the message
-     * @param messageContent The content of the message to be sent
+     * @param messageContent   The content of the message to be sent
      * @return A chat with the given specifications
      */
     public UUID createConversation(String convName, Set<UUID> usersWrite, Set<UUID> usersRead, UUID messageSender_id, String messageContent) {
@@ -133,7 +136,10 @@ public class ConversationManager implements Serializable {
      * @param userId the userid of the user for whom we want to know the set of Conversation lists
      */
     public Set<UUID> getConversationlist(UUID userId) {
-        return mapUserConvo.get(userId);
+        if (mapUserConvo.get(userId) == null) {
+            return new HashSet<>();
+        }
+        return new HashSet<>(mapUserConvo.get(userId));
     }
 
     /**
@@ -150,8 +156,8 @@ public class ConversationManager implements Serializable {
      * Sends a particular message to a specific chat
      *
      * @param messageSender_id the Id of the sender of the message
-     * @param messageContent The content of the message to be sent
-     * @param convId  the conversation Id of the conversation to which this message has to be added
+     * @param messageContent   The content of the message to be sent
+     * @param convId           the conversation Id of the conversation to which this message has to be added
      */
     public void sendMessage(UUID messageSender_id, String messageContent, UUID convId) {
         Message message = new Message(messageSender_id, messageContent);
@@ -170,15 +176,23 @@ public class ConversationManager implements Serializable {
      * Gets messages for a conversation a user has read access to. Throws NoReadAccessException if the user has no
      * read access.
      *
-     * @param userUUID
-     * @param conversationUUID
-     * @return
+     * @param userUUID The ID of the User
+     * @param conversationUUID The Id of the Conversation for which the messages need to be seen
+     * @return returns an arraylist of Hashmaps. Each Hashmap stores information about a message in the conversation.
      */
-    public ArrayList<Message> getMessages(UUID userUUID, UUID conversationUUID) {
+    public ArrayList<Map<String, String>> getMessages(UUID userUUID, UUID conversationUUID) {
         Conversation conversation = getConversation(conversationUUID);
 
         if (conversation.getReadAccessUsers().contains(userUUID)) {
-            return conversation.getConversationMessages();
+            ArrayList<Map<String, String>> newList = new ArrayList<>();
+            for(Message message:conversation.getConversationMessages()){
+                HashMap<String, String> messageAsHashmap = new HashMap<>();
+                messageAsHashmap.put("sender", message.getSenderId().toString());
+                messageAsHashmap.put("timestamp", message.getTimestamp().toString());
+                messageAsHashmap.put("content", message.getContent());
+                newList.add(messageAsHashmap);
+            }
+            return newList;
         } else {
             throw new NoReadAccessException();
         }

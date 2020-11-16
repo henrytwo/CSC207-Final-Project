@@ -12,12 +12,21 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
+/**
+ * UI components for creating and managing rooms
+ */
 public class RoomUI {
 
     ConsoleUtilities consoleUtilities;
     RoomController roomController;
     UserController userController;
 
+    /**
+     * Constructs RoomUI
+     *
+     * @param userController
+     * @param roomController
+     */
     RoomUI(UserController userController, RoomController roomController) {
         consoleUtilities = new ConsoleUtilities(userController);
         this.userController = userController;
@@ -30,6 +39,8 @@ public class RoomUI {
      * @param conferenceUUID UUID of the selected conference
      */
     void createRoom(UUID conferenceUUID) {
+        UUID signedInUserUUID = userController.getCurrentUser();
+
         String[] fieldIDs = {
                 "roomLocation",
                 "capacity"
@@ -51,7 +62,7 @@ public class RoomUI {
             //convert the input string for capacity into an int
             int capacity = Integer.parseInt(capacityStr);
 
-            UUID newRoomUUID = roomController.createRoom(conferenceUUID, userController.getCurrentUser(), roomLocation, capacity);
+            UUID newRoomUUID = roomController.createRoom(conferenceUUID, signedInUserUUID, roomLocation, capacity);
 
             consoleUtilities.confirmBoxClear("Successfully created new room.");
 
@@ -77,7 +88,8 @@ public class RoomUI {
      * @return UUID of the selected room. Null if the user makes no selection.
      */
     UUID roomPickerMenu(String instructions, Set<UUID> rooms, UUID conferenceUUID) {
-        Function<UUID, String> fetchRoomMetadata = roomUUID -> "Location: " + roomController.getRoomLocation(conferenceUUID, userController.getCurrentUser(), roomUUID) + " | Capacity: " + roomController.getRoomCapacity(conferenceUUID, userController.getCurrentUser(), roomUUID);
+        UUID signedInUserUUID = userController.getCurrentUser();
+        Function<UUID, String> fetchRoomMetadata = roomUUID -> "Location: " + roomController.getRoomLocation(conferenceUUID, signedInUserUUID, roomUUID) + " | Capacity: " + roomController.getRoomCapacity(conferenceUUID, signedInUserUUID, roomUUID);
 
         return consoleUtilities.singleUUIDPicker(instructions, rooms, fetchRoomMetadata);
     }

@@ -11,6 +11,9 @@ import convention.exception.*;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Manages conferences
+ */
 public class ConferenceManager implements Serializable {
     private Map<UUID, Conference> conferences = new HashMap<>();
 
@@ -128,7 +131,7 @@ public class ConferenceManager implements Serializable {
      * @return Set of convention UUIDs
      */
     public Set<UUID> getConferences() {
-        return conferences.keySet();
+        return new HashSet<>(conferences.keySet());
     }
 
     /**
@@ -230,7 +233,7 @@ public class ConferenceManager implements Serializable {
      * @return set of UUIDs of organizer users
      */
     public Set<UUID> getOrganizers(UUID conferenceUUID) {
-        return getConference(conferenceUUID).getOrganizerUUIDs();
+        return new HashSet<>(getConference(conferenceUUID).getOrganizerUUIDs());
     }
 
     /**
@@ -275,7 +278,7 @@ public class ConferenceManager implements Serializable {
      * @return set of UUIDs of attendee users
      */
     public Set<UUID> getAttendees(UUID conferenceUUID) {
-        return getConference(conferenceUUID).getAttendeeUUIDs();
+        return new HashSet<>(getConference(conferenceUUID).getAttendeeUUIDs());
     }
 
     /**
@@ -318,7 +321,19 @@ public class ConferenceManager implements Serializable {
      * @return set of UUIDs speaker users
      */
     public Set<UUID> getSpeakers(UUID conferenceUUID) {
-        return getConference(conferenceUUID).getSpeakerUUIDs();
+        return new HashSet<>(getConference(conferenceUUID).getSpeakerUUIDs());
+    }
+
+    /**
+     * Gets a set of speaker UUIDs for a particular convention.
+     * <p>
+     * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @return set of UUIDs speaker users
+     */
+    public void setSpeakers(UUID conferenceUUID, Set<UUID> speakers) {
+        getConference(conferenceUUID).setSpeakerUUIDs(speakers);
     }
 
     /**

@@ -1,13 +1,14 @@
 package convention.room;
 
-import convention.calendar.Calendar;
-
 import java.io.Serializable;
 import java.util.*;
 
 import convention.calendar.CalendarManager;
 import convention.exception.*;
 
+/**
+ * Manages room entities
+ */
 public class RoomManager implements Serializable {
 
     private Map<UUID, Room> rooms;
@@ -42,7 +43,7 @@ public class RoomManager implements Serializable {
      * @return set of UUIDs
      */
     public Set<UUID> getRooms() {
-        return rooms.keySet();
+        return new HashSet<>(rooms.keySet());
     }
 
     /**

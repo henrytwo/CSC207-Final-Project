@@ -237,6 +237,9 @@ public class ConferenceTest {
         // Add the new organizer
         conferenceController.addOrganizer(conferenceUUID, myUser, someOrganizer);
 
+        // Update pointer
+        organizers = conferenceController.getOrganizers(conferenceUUID, myUser);
+
         // Ensure new organizer has been added successfully
         assertTrue(organizers.size() == 2 && organizers.contains(myUser) && organizers.contains(someOrganizer));
     }
@@ -265,8 +268,13 @@ public class ConferenceTest {
         // Remove the organizer
         conferenceController.removeOrganizer(conferenceUUID, myUser, someOrganizer);
 
+        // Update pointer
+        organizers = conferenceController.getOrganizers(conferenceUUID, myUser);
+
         // Test that the organizer has indeed been removed
-        assertTrue(organizers.size() == 1 && organizers.contains(myUser) && !organizers.contains(someOrganizer));
+        assertEquals(organizers.size(), 1);
+        assertTrue(organizers.contains(myUser));
+        assertFalse(organizers.contains(someOrganizer));
     }
 
     /**
@@ -445,7 +453,7 @@ public class ConferenceTest {
         assertTrue(eventController.getEventAttendees(conferenceUUID, myUser, eventUUID).contains(randomUser));
     }
 
-    @Test(timeout = 100, expected = FullRoomException.class)
+    @Test(timeout = 100, expected = FullEventException.class)
     public void testJoinConferenceFullRoom() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 1);

@@ -3,7 +3,6 @@ package console.loginAndRegister;
 import console.ConsoleUtilities;
 import user.UserController;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class LoginAndRegisterUI {
@@ -36,6 +35,11 @@ public class LoginAndRegisterUI {
         }
     }
 
+    /**
+     * Presents the register prompt and let's the user create an account
+     *
+     * @return false iff the UI loop os to break on the next iteration
+     */
     public boolean register() {
 
         Map<String, String> credentials = consoleUtilities.registerPrompt();

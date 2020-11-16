@@ -5,13 +5,15 @@ import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.permission.PermissionManager;
 import messaging.ConversationManager;
-import messaging.Message;
 import user.UserManager;
 
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Operations on Conferences
+ */
 public class ConferenceController {
 
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -280,10 +282,9 @@ public class ConferenceController {
         conversationUsers.add(executorUUID);
 
         String executorName = userManager.getUserFirstName(executorUUID);
-        String conversationName = String.format("Chat with %s @ %s", executorName, getConferenceName(conferenceUUID));
-        Message initialMessage = new Message(executorUUID, String.format("Hi, this is %s.", executorName));
+        String conversationName = String.format("Executive chat with %s @ %s", executorName, getConferenceName(conferenceUUID));
 
-        return conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, initialMessage);
+        return conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, executorUUID, String.format("Hi, this is %s.", executorName));
     }
 
     /* Organizer operations */

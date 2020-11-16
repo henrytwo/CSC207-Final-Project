@@ -6,6 +6,7 @@ import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
 import convention.exception.*;
+import messaging.ConversationController;
 import user.UserController;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,9 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.function.Function;
 
+/**
+ * UI for conference related operations
+ */
 public class ConferencesUI {
     ConsoleUtilities consoleUtilities;
 
@@ -20,7 +24,7 @@ public class ConferencesUI {
     RoomController roomController;
     EventController eventController;
     ConferenceController conferenceController;
-    UUID signedInUserUUID;
+    ConversationController conversationController;
 
     /**
      * Creates the ConferenceUI
@@ -30,18 +34,20 @@ public class ConferencesUI {
      * @param eventController
      * @param conferenceController
      */
-    public ConferencesUI(UserController userController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
+    public ConferencesUI(UserController userController, RoomController roomController, EventController eventController, ConferenceController conferenceController, ConversationController conversationController) {
         this.userController = userController;
         this.roomController = roomController;
         this.eventController = eventController;
         this.conferenceController = conferenceController;
         this.consoleUtilities = new ConsoleUtilities(userController);
+        this.conversationController = conversationController;
     }
 
     /**
      * Create a new conference
      */
     private void createConference() {
+        UUID signedInUserUUID = userController.getCurrentUser();
         String[] fieldIDs = {
                 "conferenceName",
                 "startTime",
@@ -83,6 +89,7 @@ public class ConferencesUI {
      * Join an existing conference (that you're not part of, of course)
      */
     private void joinConference() {
+        UUID signedInUserUUID = userController.getCurrentUser();
         Set<UUID> notMyConferences = conferenceController.getNotUserConferences(signedInUserUUID);
 
         if (notMyConferences.size() == 0) {
@@ -105,6 +112,7 @@ public class ConferencesUI {
      * View a list of all conferences a user is affiliated with. Prompts the user to pick one and navigates them to that conference.
      */
     private void selectConference() {
+        UUID signedInUserUUID = userController.getCurrentUser();
         Set<UUID> myConferences = conferenceController.getUserConferences(signedInUserUUID);
 
         if (myConferences.size() == 0) {
@@ -128,9 +136,9 @@ public class ConferencesUI {
      * @return UUID of the selected conference. Null if the user makes no selection.
      */
     private UUID conferencePickerMenu(String instructions, Set<UUID> conferences) {
-        Function<UUID, String> fetchRoomMetadata = conferenceUUID -> conferenceController.getConferenceName(conferenceUUID) + " " + conferenceController.getConferenceTimeRange(conferenceUUID);
+        Function<UUID, String> fetchConferenceMetadata = conferenceUUID -> conferenceController.getConferenceName(conferenceUUID) + " " + conferenceController.getConferenceTimeRange(conferenceUUID);
 
-        return consoleUtilities.singleUUIDPicker(instructions, conferences, fetchRoomMetadata);
+        return consoleUtilities.singleUUIDPicker(instructions, conferences, fetchConferenceMetadata);
     }
 
     /**
@@ -139,10 +147,11 @@ public class ConferencesUI {
      * @param conferenceUUID UUID of conference to view
      */
     private void viewSpecificConference(UUID conferenceUUID) {
+        UUID signedInUserUUID = userController.getCurrentUser();
 
         RoomUI roomUI = new RoomUI(userController, roomController);
-        EventUI eventUI = new EventUI(userController, eventController, roomController, conferenceController);
-        ConferenceMessageUI conferenceMessageUI = new ConferenceMessageUI(conferenceController, userController);
+        EventUI eventUI = new EventUI(userController, eventController, roomController, conferenceController, conversationController);
+        ConferenceMessageUI conferenceMessageUI = new ConferenceMessageUI(conferenceController, userController, conversationController);
 
         String conferenceName = conferenceController.getConferenceName(conferenceUUID);
         int numEvents;
@@ -245,8 +254,6 @@ public class ConferencesUI {
      * Run conference UI
      */
     public void run() {
-        // We fetch the user UUID here so we keep it up to date
-        this.signedInUserUUID = userController.getCurrentUser();
 
         String[] options = new String[]{
                 "Create a conference",
