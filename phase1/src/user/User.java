@@ -105,7 +105,7 @@ public class User implements Serializable {
     /**
      * Returns the password of the user
      *
-     * @return
+     * @return the password of the associated user
      */
     public String getPassword() {
         return this.password;
