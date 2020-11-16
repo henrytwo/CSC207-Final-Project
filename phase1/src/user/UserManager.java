@@ -169,7 +169,7 @@ public class UserManager implements Serializable {
     }
 
     /**
-     * Sets the current user to null when looged out
+     * Sets the current user to null when logged out
      */
     public void clearCurrentUser() {
         currentUser = null;
