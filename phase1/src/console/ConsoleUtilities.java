@@ -8,6 +8,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
 
+/**
+ * General console UI utilities
+ */
 public class ConsoleUtilities {
 
     private static Scanner stdin = new Scanner(System.in);
@@ -15,9 +18,13 @@ public class ConsoleUtilities {
     private UserController userController;
 
     String dateTimeFormat = "MM-dd-yyyy HH:mm";
-    //for room
-    String locationFormat = "Building code followed by room number (AB123)";
+    String roomLocationFormat = "Building code followed by room number (AB123)";
 
+    /**
+     * Constructs ConsoleUtilities
+     *
+     * @param userController user controller to fetch current user data from
+     */
     public ConsoleUtilities(UserController userController) {
         this.userController = userController;
     }
@@ -98,7 +105,7 @@ public class ConsoleUtilities {
         String[] options = new String[orderedUUIDs.size() + 1];
 
         // Back button
-        options[orderedUUIDs.size()] = "Back";
+        options[orderedUUIDs.size()] = "<CANCEL>";
 
         for (int i = 0; i < orderedUUIDs.size(); i++) {
             UUID selectedUUID = orderedUUIDs.get(i);
@@ -140,14 +147,14 @@ public class ConsoleUtilities {
      * @param a a 2D Arraylist of Strings
      * @return a text table for the 2D array for display
      */
-    public String twoDArrayToTable(ArrayList<ArrayList<String>> a) {
+    public String twoDArrayToTable(ArrayList<String[]> a) {
         StringBuilder table = new StringBuilder();
-        int width = a.get(0).size() * 21 +1;
+        int width = a.get(0).length * 21 + 1;
         StringBuilder topLine = new StringBuilder();
         StringBuilder bottomLine = new StringBuilder();
         topLine.append("╔");
         bottomLine.append("╚");
-        for(int i = 0; i < width - 2 ; i++){
+        for (int i = 0; i < width - 2; i++) {
             topLine.append("-");
             bottomLine.append("-");
         }
@@ -156,9 +163,9 @@ public class ConsoleUtilities {
         topLine.append("\r\n");
         bottomLine.append("\r\n");
         table.append(topLine);
-        for(ArrayList<String> sub: a) {
+        for (String[] sub : a) {
             StringBuilder row = new StringBuilder();
-            for(String s: sub) {
+            for (String s : sub) {
                 row.append(String.format("║%-20s", s));
             }
             row.append("║\r\n");
@@ -181,7 +188,7 @@ public class ConsoleUtilities {
      * Room location format used by the system
      */
     public String getRoomLocationFormat() {
-        return locationFormat;
+        return roomLocationFormat;
     }
 
     /**
@@ -254,6 +261,11 @@ public class ConsoleUtilities {
         return inputForm("Login", labels, fieldIDs);
     }
 
+    /**
+     * Displays a registration prompt
+     *
+     * @return hashmap with name, username, and password
+     */
     public HashMap<String, String> registerPrompt() {
         Map<String, String> labels = new HashMap<String, String>() {
             {
@@ -279,7 +291,7 @@ public class ConsoleUtilities {
      *
      * @return
      */
-    private String getUserFirstNamePrecaption() {
+    private String getUserFullNamePrecaption() {
         if (userController.getCurrentUser() != null) {
             String fullName = userController.getUserFullName(userController.getCurrentUser());
 
@@ -316,7 +328,7 @@ public class ConsoleUtilities {
      * @return Integer with array index of selected item
      */
     public int singleSelectMenu(String caption, String[] options, boolean clear) {
-        return singleSelectMenu(getUserFirstNamePrecaption(), caption, options, clear);
+        return singleSelectMenu(getUserFullNamePrecaption(), caption, options, clear);
     }
 
     /**
@@ -330,7 +342,7 @@ public class ConsoleUtilities {
      * @return Integer with array index of selected item
      */
     public int singleSelectMenu(String caption, String[] options) {
-        return singleSelectMenu(getUserFirstNamePrecaption(), caption, options, true);
+        return singleSelectMenu(getUserFullNamePrecaption(), caption, options, true);
     }
 
     /**
@@ -347,7 +359,7 @@ public class ConsoleUtilities {
      * @return String with the selected selectionID
      */
     public String singleSelectMenu(String caption, String[] selectionIDs, HashMap<String, String> selectionIDToLabel) {
-        return singleSelectMenu(getUserFirstNamePrecaption(), caption, selectionIDs, selectionIDToLabel, true);
+        return singleSelectMenu(getUserFullNamePrecaption(), caption, selectionIDs, selectionIDToLabel, true);
     }
 
     /**
@@ -431,37 +443,13 @@ public class ConsoleUtilities {
             System.out.println(String.format("║ %-105s ║", caption));
             System.out.println("╠════╦══════════════════════════════════════════════════════════════════════════════════════════════════════╣");
 
+
             for (int i = 0; i < options.length; i++) {
                 System.out.println(String.format("║ %-2d ║ %-100s ║", i + 1, options[i]));
             }
 
-            System.out.println("╚════╩══════════════════════════════════════════════════════════════════════════════════════════════════════    public String twoDArrayToTable(ArrayList<ArrayList<String>> a) {\n" +
-                    "        StringBuilder table = new StringBuilder();\n" +
-                    "        int width = a.get(0).size() * 21 +1;\n" +
-                    "        StringBuilder topLine = new StringBuilder();\n" +
-                    "        StringBuilder bottomLine = new StringBuilder();\n" +
-                    "        topLine.append(\"╔\");\n" +
-                    "        bottomLine.append(\"╚\");\n" +
-                    "        for(int i = 0; i < width - 2 ; i++){\n" +
-                    "            topLine.append(\"-\");\n" +
-                    "            bottomLine.append(\"-\");\n" +
-                    "        }\n" +
-                    "        topLine.append(\"╗\");\n" +
-                    "        bottomLine.append(\"╝\");\n" +
-                    "        topLine.append(\"\\r\\n\");\n" +
-                    "        bottomLine.append(\"\\r\\n\");\n" +
-                    "        table.append(topLine);\n" +
-                    "        for(ArrayList<String> sub: a) {\n" +
-                    "            StringBuilder row = new StringBuilder();\n" +
-                    "            for(String s: sub) {\n" +
-                    "                row.append(String.format(\"║%-20s\", s));\n" +
-                    "            }\n" +
-                    "            row.append(\"║\\r\\n\");\n" +
-                    "            table.append(row);\n" +
-                    "        }\n" +
-                    "        table.append(bottomLine);\n" +
-                    "        return table.toString();\n" +
-                    "    }");
+            System.out.println("╚════╩══════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
             System.out.print("[Enter Selection]> ");
 
             /*
