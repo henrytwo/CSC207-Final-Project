@@ -74,6 +74,8 @@ public class RoomUI {
             consoleUtilities.confirmBoxClear("Unable to create Room: Invalid name. Room name must be non empty.");
         } catch (InvalidCapacityException e) {
             consoleUtilities.confirmBoxClear("Unable to create Room: Invalid room capacity. Please enter a number greater than zero.");
+        } catch (NumberFormatException e) {
+            consoleUtilities.confirmBoxClear("Unable to create Room: Invalid input.");
         }
     }
 
