@@ -9,6 +9,7 @@ import messaging.ConversationController;
 import messaging.ConversationManager;
 import user.UserController;
 import user.UserManager;
+import gui.GUISystem;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
@@ -58,9 +59,8 @@ public class ConventionSystem {
         EventController eventController = new EventController(conferenceManager, conversationManager);
         ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
 
-        // If we were to change this to a GUI, here is what we would switch out
-        //UISystem uiSystem = new UISystem(userController, contactController, conversationController, roomController, eventController, conferenceController);
-        //uiSystem.run();
+        GUISystem uiSystem = new GUISystem(userController, contactController, conversationController, roomController, eventController, conferenceController);
+        uiSystem.run();
 
         // Serialize everything for the next run
         System.out.println("Writing to disk...");
