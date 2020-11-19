@@ -1,4 +1,3 @@
-import console.UISystem;
 import contact.ContactController;
 import contact.ContactManager;
 import convention.ConferenceController;
@@ -60,8 +59,8 @@ public class ConventionSystem {
         ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
 
         // If we were to change this to a GUI, here is what we would switch out
-        UISystem uiSystem = new UISystem(userController, contactController, conversationController, roomController, eventController, conferenceController);
-        uiSystem.run();
+        //UISystem uiSystem = new UISystem(userController, contactController, conversationController, roomController, eventController, conferenceController);
+        //uiSystem.run();
 
         // Serialize everything for the next run
         System.out.println("Writing to disk...");
