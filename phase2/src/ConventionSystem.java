@@ -9,10 +9,9 @@ import messaging.ConversationController;
 import messaging.ConversationManager;
 import user.UserController;
 import user.UserManager;
-import gui.GUISystem;
+import gui.MainFrame;
 import util.ControllerBundle;
 
-import java.util.function.Function;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -74,7 +73,7 @@ public class ConventionSystem {
             conferenceManagerSerializer.save(conferenceManager);
         };
 
-        GUISystem uiSystem = new GUISystem(controllerBundle, shutdown);
+        MainFrame uiSystem = new MainFrame(controllerBundle, shutdown);
         uiSystem.run();
     }
 }

@@ -1,16 +1,16 @@
 package gui;
 
-import gui.login.LoginView;
-import gui.mainMenu.MainMenuView;
+import gui.util.factories.PanelFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
+import gui.util.interfaces.IPanelFactory;
 import util.ControllerBundle;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class GUISystem implements IFrame {
+public class MainFrame implements IFrame {
     ControllerBundle controllerBundle;
 
     Runnable shutdown;
@@ -22,9 +22,19 @@ public class GUISystem implements IFrame {
      * @param controllerBundle contains all of the controllers that the UI needs to interact with
      * @param shutdown         runnable that is executed when JFrame is shut down
      */
-    public GUISystem(ControllerBundle controllerBundle, Runnable shutdown) {
+    public MainFrame(ControllerBundle controllerBundle, Runnable shutdown) {
         this.controllerBundle = controllerBundle;
         this.shutdown = shutdown;
+    }
+
+    /**
+     * Gets the controller bundle
+     *
+     * @return the controller bundle
+     */
+    @Override
+    public ControllerBundle getControllerBundle() {
+        return controllerBundle;
     }
 
     /**
@@ -42,28 +52,16 @@ public class GUISystem implements IFrame {
     }
 
     /**
-     * Fetches the current user's login status and presents the appropriate page. The login and main menu pages are a
-     * bit special since they are at the top level and don't have a "parent" panel themselves.
-     * <p>
-     * All subsequent panels should be loaded using the setPanel method.
+     * Creates the initial panel according to login state
      */
-    @Override
-    public void refreshLogin() {
-        if (controllerBundle.getUserController().getCurrentUser() != null) {
-            setPanel(new MainMenuView(this));
-        } else {
-            setPanel(new LoginView(this));
-        }
-    }
+    private void updateLoginState() {
+        IPanelFactory panelFactory = new PanelFactory(this);
 
-    /**
-     * Gets the controller bundle
-     *
-     * @return the controller bundle
-     */
-    @Override
-    public ControllerBundle getControllerBundle() {
-        return controllerBundle;
+        if (controllerBundle.getUserController().getCurrentUser() != null) {
+            setPanel(panelFactory.createPanel("mainMenu"));
+        } else {
+            setPanel(panelFactory.createPanel("login"));
+        }
     }
 
     /**
@@ -82,6 +80,6 @@ public class GUISystem implements IFrame {
             }
         });
 
-        refreshLogin();
+        updateLoginState();
     }
 }

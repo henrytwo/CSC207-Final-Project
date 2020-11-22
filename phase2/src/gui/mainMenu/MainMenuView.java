@@ -1,6 +1,6 @@
 package gui.mainMenu;
 
-import gui.GUISystem;
+import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
@@ -12,27 +12,26 @@ public class MainMenuView implements IPanel {
     private JPasswordField passwordField1;
     private JTable table1;
     private JButton conferencesButton;
+    private JButton stuffButton;
 
     private MainMenuPresenter mainMenuPresenter;
 
     /**
-     * Constructs the main menu. This is a root UI component, which has no parent.
+     * Constructs the main menu.
      *
-     * @param guiSystem parent gui system
+     * @param guiSystem gui system
      */
-    public MainMenuView(GUISystem guiSystem) {
+    public MainMenuView(IFrame guiSystem) {
         mainMenuPresenter = new MainMenuPresenter(guiSystem, this);
+
+        stuffButton.setActionCommand("stuff");
+        stuffButton.addActionListener(mainMenuPresenter);
 
         logoutButton.setActionCommand("logout");
         logoutButton.addActionListener(mainMenuPresenter);
 
         conferencesButton.setActionCommand("conferenceMenu");
         conferencesButton.addActionListener(mainMenuPresenter);
-    }
-
-    @Override
-    public IPanel getParent() {
-        return null;
     }
 
     @Override

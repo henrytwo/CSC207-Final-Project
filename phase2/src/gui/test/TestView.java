@@ -1,4 +1,4 @@
-package gui.mainMenu.conference;
+package gui.test;
 
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
@@ -24,17 +24,11 @@ public class TestView implements IPanel {
     IPanel parent;
     IFrame mainFrame;
 
-    public TestView(IFrame mainFrame, IPanel parent, String conference) {
-
+    public TestView(IFrame mainFrame, String conference) {
         this.mainFrame = mainFrame;
 
         System.out.println("Conference: " + conference);
 
-    }
-
-    @Override
-    public IPanel getParent() {
-        return null;
     }
 
     @Override

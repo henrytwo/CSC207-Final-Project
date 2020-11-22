@@ -1,6 +1,5 @@
-package gui.mainMenu.conference;
+package gui.conference;
 
-import gui.GUISystem;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
@@ -18,17 +17,14 @@ public class ConferenceMenuView implements IPanel {
     private JTextPane textPane1;
 
     private IFrame guiSystem;
-    private IPanel parent;
 
     private ConferenceMenuPresenter conferenceMenuPresenter;
 
     /**
-     * @param guiSystem parent gui system
-     * @param parent parent component so that we can go back a page if needed
+     * @param guiSystem gui system
      */
-    public ConferenceMenuView(IFrame guiSystem, IPanel parent) {
+    public ConferenceMenuView(IFrame guiSystem) {
         this.guiSystem = guiSystem;
-        this.parent = parent;
 
         this.conferenceMenuPresenter = new ConferenceMenuPresenter(guiSystem, this);
 
@@ -37,11 +33,6 @@ public class ConferenceMenuView implements IPanel {
 
         openTestThingButton.setActionCommand("testThing");
         openTestThingButton.addActionListener(conferenceMenuPresenter);
-    }
-
-    @Override
-    public IPanel getParent() {
-        return parent;
     }
 
     @Override

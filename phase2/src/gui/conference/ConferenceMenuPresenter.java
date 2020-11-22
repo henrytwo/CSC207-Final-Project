@@ -1,4 +1,4 @@
-package gui.mainMenu.conference;
+package gui.conference;
 
 import gui.util.factories.PanelFactory;
 import gui.util.interfaces.IFrame;
@@ -20,14 +20,14 @@ public class ConferenceMenuPresenter implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        IPanelFactory frameFactory = new PanelFactory(mainFrame, conferenceMenuView);
+        IPanelFactory frameFactory = new PanelFactory(mainFrame);
 
         switch (e.getActionCommand()) {
             case "mainMenu":
-                mainFrame.setPanel(conferenceMenuView.getParent());
+                mainFrame.setPanel(frameFactory.createPanel("mainMenu"));
                 break;
             case "testThing":
-                mainFrame.setPanel(frameFactory.createPanel("Test", new HashMap<>() {
+                mainFrame.setPanel(frameFactory.createPanel("test", new HashMap<>() {
                     {
                         put("conference", "yes");
                     }
