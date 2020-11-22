@@ -2,7 +2,7 @@ package gui.mainMenu;
 
 import gui.GUISystem;
 import gui.util.Panelable;
-import gui.mainMenu.conference.ConferenceMenu;
+import gui.mainMenu.conference.ConferenceMenuView;
 import user.UserController;
 import util.ControllerBundle;
 
@@ -43,7 +43,7 @@ public class MainMenuUI implements Panelable {
     }
 
     private void openConferences() {
-        guiSystem.setPanel(new ConferenceMenu(guiSystem, this));
+        guiSystem.setPanel(new ConferenceMenuView(guiSystem, this));
     }
 
     @Override
