@@ -5,12 +5,13 @@ import util.ControllerBundle;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.function.Consumer;
 
 public class GUISystem {
     ControllerBundle controllerBundle;
 
     Runnable shutdown;
-    MainMenu mainMenu;
+    JFrame frame;
 
     /**
      * Constructs the main UI system.
@@ -26,19 +27,10 @@ public class GUISystem {
     /**
      * Runs the main UI loop
      * <p>
-     * If the user is not logged in, present login/register prompts. Otherwise, send them to the main menu.
+     * If the user is not logged in, present loginUI/register prompts. Otherwise, send them to the main menu.
      */
     public void run() {
-
-        // this is some serious testing stuff... so I'm not sure if this is how it's supposed to work
-        // also, this stuff seems to run on a different thread, so we gotta fix how saving to disk is done
-        this.mainMenu = new MainMenu(controllerBundle);
-
-        JFrame frame = new JFrame("Bad LinkedIn Clone");
-        frame.setContentPane(mainMenu.getPanel());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        frame = new JFrame("Bad LinkedIn Clone");
 
         // Adds listener to run shutdown sequence
         frame.addWindowListener(new WindowAdapter() {
@@ -47,5 +39,23 @@ public class GUISystem {
                 shutdown.run();
             }
         });
+
+        // Lambda function to allow child frames to "request" a frame
+        Consumer<Panelable> setPanel = (newPanel) -> {
+            System.out.println("Setting panel: " + newPanel);
+
+            frame.setContentPane(newPanel.getPanel());
+
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+        };
+
+        /**
+         * Currently, auto login doesn't work since the set panel here is after the constructor. Will be fixed eventually.
+         * -Henry
+         */
+        Panelable loginUI = new LoginUI(controllerBundle, setPanel);
+        setPanel.accept(loginUI);
     }
 }
