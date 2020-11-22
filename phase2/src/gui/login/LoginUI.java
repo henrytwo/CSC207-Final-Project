@@ -1,5 +1,7 @@
-package gui;
+package gui.login;
 
+import gui.GUISystem;
+import gui.util.Panelable;
 import user.UserController;
 import util.ControllerBundle;
 
@@ -19,7 +21,7 @@ public class LoginUI implements Panelable {
      *
      * @param guiSystem parent gui system
      */
-    LoginUI(GUISystem guiSystem) {
+    public LoginUI(GUISystem guiSystem) {
         this.guiSystem = guiSystem;
 
         controllerBundle = guiSystem.getControllerBundle();

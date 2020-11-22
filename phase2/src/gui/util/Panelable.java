@@ -1,4 +1,4 @@
-package gui;
+package gui.util;
 
 import javax.swing.*;
 

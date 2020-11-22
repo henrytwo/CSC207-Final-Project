@@ -1,7 +1,7 @@
-package gui.conference;
+package gui.mainMenu.conference;
 
 import gui.GUISystem;
-import gui.Panelable;
+import gui.util.Panelable;
 
 import javax.swing.*;
 

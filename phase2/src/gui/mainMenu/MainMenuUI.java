@@ -1,6 +1,8 @@
-package gui;
+package gui.mainMenu;
 
-import gui.conference.ConferenceMenu;
+import gui.GUISystem;
+import gui.util.Panelable;
+import gui.mainMenu.conference.ConferenceMenu;
 import user.UserController;
 import util.ControllerBundle;
 
@@ -23,7 +25,7 @@ public class MainMenuUI implements Panelable {
      *
      * @param guiSystem parent gui system
      */
-    MainMenuUI(GUISystem guiSystem) {
+    public MainMenuUI(GUISystem guiSystem) {
         this.guiSystem = guiSystem;
 
         controllerBundle = guiSystem.getControllerBundle();
