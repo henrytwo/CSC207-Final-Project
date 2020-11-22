@@ -1,5 +1,6 @@
 package gui.conference;
 
+import gui.util.enums.PanelNames;
 import gui.util.factories.PanelFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
@@ -24,10 +25,10 @@ public class ConferenceMenuPresenter implements ActionListener {
 
         switch (e.getActionCommand()) {
             case "mainMenu":
-                mainFrame.setPanel(frameFactory.createPanel("mainMenu"));
+                mainFrame.setPanel(frameFactory.createPanel(PanelNames.names.MAIN_MENU));
                 break;
             case "testThing":
-                mainFrame.setPanel(frameFactory.createPanel("test", new HashMap<>() {
+                mainFrame.setPanel(frameFactory.createPanel(PanelNames.names.TEST, new HashMap<>() {
                     {
                         put("conference", "yes");
                     }

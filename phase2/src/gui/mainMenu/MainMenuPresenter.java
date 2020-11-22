@@ -1,5 +1,6 @@
 package gui.mainMenu;
 
+import gui.util.enums.PanelNames;
 import gui.util.factories.PanelFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanelFactory;
@@ -36,10 +37,10 @@ public class MainMenuPresenter implements ActionListener {
                 break;
             case "logout":
                 userController.logout();
-                mainFrame.setPanel(frameFactory.createPanel("login"));
+                mainFrame.setPanel(frameFactory.createPanel(PanelNames.names.LOGIN));
                 break;
             case "conferenceMenu":
-                mainFrame.setPanel(frameFactory.createPanel("conferenceMenu"));
+                mainFrame.setPanel(frameFactory.createPanel(PanelNames.names.CONFERENCES));
                 break;
         }
 

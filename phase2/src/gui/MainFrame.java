@@ -1,5 +1,6 @@
 package gui;
 
+import gui.util.enums.PanelNames;
 import gui.util.factories.PanelFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
@@ -58,9 +59,9 @@ public class MainFrame implements IFrame {
         IPanelFactory panelFactory = new PanelFactory(this);
 
         if (controllerBundle.getUserController().getCurrentUser() != null) {
-            setPanel(panelFactory.createPanel("mainMenu"));
+            setPanel(panelFactory.createPanel(PanelNames.names.MAIN_MENU));
         } else {
-            setPanel(panelFactory.createPanel("login"));
+            setPanel(panelFactory.createPanel(PanelNames.names.LOGIN));
         }
     }
 

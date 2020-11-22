@@ -1,9 +1,10 @@
 package gui.util.factories;
 
+import gui.conference.ConferenceMenuView;
 import gui.login.LoginView;
 import gui.mainMenu.MainMenuView;
-import gui.conference.ConferenceMenuView;
 import gui.test.TestView;
+import gui.util.enums.PanelNames;
 import gui.util.exception.NullPanelException;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
@@ -22,7 +23,7 @@ public class PanelFactory implements IPanelFactory {
     }
 
     @Override
-    public IPanel createPanel(String name) {
+    public IPanel createPanel(PanelNames.names name) {
         return createPanel(name, null);
     }
 
@@ -34,15 +35,15 @@ public class PanelFactory implements IPanelFactory {
      * @return
      */
     @Override
-    public IPanel createPanel(String name, Map<String, String> arguments) {
+    public IPanel createPanel(PanelNames.names name, Map<String, String> arguments) {
         switch (name) {
-            case "login":
+            case LOGIN:
                 return new LoginView(mainFrame);
-            case "mainMenu":
+            case MAIN_MENU:
                 return new MainMenuView(mainFrame);
-            case "test":
+            case TEST:
                 return new TestView(mainFrame, arguments.get("conference"));
-            case "conferenceMenu":
+            case CONFERENCES:
                 return new ConferenceMenuView(mainFrame);
             default:
                 throw new NullPanelException(name);
