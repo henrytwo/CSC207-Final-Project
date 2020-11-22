@@ -5,7 +5,6 @@ import util.ControllerBundle;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.function.Consumer;
 
 public class GUISystem {
     ControllerBundle controllerBundle;
@@ -25,6 +24,42 @@ public class GUISystem {
     }
 
     /**
+     * Sets the current panel
+     *
+     * @param newPanel the new panel to load
+     */
+    public void setPanel(Panelable newPanel) {
+        frame.setContentPane(newPanel.getPanel());
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    /**
+     * Fetches the current user's login status and presents the appropriate page. The login and main menu pages are a
+     * bit special since they are at the top level and don't have a "parent" panel themselves.
+     * <p>
+     * All subsequent panels should be loaded using the setPanel method.
+     */
+    public void refreshLogin() {
+        if (controllerBundle.getUserController().getCurrentUser() != null) {
+            setPanel(new MainMenuUI(this));
+        } else {
+            setPanel(new LoginUI(this));
+        }
+    }
+
+    /**
+     * Gets the controller bundle
+     *
+     * @return the controller bundle
+     */
+    public ControllerBundle getControllerBundle() {
+        return controllerBundle;
+    }
+
+    /**
      * Runs the main UI loop
      * <p>
      * If the user is not logged in, present loginUI/register prompts. Otherwise, send them to the main menu.
@@ -40,22 +75,6 @@ public class GUISystem {
             }
         });
 
-        // Lambda function to allow child frames to "request" a frame
-        Consumer<Panelable> setPanel = (newPanel) -> {
-            System.out.println("Setting panel: " + newPanel);
-
-            frame.setContentPane(newPanel.getPanel());
-
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setVisible(true);
-        };
-
-        /**
-         * Currently, auto login doesn't work since the set panel here is after the constructor. Will be fixed eventually.
-         * -Henry
-         */
-        Panelable loginUI = new LoginUI(controllerBundle, setPanel);
-        setPanel.accept(loginUI);
+        refreshLogin();
     }
 }

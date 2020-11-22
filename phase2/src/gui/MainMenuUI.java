@@ -1,45 +1,47 @@
 package gui;
 
+import gui.conference.ConferenceMenu;
 import user.UserController;
 import util.ControllerBundle;
 
 import javax.swing.*;
-import java.util.function.Consumer;
 
 public class MainMenuUI implements Panelable {
     private JPanel panel;
-    private JButton logout;
+    private JButton logoutButton;
     private JList list1;
     private JPasswordField passwordField1;
     private JTable table1;
-
-    private Consumer<Panelable> setPanel;
+    private JButton conferencesButton;
 
     private ControllerBundle controllerBundle;
     private UserController userController;
-    private Panelable parent;
+    private GUISystem guiSystem;
 
     /**
-     * Constructs the main menu
+     * Constructs the main menu. This is a root UI component, which has no parent.
      *
-     * @param controllerBundle bundle of controllers used by the system
-     * @param setPanel         set the current panel in the frame
-     * @param parent           parent panelable object
+     * @param guiSystem parent gui system
      */
-    MainMenuUI(ControllerBundle controllerBundle, Consumer<Panelable> setPanel, Panelable parent) {
-        this.parent = parent;
-        this.setPanel = setPanel;
-        this.controllerBundle = controllerBundle;
-        this.userController = controllerBundle.getUserController();
+    MainMenuUI(GUISystem guiSystem) {
+        this.guiSystem = guiSystem;
+
+        controllerBundle = guiSystem.getControllerBundle();
+        userController = controllerBundle.getUserController();
 
         System.out.println("Current user: " + userController.getCurrentUser());
 
-        logout.addActionListener((e) -> logout());
+        logoutButton.addActionListener((e) -> logout());
+        conferencesButton.addActionListener((e) -> openConferences());
     }
 
     private void logout() {
         userController.logout();
-        setPanel.accept(parent);
+        guiSystem.refreshLogin();
+    }
+
+    private void openConferences() {
+        guiSystem.setPanel(new ConferenceMenu(guiSystem, this));
     }
 
     @Override
