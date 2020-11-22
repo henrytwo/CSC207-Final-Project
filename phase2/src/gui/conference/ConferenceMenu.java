@@ -13,6 +13,8 @@ public class ConferenceMenu implements Panelable {
     private JButton button2;
     private JButton button3;
     private JButton backToMainMenuButton;
+    private JCheckBox checkBox1;
+    private JTextPane textPane1;
 
     private GUISystem guiSystem;
     private Panelable parent;
