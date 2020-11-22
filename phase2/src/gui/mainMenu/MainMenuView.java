@@ -5,14 +5,12 @@ import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
 
-public class MainMenuView implements IPanel {
+public class MainMenuView implements IPanel, IMainMenuView {
     private JPanel panel;
     private JButton logoutButton;
-    private JList list1;
-    private JPasswordField passwordField1;
-    private JTable table1;
     private JButton conferencesButton;
     private JButton stuffButton;
+    private JLabel signedInAs;
 
     private MainMenuPresenter mainMenuPresenter;
 
@@ -32,6 +30,11 @@ public class MainMenuView implements IPanel {
 
         conferencesButton.setActionCommand("conferenceMenu");
         conferencesButton.addActionListener(mainMenuPresenter);
+    }
+
+    @Override
+    public void setSignedInAs(String text) {
+        signedInAs.setText(text);
     }
 
     @Override

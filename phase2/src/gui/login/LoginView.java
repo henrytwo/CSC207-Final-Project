@@ -5,7 +5,7 @@ import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
 
-public class LoginView implements IPanel {
+public class LoginView implements IPanel, ILoginView {
     private JPanel panel;
     private JButton loginButton;
 

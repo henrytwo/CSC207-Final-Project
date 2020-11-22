@@ -2,7 +2,6 @@ package gui.login;
 
 import gui.util.factories.PanelFactory;
 import gui.util.interfaces.IFrame;
-import gui.util.interfaces.IPanel;
 import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import util.ControllerBundle;
@@ -13,19 +12,22 @@ import java.awt.event.ActionListener;
 public class LoginPresenter implements ActionListener {
 
     private IFrame mainFrame;
-    private IPanel loginView;
+    private ILoginView loginView;
 
-    public LoginPresenter(IFrame mainFrame, IPanel loginView) {
+    ControllerBundle controllerBundle;
+    UserController userController;
+
+    public LoginPresenter(IFrame mainFrame, ILoginView loginView) {
         this.mainFrame = mainFrame;
         this.loginView = loginView;
+
+        controllerBundle = mainFrame.getControllerBundle();
+        userController = controllerBundle.getUserController();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         IPanelFactory panelFactory = new PanelFactory(mainFrame);
-
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        UserController userController = controllerBundle.getUserController();
 
         switch (e.getActionCommand()) {
             case "login":
