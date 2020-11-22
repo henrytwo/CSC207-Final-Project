@@ -1,10 +1,11 @@
 package gui.mainMenu.conference;
 
-import gui.util.Panelable;
+import gui.util.interfaces.IFrame;
+import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
 
-public class TestView implements Panelable {
+public class TestView implements IPanel {
     private JTabbedPane tabbedPane1;
     private JPanel panel;
     private JList list1;
@@ -20,8 +21,19 @@ public class TestView implements Panelable {
     private JCheckBox checkBox3;
     private JCheckBox checkBox4;
 
+    IPanel parent;
+    IFrame mainFrame;
+
+    public TestView(IFrame mainFrame, IPanel parent, String conference) {
+
+        this.mainFrame = mainFrame;
+
+        System.out.println("Conference: " + conference);
+
+    }
+
     @Override
-    public Panelable getParent() {
+    public IPanel getParent() {
         return null;
     }
 

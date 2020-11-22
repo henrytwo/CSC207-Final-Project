@@ -2,15 +2,15 @@ package gui;
 
 import gui.login.LoginView;
 import gui.mainMenu.MainMenuView;
-import gui.util.Frameable;
-import gui.util.Panelable;
+import gui.util.interfaces.IFrame;
+import gui.util.interfaces.IPanel;
 import util.ControllerBundle;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class GUISystem implements Frameable {
+public class GUISystem implements IFrame {
     ControllerBundle controllerBundle;
 
     Runnable shutdown;
@@ -33,7 +33,7 @@ public class GUISystem implements Frameable {
      * @param newPanel the new panel to load
      */
     @Override
-    public void setPanel(Panelable newPanel) {
+    public void setPanel(IPanel newPanel) {
         frame.setContentPane(newPanel.getPanel());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

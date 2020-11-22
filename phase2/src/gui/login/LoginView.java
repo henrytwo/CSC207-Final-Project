@@ -1,13 +1,13 @@
 package gui.login;
 
 import gui.GUISystem;
-import gui.util.Panelable;
+import gui.util.interfaces.IPanel;
 import user.UserController;
 import util.ControllerBundle;
 
 import javax.swing.*;
 
-public class LoginView implements Panelable {
+public class LoginView implements IPanel {
     private JPanel panel;
     private JButton loginButton;
 
@@ -40,7 +40,7 @@ public class LoginView implements Panelable {
     }
 
     @Override
-    public Panelable getParent() {
+    public IPanel getParent() {
         return null;
     }
 

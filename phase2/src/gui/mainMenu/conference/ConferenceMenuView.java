@@ -1,11 +1,12 @@
 package gui.mainMenu.conference;
 
 import gui.GUISystem;
-import gui.util.Panelable;
+import gui.util.interfaces.IFrame;
+import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
 
-public class ConferenceMenuView implements Panelable {
+public class ConferenceMenuView implements IPanel {
     private JPanel panel;
     private JList list1;
     private JTabbedPane tabbedPane1;
@@ -16,8 +17,8 @@ public class ConferenceMenuView implements Panelable {
     private JCheckBox checkBox1;
     private JTextPane textPane1;
 
-    private GUISystem guiSystem;
-    private Panelable parent;
+    private IFrame guiSystem;
+    private IPanel parent;
 
     private ConferenceMenuPresenter conferenceMenuPresenter;
 
@@ -25,7 +26,7 @@ public class ConferenceMenuView implements Panelable {
      * @param guiSystem parent gui system
      * @param parent parent component so that we can go back a page if needed
      */
-    public ConferenceMenuView(GUISystem guiSystem, Panelable parent) {
+    public ConferenceMenuView(IFrame guiSystem, IPanel parent) {
         this.guiSystem = guiSystem;
         this.parent = parent;
 
@@ -39,7 +40,7 @@ public class ConferenceMenuView implements Panelable {
     }
 
     @Override
-    public Panelable getParent() {
+    public IPanel getParent() {
         return parent;
     }
 

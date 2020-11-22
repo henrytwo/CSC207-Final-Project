@@ -1,29 +1,37 @@
 package gui.mainMenu.conference;
 
-import gui.util.Frameable;
-import gui.util.Panelable;
+import gui.util.factories.PanelFactory;
+import gui.util.interfaces.IFrame;
+import gui.util.interfaces.IPanel;
+import gui.util.interfaces.IPanelFactory;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 public class ConferenceMenuPresenter implements ActionListener {
-    Panelable conferenceMenuView;
-    Frameable parentFrame;
+    private IPanel conferenceMenuView;
+    private IFrame mainFrame;
 
-    public ConferenceMenuPresenter(Frameable parentFrame, Panelable conferenceMenuView) {
+    public ConferenceMenuPresenter(IFrame mainFrame, IPanel conferenceMenuView) {
         this.conferenceMenuView = conferenceMenuView;
-        this.parentFrame = parentFrame;
+        this.mainFrame = mainFrame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        IPanelFactory frameFactory = new PanelFactory(mainFrame, conferenceMenuView);
+
         switch (e.getActionCommand()) {
             case "mainMenu":
-                parentFrame.setPanel(conferenceMenuView.getParent());
+                mainFrame.setPanel(conferenceMenuView.getParent());
                 break;
             case "testThing":
-                // ok this is kinda a bad practice, but need to figure out how they actually want this to be done...
-                parentFrame.setPanel(new TestView());
+                mainFrame.setPanel(frameFactory.createPanel("Test", new HashMap<>() {
+                    {
+                        put("conference", "yes");
+                    }
+                }));
                 break;
         }
     }

@@ -1,14 +1,11 @@
 package gui.mainMenu;
 
 import gui.GUISystem;
-import gui.util.Panelable;
-import gui.mainMenu.conference.ConferenceMenuView;
-import user.UserController;
-import util.ControllerBundle;
+import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
 
-public class MainMenuView implements Panelable {
+public class MainMenuView implements IPanel {
     private JPanel panel;
     private JButton logoutButton;
     private JList list1;
@@ -16,9 +13,7 @@ public class MainMenuView implements Panelable {
     private JTable table1;
     private JButton conferencesButton;
 
-    private ControllerBundle controllerBundle;
-    private UserController userController;
-    private GUISystem guiSystem;
+    private MainMenuPresenter mainMenuPresenter;
 
     /**
      * Constructs the main menu. This is a root UI component, which has no parent.
@@ -26,28 +21,17 @@ public class MainMenuView implements Panelable {
      * @param guiSystem parent gui system
      */
     public MainMenuView(GUISystem guiSystem) {
-        this.guiSystem = guiSystem;
+        mainMenuPresenter = new MainMenuPresenter(guiSystem, this);
 
-        controllerBundle = guiSystem.getControllerBundle();
-        userController = controllerBundle.getUserController();
+        logoutButton.setActionCommand("logout");
+        logoutButton.addActionListener(mainMenuPresenter);
 
-        System.out.println("Current user: " + userController.getCurrentUser());
-
-        logoutButton.addActionListener((e) -> logout());
-        conferencesButton.addActionListener((e) -> openConferences());
-    }
-
-    private void logout() {
-        userController.logout();
-        guiSystem.refreshLogin();
-    }
-
-    private void openConferences() {
-        guiSystem.setPanel(new ConferenceMenuView(guiSystem, this));
+        conferencesButton.setActionCommand("conferenceMenu");
+        conferencesButton.addActionListener(mainMenuPresenter);
     }
 
     @Override
-    public Panelable getParent() {
+    public IPanel getParent() {
         return null;
     }
 
