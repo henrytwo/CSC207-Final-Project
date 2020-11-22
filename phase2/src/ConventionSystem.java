@@ -10,7 +10,9 @@ import messaging.ConversationManager;
 import user.UserController;
 import user.UserManager;
 import gui.GUISystem;
+import util.ControllerBundle;
 
+import java.util.function.Function;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -59,14 +61,20 @@ public class ConventionSystem {
         EventController eventController = new EventController(conferenceManager, conversationManager);
         ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
 
-        GUISystem uiSystem = new GUISystem(userController, contactController, conversationController, roomController, eventController, conferenceController);
-        uiSystem.run();
+        // Packages up all the controllers in a nice bundle to make it easy to pass around UI components
+        // without super long parameter lists
+        ControllerBundle controllerBundle = new ControllerBundle(userController, contactController, conversationController, roomController, eventController, conferenceController);
 
-        // Serialize everything for the next run
-        System.out.println("Writing to disk...");
-        userManagerSerializer.save(userManager);
-        contactManagerSerializer.save(contactManager);
-        conversationManagerSerializer.save(conversationManager);
-        conferenceManagerSerializer.save(conferenceManager);
+        Runnable shutdown = () -> {
+            // Serialize everything for the next run
+            System.out.println("Writing to disk...");
+            userManagerSerializer.save(userManager);
+            contactManagerSerializer.save(contactManager);
+            conversationManagerSerializer.save(conversationManager);
+            conferenceManagerSerializer.save(conferenceManager);
+        };
+
+        GUISystem uiSystem = new GUISystem(controllerBundle, shutdown);
+        uiSystem.run();
     }
 }

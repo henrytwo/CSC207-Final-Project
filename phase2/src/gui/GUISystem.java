@@ -1,44 +1,26 @@
 package gui;
 
-import contact.ContactController;
-import convention.ConferenceController;
-import convention.EventController;
-import convention.RoomController;
-import messaging.ConversationController;
-import user.UserController;
+import util.ControllerBundle;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUISystem {
-    // User controller
-    UserController userController;
+    ControllerBundle controllerBundle;
 
-    // Messaging controllers
-    ContactController contactController;
-    ConversationController conversationController;
-
-    // Convention controllers
-    RoomController roomController;
-    EventController eventController;
-    ConferenceController conferenceController;
+    Runnable shutdown;
+    MainMenu mainMenu;
 
     /**
      * Constructs the main UI system.
      *
-     * @param userController
-     * @param contactController
-     * @param conversationController
-     * @param roomController
-     * @param eventController
-     * @param conferenceController
+     * @param controllerBundle contains all of the controllers that the UI needs to interact with
+     * @param shutdown         runnable that is executed when JFrame is shut down
      */
-    public GUISystem(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
-        this.userController = userController;
-        this.contactController = contactController;
-        this.conversationController = conversationController;
-        this.roomController = roomController;
-        this.eventController = eventController;
-        this.conferenceController = conferenceController;
+    public GUISystem(ControllerBundle controllerBundle, Runnable shutdown) {
+        this.controllerBundle = controllerBundle;
+        this.shutdown = shutdown;
     }
 
     /**
@@ -50,12 +32,20 @@ public class GUISystem {
 
         // this is some serious testing stuff... so I'm not sure if this is how it's supposed to work
         // also, this stuff seems to run on a different thread, so we gotta fix how saving to disk is done
-        JFrame frame = new JFrame("Main Menu");
-        frame.setContentPane(new MainMenu().getPanel());
+        this.mainMenu = new MainMenu(controllerBundle);
+
+        JFrame frame = new JFrame("Bad LinkedIn Clone");
+        frame.setContentPane(mainMenu.getPanel());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
-
+        // Adds listener to run shutdown sequence
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                shutdown.run();
+            }
+        });
     }
 }
