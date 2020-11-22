@@ -21,6 +21,11 @@ public class Test implements Panelable {
     private JCheckBox checkBox4;
 
     @Override
+    public Panelable getParent() {
+        return null;
+    }
+
+    @Override
     public JPanel getPanel() {
         return panel;
     }

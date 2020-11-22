@@ -29,10 +29,18 @@ public class ConferenceMenuView implements Panelable {
         this.guiSystem = guiSystem;
         this.parent = parent;
 
-        this.conferenceMenuPresenter = new ConferenceMenuPresenter(this);
+        this.conferenceMenuPresenter = new ConferenceMenuPresenter(guiSystem, this);
 
+        backToMainMenuButton.setActionCommand("mainMenu");
         backToMainMenuButton.addActionListener(conferenceMenuPresenter);
+
+        openTestThingButton.setActionCommand("testThing");
         openTestThingButton.addActionListener(conferenceMenuPresenter);
+    }
+
+    @Override
+    public Panelable getParent() {
+        return parent;
     }
 
     @Override

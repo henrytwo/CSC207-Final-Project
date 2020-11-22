@@ -31,11 +31,17 @@ public class LoginUI implements Panelable {
     }
 
     private void login() {
+        userController.registerUser("wtf", "wtf", "wtf", "wtf");
         userController.login("wtf", "wtf");
 
         System.out.println(userController.getCurrentUser());
 
         guiSystem.refreshLogin();
+    }
+
+    @Override
+    public Panelable getParent() {
+        return null;
     }
 
     @Override

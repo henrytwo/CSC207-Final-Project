@@ -2,6 +2,7 @@ package gui;
 
 import gui.login.LoginUI;
 import gui.mainMenu.MainMenuUI;
+import gui.util.Frameable;
 import gui.util.Panelable;
 import util.ControllerBundle;
 
@@ -9,7 +10,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class GUISystem {
+public class GUISystem implements Frameable {
     ControllerBundle controllerBundle;
 
     Runnable shutdown;
@@ -31,6 +32,7 @@ public class GUISystem {
      *
      * @param newPanel the new panel to load
      */
+    @Override
     public void setPanel(Panelable newPanel) {
         frame.setContentPane(newPanel.getPanel());
 
@@ -45,6 +47,7 @@ public class GUISystem {
      * <p>
      * All subsequent panels should be loaded using the setPanel method.
      */
+    @Override
     public void refreshLogin() {
         if (controllerBundle.getUserController().getCurrentUser() != null) {
             setPanel(new MainMenuUI(this));
@@ -58,6 +61,7 @@ public class GUISystem {
      *
      * @return the controller bundle
      */
+    @Override
     public ControllerBundle getControllerBundle() {
         return controllerBundle;
     }

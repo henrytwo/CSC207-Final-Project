@@ -47,6 +47,11 @@ public class MainMenuUI implements Panelable {
     }
 
     @Override
+    public Panelable getParent() {
+        return null;
+    }
+
+    @Override
     public JPanel getPanel() {
         return panel;
     }
