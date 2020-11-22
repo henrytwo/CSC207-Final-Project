@@ -110,7 +110,7 @@ public class RoomController {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
         RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);
 
-        // Test if this room is being used by any events
+        // TestView if this room is being used by any events
         for (UUID eventUUID : eventManager.getEvents()) {
             if (eventManager.getEventRoom(eventUUID).equals(roomUUID)) {
                 throw new RoomInUseException(roomUUID, eventUUID);

@@ -81,7 +81,7 @@ public class ConferenceTest {
         conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
     }
 
-    // Test with and without permission
+    // TestView with and without permission
 
     // Admin tasks
 
@@ -110,7 +110,7 @@ public class ConferenceTest {
     //    - Invite? Search?
     // Register in event
     // List events
-    //    - Test the different ways to sort
+    //    - TestView the different ways to sort
 
     // Speaker tasks
 
@@ -230,7 +230,7 @@ public class ConferenceTest {
     public void testAddOrganizer() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
 
-        // Test that there is only the initial user
+        // TestView that there is only the initial user
         Set<UUID> organizers = conferenceController.getOrganizers(conferenceUUID, myUser);
         assertTrue(organizers.size() == 1 && organizers.contains(myUser));
 
@@ -261,7 +261,7 @@ public class ConferenceTest {
         // Add the new organizer
         conferenceController.addOrganizer(conferenceUUID, myUser, someOrganizer);
 
-        // Test that both users have been added
+        // TestView that both users have been added
         Set<UUID> organizers = conferenceController.getOrganizers(conferenceUUID, myUser);
         assertTrue(organizers.size() == 2 && organizers.contains(myUser) && organizers.contains(someOrganizer));
 
@@ -271,7 +271,7 @@ public class ConferenceTest {
         // Update pointer
         organizers = conferenceController.getOrganizers(conferenceUUID, myUser);
 
-        // Test that the organizer has indeed been removed
+        // TestView that the organizer has indeed been removed
         assertEquals(organizers.size(), 1);
         assertTrue(organizers.contains(myUser));
         assertFalse(organizers.contains(someOrganizer));
@@ -432,7 +432,7 @@ public class ConferenceTest {
      */
 
 
-    /* Test attendee operations */
+    /* TestView attendee operations */
     @Test(timeout = 100)
     public void testJoinConference() {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
@@ -787,7 +787,7 @@ public class ConferenceTest {
         assertEquals(eventController.getSpeakerEvents(conferenceUUID, someSpeaker).size(), 2);
     }
 
-    // Test conflicts
+    // TestView conflicts
 
     @Test(timeout = 100, expected = PermissionException.class)
     public void testGetEventsInsufficientPermission() {
@@ -795,7 +795,7 @@ public class ConferenceTest {
         eventController.getEvents(conferenceUUID, randomUser);
     }
 
-    /* Test speaker operations */
+    /* TestView speaker operations */
 
     @Test(timeout = 100)
     public void testListAttendees() {

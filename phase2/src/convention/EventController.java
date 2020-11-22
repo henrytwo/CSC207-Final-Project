@@ -244,10 +244,10 @@ public class EventController {
 
         CalendarManager roomCalendarManager = roomManager.getCalendarManager(roomUUID);
 
-        // Test that the speakers are not being double booked
+        // TestView that the speakers are not being double booked
         testSpeakersTimeRangeOccupied(conferenceUUID, speakerUUIDs, timeRange);
 
-        // Test that the room is not being double booked
+        // TestView that the room is not being double booked
         if (roomCalendarManager.timeRangeOccupied(timeRange)) {
             throw new CalendarDoubleBookingException();
         } else {
@@ -277,7 +277,7 @@ public class EventController {
 
         TimeRange eventTimeRange = eventManager.getEventTimeRange(eventUUID);
 
-        // Test that the speaker is not being double booked
+        // TestView that the speaker is not being double booked
         testSpeakersTimeRangeOccupied(conferenceUUID, new HashSet<UUID>() {
             {
                 add(speakerUUID);
@@ -392,7 +392,7 @@ public class EventController {
         CalendarManager newRoomCalendarManager = roomManager.getCalendarManager(newRoomUUID);
         CalendarManager oldRoomCalendarManager = roomManager.getCalendarManager(oldRoomUUID);
 
-        // Test that the room is not being double booked
+        // TestView that the room is not being double booked
         if (newRoomCalendarManager.timeRangeOccupied(eventTimeRange)) {
             throw new CalendarDoubleBookingException();
         } else {
@@ -428,10 +428,10 @@ public class EventController {
 
         CalendarManager roomCalendarManager = roomManager.getCalendarManager(roomUUID);
 
-        // Test that there are no speaker conflicts
+        // TestView that there are no speaker conflicts
         testSpeakersTimeRangeOccupied(conferenceUUID, speakerUUIDs, timeRange);
 
-        // Test that the room is not being double booked
+        // TestView that the room is not being double booked
         if (roomCalendarManager.timeRangeOccupied(timeRange)) {
             throw new CalendarDoubleBookingException();
         } else {

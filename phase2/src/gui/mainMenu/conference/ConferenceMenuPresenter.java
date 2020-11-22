@@ -23,7 +23,7 @@ public class ConferenceMenuPresenter implements ActionListener {
                 break;
             case "testThing":
                 // ok this is kinda a bad practice, but need to figure out how they actually want this to be done...
-                parentFrame.setPanel(new Test());
+                parentFrame.setPanel(new TestView());
                 break;
         }
     }

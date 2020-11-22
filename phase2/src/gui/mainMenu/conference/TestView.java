@@ -4,7 +4,7 @@ import gui.util.Panelable;
 
 import javax.swing.*;
 
-public class Test implements Panelable {
+public class TestView implements Panelable {
     private JTabbedPane tabbedPane1;
     private JPanel panel;
     private JList list1;

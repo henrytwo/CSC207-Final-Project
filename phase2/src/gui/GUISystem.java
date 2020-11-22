@@ -1,7 +1,7 @@
 package gui;
 
-import gui.login.LoginUI;
-import gui.mainMenu.MainMenuUI;
+import gui.login.LoginView;
+import gui.mainMenu.MainMenuView;
 import gui.util.Frameable;
 import gui.util.Panelable;
 import util.ControllerBundle;
@@ -50,9 +50,9 @@ public class GUISystem implements Frameable {
     @Override
     public void refreshLogin() {
         if (controllerBundle.getUserController().getCurrentUser() != null) {
-            setPanel(new MainMenuUI(this));
+            setPanel(new MainMenuView(this));
         } else {
-            setPanel(new LoginUI(this));
+            setPanel(new LoginView(this));
         }
     }
 

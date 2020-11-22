@@ -8,7 +8,7 @@ import util.ControllerBundle;
 
 import javax.swing.*;
 
-public class MainMenuUI implements Panelable {
+public class MainMenuView implements Panelable {
     private JPanel panel;
     private JButton logoutButton;
     private JList list1;
@@ -25,7 +25,7 @@ public class MainMenuUI implements Panelable {
      *
      * @param guiSystem parent gui system
      */
-    public MainMenuUI(GUISystem guiSystem) {
+    public MainMenuView(GUISystem guiSystem) {
         this.guiSystem = guiSystem;
 
         controllerBundle = guiSystem.getControllerBundle();

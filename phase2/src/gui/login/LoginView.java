@@ -7,7 +7,7 @@ import util.ControllerBundle;
 
 import javax.swing.*;
 
-public class LoginUI implements Panelable {
+public class LoginView implements Panelable {
     private JPanel panel;
     private JButton loginButton;
 
@@ -21,7 +21,7 @@ public class LoginUI implements Panelable {
      *
      * @param guiSystem parent gui system
      */
-    public LoginUI(GUISystem guiSystem) {
+    public LoginView(GUISystem guiSystem) {
         this.guiSystem = guiSystem;
 
         controllerBundle = guiSystem.getControllerBundle();
