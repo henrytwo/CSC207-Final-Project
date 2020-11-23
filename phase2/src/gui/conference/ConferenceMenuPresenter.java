@@ -6,34 +6,30 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 import gui.util.interfaces.IPanelFactory;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-public class ConferenceMenuPresenter implements ActionListener {
+public class ConferenceMenuPresenter {
     private IPanel conferenceMenuView;
     private IFrame mainFrame;
 
-    public ConferenceMenuPresenter(IFrame mainFrame, IPanel conferenceMenuView) {
+    private IPanelFactory frameFactory;
+
+    ConferenceMenuPresenter(IFrame mainFrame, IPanel conferenceMenuView) {
         this.conferenceMenuView = conferenceMenuView;
         this.mainFrame = mainFrame;
+
+        frameFactory = new PanelFactory(mainFrame);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        IPanelFactory frameFactory = new PanelFactory(mainFrame);
+    void mainMenu() {
+        mainFrame.setPanel(frameFactory.createPanel(PanelNames.names.MAIN_MENU));
+    }
 
-        switch (e.getActionCommand()) {
-            case "mainMenu":
-                mainFrame.setPanel(frameFactory.createPanel(PanelNames.names.MAIN_MENU));
-                break;
-            case "testThing":
-                mainFrame.setPanel(frameFactory.createPanel(PanelNames.names.TEST, new HashMap<>() {
-                    {
-                        put("conference", "yes");
-                    }
-                }));
-                break;
-        }
+    void test() {
+        mainFrame.setPanel(frameFactory.createPanel(PanelNames.names.TEST, new HashMap<>() {
+            {
+                put("conference", "yes");
+            }
+        }));
     }
 }

@@ -19,8 +19,7 @@ public class LoginView implements IPanel, ILoginView {
     public LoginView(IFrame mainFrame) {
         loginPresenter = new LoginPresenter(mainFrame, this);
 
-        loginButton.setActionCommand("login");
-        loginButton.addActionListener(loginPresenter);
+        loginButton.addActionListener((e) -> loginPresenter.login());
     }
 
     @Override

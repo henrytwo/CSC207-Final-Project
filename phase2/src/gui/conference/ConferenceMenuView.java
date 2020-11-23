@@ -5,7 +5,7 @@ import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
 
-public class ConferenceMenuView implements IPanel {
+public class ConferenceMenuView implements IPanel, IConferenceMenu {
     private JPanel panel;
     private JList list1;
     private JTabbedPane tabbedPane1;
@@ -28,11 +28,8 @@ public class ConferenceMenuView implements IPanel {
 
         this.conferenceMenuPresenter = new ConferenceMenuPresenter(guiSystem, this);
 
-        backToMainMenuButton.setActionCommand("mainMenu");
-        backToMainMenuButton.addActionListener(conferenceMenuPresenter);
-
-        openTestThingButton.setActionCommand("testThing");
-        openTestThingButton.addActionListener(conferenceMenuPresenter);
+        backToMainMenuButton.addActionListener((e) -> conferenceMenuPresenter.mainMenu());
+        openTestThingButton.addActionListener((e) -> conferenceMenuPresenter.test());
     }
 
     @Override

@@ -22,14 +22,8 @@ public class MainMenuView implements IPanel, IMainMenuView {
     public MainMenuView(IFrame guiSystem) {
         mainMenuPresenter = new MainMenuPresenter(guiSystem, this);
 
-        stuffButton.setActionCommand("stuff");
-        stuffButton.addActionListener(mainMenuPresenter);
-
-        logoutButton.setActionCommand("logout");
-        logoutButton.addActionListener(mainMenuPresenter);
-
-        conferencesButton.setActionCommand("conferenceMenu");
-        conferencesButton.addActionListener(mainMenuPresenter);
+        logoutButton.addActionListener((e) -> mainMenuPresenter.logout());
+        conferencesButton.addActionListener((e) -> mainMenuPresenter.conferenceMenu());
     }
 
     @Override

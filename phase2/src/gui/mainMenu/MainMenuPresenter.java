@@ -7,42 +7,34 @@ import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import util.ControllerBundle;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-public class MainMenuPresenter implements ActionListener {
+public class MainMenuPresenter {
     IMainMenuView mainMenuView;
     IFrame mainFrame;
 
     ControllerBundle controllerBundle;
     UserController userController;
 
-    public MainMenuPresenter(IFrame mainFrame, IMainMenuView mainMenuView) {
+    IPanelFactory frameFactory;
+
+    MainMenuPresenter(IFrame mainFrame, IMainMenuView mainMenuView) {
         this.mainMenuView = mainMenuView;
         this.mainFrame = mainFrame;
 
         controllerBundle = mainFrame.getControllerBundle();
         userController = controllerBundle.getUserController();
 
+        frameFactory = new PanelFactory(mainFrame);
+
         mainMenuView.setSignedInAs(String.format("Signed in as %s", userController.getUserFullName(userController.getCurrentUser())));
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        IPanelFactory frameFactory = new PanelFactory(mainFrame);
+    void logout() {
+        userController.logout();
+        mainFrame.setPanel(frameFactory.createPanel(PanelNames.names.LOGIN));
+    }
 
-        switch (e.getActionCommand()) {
-            case "stuff":
-                // test interacting with the view
-                break;
-            case "logout":
-                userController.logout();
-                mainFrame.setPanel(frameFactory.createPanel(PanelNames.names.LOGIN));
-                break;
-            case "conferenceMenu":
-                mainFrame.setPanel(frameFactory.createPanel(PanelNames.names.CONFERENCES));
-                break;
-        }
+    void conferenceMenu() {
 
+        mainFrame.setPanel(frameFactory.createPanel(PanelNames.names.CONFERENCES));
     }
 }
