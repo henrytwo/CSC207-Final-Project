@@ -8,15 +8,22 @@ import gui.util.interfaces.IPanelFactory;
 import util.ControllerBundle;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Stores the primary JFrame and the necessary tools to navigate between pages
+ */
 public class MainFrame implements IFrame {
-    ControllerBundle controllerBundle;
+    private ControllerBundle controllerBundle;
 
-    Runnable shutdown;
-    JFrame frame;
-    IPanelFactory panelFactory;
+    private Runnable shutdown;
+    private JFrame frame;
+    private IPanelFactory panelFactory;
+
+    private final int initialWidth = 1100;
+    private final int initialHeight = 700;
 
     /**
      * Constructs the main UI system.
@@ -55,6 +62,11 @@ public class MainFrame implements IFrame {
         frame.setVisible(true);
     }
 
+    /**
+     * Get the panel factory initialized for this IFrame
+     *
+     * @return panel factory initialized for this IFrame
+     */
     @Override
     public IPanelFactory getPanelFactory() {
         return panelFactory;
@@ -75,6 +87,11 @@ public class MainFrame implements IFrame {
                 shutdown.run();
             }
         });
+
+        // Restrict size
+        Dimension initialDimension = new Dimension(initialWidth, initialHeight);
+
+        frame.setMinimumSize(initialDimension);
 
         // Open panel depending on login state
         if (controllerBundle.getUserController().getCurrentUser() != null) {

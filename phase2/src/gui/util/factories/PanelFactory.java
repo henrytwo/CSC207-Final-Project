@@ -12,8 +12,11 @@ import gui.util.interfaces.IPanelFactory;
 
 import java.util.Map;
 
+/**
+ * Creates IPanels for an IFrame given its name and some initializing arguments
+ */
 public class PanelFactory implements IPanelFactory {
-    IFrame mainFrame;
+    private IFrame mainFrame;
 
     /**
      * @param mainFrame main IFrame for the system
@@ -22,13 +25,19 @@ public class PanelFactory implements IPanelFactory {
         this.mainFrame = mainFrame;
     }
 
+    /**
+     * Generate a panel given its name with no parameters
+     *
+     * @param name
+     * @return
+     */
     @Override
     public IPanel createPanel(PanelNames.names name) {
         return createPanel(name, null);
     }
 
     /**
-     * Generates an IPanel given its name
+     * Generates an IPanel given its name and (optional) initializing arguments
      *
      * @param name
      * @param arguments
