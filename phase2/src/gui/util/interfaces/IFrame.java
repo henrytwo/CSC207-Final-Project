@@ -6,4 +6,5 @@ public interface IFrame {
     void setPanel(IPanel panel);
 
     ControllerBundle getControllerBundle();
+    IPanelFactory getPanelFactory();
 }

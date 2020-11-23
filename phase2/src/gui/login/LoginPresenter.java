@@ -1,7 +1,6 @@
 package gui.login;
 
 import gui.util.enums.PanelNames;
-import gui.util.factories.PanelFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanelFactory;
 import user.UserController;
@@ -11,11 +10,10 @@ public class LoginPresenter {
 
     private IFrame mainFrame;
     private ILoginView loginView;
+    private IPanelFactory panelFactory;
 
     ControllerBundle controllerBundle;
     UserController userController;
-
-    IPanelFactory panelFactory;
 
     LoginPresenter(IFrame mainFrame, ILoginView loginView) {
         this.mainFrame = mainFrame;
@@ -23,8 +21,7 @@ public class LoginPresenter {
 
         controllerBundle = mainFrame.getControllerBundle();
         userController = controllerBundle.getUserController();
-
-        panelFactory = new PanelFactory(mainFrame);
+        panelFactory = mainFrame.getPanelFactory();
     }
 
     void login() {

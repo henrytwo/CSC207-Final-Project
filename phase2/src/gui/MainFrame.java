@@ -16,6 +16,7 @@ public class MainFrame implements IFrame {
 
     Runnable shutdown;
     JFrame frame;
+    IPanelFactory panelFactory;
 
     /**
      * Constructs the main UI system.
@@ -26,6 +27,8 @@ public class MainFrame implements IFrame {
     public MainFrame(ControllerBundle controllerBundle, Runnable shutdown) {
         this.controllerBundle = controllerBundle;
         this.shutdown = shutdown;
+
+        panelFactory = new PanelFactory(this);
     }
 
     /**
@@ -52,17 +55,9 @@ public class MainFrame implements IFrame {
         frame.setVisible(true);
     }
 
-    /**
-     * Creates the initial panel according to login state
-     */
-    private void updateLoginState() {
-        IPanelFactory panelFactory = new PanelFactory(this);
-
-        if (controllerBundle.getUserController().getCurrentUser() != null) {
-            setPanel(panelFactory.createPanel(PanelNames.names.MAIN_MENU));
-        } else {
-            setPanel(panelFactory.createPanel(PanelNames.names.LOGIN));
-        }
+    @Override
+    public IPanelFactory getPanelFactory() {
+        return panelFactory;
     }
 
     /**
@@ -81,6 +76,11 @@ public class MainFrame implements IFrame {
             }
         });
 
-        updateLoginState();
+        // Open panel depending on login state
+        if (controllerBundle.getUserController().getCurrentUser() != null) {
+            setPanel(panelFactory.createPanel(PanelNames.names.MAIN_MENU));
+        } else {
+            setPanel(panelFactory.createPanel(PanelNames.names.LOGIN));
+        }
     }
 }
