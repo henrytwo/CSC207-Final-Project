@@ -7,5 +7,5 @@ import java.util.Map;
 public interface IPanelFactory {
     IPanel createPanel(PanelNames.names name);
 
-    IPanel createPanel(PanelNames.names name, Map<String, String> arguments);
+    IPanel createPanel(PanelNames.names name, Map<String, Object> arguments);
 }

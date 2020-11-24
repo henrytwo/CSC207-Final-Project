@@ -1,5 +1,6 @@
 package gui.util.factories;
 
+import gui.conference.ConferenceMenuTabs;
 import gui.conference.ConferenceMenuView;
 import gui.contacts.ContactsView;
 import gui.login.LoginView;
@@ -11,6 +12,7 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 import gui.util.interfaces.IPanelFactory;
 
+import java.util.UUID;
 import java.util.Map;
 
 /**
@@ -45,14 +47,16 @@ public class PanelFactory implements IPanelFactory {
      * @return
      */
     @Override
-    public IPanel createPanel(PanelNames.names name, Map<String, String> arguments) {
+    public IPanel createPanel(PanelNames.names name, Map<String, Object> arguments) {
         switch (name) {
             case LOGIN:
                 return new LoginView(mainFrame);
             case MAIN_MENU:
                 return new MainMenuView(mainFrame);
-            case CONFERENCES:
+            case CONFERENCE_MENU:
                 return new ConferenceMenuView(mainFrame);
+            case CONFERENCE_MENU_TABS:
+                return new ConferenceMenuTabs(mainFrame, (UUID) arguments.get("conferenceUUID"));
             case CONTACTS:
                 return new ContactsView(mainFrame);
             case MESSAGING:

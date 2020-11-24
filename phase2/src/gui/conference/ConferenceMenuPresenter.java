@@ -1,12 +1,15 @@
 package gui.conference;
 
 import convention.ConferenceController;
+import gui.util.enums.PanelNames;
 import gui.util.interfaces.IFrame;
+import gui.util.interfaces.IPanel;
 import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import util.ControllerBundle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,8 +48,16 @@ class ConferenceMenuPresenter {
         // Don't need to perform an update if we're already selected
         if (index != currentConferenceIndex) {
             currentConferenceIndex = index;
+            UUID selectedConferenceUUID = conferenceUUIDs.get(index);
 
-            System.out.println("Selected: " + conferenceUUIDs.get(index));
+            // Update UI with tabs for this conference
+            IPanel conferenceMenuTabsPanel = panelFactory.createPanel(PanelNames.names.CONFERENCE_MENU_TABS, new HashMap<>() {
+                {
+                    put("conferenceUUID", selectedConferenceUUID);
+                }
+            });
+
+            conferenceMenuView.setConferenceMenuTabs(conferenceMenuTabsPanel);
         }
     }
 

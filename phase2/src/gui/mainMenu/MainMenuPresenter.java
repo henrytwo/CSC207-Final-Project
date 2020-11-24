@@ -25,7 +25,7 @@ class MainMenuPresenter {
         userController = controllerBundle.getUserController();
 
         // Initiate main menu tabs
-        IPanel conferenceMenuView = panelFactory.createPanel(PanelNames.names.CONFERENCES);
+        IPanel conferenceMenuView = panelFactory.createPanel(PanelNames.names.CONFERENCE_MENU);
         mainMenuView.setConferenceMenuPanel(conferenceMenuView);
 
         IPanel messagingView = panelFactory.createPanel(PanelNames.names.MESSAGING);

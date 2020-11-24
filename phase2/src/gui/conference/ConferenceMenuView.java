@@ -7,11 +7,6 @@ import javax.swing.*;
 
 public class ConferenceMenuView implements IPanel, IConferenceMenuView {
     private JPanel panel;
-    private JTabbedPane conferenceTabs;
-    private JPanel roomsPanel;
-    private JPanel settingsPanel;
-    private JPanel eventsPanel;
-    private JPanel generalPanel;
     private JButton createConferenceButton;
     private JList conferenceList;
     private JSplitPane conferenceSplitPane;
@@ -25,6 +20,11 @@ public class ConferenceMenuView implements IPanel, IConferenceMenuView {
         conferenceMenuPresenter = new ConferenceMenuPresenter(guiSystem, this);
 
         conferenceList.addListSelectionListener((e) -> conferenceMenuPresenter.selectConference(conferenceList.getSelectedIndex()));
+    }
+
+    @Override
+    public void setConferenceMenuTabs(IPanel tabsPanel) {
+        conferenceSplitPane.setRightComponent(tabsPanel.getPanel());
     }
 
     @Override
