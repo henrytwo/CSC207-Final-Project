@@ -7,6 +7,7 @@ import convention.event.EventManager;
 import convention.room.Room;
 import convention.room.RoomManager;
 import convention.exception.*;
+import user.UserManager;
 
 import java.io.Serializable;
 import java.util.*;
@@ -16,6 +17,11 @@ import java.util.*;
  */
 public class ConferenceManager implements Serializable {
     private Map<UUID, Conference> conferences = new HashMap<>();
+    private UserManager userManager;
+
+    public ConferenceManager(UserManager userManager) {
+        this.userManager = userManager;
+    }
 
     /**
      * Conference names must be non-empty; this method tests for that condition
@@ -207,10 +213,10 @@ public class ConferenceManager implements Serializable {
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to test
-     * @return true iff the userUUID belongs to an organizer
+     * @return true iff the userUUID belongs to an organizer OR the user has god mode
      */
     public boolean isOrganizer(UUID conferenceUUID, UUID userUUID) {
-        return getConference(conferenceUUID).isOrganizer(userUUID);
+        return getConference(conferenceUUID).isOrganizer(userUUID) || userManager.getUserIsGod(userUUID);
     }
 
     /**

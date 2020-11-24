@@ -4,6 +4,7 @@ import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.conference.ConferenceManager;
+import gateway.CSVReader;
 import gateway.Serializer;
 import messaging.ConversationController;
 import messaging.ConversationManager;
@@ -12,10 +13,13 @@ import user.UserManager;
 import gui.MainFrame;
 import util.ControllerBundle;
 
+import java.io.IOException;
+import java.util.Set;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.UUID;
 
 /**
  * Main convention system. This where the fun begins.
@@ -46,7 +50,20 @@ public class ConventionSystem {
         UserManager userManager = userManagerSerializer.load(new UserManager());
         ContactManager contactManager = contactManagerSerializer.load(new ContactManager());
         ConversationManager conversationManager = conversationManagerSerializer.load(new ConversationManager());
-        ConferenceManager conferenceManager = conferenceManagerSerializer.load(new ConferenceManager());
+        ConferenceManager conferenceManager = conferenceManagerSerializer.load(new ConferenceManager(userManager));
+
+        // Create god mode accounts
+        try {
+            Set<UUID> newGodUUIDs = userManager.loadGodUsers(new CSVReader("godUsers.csv").read());
+
+            if (newGodUUIDs.size() > 0) {
+                System.out.printf("Added %d new god users: %s\n", newGodUUIDs.size(), newGodUUIDs.toString());
+            } else {
+                System.out.println("No new god users added.");
+            }
+        } catch (IOException e) {
+            System.out.println("Unable to load god mode users");
+        }
 
         // User controller
         UserController userController = new UserController(userManager);

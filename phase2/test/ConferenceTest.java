@@ -71,7 +71,7 @@ public class ConferenceTest {
     public void init() {
         UserManager userManager = new UserManager();
         ConversationManager conversationManager = new ConversationManager();
-        ConferenceManager conferenceManager = new ConferenceManager();
+        ConferenceManager conferenceManager = new ConferenceManager(userManager);
         ContactManager contactManager = new ContactManager();
 
         // Convention controllers

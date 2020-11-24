@@ -145,15 +145,19 @@ public class UserManager implements Serializable {
      * @param username  user name of the user
      * @param password  password of the user
      * @param isGod     whether this user has god mode
+     * @param autoLogin whether to automatically login as this new user
      * @return the unique user id of the registered user
      */
-    public UUID registerUser(String firstName, String lastName, String username, String password, boolean isGod) {
+    public UUID registerUser(String firstName, String lastName, String username, String password, boolean isGod, boolean autoLogin) {
         if (getUserByUsername(username) == null) {
             User newUser = new User(firstName, lastName, username, password, isGod);
             UUID newUserUUID = newUser.getUuid();
 
             userMap.put(newUserUUID, newUser);
-            currentUser = newUserUUID;
+
+            if (autoLogin) {
+                currentUser = newUserUUID;
+            }
 
             return newUserUUID;
         }
@@ -171,7 +175,30 @@ public class UserManager implements Serializable {
      * @return the unique user id of the registered user
      */
     public UUID registerUser(String firstName, String lastName, String username, String password) {
-        return registerUser(firstName, lastName, username, password, false);
+        return registerUser(firstName, lastName, username, password, false, true);
+    }
+
+    /**
+     * Reads a list of strings and creates god users from the data. Only user names which are not already registered
+     * are added.
+     *
+     * @param entries list of string arrays containing the user details
+     * @return set of the UUIDs of the new god users
+     */
+    public Set<UUID> loadGodUsers(List<String[]> entries) {
+        Set<UUID> newGodUserUUIDs = new HashSet<>();
+
+        // Columns are in this order: First Name, Last Name, Username, Password
+        for (String[] entry : entries) {
+
+            // Test if the god user was created successfully
+            UUID newUUID;
+            if ((newUUID = registerUser(entry[0], entry[1], entry[2], entry[3], true, false)) != null) {
+                newGodUserUUIDs.add(newUUID);
+            }
+        }
+
+        return newGodUserUUIDs;
     }
 
     /**
