@@ -8,14 +8,12 @@ import javax.swing.*;
 public class MainMenuView implements IPanel, IMainMenuView {
     private JPanel mainMenuPanel;
     private JButton logoutButton;
-    private JTabbedPane mainMenuTabs;
     private MainMenuPresenter mainMenuPresenter;
+    private JTabbedPane mainMenuTabs;
 
     private JPanel conferenceMenuPanel;
     private JPanel messagingPanel;
     private JPanel contactsPanel;
-    private JPanel topbar;
-    private JLabel topbarLabel;
 
     /**
      * Constructs the main menu.
@@ -26,6 +24,11 @@ public class MainMenuView implements IPanel, IMainMenuView {
         mainMenuPresenter = new MainMenuPresenter(guiSystem, this);
 
         logoutButton.addActionListener((e) -> mainMenuPresenter.logout());
+    }
+
+    @Override
+    public void setTabIndex(int index) {
+        mainMenuTabs.setSelectedIndex(index);
     }
 
     @Override

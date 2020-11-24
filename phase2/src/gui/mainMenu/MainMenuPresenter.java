@@ -7,21 +7,21 @@ import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import util.ControllerBundle;
 
-public class MainMenuPresenter {
-    IMainMenuView mainMenuView;
-    IFrame mainFrame;
-    IPanelFactory panelFactory;
+class MainMenuPresenter {
+    private IMainMenuView mainMenuView;
+    private IFrame mainFrame;
+    private IPanelFactory panelFactory;
 
-    ControllerBundle controllerBundle;
-    UserController userController;
+    private UserController userController;
 
     MainMenuPresenter(IFrame mainFrame, IMainMenuView mainMenuView) {
         this.mainMenuView = mainMenuView;
         this.mainFrame = mainFrame;
 
-        // Initiate controllers
         panelFactory = mainFrame.getPanelFactory();
-        controllerBundle = mainFrame.getControllerBundle();
+
+        // Initiate controllers
+        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         userController = controllerBundle.getUserController();
 
         // Initiate main menu tabs
@@ -41,10 +41,5 @@ public class MainMenuPresenter {
     void logout() {
         userController.logout();
         mainFrame.setPanel(panelFactory.createPanel(PanelNames.names.LOGIN));
-    }
-
-    void conferenceMenu() {
-
-        mainFrame.setPanel(panelFactory.createPanel(PanelNames.names.CONFERENCES));
     }
 }

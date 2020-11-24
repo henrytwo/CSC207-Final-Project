@@ -25,8 +25,8 @@ public class LoginPresenter {
     }
 
     void login() {
-        userController.registerUser("wtf", "wtf", "wtf", "wtf");
-        userController.login("wtf", "wtf");
+        userController.registerUser("Test", "Testerson", "test", "test");
+        userController.login("test", "test");
         mainFrame.setPanel(panelFactory.createPanel(PanelNames.names.MAIN_MENU));
     }
 }

@@ -7,4 +7,5 @@ public interface IMainMenuView {
     void setConferenceMenuPanel(IPanel panel);
     void setMessagingPanel(IPanel panel);
     void setContactsPanel(IPanel panel);
+    void setTabIndex(int index);
 }
