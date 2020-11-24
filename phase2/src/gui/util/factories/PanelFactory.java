@@ -3,7 +3,6 @@ package gui.util.factories;
 import gui.conference.ConferenceMenuView;
 import gui.login.LoginView;
 import gui.mainMenu.MainMenuView;
-import gui.test.TestView;
 import gui.util.enums.PanelNames;
 import gui.util.exception.NullPanelException;
 import gui.util.interfaces.IFrame;
@@ -50,8 +49,6 @@ public class PanelFactory implements IPanelFactory {
                 return new LoginView(mainFrame);
             case MAIN_MENU:
                 return new MainMenuView(mainFrame);
-            case TEST:
-                return new TestView(mainFrame, arguments.get("conference"));
             case CONFERENCES:
                 return new ConferenceMenuView(mainFrame);
             default:

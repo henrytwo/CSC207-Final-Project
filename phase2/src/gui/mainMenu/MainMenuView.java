@@ -6,13 +6,16 @@ import gui.util.interfaces.IPanel;
 import javax.swing.*;
 
 public class MainMenuView implements IPanel, IMainMenuView {
-    private JPanel panel;
+    private JPanel mainMenuPanel;
     private JButton logoutButton;
-    private JButton conferencesButton;
-    private JButton stuffButton;
-    private JLabel signedInAs;
-
+    private JTabbedPane mainMenuTabs;
     private MainMenuPresenter mainMenuPresenter;
+
+    private JPanel conferenceMenuPanel;
+    private JPanel messagingPanel;
+    private JPanel contactsPanel;
+    private JPanel topbar;
+    private JLabel topbarLabel;
 
     /**
      * Constructs the main menu.
@@ -23,16 +26,30 @@ public class MainMenuView implements IPanel, IMainMenuView {
         mainMenuPresenter = new MainMenuPresenter(guiSystem, this);
 
         logoutButton.addActionListener((e) -> mainMenuPresenter.logout());
-        conferencesButton.addActionListener((e) -> mainMenuPresenter.conferenceMenu());
     }
 
     @Override
-    public void setSignedInAs(String text) {
-        signedInAs.setText(text);
+    public void setConferenceMenuPanel(IPanel panel) {
+        conferenceMenuPanel.add(panel.getMainMenuPanel());
     }
 
     @Override
-    public JPanel getPanel() {
-        return panel;
+    public void setMessagingPanel(IPanel panel) {
+        messagingPanel.add(panel.getMainMenuPanel());
+    }
+
+    @Override
+    public void setContactsPanel(IPanel panel) {
+        contactsPanel.add(panel.getMainMenuPanel());
+    }
+
+    @Override
+    public void setLogoutButtonText(String text) {
+        logoutButton.setText(text);
+    }
+
+    @Override
+    public JPanel getMainMenuPanel() {
+        return mainMenuPanel;
     }
 }

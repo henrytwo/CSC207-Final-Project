@@ -55,7 +55,7 @@ public class MainFrame implements IFrame {
      */
     @Override
     public void setPanel(IPanel newPanel) {
-        frame.setContentPane(newPanel.getPanel());
+        frame.setContentPane(newPanel.getMainMenuPanel());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();

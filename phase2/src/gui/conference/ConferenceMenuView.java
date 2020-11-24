@@ -12,7 +12,6 @@ public class ConferenceMenuView implements IPanel, IConferenceMenuView {
     private JButton openTestThingButton;
     private JButton addStuffToList;
     private JButton button3;
-    private JButton backToMainMenuButton;
     private JCheckBox checkBox1;
     private JTextPane textPane1;
 
@@ -28,8 +27,6 @@ public class ConferenceMenuView implements IPanel, IConferenceMenuView {
 
         this.conferenceMenuPresenter = new ConferenceMenuPresenter(guiSystem, this);
 
-        backToMainMenuButton.addActionListener((e) -> conferenceMenuPresenter.mainMenu());
-        openTestThingButton.addActionListener((e) -> conferenceMenuPresenter.test());
         addStuffToList.addActionListener((e) -> conferenceMenuPresenter.addStuffToList());
     }
 
@@ -39,7 +36,7 @@ public class ConferenceMenuView implements IPanel, IConferenceMenuView {
     }
 
     @Override
-    public JPanel getPanel() {
+    public JPanel getMainMenuPanel() {
         return panel;
     }
 }
