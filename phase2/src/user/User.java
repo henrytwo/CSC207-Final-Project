@@ -14,20 +14,25 @@ public class User implements Serializable {
     private String password;
     private UUID uuid;
 
+    // God mode users are organizers for all conferences
+    private boolean isGod;
+
     /**
-     * Contructor for User
+     * Constructor for User
      *
      * @param firstName first name of the user
      * @param lastName  last name of the user
      * @param username  username the user wants to keep
      * @param password  password of the user
+     * @param isGod     whether a user is a god
      */
-    public User(String firstName, String lastName, String username, String password) {
+    public User(String firstName, String lastName, String username, String password, boolean isGod) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.uuid = UUID.randomUUID();
+        this.isGod = isGod;
     }
 
     /**
@@ -118,6 +123,15 @@ public class User implements Serializable {
      */
     public UUID getUuid() {
         return uuid;
+    }
+
+    /**
+     * Returns if this user is god
+     *
+     * @return true iff this user is god
+     */
+    public boolean getIsGod() {
+        return isGod;
     }
 }
 

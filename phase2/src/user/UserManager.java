@@ -31,7 +31,7 @@ public class UserManager implements Serializable {
     /**
      * Setter for User's first name
      *
-     * @param userUUID unique user id
+     * @param userUUID  unique user id
      * @param firstName user's first name
      */
     public void setUserFirstName(UUID userUUID, String firstName) {
@@ -89,6 +89,16 @@ public class UserManager implements Serializable {
     }
 
     /**
+     * Returns true iff the user has god mode
+     *
+     * @param userUUID unique user id
+     * @return true iff use has god mode
+     */
+    public boolean getUserIsGod(UUID userUUID) {
+        return getUser(userUUID).getIsGod();
+    }
+
+    /**
      * Setter for user's password
      *
      * @param userUUID unique user id
@@ -131,14 +141,15 @@ public class UserManager implements Serializable {
      * Method for registering a new user
      *
      * @param firstName first name of the user
-     * @param lastName last name of the user
-     * @param username user name of the user
-     * @param password password of the user
+     * @param lastName  last name of the user
+     * @param username  user name of the user
+     * @param password  password of the user
+     * @param isGod     whether this user has god mode
      * @return the unique user id of the registered user
      */
-    public UUID registerUser(String firstName, String lastName, String username, String password) {
+    public UUID registerUser(String firstName, String lastName, String username, String password, boolean isGod) {
         if (getUserByUsername(username) == null) {
-            User newUser = new User(firstName, lastName, username, password);
+            User newUser = new User(firstName, lastName, username, password, isGod);
             UUID newUserUUID = newUser.getUuid();
 
             userMap.put(newUserUUID, newUser);
@@ -148,6 +159,19 @@ public class UserManager implements Serializable {
         }
 
         return null;
+    }
+
+    /**
+     * Method for registering a new non-god user
+     *
+     * @param firstName first name of the user
+     * @param lastName  last name of the user
+     * @param username  user name of the user
+     * @param password  password of the user
+     * @return the unique user id of the registered user
+     */
+    public UUID registerUser(String firstName, String lastName, String username, String password) {
+        return registerUser(firstName, lastName, username, password, false);
     }
 
     /**
@@ -189,7 +213,7 @@ public class UserManager implements Serializable {
      *
      * @return a set of all users registered
      */
-    public Set<UUID> getAllUsers(){
+    public Set<UUID> getAllUsers() {
         return new HashSet<>(userMap.keySet());
     }
 
