@@ -7,7 +7,10 @@ import convention.permission.PermissionManager;
 import messaging.ConversationManager;
 import user.UserManager;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -344,7 +347,7 @@ public class ConferenceController {
      */
     public boolean isOrganizer(UUID conferenceUUID, UUID executorUUID, UUID targetUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
-        return conferenceManager.getOrganizers(conferenceUUID).contains(targetUUID);
+        return conferenceManager.isOrganizer(conferenceUUID, targetUUID, userManager);
     }
 
     /* Some more getters */
@@ -375,7 +378,7 @@ public class ConferenceController {
      */
     public boolean isSpeaker(UUID conferenceUUID, UUID executorUUID, UUID targetUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
-        return conferenceManager.getSpeakers(conferenceUUID).contains(targetUUID);
+        return conferenceManager.isSpeaker(conferenceUUID, targetUUID);
     }
 
     /**
@@ -404,7 +407,7 @@ public class ConferenceController {
      */
     public boolean isAttendee(UUID conferenceUUID, UUID executorUUID, UUID targetUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
-        return conferenceManager.getAttendees(conferenceUUID).contains(targetUUID);
+        return conferenceManager.isAttendee(conferenceUUID, targetUUID);
     }
 
     /**
