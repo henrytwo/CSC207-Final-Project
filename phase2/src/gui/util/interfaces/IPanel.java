@@ -3,5 +3,5 @@ package gui.util.interfaces;
 import javax.swing.*;
 
 public interface IPanel {
-    JPanel getMainMenuPanel();
+    JPanel getPanel();
 }

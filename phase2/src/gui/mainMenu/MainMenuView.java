@@ -30,17 +30,17 @@ public class MainMenuView implements IPanel, IMainMenuView {
 
     @Override
     public void setConferenceMenuPanel(IPanel panel) {
-        conferenceMenuPanel.add(panel.getMainMenuPanel());
+        conferenceMenuPanel.add(panel.getPanel());
     }
 
     @Override
     public void setMessagingPanel(IPanel panel) {
-        messagingPanel.add(panel.getMainMenuPanel());
+        messagingPanel.add(panel.getPanel());
     }
 
     @Override
     public void setContactsPanel(IPanel panel) {
-        contactsPanel.add(panel.getMainMenuPanel());
+        contactsPanel.add(panel.getPanel());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MainMenuView implements IPanel, IMainMenuView {
     }
 
     @Override
-    public JPanel getMainMenuPanel() {
+    public JPanel getPanel() {
         return mainMenuPanel;
     }
 }

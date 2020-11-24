@@ -23,7 +23,7 @@ public class LoginView implements IPanel, ILoginView {
     }
 
     @Override
-    public JPanel getMainMenuPanel() {
+    public JPanel getPanel() {
         return panel;
     }
 }

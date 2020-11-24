@@ -1,8 +1,10 @@
 package gui.util.factories;
 
 import gui.conference.ConferenceMenuView;
+import gui.contacts.ContactsView;
 import gui.login.LoginView;
 import gui.mainMenu.MainMenuView;
+import gui.messaging.MessagingView;
 import gui.util.enums.PanelNames;
 import gui.util.exception.NullPanelException;
 import gui.util.interfaces.IFrame;
@@ -51,6 +53,10 @@ public class PanelFactory implements IPanelFactory {
                 return new MainMenuView(mainFrame);
             case CONFERENCES:
                 return new ConferenceMenuView(mainFrame);
+            case CONTACTS:
+                return new ContactsView(mainFrame);
+            case MESSAGING:
+                return new MessagingView(mainFrame);
             default:
                 throw new NullPanelException(name);
         }

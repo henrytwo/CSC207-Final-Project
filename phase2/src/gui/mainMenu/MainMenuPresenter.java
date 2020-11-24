@@ -25,16 +25,13 @@ public class MainMenuPresenter {
         userController = controllerBundle.getUserController();
 
         // Initiate main menu tabs
-        /**
-         * TODO: Instantiate the proper panel for each tab
-         */
         IPanel conferenceMenuView = panelFactory.createPanel(PanelNames.names.CONFERENCES);
         mainMenuView.setConferenceMenuPanel(conferenceMenuView);
 
-        IPanel messagingView = panelFactory.createPanel(PanelNames.names.CONFERENCES);
+        IPanel messagingView = panelFactory.createPanel(PanelNames.names.MESSAGING);
         mainMenuView.setMessagingPanel(messagingView);
 
-        IPanel contactsView = panelFactory.createPanel(PanelNames.names.CONFERENCES);
+        IPanel contactsView = panelFactory.createPanel(PanelNames.names.CONTACTS);
         mainMenuView.setContactsPanel(contactsView);
 
         // Logout button text

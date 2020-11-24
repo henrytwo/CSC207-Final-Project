@@ -24,7 +24,7 @@ public class ConferenceMenuView implements IPanel, IConferenceMenuView {
     }
 
     @Override
-    public JPanel getMainMenuPanel() {
+    public JPanel getPanel() {
         return panel;
     }
 }

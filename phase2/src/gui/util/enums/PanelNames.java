@@ -4,6 +4,8 @@ public class PanelNames {
     public enum names {
         MAIN_MENU,
         LOGIN,
+        CONTACTS,
+        MESSAGING,
         CONFERENCES
     }
 }
