@@ -7,15 +7,12 @@ import javax.swing.*;
 
 public class ConferenceMenuView implements IPanel, IConferenceMenuView {
     private JPanel panel;
-    private JList list1;
-    private JTabbedPane tabbedPane1;
-    private JButton openTestThingButton;
-    private JButton addStuffToList;
-    private JButton button3;
-    private JCheckBox checkBox1;
-    private JTextPane textPane1;
-
-    private IFrame guiSystem;
+    private JList conferenceList;
+    private JTabbedPane conferenceTabs;
+    private JPanel roomsPanel;
+    private JPanel settingsPanel;
+    private JPanel eventsPanel;
+    private JPanel generalPanel;
 
     private ConferenceMenuPresenter conferenceMenuPresenter;
 
@@ -23,16 +20,7 @@ public class ConferenceMenuView implements IPanel, IConferenceMenuView {
      * @param guiSystem gui system
      */
     public ConferenceMenuView(IFrame guiSystem) {
-        this.guiSystem = guiSystem;
-
-        this.conferenceMenuPresenter = new ConferenceMenuPresenter(guiSystem, this);
-
-        addStuffToList.addActionListener((e) -> conferenceMenuPresenter.addStuffToList());
-    }
-
-    @Override
-    public void setList(String[] data) {
-        list1.setListData(data);
+        conferenceMenuPresenter = new ConferenceMenuPresenter(guiSystem, this);
     }
 
     @Override

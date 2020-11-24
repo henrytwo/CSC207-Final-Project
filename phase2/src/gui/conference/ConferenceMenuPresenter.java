@@ -16,7 +16,4 @@ public class ConferenceMenuPresenter {
         panelFactory = mainFrame.getPanelFactory();
     }
 
-    void addStuffToList() {
-        conferenceMenuView.setList(new String[]{"A", "B", "C"});
-    }
 }
