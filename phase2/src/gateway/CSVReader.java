@@ -18,10 +18,10 @@ public class CSVReader implements IFileReader {
         List<String[]> out = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(path));
 
-        String line = "";
+        String line;
 
         while ((line = br.readLine()) != null) {
-            out.add(br.readLine().split(","));
+            out.add(line.split(","));
         }
 
         return out;

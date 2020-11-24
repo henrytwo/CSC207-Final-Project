@@ -7,6 +7,8 @@ import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import util.ControllerBundle;
 
+import java.util.UUID;
+
 class MainMenuPresenter {
     private IMainMenuView mainMenuView;
     private IFrame mainFrame;
@@ -34,8 +36,15 @@ class MainMenuPresenter {
         IPanel contactsView = panelFactory.createPanel(PanelNames.names.CONTACTS);
         mainMenuView.setContactsPanel(contactsView);
 
+        UUID userUUID = userController.getCurrentUser();
+
         // Logout button text
-        mainMenuView.setLogoutButtonText(String.format("Logout (Signed in as %s)", userController.getUserFullName(userController.getCurrentUser())));
+        mainMenuView.setLogoutButtonText(String.format("Logout (Signed in as %s)", userController.getUserFullName(userUUID)));
+
+        // God mode users get something special
+        if (userController.getUserIsGod(userUUID)) {
+            mainMenuView.setTopBarPanelText("God mode enabled");
+        }
     }
 
     void logout() {

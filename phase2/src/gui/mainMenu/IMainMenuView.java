@@ -8,4 +8,5 @@ public interface IMainMenuView {
     void setMessagingPanel(IPanel panel);
     void setContactsPanel(IPanel panel);
     void setTabIndex(int index);
+    void setTopBarPanelText(String text);
 }

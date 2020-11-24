@@ -4,6 +4,7 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
 public class MainMenuView implements IPanel, IMainMenuView {
     private JPanel mainMenuPanel;
@@ -14,6 +15,8 @@ public class MainMenuView implements IPanel, IMainMenuView {
     private JPanel conferenceMenuPanel;
     private JPanel messagingPanel;
     private JPanel contactsPanel;
+    private JPanel topBarPanel;
+    private JLabel bottomMessageBar;
 
     /**
      * Constructs the main menu.
@@ -54,5 +57,11 @@ public class MainMenuView implements IPanel, IMainMenuView {
     @Override
     public JPanel getPanel() {
         return mainMenuPanel;
+    }
+
+    @Override
+    public void setTopBarPanelText(String text) {
+        bottomMessageBar.setVisible(text.length() > 0);
+        bottomMessageBar.setText(text);
     }
 }

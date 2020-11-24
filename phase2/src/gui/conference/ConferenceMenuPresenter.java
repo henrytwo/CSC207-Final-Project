@@ -69,14 +69,7 @@ class ConferenceMenuPresenter {
     private void updateConferences() {
         conferenceUUIDs = new ArrayList<>(conferenceController.getUserConferences(userUUID));
 
-        // If there are no conferences, then we should display something else
-        if (conferenceUUIDs.size() == 0) {
-
-            /**
-             * TODO: Deal with no conferences
-             */
-
-        } else {
+        if (conferenceUUIDs.size() > 0) {
             updateConferenceNames();
 
             // Set initial conference selection
