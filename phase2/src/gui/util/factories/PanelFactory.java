@@ -1,7 +1,8 @@
 package gui.util.factories;
 
-import gui.conference.ConferenceMenuTabs;
+import gui.conference.ConferenceTabsView;
 import gui.conference.ConferenceMenuView;
+import gui.conference.general.ConferenceGeneralView;
 import gui.contacts.ContactsView;
 import gui.login.LoginView;
 import gui.mainMenu.MainMenuView;
@@ -55,8 +56,10 @@ public class PanelFactory implements IPanelFactory {
                 return new MainMenuView(mainFrame);
             case CONFERENCE_MENU:
                 return new ConferenceMenuView(mainFrame);
-            case CONFERENCE_MENU_TABS:
-                return new ConferenceMenuTabs(mainFrame, (UUID) arguments.get("conferenceUUID"));
+            case CONFERENCE_TABS:
+                return new ConferenceTabsView(mainFrame, (IPanel) arguments.get("parentView"), (UUID) arguments.get("conferenceUUID"));
+            case CONFERENCE_GENERAL:
+                return new ConferenceGeneralView(mainFrame, (IPanel) arguments.get("parentView"), (UUID) arguments.get("conferenceUUID"));
             case CONTACTS:
                 return new ContactsView(mainFrame);
             case MESSAGING:

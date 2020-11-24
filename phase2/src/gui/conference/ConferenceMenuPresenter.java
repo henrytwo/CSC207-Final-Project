@@ -44,6 +44,10 @@ class ConferenceMenuPresenter {
         updateConferences();
     }
 
+    void createConference() {
+
+    }
+
     void selectConference(int index) {
         // Don't need to perform an update if we're already selected
         if (index != currentConferenceIndex) {
@@ -51,13 +55,14 @@ class ConferenceMenuPresenter {
             UUID selectedConferenceUUID = conferenceUUIDs.get(index);
 
             // Update UI with tabs for this conference
-            IPanel conferenceMenuTabsPanel = panelFactory.createPanel(PanelNames.names.CONFERENCE_MENU_TABS, new HashMap<>() {
+            IPanel conferenceTabsPanel = panelFactory.createPanel(PanelNames.names.CONFERENCE_TABS, new HashMap<>() {
                 {
+                    put("parentView", conferenceMenuView);
                     put("conferenceUUID", selectedConferenceUUID);
                 }
             });
 
-            conferenceMenuView.setConferenceMenuTabs(conferenceMenuTabsPanel);
+            conferenceMenuView.setConferenceTabs(conferenceTabsPanel);
         }
     }
 

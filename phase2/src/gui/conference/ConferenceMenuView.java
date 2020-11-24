@@ -20,10 +20,11 @@ public class ConferenceMenuView implements IPanel, IConferenceMenuView {
         conferenceMenuPresenter = new ConferenceMenuPresenter(guiSystem, this);
 
         conferenceList.addListSelectionListener((e) -> conferenceMenuPresenter.selectConference(conferenceList.getSelectedIndex()));
+        createConferenceButton.addActionListener((e) -> conferenceMenuPresenter.createConference());
     }
 
     @Override
-    public void setConferenceMenuTabs(IPanel tabsPanel) {
+    public void setConferenceTabs(IPanel tabsPanel) {
         conferenceSplitPane.setRightComponent(tabsPanel.getPanel());
     }
 

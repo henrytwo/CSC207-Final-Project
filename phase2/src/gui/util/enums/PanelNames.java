@@ -7,6 +7,7 @@ public class PanelNames {
         CONTACTS,
         MESSAGING,
         CONFERENCE_MENU,
-        CONFERENCE_MENU_TABS
+        CONFERENCE_TABS,
+        CONFERENCE_GENERAL
     }
 }
