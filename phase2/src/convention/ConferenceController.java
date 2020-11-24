@@ -37,7 +37,7 @@ public class ConferenceController {
         this.eventController = eventController;
         this.conferenceManager = conferenceManager;
         this.userManager = userManager;
-        this.permissionManager = new PermissionManager(conferenceManager);
+        this.permissionManager = new PermissionManager(conferenceManager, userManager);
     }
 
     /* Conference operations */
@@ -64,7 +64,7 @@ public class ConferenceController {
         Set<UUID> myConferences = new HashSet<>();
 
         for (UUID conferenceUUID : conferenceManager.getConferences()) {
-            if (conferenceManager.isAffiliated(conferenceUUID, userUUID)) {
+            if (conferenceManager.isAffiliated(conferenceUUID, userUUID, userManager)) {
                 myConferences.add(conferenceUUID);
             }
         }
@@ -83,7 +83,7 @@ public class ConferenceController {
         Set<UUID> myNotConferences = new HashSet<>();
 
         for (UUID conferenceUUID : conferenceManager.getConferences()) {
-            if (!conferenceManager.isAffiliated(conferenceUUID, userUUID)) {
+            if (!conferenceManager.isAffiliated(conferenceUUID, userUUID, userManager)) {
                 myNotConferences.add(conferenceUUID);
             }
         }
@@ -237,7 +237,7 @@ public class ConferenceController {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
         // We must revoke all their roles
-        if (conferenceManager.isOrganizer(conferenceUUID, targetUserUUID)) {
+        if (conferenceManager.isOrganizer(conferenceUUID, targetUserUUID, userManager)) {
             conferenceManager.removeOrganizer(conferenceUUID, targetUserUUID);
         }
 

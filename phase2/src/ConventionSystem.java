@@ -50,7 +50,7 @@ public class ConventionSystem {
         UserManager userManager = userManagerSerializer.load(new UserManager());
         ContactManager contactManager = contactManagerSerializer.load(new ContactManager());
         ConversationManager conversationManager = conversationManagerSerializer.load(new ConversationManager());
-        ConferenceManager conferenceManager = conferenceManagerSerializer.load(new ConferenceManager(userManager));
+        ConferenceManager conferenceManager = conferenceManagerSerializer.load(new ConferenceManager());
 
         // Create god mode accounts
         try {
@@ -73,8 +73,8 @@ public class ConventionSystem {
         ConversationController conversationController = new ConversationController(contactManager, conversationManager);
 
         // Convention controllers
-        RoomController roomController = new RoomController(conferenceManager);
-        EventController eventController = new EventController(conferenceManager, conversationManager);
+        RoomController roomController = new RoomController(conferenceManager, userManager);
+        EventController eventController = new EventController(conferenceManager, conversationManager, userManager);
         ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
 
         // Packages up all the controllers in a nice bundle to make it easy to pass around UI components

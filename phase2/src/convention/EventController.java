@@ -10,6 +10,7 @@ import convention.exception.SpeakerDoubleBookingException;
 import convention.permission.PermissionManager;
 import convention.room.RoomManager;
 import messaging.ConversationManager;
+import user.UserManager;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,10 +27,10 @@ public class EventController {
     private PermissionManager permissionManager;
     private ConversationManager conversationManager;
 
-    public EventController(ConferenceManager conferenceManager, ConversationManager conversationManager) {
+    public EventController(ConferenceManager conferenceManager, ConversationManager conversationManager, UserManager userManager) {
         this.conferenceManager = conferenceManager;
         this.conversationManager = conversationManager;
-        this.permissionManager = new PermissionManager(conferenceManager);
+        this.permissionManager = new PermissionManager(conferenceManager, userManager);
     }
 
     /**

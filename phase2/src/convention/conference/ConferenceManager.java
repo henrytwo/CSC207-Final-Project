@@ -4,9 +4,12 @@ import convention.calendar.CalendarManager;
 import convention.calendar.TimeRange;
 import convention.event.Event;
 import convention.event.EventManager;
+import convention.exception.InvalidNameException;
+import convention.exception.LoneOrganizerException;
+import convention.exception.NullConferenceException;
+import convention.exception.NullUserException;
 import convention.room.Room;
 import convention.room.RoomManager;
-import convention.exception.*;
 import user.UserManager;
 
 import java.io.Serializable;
@@ -17,11 +20,6 @@ import java.util.*;
  */
 public class ConferenceManager implements Serializable {
     private Map<UUID, Conference> conferences = new HashMap<>();
-    private UserManager userManager;
-
-    public ConferenceManager(UserManager userManager) {
-        this.userManager = userManager;
-    }
 
     /**
      * Conference names must be non-empty; this method tests for that condition
@@ -189,12 +187,13 @@ public class ConferenceManager implements Serializable {
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to test
+     * @param userManager    User manager to fetch data from
      * @return true iff the userUUID is affiliated with this conference
      */
-    public boolean isAffiliated(UUID conferenceUUID, UUID userUUID) {
+    public boolean isAffiliated(UUID conferenceUUID, UUID userUUID, UserManager userManager) {
         return isAttendee(conferenceUUID, userUUID) ||
-               isSpeaker(conferenceUUID, userUUID) ||
-               isOrganizer(conferenceUUID, userUUID);
+                isSpeaker(conferenceUUID, userUUID) ||
+                isOrganizer(conferenceUUID, userUUID, userManager);
     }
 
     /**
@@ -213,9 +212,10 @@ public class ConferenceManager implements Serializable {
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to test
+     * @param userManager    User manager to fetch data fram
      * @return true iff the userUUID belongs to an organizer OR the user has god mode
      */
-    public boolean isOrganizer(UUID conferenceUUID, UUID userUUID) {
+    public boolean isOrganizer(UUID conferenceUUID, UUID userUUID, UserManager userManager) {
         return getConference(conferenceUUID).isOrganizer(userUUID) || (userManager.isUser(userUUID) && userManager.getUserIsGod(userUUID));
     }
 

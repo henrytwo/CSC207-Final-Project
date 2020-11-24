@@ -71,13 +71,13 @@ public class ConferenceTest {
     public void init() {
         UserManager userManager = new UserManager();
         ConversationManager conversationManager = new ConversationManager();
-        ConferenceManager conferenceManager = new ConferenceManager(userManager);
+        ConferenceManager conferenceManager = new ConferenceManager();
         ContactManager contactManager = new ContactManager();
 
         // Convention controllers
         conversationController = new ConversationController(contactManager, conversationManager);
-        roomController = new RoomController(conferenceManager);
-        eventController = new EventController(conferenceManager, conversationManager);
+        roomController = new RoomController(conferenceManager, userManager);
+        eventController = new EventController(conferenceManager, conversationManager, userManager);
         conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
     }
 
