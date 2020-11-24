@@ -109,6 +109,16 @@ public class UserManager implements Serializable {
     }
 
     /**
+     * Checks if a UUID belongs to a valid usuer
+     *
+     * @param userUUID UUID of user to check
+     * @return true iff the UUID corresponds to a valid user
+     */
+    public boolean isUser(UUID userUUID){
+        return userMap.get(userUUID) != null;
+    }
+
+    /**
      * Returns the user based on their id
      *
      * @param uuid unique user id

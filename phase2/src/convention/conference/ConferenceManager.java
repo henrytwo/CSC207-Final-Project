@@ -216,7 +216,7 @@ public class ConferenceManager implements Serializable {
      * @return true iff the userUUID belongs to an organizer OR the user has god mode
      */
     public boolean isOrganizer(UUID conferenceUUID, UUID userUUID) {
-        return getConference(conferenceUUID).isOrganizer(userUUID) || userManager.getUserIsGod(userUUID);
+        return getConference(conferenceUUID).isOrganizer(userUUID) || (userManager.isUser(userUUID) && userManager.getUserIsGod(userUUID));
     }
 
     /**
