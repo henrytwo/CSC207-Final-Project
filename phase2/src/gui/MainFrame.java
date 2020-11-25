@@ -1,7 +1,9 @@
 package gui;
 
-import gui.util.enums.PanelNames;
+import gui.util.enums.Names;
+import gui.util.factories.DialogFactory;
 import gui.util.factories.PanelFactory;
+import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 import gui.util.interfaces.IPanelFactory;
@@ -20,7 +22,9 @@ public class MainFrame implements IFrame {
 
     private Runnable shutdown;
     private JFrame frame;
+
     private IPanelFactory panelFactory;
+    private IDialogFactory dialogFactory;
 
     private final int initialWidth = 1100;
     private final int initialHeight = 700;
@@ -36,6 +40,7 @@ public class MainFrame implements IFrame {
         this.shutdown = shutdown;
 
         panelFactory = new PanelFactory(this);
+        dialogFactory = new DialogFactory(this);
     }
 
     /**
@@ -72,6 +77,16 @@ public class MainFrame implements IFrame {
         return panelFactory;
     }
 
+    @Override
+    public IDialogFactory getDialogFactory() {
+        return dialogFactory;
+    }
+
+    @Override
+    public JFrame getFrame() {
+        return frame;
+    }
+
     /**
      * Runs the main UI loop
      * <p>
@@ -95,9 +110,9 @@ public class MainFrame implements IFrame {
 
         // Open panel depending on login state
         if (controllerBundle.getUserController().getCurrentUser() != null) {
-            setPanel(panelFactory.createPanel(PanelNames.names.MAIN_MENU));
+            setPanel(panelFactory.createPanel(Names.panelNames.MAIN_MENU));
         } else {
-            setPanel(panelFactory.createPanel(PanelNames.names.LOGIN));
+            setPanel(panelFactory.createPanel(Names.panelNames.LOGIN));
         }
     }
 }

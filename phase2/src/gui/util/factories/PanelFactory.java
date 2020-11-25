@@ -1,13 +1,13 @@
 package gui.util.factories;
 
-import gui.conference.ConferenceTabsView;
-import gui.conference.ConferenceMenuView;
+import gui.conference.tabs.ConferenceTabsView;
+import gui.conference.menu.ConferenceMenuView;
 import gui.conference.general.ConferenceGeneralView;
 import gui.contacts.ContactsView;
 import gui.login.LoginView;
 import gui.mainMenu.MainMenuView;
 import gui.messaging.MessagingView;
-import gui.util.enums.PanelNames;
+import gui.util.enums.Names;
 import gui.util.exception.NullPanelException;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
@@ -36,7 +36,7 @@ public class PanelFactory implements IPanelFactory {
      * @return
      */
     @Override
-    public IPanel createPanel(PanelNames.names name) {
+    public IPanel createPanel(Names.panelNames name) {
         return createPanel(name, null);
     }
 
@@ -48,7 +48,7 @@ public class PanelFactory implements IPanelFactory {
      * @return
      */
     @Override
-    public IPanel createPanel(PanelNames.names name, Map<String, Object> arguments) {
+    public IPanel createPanel(Names.panelNames name, Map<String, Object> arguments) {
         switch (name) {
             case LOGIN:
                 return new LoginView(mainFrame);

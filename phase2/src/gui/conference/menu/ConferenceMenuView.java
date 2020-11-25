@@ -1,4 +1,4 @@
-package gui.conference;
+package gui.conference.menu;
 
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
@@ -20,8 +20,9 @@ public class ConferenceMenuView implements IPanel, IConferenceMenuView {
     public ConferenceMenuView(IFrame guiSystem) {
         conferenceMenuPresenter = new ConferenceMenuPresenter(guiSystem, this);
 
-        conferenceList.addListSelectionListener((e) -> conferenceMenuPresenter.selectConference(conferenceList.getSelectedIndex()));
+        conferenceList.addListSelectionListener((e) -> conferenceMenuPresenter.selectConferencePanel(conferenceList.getSelectedIndex()));
         createConferenceButton.addActionListener((e) -> conferenceMenuPresenter.createConference());
+        joinConferenceButton.addActionListener((e) -> conferenceMenuPresenter.joinConference());
     }
 
     @Override

@@ -1,9 +1,10 @@
-package gui.conference;
+package gui.conference.tabs;
 
+import gui.conference.tabs.ConferenceTabsPresenter;
+import gui.conference.tabs.IConferenceTabsView;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
-import java.awt.*;
 import java.util.UUID;
 import javax.swing.*;
 

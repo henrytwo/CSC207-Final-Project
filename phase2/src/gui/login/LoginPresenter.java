@@ -1,6 +1,6 @@
 package gui.login;
 
-import gui.util.enums.PanelNames;
+import gui.util.enums.Names;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanelFactory;
 import user.UserController;
@@ -27,7 +27,7 @@ public class LoginPresenter {
     void login() {
         userController.registerUser("Test", "Testerson", "test", "test");
         userController.login("test", "test");
-        mainFrame.setPanel(panelFactory.createPanel(PanelNames.names.MAIN_MENU));
+        mainFrame.setPanel(panelFactory.createPanel(Names.panelNames.MAIN_MENU));
     }
 
     /**
@@ -35,6 +35,6 @@ public class LoginPresenter {
      */
     void loginAsGod() {
         userController.login("henry", "henry");
-        mainFrame.setPanel(panelFactory.createPanel(PanelNames.names.MAIN_MENU));
+        mainFrame.setPanel(panelFactory.createPanel(Names.panelNames.MAIN_MENU));
     }
 }

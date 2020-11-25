@@ -1,7 +1,7 @@
 package gui.util.enums;
 
-public class PanelNames {
-    public enum names {
+public class Names {
+    public enum panelNames {
         MAIN_MENU,
         LOGIN,
         CONTACTS,
@@ -9,5 +9,9 @@ public class PanelNames {
         CONFERENCE_MENU,
         CONFERENCE_TABS,
         CONFERENCE_GENERAL
+    }
+
+    public enum dialogNames {
+        CONFERENCE_PICKER
     }
 }

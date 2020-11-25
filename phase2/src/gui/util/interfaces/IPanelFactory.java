@@ -1,11 +1,11 @@
 package gui.util.interfaces;
 
-import gui.util.enums.PanelNames;
+import gui.util.enums.Names;
 
 import java.util.Map;
 
 public interface IPanelFactory {
-    IPanel createPanel(PanelNames.names name);
+    IPanel createPanel(Names.panelNames name);
 
-    IPanel createPanel(PanelNames.names name, Map<String, Object> arguments);
+    IPanel createPanel(Names.panelNames name, Map<String, Object> arguments);
 }

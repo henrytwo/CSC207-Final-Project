@@ -1,4 +1,4 @@
-package gui.conference;
+package gui.conference.tabs;
 
 import gui.util.interfaces.IPanel;
 

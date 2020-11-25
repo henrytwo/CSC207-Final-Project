@@ -1,4 +1,4 @@
-package gui.conference;
+package gui.conference.menu;
 
 import gui.util.interfaces.IPanel;
 import java.util.UUID;
