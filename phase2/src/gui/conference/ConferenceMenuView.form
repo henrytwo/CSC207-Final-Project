@@ -10,12 +10,11 @@
     <children>
       <splitpane id="eb3ed" binding="conferenceSplitPane">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="200" height="200"/>
-          </grid>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <dividerLocation value="256"/>
+          <dividerLocation value="300"/>
+          <oneTouchExpandable value="false"/>
         </properties>
         <border type="none"/>
         <children>
@@ -32,21 +31,34 @@
                   <text value="Create Conference"/>
                 </properties>
               </component>
-              <scrollpane id="ad411">
+              <grid id="df77d" layout-manager="BorderLayout" hgap="0" vgap="0">
                 <constraints border-constraint="Center"/>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="5a4fc" class="javax.swing.JList" binding="conferenceList">
-                    <constraints/>
+                  <scrollpane id="ea4b2">
+                    <constraints border-constraint="Center"/>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="bcc81" class="javax.swing.JList" binding="conferenceList">
+                        <constraints/>
+                        <properties>
+                          <model/>
+                          <selectedIndex value="-1"/>
+                          <selectionMode value="0"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </scrollpane>
+                  <component id="ca09c" class="javax.swing.JButton" binding="joinConferenceButton">
+                    <constraints border-constraint="South"/>
                     <properties>
-                      <model/>
-                      <selectedIndex value="-1"/>
-                      <selectionMode value="0"/>
+                      <text value="Join Conference"/>
                     </properties>
                   </component>
                 </children>
-              </scrollpane>
+              </grid>
             </children>
           </grid>
           <grid id="82ac7" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

@@ -29,4 +29,12 @@ public class LoginPresenter {
         userController.login("test", "test");
         mainFrame.setPanel(panelFactory.createPanel(PanelNames.names.MAIN_MENU));
     }
+
+    /**
+     * TODO: REMOVE THIS WHEN THE LEGIT LOGIN PAGE IS DONE
+     */
+    void loginAsGod() {
+        userController.login("henry", "henry");
+        mainFrame.setPanel(panelFactory.createPanel(PanelNames.names.MAIN_MENU));
+    }
 }

@@ -8,6 +8,7 @@ import javax.swing.*;
 public class LoginView implements IPanel, ILoginView {
     private JPanel panel;
     private JButton loginButton;
+    private JButton godLoginButton;
 
     private LoginPresenter loginPresenter;
 
@@ -20,6 +21,7 @@ public class LoginView implements IPanel, ILoginView {
         loginPresenter = new LoginPresenter(mainFrame, this);
 
         loginButton.addActionListener((e) -> loginPresenter.login());
+        godLoginButton.addActionListener((e) -> loginPresenter.loginAsGod());
     }
 
     @Override

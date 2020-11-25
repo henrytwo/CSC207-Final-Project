@@ -10,6 +10,7 @@ public class ConferenceMenuView implements IPanel, IConferenceMenuView {
     private JButton createConferenceButton;
     private JList conferenceList;
     private JSplitPane conferenceSplitPane;
+    private JButton joinConferenceButton;
 
     private ConferenceMenuPresenter conferenceMenuPresenter;
 
