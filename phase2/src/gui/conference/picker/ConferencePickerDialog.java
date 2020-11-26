@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class ConferencePickerView implements IDialog {
+public class ConferencePickerDialog implements IDialog {
 
     /**
-     * TODO: - figure out if this works under MVP
+     * TODO: - deal with the getPanel issue?
      *       - how to deal with casting? factories return IDialog, which would be higher level than any specific interfaces
      */
 
@@ -25,7 +25,7 @@ public class ConferencePickerView implements IDialog {
 
     private ConferenceController conferenceController;
 
-    public ConferencePickerView(IFrame mainFrame, Set<UUID> availableConferenceUUIDs, String instructions) {
+    public ConferencePickerDialog(IFrame mainFrame, Set<UUID> availableConferenceUUIDs, String instructions) {
         this.mainFrame = mainFrame;
         this.availableConferenceUUIDs = new ArrayList<>(availableConferenceUUIDs);
         this.instructions = instructions;

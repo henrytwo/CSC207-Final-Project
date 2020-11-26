@@ -15,4 +15,12 @@ public class Names {
         CONFERENCE_PICKER,
         MESSAGE
     }
+
+    public enum dialogType {
+        ERROR,
+        INFORMATION,
+        WARNING,
+        QUESTION,
+        PLAIN
+    }
 }

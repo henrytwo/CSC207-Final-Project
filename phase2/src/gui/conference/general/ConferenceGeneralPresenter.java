@@ -7,8 +7,6 @@ import gui.util.interfaces.IFrame;
 import user.UserController;
 import util.ControllerBundle;
 
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.util.UUID;
 
 class ConferenceGeneralPresenter {
@@ -53,25 +51,24 @@ class ConferenceGeneralPresenter {
     }
 
     private void updateGeneralData() {
-
         boolean isSpeaker = conferenceController.isSpeaker(conferenceUUID, userUUID, userUUID);
 
         String[][] tableData = {
-                { "Conference Name", conferenceController.getConferenceName(conferenceUUID) },
-                { "Start", conferenceController.getConferenceTimeRange(conferenceUUID).getStart().toString() },
-                { "End", conferenceController.getConferenceTimeRange(conferenceUUID).getEnd().toString() },
-                { "UUID", conferenceUUID.toString() },
+                {"Conference Name", conferenceController.getConferenceName(conferenceUUID)},
+                {"Start", conferenceController.getConferenceTimeRange(conferenceUUID).getStart().toString()},
+                {"End", conferenceController.getConferenceTimeRange(conferenceUUID).getEnd().toString()},
+                {"UUID", conferenceUUID.toString()},
                 {},
-                { "# Rooms", "" + roomController.getRooms(conferenceUUID, userUUID).size() },
-                { "# Events", "" + eventController.getEvents(conferenceUUID, userUUID).size() },
+                {"# Rooms", "" + roomController.getRooms(conferenceUUID, userUUID).size()},
+                {"# Events", "" + eventController.getEvents(conferenceUUID, userUUID).size()},
                 {},
-                { "# Attendees", "" + conferenceController.getAttendees(conferenceUUID, userUUID).size() },
-                { "# Speakers", "" + conferenceController.getSpeakers(conferenceUUID, userUUID).size() },
-                { "# Organizers", "" + conferenceController.getOrganizers(conferenceUUID, userUUID).size() },
+                {"# Attendees", "" + conferenceController.getAttendees(conferenceUUID, userUUID).size()},
+                {"# Speakers", "" + conferenceController.getSpeakers(conferenceUUID, userUUID).size()},
+                {"# Organizers", "" + conferenceController.getOrganizers(conferenceUUID, userUUID).size()},
                 {},
-                { "Your role", role },
-                { "# Events you're registered in", "" + eventController.getAttendeeEvents(conferenceUUID, userUUID).size() },
-                { "# Events you're speaking at", isSpeaker ? ("" + eventController.getSpeakerEvents(conferenceUUID, userUUID).size()) : "N/A" }
+                {"Your role", role},
+                {"# Events you're registered in", "" + eventController.getAttendeeEvents(conferenceUUID, userUUID).size()},
+                {"# Events you're speaking at", isSpeaker ? ("" + eventController.getSpeakerEvents(conferenceUUID, userUUID).size()) : "N/A"}
         };
 
         String[] columnNames = {
@@ -79,8 +76,6 @@ class ConferenceGeneralPresenter {
                 "Value"
         };
 
-        TableModel tableModel = new DefaultTableModel(tableData, columnNames);
-
-        conferenceGeneralView.setTableModel(tableModel);
+        conferenceGeneralView.setTableData(tableData, columnNames);
     }
 }
