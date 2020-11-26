@@ -13,7 +13,8 @@ public class Names {
 
     public enum dialogNames {
         CONFERENCE_PICKER,
-        MESSAGE
+        MESSAGE,
+        CONFIRM_BOOLEAN
     }
 
     public enum dialogType {

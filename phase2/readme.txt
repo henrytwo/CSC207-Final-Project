@@ -17,3 +17,6 @@ CSC207 Group 11 - Phase 2
     Here's an account with god-mode permissions:
     Username: god
     Password: god
+
+    Note: In god mode, the act of leaving an event does nothing to the membership status, since membership for gods
+          is determined beyond the scope of a conference.

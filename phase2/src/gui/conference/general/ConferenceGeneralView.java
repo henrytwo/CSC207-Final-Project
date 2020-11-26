@@ -11,6 +11,7 @@ import java.util.UUID;
 public class ConferenceGeneralView implements IPanel, IConferenceGeneralView {
     private JPanel generalViewPanel;
     private JTable generalTable;
+    private JButton leaveConferenceButton;
 
     private UUID conferenceUUID;
 
@@ -20,6 +21,8 @@ public class ConferenceGeneralView implements IPanel, IConferenceGeneralView {
         this.conferenceUUID = conferenceUUID;
 
         conferenceGeneralPresenter = new ConferenceGeneralPresenter(mainFrame, this, conferenceUUID);
+
+        leaveConferenceButton.addActionListener((e) -> conferenceGeneralPresenter.leaveConference());
     }
 
     @Override

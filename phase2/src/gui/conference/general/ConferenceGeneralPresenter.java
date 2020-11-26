@@ -3,14 +3,20 @@ package gui.conference.general;
 import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
+import convention.exception.LoneOrganizerException;
+import gui.util.enums.Names;
+import gui.util.interfaces.IDialog;
+import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import user.UserController;
 import util.ControllerBundle;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 class ConferenceGeneralPresenter {
 
+    IDialogFactory dialogFactory;
     IConferenceGeneralView conferenceGeneralView;
 
     EventController eventController;
@@ -34,10 +40,54 @@ class ConferenceGeneralPresenter {
         eventController = controllerBundle.getEventController();
         roomController = controllerBundle.getRoomController();
 
+        dialogFactory = mainFrame.getDialogFactory();
+
         userUUID = userController.getCurrentUser();
 
         updateRole();
         updateGeneralData();
+    }
+
+    void leaveConference() {
+
+        // As a god user, you can't technically "leave" conferences, since your role is determined outside the scope
+        // of a conference in the user manager.
+        if (userController.getUserIsGod(userUUID)) {
+            IDialog cannotLeaveDialog = dialogFactory.createDialog(Names.dialogNames.MESSAGE, new HashMap<>() {
+                {
+                    put("message", "Unable to leave conference. God users are by definition organizers of all conferences in the system.");
+                    put("title", "Error");
+                    put("messageType", Names.dialogType.ERROR);
+                }
+            });
+
+            cannotLeaveDialog.show();
+        } else {
+            IDialog confirmLeaveDialog = dialogFactory.createDialog(Names.dialogNames.CONFIRM_BOOLEAN, new HashMap<>() {
+                {
+                    put("message", String.format("Are you sure you want to leave this conference? (%s)", conferenceController.getConferenceName(conferenceUUID)));
+                    put("title", "Confirm leave conference");
+                    put("messageType", Names.dialogType.QUESTION);
+                }
+            });
+
+            if ((boolean) confirmLeaveDialog.show()) {
+                try {
+                    conferenceController.leaveConference(conferenceUUID, userUUID, userUUID);
+                } catch (LoneOrganizerException e) {
+                    IDialog loneOrganizerDialog = dialogFactory.createDialog(Names.dialogNames.MESSAGE, new HashMap<>() {
+                        {
+                            put("message", "Unable to leave conference. There must be at least one organizer left in the conference.");
+                            put("title", "Error");
+                            put("messageType", Names.dialogType.ERROR);
+                        }
+                    });
+
+                    loneOrganizerDialog.show();
+                }
+            }
+        }
+
     }
 
     private void updateRole() {

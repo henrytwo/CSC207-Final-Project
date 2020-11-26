@@ -62,7 +62,7 @@ public class ConventionSystem {
                 System.out.println("No new god users added.");
             }
         } catch (IOException e) {
-            System.out.println("Unable to load god mode users");
+            System.out.println("Unable to load god mode users" + e);
         }
 
         // User controller
