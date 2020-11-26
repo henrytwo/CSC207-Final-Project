@@ -58,7 +58,7 @@ class ConferenceMenuPresenter {
         Set<UUID> availableConferenceUUIDs = conferenceController.getNotUserConferences(userUUID);
 
         if (availableConferenceUUIDs.size() == 0) {
-            IDialog noConferenceDialog = dialogFactory.createDialog(Names.dialogNames.MESSAGE, new HashMap<>() {
+            IDialog noConferenceDialog = dialogFactory.createDialog(Names.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("title", "Error");
                     put("message", "There are no conferences available for you to join.");
@@ -68,7 +68,7 @@ class ConferenceMenuPresenter {
 
             noConferenceDialog.show();
         } else {
-            IDialog conferencePicker = dialogFactory.createDialog(Names.dialogNames.CONFERENCE_PICKER, new HashMap<>() {
+            IDialog conferencePicker = dialogFactory.createDialog(Names.dialogNames.CONFERENCE_PICKER, new HashMap<String, Object>() {
                 {
                     put("instructions", "Choose a conference to join");
                     put("availableConferenceUUIDs", availableConferenceUUIDs);
@@ -106,7 +106,7 @@ class ConferenceMenuPresenter {
             UUID selectedConferenceUUID = conferenceUUIDs.get(index);
 
             // Update UI with tabs for this conference
-            IPanel conferenceTabsPanel = panelFactory.createPanel(Names.panelNames.CONFERENCE_TABS, new HashMap<>() {
+            IPanel conferenceTabsPanel = panelFactory.createPanel(Names.panelNames.CONFERENCE_TABS, new HashMap<String, Object>() {
                 {
                     put("conferenceUUID", selectedConferenceUUID);
                 }

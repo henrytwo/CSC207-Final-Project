@@ -53,7 +53,7 @@ class ConferenceGeneralPresenter {
         // As a god user, you can't technically "leave" conferences, since your role is determined outside the scope
         // of a conference in the user manager.
         if (userController.getUserIsGod(userUUID)) {
-            IDialog cannotLeaveDialog = dialogFactory.createDialog(Names.dialogNames.MESSAGE, new HashMap<>() {
+            IDialog cannotLeaveDialog = dialogFactory.createDialog(Names.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("message", "Unable to leave conference. God users are by definition organizers of all conferences in the system.");
                     put("title", "Error");
@@ -63,7 +63,7 @@ class ConferenceGeneralPresenter {
 
             cannotLeaveDialog.show();
         } else {
-            IDialog confirmLeaveDialog = dialogFactory.createDialog(Names.dialogNames.CONFIRM_BOOLEAN, new HashMap<>() {
+            IDialog confirmLeaveDialog = dialogFactory.createDialog(Names.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                 {
                     put("message", String.format("Are you sure you want to leave this conference? (%s)", conferenceController.getConferenceName(conferenceUUID)));
                     put("title", "Confirm leave conference");
@@ -75,7 +75,7 @@ class ConferenceGeneralPresenter {
                 try {
                     conferenceController.leaveConference(conferenceUUID, userUUID, userUUID);
                 } catch (LoneOrganizerException e) {
-                    IDialog loneOrganizerDialog = dialogFactory.createDialog(Names.dialogNames.MESSAGE, new HashMap<>() {
+                    IDialog loneOrganizerDialog = dialogFactory.createDialog(Names.dialogNames.MESSAGE, new HashMap<String, Object>() {
                         {
                             put("message", "Unable to leave conference. There must be at least one organizer left in the conference.");
                             put("title", "Error");

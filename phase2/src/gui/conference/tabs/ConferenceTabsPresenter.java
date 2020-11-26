@@ -49,7 +49,7 @@ public class ConferenceTabsPresenter {
 
     private void updateTabs() {
         if (hasAttendeePermissions) {
-            IPanel generalView = panelFactory.createPanel(Names.panelNames.CONFERENCE_GENERAL, new HashMap<>() {
+            IPanel generalView = panelFactory.createPanel(Names.panelNames.CONFERENCE_GENERAL, new HashMap<String, Object>() {
                 {
                     put("conferenceUUID", conferenceUUID);
                 }
