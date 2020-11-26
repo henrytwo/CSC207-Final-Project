@@ -7,7 +7,7 @@ import gui.contacts.ContactsView;
 import gui.login.LoginView;
 import gui.mainMenu.MainMenuView;
 import gui.messaging.MessagingView;
-import gui.util.enums.Names;
+import gui.util.enums.PanelFactoryOptions;
 import gui.util.exception.NullPanelException;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
@@ -36,7 +36,7 @@ public class PanelFactory implements IPanelFactory {
      * @return
      */
     @Override
-    public IPanel createPanel(Names.panelNames name) {
+    public IPanel createPanel(PanelFactoryOptions.panelNames name) {
         return createPanel(name, null);
     }
 
@@ -48,7 +48,7 @@ public class PanelFactory implements IPanelFactory {
      * @return
      */
     @Override
-    public IPanel createPanel(Names.panelNames name, Map<String, Object> arguments) {
+    public IPanel createPanel(PanelFactoryOptions.panelNames name, Map<String, Object> arguments) {
         switch (name) {
             case LOGIN:
                 return new LoginView(mainFrame);

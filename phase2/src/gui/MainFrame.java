@@ -1,6 +1,6 @@
 package gui;
 
-import gui.util.enums.Names;
+import gui.util.enums.PanelFactoryOptions;
 import gui.util.factories.DialogFactory;
 import gui.util.factories.PanelFactory;
 import gui.util.interfaces.IDialogFactory;
@@ -110,9 +110,9 @@ public class MainFrame implements IFrame {
 
         // Open panel depending on login state
         if (controllerBundle.getUserController().getCurrentUser() != null) {
-            setPanel(panelFactory.createPanel(Names.panelNames.MAIN_MENU));
+            setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
         } else {
-            setPanel(panelFactory.createPanel(Names.panelNames.LOGIN));
+            setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.LOGIN));
         }
     }
 }

@@ -1,11 +1,11 @@
 package gui.util.interfaces;
 
-import gui.util.enums.Names;
+import gui.util.enums.DialogFactoryOptions;
 
 import java.util.Map;
 
 public interface IDialogFactory {
-    IDialog createDialog(Names.dialogNames name);
+    IDialog createDialog(DialogFactoryOptions.dialogNames name);
 
-    IDialog createDialog(Names.dialogNames name, Map<String, Object> arguments);
+    IDialog createDialog(DialogFactoryOptions.dialogNames name, Map<String, Object> arguments);
 }

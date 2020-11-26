@@ -1,9 +1,9 @@
 package gui.util.factories;
 
 import gui.conference.picker.ConferencePickerDialog;
-import gui.util.dialogs.message.ConfirmBooleanDialogView;
+import gui.util.dialogs.confirm.ConfirmBooleanDialogView;
 import gui.util.dialogs.message.MessageDialogView;
-import gui.util.enums.Names;
+import gui.util.enums.DialogFactoryOptions;
 import gui.util.exception.NullDialogException;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
@@ -31,7 +31,7 @@ public class DialogFactory implements IDialogFactory {
      * @return
      */
     @Override
-    public IDialog createDialog(Names.dialogNames name) {
+    public IDialog createDialog(DialogFactoryOptions.dialogNames name) {
         return createDialog(name, null);
     }
 
@@ -43,14 +43,14 @@ public class DialogFactory implements IDialogFactory {
      * @return
      */
     @Override
-    public IDialog createDialog(Names.dialogNames name, Map<String, Object> arguments) {
+    public IDialog createDialog(DialogFactoryOptions.dialogNames name, Map<String, Object> arguments) {
         switch (name) {
             case CONFERENCE_PICKER:
                 return new ConferencePickerDialog(mainFrame, (Set<UUID>) arguments.get("availableConferenceUUIDs"), (String) arguments.get("instructions"));
             case MESSAGE:
-                return new MessageDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.get("title"), (Names.dialogType) arguments.get("messageType"));
+                return new MessageDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.get("title"), (DialogFactoryOptions.dialogType) arguments.get("messageType"));
             case CONFIRM_BOOLEAN:
-                return new ConfirmBooleanDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.get("title"), (Names.dialogType) arguments.get("messageType"));
+                return new ConfirmBooleanDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.get("title"), (DialogFactoryOptions.dialogType) arguments.get("messageType"), (DialogFactoryOptions.optionType) arguments.get("confirmationType"));
             default:
                 throw new NullDialogException(name);
         }

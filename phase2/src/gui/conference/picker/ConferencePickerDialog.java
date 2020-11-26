@@ -13,11 +13,6 @@ import java.util.UUID;
 
 public class ConferencePickerDialog implements IDialog {
 
-    /**
-     * TODO: - deal with the getPanel issue?
-     *       - how to deal with casting? factories return IDialog, which would be higher level than any specific interfaces
-     */
-
     private IFrame mainFrame;
 
     private List<UUID> availableConferenceUUIDs;

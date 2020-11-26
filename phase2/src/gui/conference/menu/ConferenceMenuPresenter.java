@@ -1,7 +1,8 @@
 package gui.conference.menu;
 
 import convention.ConferenceController;
-import gui.util.enums.Names;
+import gui.util.enums.DialogFactoryOptions;
+import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.*;
 import user.UserController;
 import util.ControllerBundle;
@@ -45,8 +46,8 @@ class ConferenceMenuPresenter {
             updateConferenceNames();
 
             // Set initial conference selection
-            conferenceMenuView.setConferenceListSelection(0);
-            selectConferencePanel(0);
+            conferenceMenuView.setConferenceListSelection(0); // makes it look like we select it
+            selectConferencePanel(0); // this one actually sets the right hand panel
         }
     }
 
@@ -58,17 +59,17 @@ class ConferenceMenuPresenter {
         Set<UUID> availableConferenceUUIDs = conferenceController.getNotUserConferences(userUUID);
 
         if (availableConferenceUUIDs.size() == 0) {
-            IDialog noConferenceDialog = dialogFactory.createDialog(Names.dialogNames.MESSAGE, new HashMap<>() {
+            IDialog noConferenceDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<>() {
                 {
                     put("title", "Error");
                     put("message", "There are no conferences available for you to join.");
-                    put("messageType", Names.dialogType.ERROR);
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
                 }
             });
 
             noConferenceDialog.show();
         } else {
-            IDialog conferencePicker = dialogFactory.createDialog(Names.dialogNames.CONFERENCE_PICKER, new HashMap<>() {
+            IDialog conferencePicker = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFERENCE_PICKER, new HashMap<>() {
                 {
                     put("instructions", "Choose a conference to join");
                     put("availableConferenceUUIDs", availableConferenceUUIDs);
@@ -106,7 +107,7 @@ class ConferenceMenuPresenter {
             UUID selectedConferenceUUID = conferenceUUIDs.get(index);
 
             // Update UI with tabs for this conference
-            IPanel conferenceTabsPanel = panelFactory.createPanel(Names.panelNames.CONFERENCE_TABS, new HashMap<>() {
+            IPanel conferenceTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_TABS, new HashMap<>() {
                 {
                     put("conferenceUUID", selectedConferenceUUID);
                 }
