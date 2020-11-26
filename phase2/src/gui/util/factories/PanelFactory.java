@@ -13,6 +13,7 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 import gui.util.interfaces.IPanelFactory;
 
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class PanelFactory implements IPanelFactory {
      */
     @Override
     public IPanel createPanel(PanelFactoryOptions.panelNames name) {
-        return createPanel(name, null);
+        return createPanel(name, new HashMap<>());
     }
 
     /**
@@ -53,7 +54,7 @@ public class PanelFactory implements IPanelFactory {
             case LOGIN:
                 return new LoginView(mainFrame);
             case MAIN_MENU:
-                return new MainMenuView(mainFrame);
+                return new MainMenuView(mainFrame, (Integer) arguments.getOrDefault("defaultTabIndex", 0));
             case CONFERENCE_MENU:
                 return new ConferenceMenuView(mainFrame);
             case CONFERENCE_TABS:

@@ -24,7 +24,13 @@ public class MainMenuView implements IPanel, IMainMenuView {
      * @param guiSystem gui system
      */
     public MainMenuView(IFrame guiSystem) {
+        this(guiSystem, 0);
+    }
+
+    public MainMenuView(IFrame guiSystem, int defaultTabIndex) {
         mainMenuPresenter = new MainMenuPresenter(guiSystem, this);
+
+        setTabIndex(defaultTabIndex);
 
         logoutButton.addActionListener((e) -> mainMenuPresenter.logout());
     }

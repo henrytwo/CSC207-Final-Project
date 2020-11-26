@@ -5,9 +5,11 @@ import convention.EventController;
 import convention.RoomController;
 import convention.exception.LoneOrganizerException;
 import gui.util.enums.DialogFactoryOptions;
+import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
+import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import util.ControllerBundle;
 
@@ -16,7 +18,9 @@ import java.util.UUID;
 
 class ConferenceGeneralPresenter {
 
+    IFrame mainFrame;
     IDialogFactory dialogFactory;
+    IPanelFactory panelFactory;
     IConferenceGeneralView conferenceGeneralView;
 
     EventController eventController;
@@ -31,6 +35,7 @@ class ConferenceGeneralPresenter {
 
     ConferenceGeneralPresenter(IFrame mainFrame, IConferenceGeneralView conferenceGeneralView, UUID conferenceUUID) {
 
+        this.mainFrame = mainFrame;
         this.conferenceUUID = conferenceUUID;
         this.conferenceGeneralView = conferenceGeneralView;
 
@@ -41,6 +46,7 @@ class ConferenceGeneralPresenter {
         roomController = controllerBundle.getRoomController();
 
         dialogFactory = mainFrame.getDialogFactory();
+        panelFactory = mainFrame.getPanelFactory();
 
         userUUID = userController.getCurrentUser();
 
@@ -76,9 +82,8 @@ class ConferenceGeneralPresenter {
                 try {
                     conferenceController.leaveConference(conferenceUUID, userUUID, userUUID);
 
-                    /**
-                     * TODO: Update the menu
-                     */
+                    // Reload the main menu to update changes
+                    mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
                 } catch (LoneOrganizerException e) {
                     IDialog loneOrganizerDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                         {
