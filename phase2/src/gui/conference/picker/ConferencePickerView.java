@@ -14,7 +14,8 @@ import java.util.UUID;
 public class ConferencePickerView implements IDialog {
 
     /**
-     * TODO: figure out if this works under MVP
+     * TODO: - figure out if this works under MVP
+     *       - how to deal with casting? factories return IDialog, which would be higher level than any specific interfaces
      */
 
     private IFrame mainFrame;
