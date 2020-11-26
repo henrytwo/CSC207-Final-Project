@@ -75,6 +75,10 @@ class ConferenceGeneralPresenter {
             if ((boolean) confirmLeaveDialog.show()) {
                 try {
                     conferenceController.leaveConference(conferenceUUID, userUUID, userUUID);
+
+                    /**
+                     * TODO: Update the menu
+                     */
                 } catch (LoneOrganizerException e) {
                     IDialog loneOrganizerDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                         {
