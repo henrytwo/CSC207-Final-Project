@@ -7,14 +7,13 @@ import util.ControllerBundle;
 import java.util.UUID;
 
 class ConferenceGeneralPresenter {
-    ConferenceGeneralPresenter(IFrame mainFrame, IConferenceGeneralView conferenceGeneralView) {
+    ConferenceGeneralPresenter(IFrame mainFrame, IConferenceGeneralView conferenceGeneralView, UUID conferenceUUID) {
 
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         ConferenceController conferenceController = controllerBundle.getConferenceController();
         UserController userController = controllerBundle.getUserController();
 
         UUID userUUID = userController.getCurrentUser();
-        UUID conferenceUUID = conferenceGeneralView.getConferenceUUID();
 
         String role;
 

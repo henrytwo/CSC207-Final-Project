@@ -57,9 +57,9 @@ public class PanelFactory implements IPanelFactory {
             case CONFERENCE_MENU:
                 return new ConferenceMenuView(mainFrame);
             case CONFERENCE_TABS:
-                return new ConferenceTabsView(mainFrame, (IPanel) arguments.get("parentView"), (UUID) arguments.get("conferenceUUID"));
+                return new ConferenceTabsView(mainFrame, (UUID) arguments.get("conferenceUUID"));
             case CONFERENCE_GENERAL:
-                return new ConferenceGeneralView(mainFrame, (IPanel) arguments.get("parentView"), (UUID) arguments.get("conferenceUUID"));
+                return new ConferenceGeneralView(mainFrame, (UUID) arguments.get("conferenceUUID"));
             case CONTACTS:
                 return new ContactsView(mainFrame);
             case MESSAGING:

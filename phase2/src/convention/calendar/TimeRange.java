@@ -80,6 +80,6 @@ public class TimeRange implements Serializable {
      */
     @Override
     public String toString() {
-        return String.format("[%s -> %s]", getStart(), getEnd());
+        return String.format("[%s → %s]", getStart(), getEnd());
     }
 }

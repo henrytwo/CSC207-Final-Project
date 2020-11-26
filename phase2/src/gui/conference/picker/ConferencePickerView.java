@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class ConferencePickerView implements IDialog, IConferencePickerView {
+public class ConferencePickerView implements IDialog {
 
     /**
      * TODO: figure out if this works under MVP
@@ -33,13 +33,14 @@ public class ConferencePickerView implements IDialog, IConferencePickerView {
         conferenceController = controllerBundle.getConferenceController();
     }
 
+    @Override
     public UUID show() {
         String[] conferenceNames = new String[availableConferenceUUIDs.size()];
 
         for (int i = 0; i < availableConferenceUUIDs.size(); i++) {
             UUID conferenceUUID = availableConferenceUUIDs.get(i);
 
-            conferenceNames[i] = String.format("%4d. %s", i, conferenceController.getConferenceName(conferenceUUID));
+            conferenceNames[i] = String.format("%4d. %s %s", i, conferenceController.getConferenceName(conferenceUUID), conferenceController.getConferenceTimeRange(conferenceUUID));
         }
 
         String selectedValue = (String) JOptionPane.showInputDialog(

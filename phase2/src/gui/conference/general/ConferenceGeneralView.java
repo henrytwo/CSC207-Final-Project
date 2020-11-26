@@ -11,26 +11,13 @@ public class ConferenceGeneralView implements IPanel, IConferenceGeneralView {
     private JLabel testText;
 
     private UUID conferenceUUID;
-    private IPanel parentPanel;
 
     private ConferenceGeneralPresenter conferenceGeneralPresenter;
 
-    public ConferenceGeneralView(IFrame mainFrame, IPanel parentPanel, UUID conferenceUUID) {
+    public ConferenceGeneralView(IFrame mainFrame, UUID conferenceUUID) {
         this.conferenceUUID = conferenceUUID;
-        this.parentPanel = parentPanel;
 
-        conferenceGeneralPresenter = new ConferenceGeneralPresenter(mainFrame, this);
-
-    }
-
-    @Override
-    public IPanel getParentPanel() {
-        return parentPanel;
-    }
-
-    @Override
-    public UUID getConferenceUUID() {
-        return conferenceUUID;
+        conferenceGeneralPresenter = new ConferenceGeneralPresenter(mainFrame, this, conferenceUUID);
     }
 
     @Override

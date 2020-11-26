@@ -1,7 +1,6 @@
 package gui.conference.menu;
 
 import convention.ConferenceController;
-import gui.conference.picker.IConferencePickerView;
 import gui.util.enums.Names;
 import gui.util.interfaces.*;
 import user.UserController;
@@ -60,10 +59,15 @@ class ConferenceMenuPresenter {
         Set<UUID> availableConferenceUUIDs = conferenceController.getNotUserConferences(userUUID);
 
         if (availableConferenceUUIDs.size() == 0) {
-            /**
-             * TODO: Make a class for this or something idk
-             */
-            JOptionPane.showMessageDialog(mainFrame.getFrame(), "There are no conferences available for you to join.", "Error", JOptionPane.ERROR_MESSAGE);
+            IDialog noConferenceDialog = dialogFactory.createDialog(Names.dialogNames.MESSAGE, new HashMap<>() {
+                {
+                    put("title", "Error");
+                    put("message", "There are no conferences available for you to join.");
+                    put("messageType", JOptionPane.ERROR_MESSAGE);
+                }
+            });
+
+            noConferenceDialog.show();
         } else {
             IDialog conferencePicker = dialogFactory.createDialog(Names.dialogNames.CONFERENCE_PICKER, new HashMap<>() {
                 {
@@ -72,7 +76,8 @@ class ConferenceMenuPresenter {
                 }
             });
 
-            UUID selectedConferenceUUID = ((IConferencePickerView) conferencePicker).show();
+            // IDialog returns Object type by default, so we have to cast
+            UUID selectedConferenceUUID = (UUID) conferencePicker.show();
 
             if (selectedConferenceUUID != null) {
                 conferenceController.addAttendee(selectedConferenceUUID, userUUID);
@@ -104,7 +109,6 @@ class ConferenceMenuPresenter {
             // Update UI with tabs for this conference
             IPanel conferenceTabsPanel = panelFactory.createPanel(Names.panelNames.CONFERENCE_TABS, new HashMap<>() {
                 {
-                    put("parentView", conferenceMenuView);
                     put("conferenceUUID", selectedConferenceUUID);
                 }
             });

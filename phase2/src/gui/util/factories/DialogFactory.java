@@ -1,6 +1,7 @@
 package gui.util.factories;
 
 import gui.conference.picker.ConferencePickerView;
+import gui.util.dialogs.message.MessageDialogView;
 import gui.util.enums.Names;
 import gui.util.exception.NullDialogException;
 import gui.util.interfaces.IDialog;
@@ -46,6 +47,8 @@ public class DialogFactory implements IDialogFactory {
         switch (name) {
             case CONFERENCE_PICKER:
                 return new ConferencePickerView(mainFrame, (Set<UUID>) arguments.get("availableConferenceUUIDs"), (String) arguments.get("instructions"));
+            case MESSAGE:
+                return new MessageDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.get("title"), (int) arguments.get("messageType"));
             default:
                 throw new NullDialogException(name);
         }

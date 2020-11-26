@@ -20,30 +20,17 @@ public class ConferenceTabsView implements IPanel, IConferenceTabsView {
 
     private ConferenceTabsPresenter conferenceTabsPresenter;
 
-    private IPanel parentPanel;
     private UUID conferenceUUID;
 
-    public ConferenceTabsView(IFrame mainFrame, IPanel parentPanel, UUID conferenceUUID) {
-        this.parentPanel = parentPanel;
+    public ConferenceTabsView(IFrame mainFrame, UUID conferenceUUID) {
         this.conferenceUUID = conferenceUUID;
 
-        conferenceTabsPresenter = new ConferenceTabsPresenter(mainFrame, this);
-
+        conferenceTabsPresenter = new ConferenceTabsPresenter(mainFrame, this, conferenceUUID);
     }
 
     @Override
     public void setTabEnabled(int tabIndex, boolean state) {
         conferenceTabs.setEnabledAt(tabIndex, state);
-    }
-
-    @Override
-    public IPanel getParentPanel() {
-        return parentPanel;
-    }
-
-    @Override
-    public UUID getConferenceUUID() {
-        return conferenceUUID;
     }
 
     @Override

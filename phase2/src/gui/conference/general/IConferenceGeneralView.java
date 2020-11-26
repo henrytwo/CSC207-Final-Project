@@ -6,6 +6,4 @@ import java.util.UUID;
 
 public interface IConferenceGeneralView {
     void setTestText(String text);
-    UUID getConferenceUUID();
-    IPanel getParentPanel();
 }

@@ -27,9 +27,10 @@ public class ConferenceTabsPresenter {
     private IFrame mainFrame;
     private IConferenceTabsView conferenceTabsView;
 
-    ConferenceTabsPresenter(IFrame mainFrame, IConferenceTabsView conferenceTabsView) {
+    ConferenceTabsPresenter(IFrame mainFrame, IConferenceTabsView conferenceTabsView, UUID conferenceUUID) {
         this.mainFrame = mainFrame;
         this.conferenceTabsView = conferenceTabsView;
+        this.conferenceUUID = conferenceUUID;
 
         panelFactory = mainFrame.getPanelFactory();
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
@@ -37,7 +38,6 @@ public class ConferenceTabsPresenter {
         conferenceController = controllerBundle.getConferenceController();
         userController = controllerBundle.getUserController();
 
-        conferenceUUID = conferenceTabsView.getConferenceUUID();
         userUUID = userController.getCurrentUser();
 
         hasOrganizerPermissions = conferenceController.isOrganizer(conferenceUUID, userUUID, userUUID);
@@ -51,11 +51,7 @@ public class ConferenceTabsPresenter {
         if (hasAttendeePermissions) {
             IPanel generalView = panelFactory.createPanel(Names.panelNames.CONFERENCE_GENERAL, new HashMap<>() {
                 {
-                    put("conferenceUUID", conferenceTabsView.getConferenceUUID());
-                    put("conferenceTabsView", conferenceTabsView);
-                    /**
-                     * TODO: Figure out how to deal with parent panels more orderly
-                     */
+                    put("conferenceUUID", conferenceUUID);
                 }
             });
 

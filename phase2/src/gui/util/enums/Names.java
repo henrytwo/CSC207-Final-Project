@@ -12,6 +12,7 @@ public class Names {
     }
 
     public enum dialogNames {
-        CONFERENCE_PICKER
+        CONFERENCE_PICKER,
+        MESSAGE
     }
 }
