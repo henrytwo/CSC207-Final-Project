@@ -1,13 +1,12 @@
 package gui.util.factories;
 
-import gui.conference.picker.ConferencePickerView;
+import gui.conference.picker.ConferencePickerDialog;
 import gui.util.dialogs.message.MessageDialogView;
 import gui.util.enums.Names;
 import gui.util.exception.NullDialogException;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import gui.util.interfaces.IPanel;
 
 import java.util.Map;
 import java.util.Set;
@@ -46,9 +45,9 @@ public class DialogFactory implements IDialogFactory {
     public IDialog createDialog(Names.dialogNames name, Map<String, Object> arguments) {
         switch (name) {
             case CONFERENCE_PICKER:
-                return new ConferencePickerView(mainFrame, (Set<UUID>) arguments.get("availableConferenceUUIDs"), (String) arguments.get("instructions"));
+                return new ConferencePickerDialog(mainFrame, (Set<UUID>) arguments.get("availableConferenceUUIDs"), (String) arguments.get("instructions"));
             case MESSAGE:
-                return new MessageDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.get("title"), (int) arguments.get("messageType"));
+                return new MessageDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.get("title"), (Names.dialogType) arguments.get("messageType"));
             default:
                 throw new NullDialogException(name);
         }

@@ -6,7 +6,6 @@ import gui.util.interfaces.*;
 import user.UserController;
 import util.ControllerBundle;
 
-import javax.swing.*;
 import java.util.*;
 
 class ConferenceMenuPresenter {
@@ -63,7 +62,7 @@ class ConferenceMenuPresenter {
                 {
                     put("title", "Error");
                     put("message", "There are no conferences available for you to join.");
-                    put("messageType", JOptionPane.ERROR_MESSAGE);
+                    put("messageType", Names.dialogType.ERROR);
                 }
             });
 

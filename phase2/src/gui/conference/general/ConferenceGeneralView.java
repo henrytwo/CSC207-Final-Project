@@ -4,6 +4,7 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.util.UUID;
 
@@ -22,8 +23,10 @@ public class ConferenceGeneralView implements IPanel, IConferenceGeneralView {
     }
 
     @Override
-    public void setTableModel(TableModel model) {
-        generalTable.setModel(model);
+    public void setTableData(Object[][] tableData, Object[] columnNames) {
+        TableModel tableModel = new DefaultTableModel(tableData, columnNames);
+
+        generalTable.setModel(tableModel);
     }
 
     @Override
