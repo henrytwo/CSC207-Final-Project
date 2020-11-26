@@ -59,6 +59,15 @@ public class TimeRange implements Serializable {
     }
 
     /**
+     * @param date a day, we don't care about the hours in that day
+     * @return true iff the TimeRange start in that day
+     */
+    public boolean isInDay(LocalDateTime date) {
+        return date.getDayOfYear() == this.getStart().getDayOfYear() && date.getYear() == this.start.getYear();
+    }
+
+
+    /**
      * Tests of this time range equals another
      *
      * @param obj
