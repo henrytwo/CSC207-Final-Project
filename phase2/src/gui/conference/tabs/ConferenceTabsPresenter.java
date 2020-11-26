@@ -1,7 +1,7 @@
 package gui.conference.tabs;
 
 import convention.ConferenceController;
-import gui.util.enums.Names;
+import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 import gui.util.interfaces.IPanelFactory;
@@ -49,7 +49,7 @@ public class ConferenceTabsPresenter {
 
     private void updateTabs() {
         if (hasAttendeePermissions) {
-            IPanel generalView = panelFactory.createPanel(Names.panelNames.CONFERENCE_GENERAL, new HashMap<String, Object>() {
+            IPanel generalView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_GENERAL, new HashMap<>() {
                 {
                     put("conferenceUUID", conferenceUUID);
                 }

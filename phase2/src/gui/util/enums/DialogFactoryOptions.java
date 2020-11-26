@@ -1,16 +1,6 @@
 package gui.util.enums;
 
-public class Names {
-    public enum panelNames {
-        MAIN_MENU,
-        LOGIN,
-        CONTACTS,
-        MESSAGING,
-        CONFERENCE_MENU,
-        CONFERENCE_TABS,
-        CONFERENCE_GENERAL
-    }
-
+public class DialogFactoryOptions {
     public enum dialogNames {
         CONFERENCE_PICKER,
         MESSAGE,
@@ -23,5 +13,12 @@ public class Names {
         WARNING,
         QUESTION,
         PLAIN
+    }
+
+    public enum optionType {
+        DEFAULT_OPTION,
+        YES_NO_OPTION,
+        YES_NO_CANCEL_OPTION,
+        OK_CANCEL_OPTION
     }
 }

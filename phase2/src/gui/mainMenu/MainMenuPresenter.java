@@ -1,6 +1,6 @@
 package gui.mainMenu;
 
-import gui.util.enums.Names;
+import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 import gui.util.interfaces.IPanelFactory;
@@ -27,13 +27,13 @@ class MainMenuPresenter {
         userController = controllerBundle.getUserController();
 
         // Initiate main menu tabs
-        IPanel conferenceMenuView = panelFactory.createPanel(Names.panelNames.CONFERENCE_MENU);
+        IPanel conferenceMenuView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_MENU);
         mainMenuView.setConferenceMenuPanel(conferenceMenuView);
 
-        IPanel messagingView = panelFactory.createPanel(Names.panelNames.MESSAGING);
+        IPanel messagingView = panelFactory.createPanel(PanelFactoryOptions.panelNames.MESSAGING);
         mainMenuView.setMessagingPanel(messagingView);
 
-        IPanel contactsView = panelFactory.createPanel(Names.panelNames.CONTACTS);
+        IPanel contactsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONTACTS);
         mainMenuView.setContactsPanel(contactsView);
 
         UUID userUUID = userController.getCurrentUser();
@@ -49,6 +49,6 @@ class MainMenuPresenter {
 
     void logout() {
         userController.logout();
-        mainFrame.setPanel(panelFactory.createPanel(Names.panelNames.LOGIN));
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.LOGIN));
     }
 }
