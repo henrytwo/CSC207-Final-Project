@@ -107,7 +107,7 @@ public class EventController {
      * @return list of events on that day
      */
     public Set<UUID> getDayEvents(UUID conferenceUUID, UUID executorUUID, LocalDateTime day) {
-        permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
+        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
         Set<UUID> eventsUUIDsOnDay = new HashSet<>();
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
