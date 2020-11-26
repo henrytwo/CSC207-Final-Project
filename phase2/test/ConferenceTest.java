@@ -314,7 +314,7 @@ public class ConferenceTest {
 
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -332,7 +332,7 @@ public class ConferenceTest {
 
         assertFalse(conferenceController.isSpeaker(conferenceUUID, myUser, someSpeaker));
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -393,7 +393,7 @@ public class ConferenceTest {
 
         assertEquals(eventController.getEvents(conferenceUUID, myUser).size(), 0);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -408,7 +408,7 @@ public class ConferenceTest {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, emptyString, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, emptyString, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -420,7 +420,7 @@ public class ConferenceTest {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, randomUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, randomUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -438,7 +438,7 @@ public class ConferenceTest {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -458,7 +458,7 @@ public class ConferenceTest {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 1);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -482,7 +482,7 @@ public class ConferenceTest {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -509,7 +509,7 @@ public class ConferenceTest {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -546,7 +546,7 @@ public class ConferenceTest {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -572,7 +572,7 @@ public class ConferenceTest {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -586,7 +586,7 @@ public class ConferenceTest {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -608,7 +608,7 @@ public class ConferenceTest {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -625,7 +625,7 @@ public class ConferenceTest {
         UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -649,7 +649,7 @@ public class ConferenceTest {
 
         assertEquals(eventController.getEvents(conferenceUUID, myUser).size(), 0);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -658,7 +658,7 @@ public class ConferenceTest {
         assertEquals(eventController.getEvents(conferenceUUID, myUser).size(), 1);
 
         UUID room2UUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
-        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, room2UUID, new HashSet<>() {
+        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, room2UUID, new HashSet<UUID>() {
             {
                 add(someSpeakerB);
             }
@@ -677,7 +677,7 @@ public class ConferenceTest {
 
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -688,7 +688,7 @@ public class ConferenceTest {
         assertEquals(eventController.getAttendeeEvents(conferenceUUID, someAttendee).size(), 1);
 
         UUID room2UUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
-        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeA, room2UUID, new HashSet<>() {
+        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeA, room2UUID, new HashSet<UUID>() {
             {
                 add(someSpeakerB);
             }
@@ -699,7 +699,7 @@ public class ConferenceTest {
         assertEquals(eventController.getAttendeeEvents(conferenceUUID, someAttendee).size(), 2);
 
         UUID room3UUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
-        UUID event3UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeA, room3UUID, new HashSet<>() {
+        UUID event3UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeA, room3UUID, new HashSet<UUID>() {
             {
                 add(someSpeakerC);
             }
@@ -717,13 +717,13 @@ public class ConferenceTest {
         assertEquals(eventController.getAttendeeEvents(conferenceUUID, myUser).size(), 0);
 
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
         });
 
-        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeA, roomUUID, new HashSet<>() {
+        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeakerB);
             }
@@ -739,14 +739,14 @@ public class ConferenceTest {
         assertEquals(eventController.getAttendeeEvents(conferenceUUID, myUser).size(), 0);
 
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
         });
 
         UUID room2UUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
-        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeA, room2UUID, new HashSet<>() {
+        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeA, room2UUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -760,7 +760,7 @@ public class ConferenceTest {
 
         assertEquals(eventController.getSpeakerEvents(conferenceUUID, myUser).size(), 0);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -769,7 +769,7 @@ public class ConferenceTest {
         assertEquals(eventController.getSpeakerEvents(conferenceUUID, someSpeaker).size(), 1);
 
         UUID room2UUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
-        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeB, room2UUID, new HashSet<>() {
+        UUID event2UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeB, room2UUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -778,7 +778,7 @@ public class ConferenceTest {
         assertEquals(eventController.getSpeakerEvents(conferenceUUID, someSpeaker).size(), 2);
 
         UUID room3UUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
-        UUID event3UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeC, room3UUID, new HashSet<>() {
+        UUID event3UUID = eventController.createEvent(conferenceUUID, myUser, eventNameB, timeRangeC, room3UUID, new HashSet<UUID>() {
             {
                 add(someSpeakerB);
             }
@@ -806,7 +806,7 @@ public class ConferenceTest {
 
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -846,7 +846,7 @@ public class ConferenceTest {
         conferenceController.addAttendee(conferenceUUID, someAttendee);
         conferenceController.addAttendee(conferenceUUID, someAttendeeB);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }
@@ -875,7 +875,7 @@ public class ConferenceTest {
         conferenceController.addAttendee(conferenceUUID, someAttendee);
         conferenceController.addAttendee(conferenceUUID, someAttendeeB);
 
-        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<>() {
+        UUID eventUUID = eventController.createEvent(conferenceUUID, myUser, eventNameA, timeRangeA, roomUUID, new HashSet<UUID>() {
             {
                 add(someSpeaker);
             }

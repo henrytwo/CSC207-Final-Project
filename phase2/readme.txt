@@ -1,5 +1,7 @@
 CSC207 Group 11 - Phase 2
 
+Important: Ensure that the working directory for the project is /phase2 to ensure all the resources are read correctly
+
 + Change log
     - God mode added (god mode users are organizers for all conferences in the system)
     - GUI added
