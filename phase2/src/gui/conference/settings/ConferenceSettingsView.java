@@ -4,6 +4,7 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
+import java.util.Map;
 import java.util.UUID;
 
 public class ConferenceSettingsView implements IPanel, IConferenceSettingsView {

@@ -1,9 +1,9 @@
 package gui.util.factories;
 
+import gui.conference.general.ConferenceGeneralView;
+import gui.conference.menu.ConferenceMenuView;
 import gui.conference.settings.ConferenceSettingsView;
 import gui.conference.tabs.ConferenceTabsView;
-import gui.conference.menu.ConferenceMenuView;
-import gui.conference.general.ConferenceGeneralView;
 import gui.contacts.ContactsView;
 import gui.login.LoginView;
 import gui.mainMenu.MainMenuView;
@@ -15,8 +15,8 @@ import gui.util.interfaces.IPanel;
 import gui.util.interfaces.IPanelFactory;
 
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Creates IPanels for an IFrame given its name and some initializing arguments
@@ -34,7 +34,7 @@ public class PanelFactory implements IPanelFactory {
     /**
      * Generate a panel given its name with no parameters
      *
-     * @param name
+     * @param name name of the panel to create
      * @return
      */
     @Override
@@ -45,25 +45,25 @@ public class PanelFactory implements IPanelFactory {
     /**
      * Generates an IPanel given its name and (optional) initializing arguments
      *
-     * @param name
-     * @param arguments
+     * @param name                    name of the panel to create
+     * @param initializationArguments hashmap of values that can be used to set the initial state of a panel
      * @return
      */
     @Override
-    public IPanel createPanel(PanelFactoryOptions.panelNames name, Map<String, Object> arguments) {
+    public IPanel createPanel(PanelFactoryOptions.panelNames name, Map<String, Object> initializationArguments) {
         switch (name) {
             case LOGIN:
                 return new LoginView(mainFrame);
             case MAIN_MENU:
-                return new MainMenuView(mainFrame, (Integer) arguments.getOrDefault("defaultTabIndex", 0));
+                return new MainMenuView(mainFrame, (Integer) initializationArguments.getOrDefault("defaultTabIndex", 0), initializationArguments);
             case CONFERENCE_MENU:
-                return new ConferenceMenuView(mainFrame);
+                return new ConferenceMenuView(mainFrame, (UUID) initializationArguments.get("defaultConferenceUUID"));
             case CONFERENCE_TABS:
-                return new ConferenceTabsView(mainFrame, (UUID) arguments.get("conferenceUUID"));
+                return new ConferenceTabsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
             case CONFERENCE_GENERAL:
-                return new ConferenceGeneralView(mainFrame, (UUID) arguments.get("conferenceUUID"));
+                return new ConferenceGeneralView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
             case CONFERENCE_SETTINGS:
-                return new ConferenceSettingsView(mainFrame, (UUID) arguments.get("conferenceUUID"));
+                return new ConferenceSettingsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
             case CONTACTS:
                 return new ContactsView(mainFrame);
             case MESSAGING:

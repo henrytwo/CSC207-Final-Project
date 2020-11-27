@@ -24,7 +24,12 @@ class ConferenceMenuPresenter {
 
     private int currentConferenceIndex = -1;
 
-    ConferenceMenuPresenter(IFrame mainFrame, IConferenceMenuView conferenceMenuView) {
+    /**
+     * @param mainFrame
+     * @param conferenceMenuView
+     * @param defaultConferenceUUID UUID of the default conference to select. If none selected, or invalid, the first one will be selected.
+     */
+    ConferenceMenuPresenter(IFrame mainFrame, IConferenceMenuView conferenceMenuView, UUID defaultConferenceUUID) {
         this.conferenceMenuView = conferenceMenuView;
         this.mainFrame = mainFrame;
 
@@ -45,9 +50,16 @@ class ConferenceMenuPresenter {
         if (conferenceUUIDs.size() > 0) {
             updateConferenceNames();
 
+            int defaultConferenceIndex = 0;
+
+            // Choose the specified default conference UUID
+            if (defaultConferenceUUID != null && conferenceUUIDs.contains(defaultConferenceUUID)) {
+                defaultConferenceIndex = conferenceUUIDs.indexOf(defaultConferenceUUID);
+            }
+
             // Set initial conference selection
-            conferenceMenuView.setConferenceListSelection(0); // makes it look like we select it
-            selectConferencePanel(0); // this one actually sets the right hand panel
+            conferenceMenuView.setConferenceListSelection(defaultConferenceIndex); // makes it look like we select it
+            selectConferencePanel(defaultConferenceIndex); // this one actually sets the right hand panel
         }
     }
 

@@ -5,6 +5,7 @@ import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import java.util.Map;
 
 public class MainMenuView implements IPanel, IMainMenuView {
     private JPanel mainMenuPanel;
@@ -22,13 +23,11 @@ public class MainMenuView implements IPanel, IMainMenuView {
      * Constructs the main menu.
      *
      * @param guiSystem gui system
+     * @param defaultTabIndex tab that is opened by default on page load
+     * @param initializationArguments hashmap of values that can be used to set the initial state of a panel
      */
-    public MainMenuView(IFrame guiSystem) {
-        this(guiSystem, 0);
-    }
-
-    public MainMenuView(IFrame guiSystem, int defaultTabIndex) {
-        mainMenuPresenter = new MainMenuPresenter(guiSystem, this);
+    public MainMenuView(IFrame guiSystem, int defaultTabIndex, Map<String, Object> initializationArguments) {
+        mainMenuPresenter = new MainMenuPresenter(guiSystem, this, initializationArguments);
 
         setTabIndex(defaultTabIndex);
 

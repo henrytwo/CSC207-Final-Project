@@ -4,6 +4,7 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
+import java.util.UUID;
 
 public class ConferenceMenuView implements IPanel, IConferenceMenuView {
     private JPanel panel;
@@ -16,9 +17,10 @@ public class ConferenceMenuView implements IPanel, IConferenceMenuView {
 
     /**
      * @param guiSystem gui system
+     * @param defaultConferenceUUID UUID of the default conference to select. If none selected, or invalid, the first one will be selected.
      */
-    public ConferenceMenuView(IFrame guiSystem) {
-        conferenceMenuPresenter = new ConferenceMenuPresenter(guiSystem, this);
+    public ConferenceMenuView(IFrame guiSystem, UUID defaultConferenceUUID) {
+        conferenceMenuPresenter = new ConferenceMenuPresenter(guiSystem, this, defaultConferenceUUID);
 
         conferenceList.addListSelectionListener((e) -> conferenceMenuPresenter.selectConferencePanel(conferenceList.getSelectedIndex()));
         createConferenceButton.addActionListener((e) -> conferenceMenuPresenter.createConference());

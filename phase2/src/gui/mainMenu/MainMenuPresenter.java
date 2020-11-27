@@ -7,6 +7,7 @@ import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import util.ControllerBundle;
 
+import java.util.Map;
 import java.util.UUID;
 
 class MainMenuPresenter {
@@ -16,7 +17,15 @@ class MainMenuPresenter {
 
     private UserController userController;
 
-    MainMenuPresenter(IFrame mainFrame, IMainMenuView mainMenuView) {
+    private Map<String, Object> initializationArguments;
+
+    /**
+     * @param mainFrame
+     * @param mainMenuView
+     * @param initializationArguments hashmap of values that can be used to set the initial state of a panel
+     */
+    MainMenuPresenter(IFrame mainFrame, IMainMenuView mainMenuView, Map<String, Object> initializationArguments) {
+        this.initializationArguments = initializationArguments;
         this.mainMenuView = mainMenuView;
         this.mainFrame = mainFrame;
 
@@ -27,13 +36,13 @@ class MainMenuPresenter {
         userController = controllerBundle.getUserController();
 
         // Initiate main menu tabs
-        IPanel conferenceMenuView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_MENU);
+        IPanel conferenceMenuView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_MENU, initializationArguments);
         mainMenuView.setConferenceMenuPanel(conferenceMenuView);
 
-        IPanel messagingView = panelFactory.createPanel(PanelFactoryOptions.panelNames.MESSAGING);
+        IPanel messagingView = panelFactory.createPanel(PanelFactoryOptions.panelNames.MESSAGING, initializationArguments);
         mainMenuView.setMessagingPanel(messagingView);
 
-        IPanel contactsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONTACTS);
+        IPanel contactsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONTACTS, initializationArguments);
         mainMenuView.setContactsPanel(contactsView);
 
         UUID userUUID = userController.getCurrentUser();

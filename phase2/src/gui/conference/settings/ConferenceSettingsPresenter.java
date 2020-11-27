@@ -47,7 +47,11 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
 
         if (conferenceFormDialog.run() != null) {
             // Reload the main menu to update changes
-            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
+            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
+                {
+                    put("defaultConferenceUUID", conferenceUUID);
+                }
+            }));
         }
     }
 
