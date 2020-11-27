@@ -26,6 +26,8 @@ class MultiUserPickerPresenter {
 
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         userController = controllerBundle.getUserController();
+
+        updateUserList();
     }
 
     private void updateUserList() {
