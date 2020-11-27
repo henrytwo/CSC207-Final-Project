@@ -22,7 +22,7 @@ public abstract class AbstractConferencePresenter {
     protected ConferenceController conferenceController;
     protected UserController userController;
 
-    protected UUID userUUID;
+    protected UUID signedInUserUUID;
     protected UUID conferenceUUID;
 
     protected String role;
@@ -40,15 +40,15 @@ public abstract class AbstractConferencePresenter {
         dialogFactory = mainFrame.getDialogFactory();
         panelFactory = mainFrame.getPanelFactory();
 
-        userUUID = userController.getCurrentUser();
+        signedInUserUUID = userController.getCurrentUser();
 
         updateRole();
     }
 
     private void updateRole() {
-        if (conferenceController.isOrganizer(conferenceUUID, userUUID, userUUID)) {
+        if (conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID)) {
             role = "Organizer";
-        } else if (conferenceController.isSpeaker(conferenceUUID, userUUID, userUUID)) {
+        } else if (conferenceController.isSpeaker(conferenceUUID, signedInUserUUID, signedInUserUUID)) {
             role = "Speaker";
         } else {
             role = "Attendee";

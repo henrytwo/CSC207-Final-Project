@@ -45,13 +45,13 @@ class MainMenuPresenter {
         IPanel contactsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONTACTS, initializationArguments);
         mainMenuView.setContactsPanel(contactsView);
 
-        UUID userUUID = userController.getCurrentUser();
+        UUID signedInUserUUID = userController.getCurrentUser();
 
         // Logout button text
-        mainMenuView.setLogoutButtonText(String.format("Logout (Signed in as %s)", userController.getUserFullName(userUUID)));
+        mainMenuView.setLogoutButtonText(String.format("Logout (Signed in as %s)", userController.getUserFullName(signedInUserUUID)));
 
         // God mode users get something special
-        if (userController.getUserIsGod(userUUID)) {
+        if (userController.getUserIsGod(signedInUserUUID)) {
             mainMenuView.setTopBarPanelText("God mode enabled");
         }
     }

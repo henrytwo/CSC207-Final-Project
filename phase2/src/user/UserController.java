@@ -50,6 +50,16 @@ public class UserController {
     }
 
     /**
+     * Checks if a UUID belongs to a valid user
+     *
+     * @param userUUID UUID of user to check
+     * @return true iff the UUID corresponds to a valid user
+     */
+    public boolean isUser(UUID userUUID) {
+        return userManager.isUser(userUUID);
+    }
+
+    /**
      * Returns the full name
      *
      * @param userUUID unique user id

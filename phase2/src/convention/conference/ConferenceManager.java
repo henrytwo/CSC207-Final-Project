@@ -188,7 +188,7 @@ public class ConferenceManager implements Serializable {
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to test
      * @param userManager    User manager to fetch data from
-     * @return true iff the userUUID is affiliated with this conference
+     * @return true iff the signedInUserUUID is affiliated with this conference
      */
     public boolean isAffiliated(UUID conferenceUUID, UUID userUUID, UserManager userManager) {
         return isAttendee(conferenceUUID, userUUID) ||
@@ -201,7 +201,7 @@ public class ConferenceManager implements Serializable {
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to test
-     * @return true iff the userUUID belongs to an attendee
+     * @return true iff the signedInUserUUID belongs to an attendee
      */
     public boolean isAttendee(UUID conferenceUUID, UUID userUUID) {
         return getConference(conferenceUUID).isAttendee(userUUID);
@@ -213,7 +213,7 @@ public class ConferenceManager implements Serializable {
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to test
      * @param userManager    User manager to fetch data fram
-     * @return true iff the userUUID belongs to an organizer OR the user has god mode
+     * @return true iff the signedInUserUUID belongs to an organizer OR the user has god mode
      */
     public boolean isOrganizer(UUID conferenceUUID, UUID userUUID, UserManager userManager) {
         return getConference(conferenceUUID).isOrganizer(userUUID) || (userManager.isUser(userUUID) && userManager.getUserIsGod(userUUID));
@@ -224,7 +224,7 @@ public class ConferenceManager implements Serializable {
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to test
-     * @return true iff the userUUID belongs to a speaker
+     * @return true iff the signedInUserUUID belongs to a speaker
      */
     public boolean isSpeaker(UUID conferenceUUID, UUID userUUID) {
         return getConference(conferenceUUID).isSpeaker(userUUID);
@@ -258,7 +258,7 @@ public class ConferenceManager implements Serializable {
      * Removes an organizer from a convention. There must always be at least one organizer left.
      * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
-     * Throws NullUserException if the userUUID does not correspond to a valid organizer.
+     * Throws NullUserException if the signedInUserUUID does not correspond to a valid organizer.
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to remove
@@ -303,7 +303,7 @@ public class ConferenceManager implements Serializable {
      * Removes an attendee from a convention.
      * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
-     * Throws NullUserException if the userUUID does not correspond to a valid user.
+     * Throws NullUserException if the signedInUserUUID does not correspond to a valid user.
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to remove
@@ -358,7 +358,7 @@ public class ConferenceManager implements Serializable {
      * Removes an speaker from a convention.
      * <p>
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
-     * Throws NullUserException if the userUUID does not correspond to a valid user.
+     * Throws NullUserException if the signedInUserUUID does not correspond to a valid user.
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to remove

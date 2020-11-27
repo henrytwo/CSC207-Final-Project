@@ -20,7 +20,7 @@ class ConferenceMenuPresenter {
     private UserController userController;
 
     private List<UUID> conferenceUUIDs;
-    private UUID userUUID;
+    private UUID signedInUserUUID;
 
     private int currentConferenceIndex = -1;
 
@@ -42,7 +42,7 @@ class ConferenceMenuPresenter {
         userController = controllerBundle.getUserController();
 
         // Fetch initial data
-        userUUID = userController.getCurrentUser();
+        signedInUserUUID = userController.getCurrentUser();
 
         updateConferenceList();
 
@@ -80,7 +80,7 @@ class ConferenceMenuPresenter {
      * Initiates dialog for a user to join a conference
      */
     void joinConference() {
-        Set<UUID> availableConferenceUUIDs = conferenceController.getNotUserConferences(userUUID);
+        Set<UUID> availableConferenceUUIDs = conferenceController.getNotUserConferences(signedInUserUUID);
 
         if (availableConferenceUUIDs.size() == 0) {
             IDialog noConferenceDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
@@ -104,7 +104,7 @@ class ConferenceMenuPresenter {
             UUID selectedConferenceUUID = (UUID) conferencePicker.run();
 
             if (selectedConferenceUUID != null) {
-                conferenceController.addAttendee(selectedConferenceUUID, userUUID);
+                conferenceController.addAttendee(selectedConferenceUUID, signedInUserUUID);
 
                 updateAndSelectNewConference(selectedConferenceUUID);
             }
@@ -155,7 +155,7 @@ class ConferenceMenuPresenter {
      */
     private void updateConferenceList() {
         currentConferenceIndex = -1;
-        conferenceUUIDs = new ArrayList<>(conferenceController.getUserConferences(userUUID));
+        conferenceUUIDs = new ArrayList<>(conferenceController.getUserConferences(signedInUserUUID));
     }
 
     /**

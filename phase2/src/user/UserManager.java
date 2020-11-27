@@ -109,7 +109,7 @@ public class UserManager implements Serializable {
     }
 
     /**
-     * Checks if a UUID belongs to a valid usuer
+     * Checks if a UUID belongs to a valid user
      *
      * @param userUUID UUID of user to check
      * @return true iff the UUID corresponds to a valid user

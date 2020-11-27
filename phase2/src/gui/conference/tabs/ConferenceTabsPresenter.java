@@ -18,7 +18,7 @@ public class ConferenceTabsPresenter {
     private UserController userController;
 
     private UUID conferenceUUID;
-    private UUID userUUID;
+    private UUID signedInUserUUID;
 
     private boolean hasAttendeePermissions;
     private boolean hasSpeakerPermissions;
@@ -38,11 +38,11 @@ public class ConferenceTabsPresenter {
         conferenceController = controllerBundle.getConferenceController();
         userController = controllerBundle.getUserController();
 
-        userUUID = userController.getCurrentUser();
+        signedInUserUUID = userController.getCurrentUser();
 
-        hasOrganizerPermissions = conferenceController.isOrganizer(conferenceUUID, userUUID, userUUID);
-        hasSpeakerPermissions = conferenceController.isSpeaker(conferenceUUID, userUUID, userUUID) || hasOrganizerPermissions;
-        hasAttendeePermissions = conferenceController.isAttendee(conferenceUUID, userUUID, userUUID) || hasSpeakerPermissions;
+        hasOrganizerPermissions = conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID);
+        hasSpeakerPermissions = conferenceController.isSpeaker(conferenceUUID, signedInUserUUID, signedInUserUUID) || hasOrganizerPermissions;
+        hasAttendeePermissions = conferenceController.isAttendee(conferenceUUID, signedInUserUUID, signedInUserUUID) || hasSpeakerPermissions;
 
         updateTabs();
     }

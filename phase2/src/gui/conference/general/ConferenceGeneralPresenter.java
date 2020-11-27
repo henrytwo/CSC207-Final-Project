@@ -26,7 +26,7 @@ class ConferenceGeneralPresenter extends AbstractConferencePresenter {
 
         // As a god user, you can't technically "leave" conferences, since your role is determined outside the scope
         // of a conference in the user manager.
-        if (userController.getUserIsGod(userUUID)) {
+        if (userController.getUserIsGod(signedInUserUUID)) {
             IDialog cannotLeaveDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("message", "Unable to leave conference. God users are by definition organizers of all conferences in the system.");
@@ -48,7 +48,7 @@ class ConferenceGeneralPresenter extends AbstractConferencePresenter {
 
             if ((boolean) confirmLeaveDialog.run()) {
                 try {
-                    conferenceController.leaveConference(conferenceUUID, userUUID, userUUID);
+                    conferenceController.leaveConference(conferenceUUID, signedInUserUUID, signedInUserUUID);
 
                     // Reload the main menu to update changes
                     mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
@@ -68,7 +68,7 @@ class ConferenceGeneralPresenter extends AbstractConferencePresenter {
     }
 
     private void updateGeneralData() {
-        boolean isSpeaker = conferenceController.isSpeaker(conferenceUUID, userUUID, userUUID);
+        boolean isSpeaker = conferenceController.isSpeaker(conferenceUUID, signedInUserUUID, signedInUserUUID);
 
         String[][] tableData = {
                 {"Conference Name", conferenceController.getConferenceName(conferenceUUID)},
@@ -76,16 +76,16 @@ class ConferenceGeneralPresenter extends AbstractConferencePresenter {
                 {"End", conferenceController.getConferenceTimeRange(conferenceUUID).getEnd().toString()},
                 {"UUID", conferenceUUID.toString()},
                 {},
-                {"# Rooms", "" + roomController.getRooms(conferenceUUID, userUUID).size()},
-                {"# Events", "" + eventController.getEvents(conferenceUUID, userUUID).size()},
+                {"# Rooms", "" + roomController.getRooms(conferenceUUID, signedInUserUUID).size()},
+                {"# Events", "" + eventController.getEvents(conferenceUUID, signedInUserUUID).size()},
                 {},
-                {"# Attendees", "" + conferenceController.getAttendees(conferenceUUID, userUUID).size()},
-                {"# Speakers", "" + conferenceController.getSpeakers(conferenceUUID, userUUID).size()},
-                {"# Organizers", "" + conferenceController.getOrganizers(conferenceUUID, userUUID).size()},
+                {"# Attendees", "" + conferenceController.getAttendees(conferenceUUID, signedInUserUUID).size()},
+                {"# Speakers", "" + conferenceController.getSpeakers(conferenceUUID, signedInUserUUID).size()},
+                {"# Organizers", "" + conferenceController.getOrganizers(conferenceUUID, signedInUserUUID).size()},
                 {},
                 {"Your role", role},
-                {"# Events you're registered in", "" + eventController.getAttendeeEvents(conferenceUUID, userUUID).size()},
-                {"# Events you're speaking at", isSpeaker ? ("" + eventController.getSpeakerEvents(conferenceUUID, userUUID).size()) : "N/A"}
+                {"# Events you're registered in", "" + eventController.getAttendeeEvents(conferenceUUID, signedInUserUUID).size()},
+                {"# Events you're speaking at", isSpeaker ? ("" + eventController.getSpeakerEvents(conferenceUUID, signedInUserUUID).size()) : "N/A"}
         };
 
         String[] columnNames = {
