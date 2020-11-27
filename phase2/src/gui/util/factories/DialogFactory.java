@@ -2,6 +2,7 @@ package gui.util.factories;
 
 import gui.conference.form.ConferenceFormDialog;
 import gui.conference.picker.ConferencePickerDialog;
+import gui.user.picker.UserPickerDialog;
 import gui.util.dialogs.confirm.ConfirmBooleanDialogView;
 import gui.util.dialogs.message.MessageDialogView;
 import gui.util.enums.DialogFactoryOptions;
@@ -51,6 +52,8 @@ public class DialogFactory implements IDialogFactory {
                 return new ConferenceFormDialog(mainFrame, (UUID) arguments.get("conferenceUUID"));
             case CONFERENCE_PICKER:
                 return new ConferencePickerDialog(mainFrame, (Set<UUID>) arguments.get("availableConferenceUUIDs"), (String) arguments.get("instructions"));
+            case USER_PICKER:
+                return new UserPickerDialog(mainFrame, (Set<UUID>) arguments.get("availableUserUUIDs"), (String) arguments.get("instructions"));
             case MESSAGE:
                 return new MessageDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.getOrDefault("title", "Message"), (DialogFactoryOptions.dialogType) arguments.get("messageType"));
             case CONFIRM_BOOLEAN:

@@ -9,9 +9,7 @@ import gui.util.interfaces.IFrame;
 import user.UserController;
 import util.ControllerBundle;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 class ConferenceSettingsPresenter extends AbstractConferencePresenter {
 
@@ -69,6 +67,120 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
 
     }
 
+    void addOrganizer() {
+        // Users that are eligible to become organizers are in the system, but are not already organizers
+        Set<UUID> availableUserUUIDs = new HashSet<>(userController.getUsers());
+        availableUserUUIDs.removeAll(conferenceController.getOrganizers(conferenceUUID, signedInUserUUID));
+
+        if (availableUserUUIDs.size() == 0) {
+
+            IDialog noUsersAvailableDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("message", "There are no users available to add as an organizer.");
+                    put("title", "Unable to add organizer");
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                }
+            });
+
+            noUsersAvailableDialog.run();
+
+        } else {
+            IDialog organizerPickerDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.USER_PICKER, new HashMap<String, Object>() {
+                {
+                    put("availableUserUUIDs", availableUserUUIDs);
+                    put("instructions", "Choose a user to give organizer permissions to. The user will be invited to the conference if they are not already a member.");
+                }
+            });
+
+            UUID newOrganizerUUID = (UUID) organizerPickerDialog.run();
+
+            if (newOrganizerUUID != null) {
+                IDialog confirmAddOrganizer = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+                    {
+                        put("message", String.format("Are you sure you want to invite %s (%s) to be an organizer? They will have full access to this conference.", userController.getUserFullName(newOrganizerUUID), newOrganizerUUID));
+                        put("title", "Confirm invite organizer");
+                        put("messageType", DialogFactoryOptions.dialogType.WARNING);
+                        put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+                    }
+                });
+
+                if ((boolean) confirmAddOrganizer.run()) {
+                    conferenceController.addOrganizer(conferenceUUID, signedInUserUUID, newOrganizerUUID);
+
+                    IDialog organizerAddedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                        {
+                            put("message", String.format("%s (%s) has been successfully granted organizer permissions.", userController.getUserFullName(newOrganizerUUID), newOrganizerUUID));
+                            put("title", "Organizer Added");
+                            put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
+                        }
+                    });
+
+                    organizerAddedDialog.run();
+
+                    // Update the list of conference users
+                    updateConferenceUsers();
+                }
+            }
+        }
+    }
+
+    void addAttendee() {
+        // Users that are eligible to become organizers are in the system, but are not already organizers
+        Set<UUID> availableUserUUIDs = new HashSet<>(userController.getUsers());
+        availableUserUUIDs.removeAll(conferenceController.getAttendees(conferenceUUID, signedInUserUUID));
+
+        if (availableUserUUIDs.size() == 0) {
+
+            IDialog noUsersAvailableDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("message", "There are no users available to add as an attendee.");
+                    put("title", "Unable to add organizer");
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                }
+            });
+
+            noUsersAvailableDialog.run();
+
+        } else {
+            IDialog organizerPickerDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.USER_PICKER, new HashMap<String, Object>() {
+                {
+                    put("availableUserUUIDs", availableUserUUIDs);
+                    put("instructions", "Choose a user to invite as an attendee.");
+                }
+            });
+
+            UUID newOrganizerUUID = (UUID) organizerPickerDialog.run();
+
+            if (newOrganizerUUID != null) {
+                IDialog confirmAddOrganizer = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+                    {
+                        put("message", String.format("Are you sure you want to invite %s (%s) to be an attendee?", userController.getUserFullName(newOrganizerUUID), newOrganizerUUID));
+                        put("title", "Confirm invite attendee");
+                        put("messageType", DialogFactoryOptions.dialogType.WARNING);
+                        put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+                    }
+                });
+
+                if ((boolean) confirmAddOrganizer.run()) {
+                    conferenceController.addAttendee(conferenceUUID, newOrganizerUUID);
+
+                    IDialog attendeeAddedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                        {
+                            put("message", String.format("%s (%s) has been invited as an attendee.", userController.getUserFullName(newOrganizerUUID), newOrganizerUUID));
+                            put("title", "Attendee Added");
+                            put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
+                        }
+                    });
+
+                    attendeeAddedDialog.run();
+
+                    // Update the list of conference users
+                    updateConferenceUsers();
+                }
+            }
+        }
+    }
+
     void deleteConference() {
         IDialog confirmDeleteDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
             {
@@ -86,7 +198,6 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
             mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
         }
     }
-
 
     void editConference() {
         IDialog conferenceFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFERENCE_FORM, new HashMap<String, Object>() {

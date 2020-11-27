@@ -1,6 +1,5 @@
 package gui.user.picker;
 
-import convention.ConferenceController;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IFrame;
 import user.UserController;
