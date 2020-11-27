@@ -29,6 +29,8 @@ public class ConferenceSettingsView implements IPanel, IConferenceSettingsView {
         removeUserButton.addActionListener((e) -> conferenceSettingsPresenter.removeUser());
         removeOrganizerButton.addActionListener((e) -> conferenceSettingsPresenter.removeOrganizer());
 
+        createConversationWithUsersButton.addActionListener((e) -> conferenceSettingsPresenter.createConversation());
+
         editConferenceButton.addActionListener((e) -> conferenceSettingsPresenter.editConference());
         deleteConferenceButton.addActionListener((e) -> conferenceSettingsPresenter.deleteConference());
     }

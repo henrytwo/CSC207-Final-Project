@@ -11,16 +11,14 @@ import java.util.*;
 
 class MultiUserPickerPresenter {
 
-    private IFrame mainFrame;
     private IMultiUserPickerDialog multiUserPickerDialog;
     private Set<UUID> availableUserUUIDs;
-    private Set<UUID> selectedUserUUIDs;
+    private Set<UUID> selectedUserUUIDs = new HashSet<>();
 
     private UserController userController;
     private IDialogFactory dialogFactory;
 
     MultiUserPickerPresenter(IFrame mainFrame, IMultiUserPickerDialog multiUserPickerDialog, Set<UUID> availableUserUUIDs) {
-        this.mainFrame = mainFrame;
         this.multiUserPickerDialog = multiUserPickerDialog;
         this.availableUserUUIDs = availableUserUUIDs;
 

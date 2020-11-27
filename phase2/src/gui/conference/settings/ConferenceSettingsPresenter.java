@@ -32,7 +32,7 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         updateConferenceUsers();
     }
 
-    void updateConferenceUsers() {
+    private void updateConferenceUsers() {
         ArrayList<UUID> userUUIDs = new ArrayList<>(conferenceController.getUsers(conferenceUUID, signedInUserUUID));
 
         String[] columnNames = {
@@ -64,6 +64,37 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         }
 
         conferenceSettingsView.setUserList(tableData, columnNames);
+    }
+
+    void createConversation() {
+        IDialog chooseUsersDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MULTI_USER_PICKER, new HashMap<String, Object>() {
+            {
+                put("instructions", "Select users to add to the new conversation");
+                put("availableUserUUIDs", conferenceController.getUsers(conferenceUUID, signedInUserUUID));
+            }
+        });
+
+        Set<UUID> selectedUserUUIDs = (Set<UUID>) chooseUsersDialog.run();
+
+        if (selectedUserUUIDs != null) {
+            selectedUserUUIDs.add(signedInUserUUID); // We need to add the signed in user in the conversation too
+
+            UUID conversationUUID = conferenceController.createConversationWithUsers(conferenceUUID, signedInUserUUID, selectedUserUUIDs);
+
+            IDialog conversationCreatedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("message", String.format("Conversation with %d users created successfully (%s)", selectedUserUUIDs.size(), conversationUUID));
+                    put("title", "Conversation created");
+                    put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
+                }
+            });
+
+            conversationCreatedDialog.run();
+
+            /**
+             * TODO: Open conversation here
+             */
+        }
     }
 
     /**
