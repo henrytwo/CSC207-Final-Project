@@ -89,7 +89,7 @@ class ConferenceGeneralPresenter extends AbstractConferencePresenter {
         };
 
         String[] columnNames = {
-                "Label",
+                "Key",
                 "Value"
         };
 
