@@ -235,7 +235,7 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
     }
 
     void removeOrganizer() {
-        Set<UUID> conferenceUserUUIDs = new HashSet<>(conferenceController.getUsers(conferenceUUID, signedInUserUUID));
+        Set<UUID> conferenceUserUUIDs = new HashSet<>(conferenceController.getOrganizers(conferenceUUID, signedInUserUUID));
 
         UUID removedUserUUID = confirmSelectUser(
                 conferenceUserUUIDs,
