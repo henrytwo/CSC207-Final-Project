@@ -22,7 +22,7 @@ public class ConferenceGeneralView implements IPanel, IConferenceGeneralView {
     }
 
     @Override
-    public void setTableData(Object[][] tableData, Object[] columnNames) {
+    public void setTableData(String[][] tableData, String[] columnNames) {
         TableModel tableModel = new DefaultTableModel(tableData, columnNames);
 
         generalTable.setModel(tableModel);

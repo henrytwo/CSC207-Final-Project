@@ -6,5 +6,5 @@ import javax.swing.table.TableModel;
 import java.util.UUID;
 
 public interface IConferenceGeneralView {
-    void setTableData(Object[][] tableData, Object[] columnNames);
+    void setTableData(String[][] tableData, String[] columnNames);
 }
