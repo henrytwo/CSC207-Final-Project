@@ -30,7 +30,10 @@ public class CreateBunchOfConferences {
 
         // Create test users
         for (int i = 0; i < 10; i++) {
-            UUID newUserUUID = userManager.registerUser("User " + i, "Userson", "user"+ i, "password", false, false);
+            userManager.registerUser("User " + i, "Userson", "user"+ i, "password", false, false);
+
+            // Login in case the user already exists
+            UUID newUserUUID = userManager.login("user"+ i, "password");
 
             // Create test conferences
             for (int j = 0; j < 3; j++) {
@@ -48,6 +51,8 @@ public class CreateBunchOfConferences {
 
             }
         }
+
+        userManager.clearCurrentUser();
 
         userManagerSerializer.save(userManager);
         contactManagerSerializer.save(contactManager);
