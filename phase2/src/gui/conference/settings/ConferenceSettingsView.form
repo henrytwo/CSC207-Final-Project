@@ -89,8 +89,9 @@
         </constraints>
         <properties>
           <background color="-65022"/>
+          <font size="24"/>
           <foreground color="-1"/>
-          <text value="DELETE CONFERENCE"/>
+          <text value="☠ ☢ ☢ DELETE CONFERENCE ☢ ☢ ☠"/>
         </properties>
       </component>
     </children>

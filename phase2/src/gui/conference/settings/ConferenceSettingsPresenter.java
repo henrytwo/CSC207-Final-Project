@@ -19,6 +19,25 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         this.conferenceSettingsView = conferenceSettingsView;
     }
 
+    void deleteConference() {
+        IDialog confirmDeleteDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+            {
+                put("message", String.format("Are you sure you want to DELETE this conference? You CANNOT undo this. (%s)", conferenceController.getConferenceName(conferenceUUID)));
+                put("title", "Confirm delete conference");
+                put("messageType", DialogFactoryOptions.dialogType.WARNING);
+                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+            }
+        });
+
+        if ((Boolean) confirmDeleteDialog.run()) {
+            conferenceController.deleteConference(conferenceUUID, userUUID);
+
+            // Reload the main menu to update changes
+            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
+        }
+    }
+
+
     void editConference() {
         IDialog conferenceFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFERENCE_FORM, new HashMap<String, Object>() {
             {

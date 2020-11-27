@@ -21,6 +21,7 @@ public class ConferenceSettingsView implements IPanel, IConferenceSettingsView {
         conferenceSettingsPresenter = new ConferenceSettingsPresenter(mainFrame, this, conferenceUUID);
 
         editConferenceButton.addActionListener((e) -> conferenceSettingsPresenter.editConference());
+        deleteConferenceButton.addActionListener((e) -> conferenceSettingsPresenter.deleteConference());
     }
 
     @Override
