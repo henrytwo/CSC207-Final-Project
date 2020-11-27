@@ -12,11 +12,13 @@ public class ConferenceSettingsView implements IPanel, IConferenceSettingsView {
     private ConferenceSettingsPresenter conferenceSettingsPresenter;
     private JPanel settingsPanel;
     private JButton editConferenceButton;
-    private JButton viewRemoveAttendeesButton;
-    private JButton viewRemoveOrganizersButton;
+    private JButton removeUserButton;
+    private JButton removeOrganizerButton;
     private JButton addOrganizerButton;
-    private JButton addAttendeeButton;
+    private JButton inviteUserButton;
     private JButton deleteConferenceButton;
+    private JButton createConversationWithUsersButton;
+    private JList conferenceMembersList;
 
     public ConferenceSettingsView(IFrame mainFrame, UUID conferenceUUID) {
         conferenceSettingsPresenter = new ConferenceSettingsPresenter(mainFrame, this, conferenceUUID);
