@@ -34,7 +34,7 @@ class ConferenceFormPresenter {
 
     private DateParser dateParser = new DateParser();
 
-    ConferenceFormPresenter(IFrame mainFrame, IConferenceFormDialog conferenceFormDialog) {
+    ConferenceFormPresenter(IFrame mainFrame, IConferenceFormDialog conferenceFormDialog, UUID conferenceUUID) {
         this.conferenceFormDialog = conferenceFormDialog;
 
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
@@ -42,7 +42,7 @@ class ConferenceFormPresenter {
 
         dialogFactory = mainFrame.getDialogFactory();
 
-        this.conferenceUUID = conferenceFormDialog.getConferenceUUID();
+        this.conferenceUUID = conferenceUUID;
         this.userUUID = controllerBundle.getUserController().getCurrentUser();
 
         // Existing conferences will have a non-null UUID
@@ -82,6 +82,7 @@ class ConferenceFormPresenter {
 
             // Update conference UUID in case it has changed
             conferenceFormDialog.setConferenceUUID(conferenceUUID);
+            conferenceFormDialog.setUpdated(true);
 
             // Close the dialog so it isn't blocking anymore
             conferenceFormDialog.close();

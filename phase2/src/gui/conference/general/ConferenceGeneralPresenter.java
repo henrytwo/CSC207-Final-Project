@@ -1,56 +1,24 @@
 package gui.conference.general;
 
-import convention.ConferenceController;
-import convention.EventController;
-import convention.RoomController;
 import convention.exception.LoneOrganizerException;
+import gui.conference.AbstractConferencePresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
-import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import gui.util.interfaces.IPanelFactory;
-import user.UserController;
-import util.ControllerBundle;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-class ConferenceGeneralPresenter {
+class ConferenceGeneralPresenter extends AbstractConferencePresenter {
 
-    IFrame mainFrame;
-    IDialogFactory dialogFactory;
-    IPanelFactory panelFactory;
-    IConferenceGeneralView conferenceGeneralView;
-
-    EventController eventController;
-    RoomController roomController;
-    ConferenceController conferenceController;
-    UserController userController;
-
-    UUID userUUID;
-    UUID conferenceUUID;
-
-    String role;
+    private IConferenceGeneralView conferenceGeneralView;
 
     ConferenceGeneralPresenter(IFrame mainFrame, IConferenceGeneralView conferenceGeneralView, UUID conferenceUUID) {
+        super(mainFrame, conferenceUUID);
 
-        this.mainFrame = mainFrame;
-        this.conferenceUUID = conferenceUUID;
         this.conferenceGeneralView = conferenceGeneralView;
 
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        conferenceController = controllerBundle.getConferenceController();
-        userController = controllerBundle.getUserController();
-        eventController = controllerBundle.getEventController();
-        roomController = controllerBundle.getRoomController();
-
-        dialogFactory = mainFrame.getDialogFactory();
-        panelFactory = mainFrame.getPanelFactory();
-
-        userUUID = userController.getCurrentUser();
-
-        updateRole();
         updateGeneralData();
     }
 
@@ -96,17 +64,6 @@ class ConferenceGeneralPresenter {
                     loneOrganizerDialog.run();
                 }
             }
-        }
-
-    }
-
-    private void updateRole() {
-        if (conferenceController.isOrganizer(conferenceUUID, userUUID, userUUID)) {
-            role = "Organizer";
-        } else if (conferenceController.isSpeaker(conferenceUUID, userUUID, userUUID)) {
-            role = "Speaker";
-        } else {
-            role = "Attendee";
         }
     }
 

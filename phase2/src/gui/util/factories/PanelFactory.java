@@ -1,5 +1,6 @@
 package gui.util.factories;
 
+import gui.conference.settings.ConferenceSettingsView;
 import gui.conference.tabs.ConferenceTabsView;
 import gui.conference.menu.ConferenceMenuView;
 import gui.conference.general.ConferenceGeneralView;
@@ -61,6 +62,8 @@ public class PanelFactory implements IPanelFactory {
                 return new ConferenceTabsView(mainFrame, (UUID) arguments.get("conferenceUUID"));
             case CONFERENCE_GENERAL:
                 return new ConferenceGeneralView(mainFrame, (UUID) arguments.get("conferenceUUID"));
+            case CONFERENCE_SETTINGS:
+                return new ConferenceSettingsView(mainFrame, (UUID) arguments.get("conferenceUUID"));
             case CONTACTS:
                 return new ContactsView(mainFrame);
             case MESSAGING:

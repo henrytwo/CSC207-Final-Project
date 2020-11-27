@@ -20,6 +20,8 @@ public class ConferenceFormDialog extends JDialog implements IDialog, IConferenc
 
     private UUID conferenceUUID;
 
+    private boolean updated = false;
+
     /**
      * Creates conference form dialog. If conferenceUUID is null, then form submission will result in a new
      * conference being created. Otherwise, details about the existing conference will be retrieved.
@@ -42,7 +44,7 @@ public class ConferenceFormDialog extends JDialog implements IDialog, IConferenc
         /* Initiate presenter */
 
         this.conferenceUUID = conferenceUUID;
-        ConferenceFormPresenter conferenceFormPresenter = new ConferenceFormPresenter(mainFrame, this);
+        ConferenceFormPresenter conferenceFormPresenter = new ConferenceFormPresenter(mainFrame, this, conferenceUUID);
 
         /* Initiate listeners */
 
@@ -59,6 +61,11 @@ public class ConferenceFormDialog extends JDialog implements IDialog, IConferenc
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction((e) -> close(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    @Override
+    public void setUpdated(boolean newUpdated) {
+        updated = newUpdated;
     }
 
     @Override
@@ -97,11 +104,6 @@ public class ConferenceFormDialog extends JDialog implements IDialog, IConferenc
     }
 
     @Override
-    public UUID getConferenceUUID() {
-        return conferenceUUID;
-    }
-
-    @Override
     public void setConferenceUUID(UUID newUUID) {
         conferenceUUID = newUUID;
     }
@@ -116,6 +118,7 @@ public class ConferenceFormDialog extends JDialog implements IDialog, IConferenc
         this.pack();
         this.setVisible(true);
 
-        return conferenceUUID;
+        // Only return the UUID if we actually performed an update
+        return updated ? conferenceUUID : null;
     }
 }

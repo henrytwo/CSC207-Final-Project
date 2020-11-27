@@ -13,13 +13,9 @@ public class ConferenceGeneralView implements IPanel, IConferenceGeneralView {
     private JTable generalTable;
     private JButton leaveConferenceButton;
 
-    private UUID conferenceUUID;
-
     private ConferenceGeneralPresenter conferenceGeneralPresenter;
 
     public ConferenceGeneralView(IFrame mainFrame, UUID conferenceUUID) {
-        this.conferenceUUID = conferenceUUID;
-
         conferenceGeneralPresenter = new ConferenceGeneralPresenter(mainFrame, this, conferenceUUID);
 
         leaveConferenceButton.addActionListener((e) -> conferenceGeneralPresenter.leaveConference());

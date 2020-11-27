@@ -8,6 +8,7 @@ public class PanelFactoryOptions {
         MESSAGING,
         CONFERENCE_MENU,
         CONFERENCE_TABS,
-        CONFERENCE_GENERAL
+        CONFERENCE_GENERAL,
+        CONFERENCE_SETTINGS
     }
 }
