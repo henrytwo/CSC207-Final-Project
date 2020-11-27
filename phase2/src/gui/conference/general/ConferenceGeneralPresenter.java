@@ -67,7 +67,7 @@ class ConferenceGeneralPresenter {
                 }
             });
 
-            cannotLeaveDialog.show();
+            cannotLeaveDialog.run();
         } else {
             IDialog confirmLeaveDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                 {
@@ -78,7 +78,7 @@ class ConferenceGeneralPresenter {
                 }
             });
 
-            if ((boolean) confirmLeaveDialog.show()) {
+            if ((boolean) confirmLeaveDialog.run()) {
                 try {
                     conferenceController.leaveConference(conferenceUUID, userUUID, userUUID);
 
@@ -93,7 +93,7 @@ class ConferenceGeneralPresenter {
                         }
                     });
 
-                    loneOrganizerDialog.show();
+                    loneOrganizerDialog.run();
                 }
             }
         }

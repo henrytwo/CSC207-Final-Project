@@ -17,7 +17,7 @@ public class ConfirmBooleanDialogView implements IDialog {
     public ConfirmBooleanDialogView(IFrame mainFrame, String message, String title, DialogFactoryOptions.dialogType dialogType, DialogFactoryOptions.optionType optionType) {
         this.mainFrame = mainFrame;
         this.message = message;
-        this.title = title != null ? title : "Message";
+        this.title = title;
 
         ConstantsTranslator constantsTranslator = new ConstantsTranslator();
 
@@ -26,7 +26,7 @@ public class ConfirmBooleanDialogView implements IDialog {
     }
 
     @Override
-    public Boolean show() {
+    public Boolean run() {
         return JOptionPane.showConfirmDialog(mainFrame.getFrame(), message, title, optionType, dialogType) == 0; // 0 means yes
     }
 }

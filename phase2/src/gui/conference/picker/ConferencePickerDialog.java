@@ -30,7 +30,7 @@ public class ConferencePickerDialog implements IDialog {
     }
 
     @Override
-    public UUID show() {
+    public UUID run() {
         String[] conferenceNames = new String[availableConferenceUUIDs.size()];
 
         for (int i = 0; i < availableConferenceUUIDs.size(); i++) {

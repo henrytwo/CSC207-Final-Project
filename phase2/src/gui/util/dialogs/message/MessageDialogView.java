@@ -16,7 +16,7 @@ public class MessageDialogView implements IDialog {
     public MessageDialogView(IFrame mainFrame, String message, String title, DialogFactoryOptions.dialogType dialogType) {
         this.mainFrame = mainFrame;
         this.message = message;
-        this.title = title != null ? title : "Message";
+        this.title = title;
 
         ConstantsTranslator constantsTranslator = new ConstantsTranslator();
 
@@ -24,7 +24,7 @@ public class MessageDialogView implements IDialog {
     }
 
     @Override
-    public Object show() {
+    public Object run() {
         JOptionPane.showMessageDialog(mainFrame.getFrame(), message, title, dialogType);
 
         return null;

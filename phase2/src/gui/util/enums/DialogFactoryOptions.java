@@ -3,6 +3,7 @@ package gui.util.enums;
 public class DialogFactoryOptions {
     public enum dialogNames {
         CONFERENCE_PICKER,
+        CONFERENCE_FORM,
         MESSAGE,
         CONFIRM_BOOLEAN
     }

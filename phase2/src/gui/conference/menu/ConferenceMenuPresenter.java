@@ -51,10 +51,22 @@ class ConferenceMenuPresenter {
         }
     }
 
+    /**
+     * Initiates dialog for a user to create a conference
+     */
     void createConference() {
+        IDialog conferenceFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFERENCE_FORM);
 
+        UUID newConferenceUUID = (UUID) conferenceFormDialog.run();
+
+        if (newConferenceUUID != null) {
+            updateAndSelectNewConference(newConferenceUUID);
+        }
     }
 
+    /**
+     * Initiates dialog for a user to join a conference
+     */
     void joinConference() {
         Set<UUID> availableConferenceUUIDs = conferenceController.getNotUserConferences(userUUID);
 
@@ -67,7 +79,7 @@ class ConferenceMenuPresenter {
                 }
             });
 
-            noConferenceDialog.show();
+            noConferenceDialog.run();
         } else {
             IDialog conferencePicker = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFERENCE_PICKER, new HashMap<String, Object>() {
                 {
@@ -77,28 +89,37 @@ class ConferenceMenuPresenter {
             });
 
             // IDialog returns Object type by default, so we have to cast
-            UUID selectedConferenceUUID = (UUID) conferencePicker.show();
+            UUID selectedConferenceUUID = (UUID) conferencePicker.run();
 
             if (selectedConferenceUUID != null) {
                 conferenceController.addAttendee(selectedConferenceUUID, userUUID);
 
-                // Update the local list with the new conference
-                updateConferenceList();
-                updateConferenceNames();
-
-                // Select the latest conference
-                int index = conferenceUUIDs.indexOf(selectedConferenceUUID);
-
-                conferenceMenuView.setConferenceListSelection(index);
-                selectConferencePanel(index);
+                updateAndSelectNewConference(selectedConferenceUUID);
             }
         }
     }
 
     /**
+     * Updates the local list of conferences and selects a conference by UUID
+     *
+     * @param selectedConferenceUUID UUID of conference to open
+     */
+    private void updateAndSelectNewConference(UUID selectedConferenceUUID) {
+        // Update the local list with the new conference
+        updateConferenceList();
+        updateConferenceNames();
+
+        // Select the latest conference
+        int index = conferenceUUIDs.indexOf(selectedConferenceUUID);
+
+        conferenceMenuView.setConferenceListSelection(index);
+        selectConferencePanel(index);
+    }
+
+    /**
      * Updates the panel on the right side of the screen with the currently selected conference
      *
-     * @param index
+     * @param index index of the conference to open
      */
     void selectConferencePanel(int index) {
         // Don't need to perform an update if we're already selected
@@ -118,13 +139,16 @@ class ConferenceMenuPresenter {
     }
 
     /**
-     * Update the local host of conference UUIDs
+     * Update the local list of conference UUIDs
      */
     private void updateConferenceList() {
         currentConferenceIndex = -1;
         conferenceUUIDs = new ArrayList<>(conferenceController.getUserConferences(userUUID));
     }
 
+    /**
+     * Updates the local list of conference names
+     */
     private void updateConferenceNames() {
         String[] conferenceNames = new String[conferenceUUIDs.size()];
 
