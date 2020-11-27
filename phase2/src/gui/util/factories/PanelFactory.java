@@ -3,6 +3,7 @@ package gui.util.factories;
 import gui.conference.general.ConferenceGeneralView;
 import gui.conference.menu.ConferenceMenuView;
 import gui.conference.settings.ConferenceSettingsView;
+import gui.conference.tabs.ConferenceTabsConstants;
 import gui.conference.tabs.ConferenceTabsView;
 import gui.contacts.ContactsView;
 import gui.login.LoginView;
@@ -57,9 +58,9 @@ public class PanelFactory implements IPanelFactory {
             case MAIN_MENU:
                 return new MainMenuView(mainFrame, (Integer) initializationArguments.getOrDefault("defaultTabIndex", 0), initializationArguments);
             case CONFERENCE_MENU:
-                return new ConferenceMenuView(mainFrame, (UUID) initializationArguments.get("defaultConferenceUUID"));
+                return new ConferenceMenuView(mainFrame, (UUID) initializationArguments.get("defaultConferenceUUID"), initializationArguments);
             case CONFERENCE_TABS:
-                return new ConferenceTabsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
+                return new ConferenceTabsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"), (ConferenceTabsConstants.tabNames) initializationArguments.get("defaultTabName"));
             case CONFERENCE_GENERAL:
                 return new ConferenceGeneralView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
             case CONFERENCE_SETTINGS:

@@ -57,15 +57,15 @@ public class ConferenceTabsPresenter {
 
             conferenceTabsView.setGeneralTabPanel(generalView);
         } else {
-            conferenceTabsView.setTabEnabled(0, false); // Disable general tab
-            conferenceTabsView.setTabEnabled(1, false); // Disable events tab
-            conferenceTabsView.setTabEnabled(2, false); // Disable registered events tab
+            conferenceTabsView.setTabEnabled(ConferenceTabsConstants.tabNames.GENERAL, false); // Disable general tab
+            conferenceTabsView.setTabEnabled(ConferenceTabsConstants.tabNames.ALL_EVENTS, false); // Disable events tab
+            conferenceTabsView.setTabEnabled(ConferenceTabsConstants.tabNames.YOUR_REGISTERED_EVENTS, false); // Disable registered events tab
         }
 
         if (hasSpeakerPermissions) {
 
         } else {
-            conferenceTabsView.setTabEnabled(3, false); // Disable speaker events tab
+            conferenceTabsView.setTabEnabled(ConferenceTabsConstants.tabNames.YOUR_SPEAKER_EVENTS, false); // Disable speaker events tab
         }
 
         if (hasOrganizerPermissions) {
@@ -77,10 +77,8 @@ public class ConferenceTabsPresenter {
 
             conferenceTabsView.setSettingsTabPanel(settingsView);
         } else {
-            conferenceTabsView.setTabEnabled(4, false); // Disable rooms tab
-            conferenceTabsView.setTabEnabled(5, false); // Disable settings tab
+            conferenceTabsView.setTabEnabled(ConferenceTabsConstants.tabNames.ROOMS, false); // Disable rooms tab
+            conferenceTabsView.setTabEnabled(ConferenceTabsConstants.tabNames.SETTINGS, false); // Disable settings tab
         }
-
-
     }
 }

@@ -3,6 +3,7 @@ package gui.conference.settings;
 import convention.ConferenceController;
 import convention.exception.LoneOrganizerException;
 import gui.conference.AbstractConferencePresenter;
+import gui.conference.tabs.ConferenceTabsConstants;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
@@ -173,9 +174,9 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         UUID removedUserUUID = confirmSelectUser(
                 conferenceUserUUIDs,
                 "Remove user",
-                "Choose a user to remove from the conference.",
+                "Choose a user to remove from the conference. All of their roles, event registrations, and speaker assignments will be cancelled.",
                 "There are no users to remove from the conference. (wait how did this even happen? are you god?)",
-                (uuid) -> String.format("Are you sure you want to remove %s (%s) from the conference? All of their roles, event registrations, and speaker assignments will be cancelled.", userController.getUserFullName(uuid), uuid),
+                (uuid) -> String.format("Are you sure you want to remove %s (%s) from the conference?", userController.getUserFullName(uuid), uuid),
                 (uuid) -> String.format("%s (%s) has been removed from the conference.", userController.getUserFullName(uuid), uuid),
                 (uuid) -> {
                     try {
@@ -192,7 +193,13 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
             // Send user back to main menu since they're not in the conference anymore
             mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
         } else {
-            updateConferenceUsers();
+            // Reload the main menu to update page and stats
+            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
+                {
+                    put("defaultConferenceUUID", conferenceUUID);
+                    put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
+                }
+            }));
         }
     }
 
@@ -202,9 +209,9 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         UUID removedUserUUID = confirmSelectUser(
                 conferenceUserUUIDs,
                 "Remove organizer",
-                "Choose a user to revoke organizer permissions from.",
+                "Choose a user to revoke organizer permissions from. If they do not have any other roles, they will also be removed from the conference.",
                 "There are no users to remove as an organizer. (wait how did this even happen? are you god?)",
-                (uuid) -> String.format("Are you sure you want to remove %s (%s) from the conference? If they do not have any other roles, they will also be removed from the conference.", userController.getUserFullName(uuid), uuid),
+                (uuid) -> String.format("Are you sure you want to remove %s (%s) from the conference?", userController.getUserFullName(uuid), uuid),
                 (uuid) -> String.format("%s (%s) is no longer an organizer.", userController.getUserFullName(uuid), uuid),
                 (uuid) -> {
                     try {
@@ -225,7 +232,13 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
                 }
             }));
         } else {
-            updateConferenceUsers();
+            // Reload the main menu to update page and stats
+            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
+                {
+                    put("defaultConferenceUUID", conferenceUUID);
+                    put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
+                }
+            }));
         }
     }
 
@@ -247,7 +260,13 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
                 }
         );
 
-        updateConferenceUsers();
+        // Reload the main menu to update page and stats
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
+            {
+                put("defaultConferenceUUID", conferenceUUID);
+                put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
+            }
+        }));
     }
 
     void deleteConference() {
@@ -280,6 +299,7 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
             mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
                 {
                     put("defaultConferenceUUID", conferenceUUID);
+                    put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
                 }
             }));
         }

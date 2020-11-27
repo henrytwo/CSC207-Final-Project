@@ -7,5 +7,6 @@ import java.util.UUID;
 public interface IConferenceTabsView {
     void setGeneralTabPanel(IPanel panel);
     void setSettingsTabPanel(IPanel panel);
-    void setTabEnabled(int tabIndex, boolean state);
+    void setSelectedTab(ConferenceTabsConstants.tabNames tabName);
+    void setTabEnabled(ConferenceTabsConstants.tabNames tabName, boolean state);
 }

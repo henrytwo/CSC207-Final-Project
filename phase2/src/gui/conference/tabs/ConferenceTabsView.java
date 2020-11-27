@@ -18,19 +18,26 @@ public class ConferenceTabsView implements IPanel, IConferenceTabsView {
     private JPanel registeredEvents;
     private JPanel speakerEvents;
 
+    private ConferenceTabsConstants conferenceTabsConstants = new ConferenceTabsConstants();
+
     private ConferenceTabsPresenter conferenceTabsPresenter;
 
-    private UUID conferenceUUID;
-
-    public ConferenceTabsView(IFrame mainFrame, UUID conferenceUUID) {
-        this.conferenceUUID = conferenceUUID;
-
+    public ConferenceTabsView(IFrame mainFrame, UUID conferenceUUID, ConferenceTabsConstants.tabNames defaultTabName) {
         conferenceTabsPresenter = new ConferenceTabsPresenter(mainFrame, this, conferenceUUID);
+
+        if (defaultTabName != null) {
+            setSelectedTab(defaultTabName);
+        }
     }
 
     @Override
-    public void setTabEnabled(int tabIndex, boolean state) {
-        conferenceTabs.setEnabledAt(tabIndex, state);
+    public void setSelectedTab(ConferenceTabsConstants.tabNames tabName) {
+        conferenceTabs.setSelectedIndex(conferenceTabsConstants.getTabIndex(tabName));
+    }
+
+    @Override
+    public void setTabEnabled(ConferenceTabsConstants.tabNames tabName, boolean state) {
+        conferenceTabs.setEnabledAt(conferenceTabsConstants.getTabIndex(tabName), state);
     }
 
     @Override

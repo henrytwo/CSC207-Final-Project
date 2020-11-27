@@ -1,6 +1,7 @@
 package gui.conference.menu;
 
 import convention.ConferenceController;
+import gui.conference.tabs.ConferenceTabsConstants;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.*;
@@ -23,15 +24,18 @@ class ConferenceMenuPresenter {
     private UUID signedInUserUUID;
 
     private int currentConferenceIndex = -1;
+    private Map<String, Object> initializationArguments;
 
     /**
      * @param mainFrame
      * @param conferenceMenuView
-     * @param defaultConferenceUUID UUID of the default conference to select. If none selected, or invalid, the first one will be selected.
+     * @param defaultConferenceUUID   UUID of the default conference to select. If none selected, or invalid, the first one will be selected.
+     * @param initializationArguments hashmap of values that can be used to set the initial state of a panel
      */
-    ConferenceMenuPresenter(IFrame mainFrame, IConferenceMenuView conferenceMenuView, UUID defaultConferenceUUID) {
+    ConferenceMenuPresenter(IFrame mainFrame, IConferenceMenuView conferenceMenuView, UUID defaultConferenceUUID, Map<String, Object> initializationArguments) {
         this.conferenceMenuView = conferenceMenuView;
         this.mainFrame = mainFrame;
+        this.initializationArguments = initializationArguments;
 
         panelFactory = mainFrame.getPanelFactory();
         dialogFactory = mainFrame.getDialogFactory();
@@ -59,7 +63,7 @@ class ConferenceMenuPresenter {
 
             // Set initial conference selection
             conferenceMenuView.setConferenceListSelection(defaultConferenceIndex); // makes it look like we select it
-            selectConferencePanel(defaultConferenceIndex); // this one actually sets the right hand panel
+            selectConferencePanel(defaultConferenceIndex, (ConferenceTabsConstants.tabNames) initializationArguments.get("defaultTabName")); // this one actually sets the right hand panel
         }
     }
 
@@ -131,9 +135,19 @@ class ConferenceMenuPresenter {
     /**
      * Updates the panel on the right side of the screen with the currently selected conference
      *
-     * @param index index of the conference to open
+     * @param index          index of the conference to open
      */
     void selectConferencePanel(int index) {
+        selectConferencePanel(index, null);
+    }
+
+    /**
+     * Updates the panel on the right side of the screen with the currently selected conference
+     *
+     * @param index          index of the conference to open
+     * @param defaultTabName name of the tab to open by default
+     */
+    void selectConferencePanel(int index, ConferenceTabsConstants.tabNames defaultTabName) {
         // Don't need to perform an update if we're already selected
         if (index != currentConferenceIndex) {
             currentConferenceIndex = index;
@@ -143,6 +157,7 @@ class ConferenceMenuPresenter {
             IPanel conferenceTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_TABS, new HashMap<String, Object>() {
                 {
                     put("conferenceUUID", selectedConferenceUUID);
+                    put("defaultTabName", defaultTabName);
                 }
             });
 
