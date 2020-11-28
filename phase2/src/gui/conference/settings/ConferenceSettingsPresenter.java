@@ -335,5 +335,4 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
             }));
         }
     }
-
 }

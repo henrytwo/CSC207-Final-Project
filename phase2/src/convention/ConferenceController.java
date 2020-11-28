@@ -240,7 +240,9 @@ public class ConferenceController {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
         // We must revoke all their roles
-        if (conferenceManager.isOrganizer(conferenceUUID, targetUserUUID, userManager)) {
+        // We must check that the target user is part of the organizer set in case they are an organizer thru god mode,
+        // in which case, they aren't actually registered to this conference.
+        if (conferenceManager.getOrganizers(conferenceUUID).contains(targetUserUUID) && conferenceManager.isOrganizer(conferenceUUID, targetUserUUID, userManager)) {
             conferenceManager.removeOrganizer(conferenceUUID, targetUserUUID);
         }
 
