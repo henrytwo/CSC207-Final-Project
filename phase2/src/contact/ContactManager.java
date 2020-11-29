@@ -36,7 +36,7 @@ public class ContactManager implements Serializable {
 
     /**
      * Returns connection requests received by a user
-     * @param user_id the userId of the person for whom we want to show the requests
+     * @param user_id the userId of the person for whom we want to run the requests
      * @return The Set of UUID's of the users who have made a connection request
      */
     public Set<UUID> getRequests(UUID user_id){
@@ -48,7 +48,7 @@ public class ContactManager implements Serializable {
 
     /**
      * Returns connection requests sent by a user
-     * @param user_id the userId of the person for whom we need to show the requests
+     * @param user_id the userId of the person for whom we need to run the requests
      * @return The Set of UUID's of the users to whom this particular user have made a connection request
      */
     public Set<UUID> getSentRequests(UUID user_id){

@@ -2,6 +2,7 @@ package convention.permission;
 
 import convention.conference.ConferenceManager;
 import convention.exception.PermissionException;
+import user.UserManager;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +18,7 @@ public class PermissionManager {
 
     Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     ConferenceManager conferenceManager;
+    UserManager userManager;
 
     private final String ORGANIZER = "ORGANIZER";
     private final String SPEAKER = "SPEAKER";
@@ -27,9 +29,11 @@ public class PermissionManager {
      * Constructor for the PermissionManager
      *
      * @param conferenceManager stores a copy of ConferenceManager so that we can check a user's permission level
+     * @param userManager       user manager to refer users from
      */
-    public PermissionManager(ConferenceManager conferenceManager) {
+    public PermissionManager(ConferenceManager conferenceManager, UserManager userManager) {
         this.conferenceManager = conferenceManager;
+        this.userManager = userManager;
     }
 
     /**
@@ -64,7 +68,7 @@ public class PermissionManager {
      * @param executorUUID   UUID of the user running the command
      */
     public void testIsOrganizer(UUID conferenceUUID, UUID executorUUID) {
-        if (!conferenceManager.isOrganizer(conferenceUUID, executorUUID)) {
+        if (!conferenceManager.isOrganizer(conferenceUUID, executorUUID, userManager)) {
             String errorMessage = generateExecutorAccessDeniedError(conferenceUUID, executorUUID, ORGANIZER);
 
             LOGGER.log(Level.SEVERE, errorMessage);
@@ -80,7 +84,7 @@ public class PermissionManager {
      */
     public void testIsSpeaker(UUID conferenceUUID, UUID executorUUID) {
         // Organizers can perform speaker actions too
-        if (!conferenceManager.isSpeaker(conferenceUUID, executorUUID) && !conferenceManager.isOrganizer(conferenceUUID, executorUUID)) {
+        if (!conferenceManager.isSpeaker(conferenceUUID, executorUUID) && !conferenceManager.isOrganizer(conferenceUUID, executorUUID, userManager)) {
             String errorMessage = generateExecutorAccessDeniedError(conferenceUUID, executorUUID, SPEAKER);
 
             LOGGER.log(Level.SEVERE, errorMessage);
@@ -96,7 +100,7 @@ public class PermissionManager {
      */
     public void testIsAttendee(UUID conferenceUUID, UUID executorUUID) {
         // Organizers can perform speaker actions too
-        if (!conferenceManager.isAttendee(conferenceUUID, executorUUID) && !conferenceManager.isSpeaker(conferenceUUID, executorUUID) && !conferenceManager.isOrganizer(conferenceUUID, executorUUID)) {
+        if (!conferenceManager.isAttendee(conferenceUUID, executorUUID) && !conferenceManager.isSpeaker(conferenceUUID, executorUUID) && !conferenceManager.isOrganizer(conferenceUUID, executorUUID, userManager)) {
             String errorMessage = generateExecutorAccessDeniedError(conferenceUUID, executorUUID, ATTENDEE);
 
             LOGGER.log(Level.SEVERE, errorMessage);
@@ -159,7 +163,7 @@ public class PermissionManager {
         if (executorUUID.equals(targetUserUUID)) {
             // If the executor is the target, then we can treat this as a normal attendee operation
             testIsAttendee(conferenceUUID, targetUserUUID);
-        } else if (conferenceManager.isOrganizer(conferenceUUID, executorUUID)) {
+        } else if (conferenceManager.isOrganizer(conferenceUUID, executorUUID, userManager)) {
             // If the executor is an organizer, still need to check that the target is actually an attendee
             testTargetIsAttendee(conferenceUUID, executorUUID, targetUserUUID);
         } else {

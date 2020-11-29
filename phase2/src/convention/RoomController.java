@@ -6,6 +6,7 @@ import convention.event.EventManager;
 import convention.exception.RoomInUseException;
 import convention.permission.PermissionManager;
 import convention.room.RoomManager;
+import user.UserManager;
 
 import java.util.Map;
 import java.util.Set;
@@ -21,9 +22,9 @@ public class RoomController {
     private ConferenceManager conferenceManager;
     private PermissionManager permissionManager;
 
-    public RoomController(ConferenceManager conferenceManager) {
+    public RoomController(ConferenceManager conferenceManager, UserManager userManager) {
         this.conferenceManager = conferenceManager;
-        this.permissionManager = new PermissionManager(conferenceManager);
+        this.permissionManager = new PermissionManager(conferenceManager, userManager);
     }
 
     /**
@@ -110,7 +111,7 @@ public class RoomController {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
         RoomManager roomManager = conferenceManager.getRoomManager(conferenceUUID);
 
-        // Test if this room is being used by any events
+        // TestView if this room is being used by any events
         for (UUID eventUUID : eventManager.getEvents()) {
             if (eventManager.getEventRoom(eventUUID).equals(roomUUID)) {
                 throw new RoomInUseException(roomUUID, eventUUID);

@@ -101,22 +101,22 @@ public class ConversationController {
     /**
      * Adds user to the a specific chat
      *
-     * @param userUUID         The userId of the user to be added to the Chat
+     * @param signedInUserUUID         The userId of the user to be added to the Chat
      * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
      */
-    //public void addUser(UUID userUUID, UUID conversationUUID) {
-    //    convoManager.addUser(userUUID, conversationUUID);
+    //public void addUser(UUID signedInUserUUID, UUID conversationUUID) {
+    //    convoManager.addUser(signedInUserUUID, conversationUUID);
     //}
     // Not currently in use, need to add admin chat users for this
 
     /**
      * Adds user to the a specific chat
      *
-     * @param userUUID         The userId of the user to be added to the Chat
+     * @param signedInUserUUID         The userId of the user to be added to the Chat
      * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
      */
-    //public void removeUser(UUID userUUID, UUID conversationUUID) {
-    //    convoManager.removeUser(userUUID, conversationUUID);
+    //public void removeUser(UUID signedInUserUUID, UUID conversationUUID) {
+    //    convoManager.removeUser(signedInUserUUID, conversationUUID);
     //}
     // Not currently in use, need to add admin chat users for this
 }

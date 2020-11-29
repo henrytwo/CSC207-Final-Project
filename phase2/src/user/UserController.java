@@ -40,6 +40,26 @@ public class UserController {
     }
 
     /**
+     * Returns true iff the user has god mode
+     *
+     * @param userUUID unique user id
+     * @return true iff use has god mode
+     */
+    public boolean getUserIsGod(UUID userUUID) {
+        return userManager.getUserIsGod(userUUID);
+    }
+
+    /**
+     * Checks if a UUID belongs to a valid user
+     *
+     * @param userUUID UUID of user to check
+     * @return true iff the UUID corresponds to a valid user
+     */
+    public boolean isUser(UUID userUUID) {
+        return userManager.isUser(userUUID);
+    }
+
+    /**
      * Returns the full name
      *
      * @param userUUID unique user id

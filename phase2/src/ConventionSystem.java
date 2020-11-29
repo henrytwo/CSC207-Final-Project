@@ -1,20 +1,25 @@
-import console.UISystem;
 import contact.ContactController;
 import contact.ContactManager;
 import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.conference.ConferenceManager;
+import gateway.CSVReader;
 import gateway.Serializer;
 import messaging.ConversationController;
 import messaging.ConversationManager;
 import user.UserController;
 import user.UserManager;
+import gui.MainFrame;
+import util.ControllerBundle;
 
+import java.io.IOException;
+import java.util.Set;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.UUID;
 
 /**
  * Main convention system. This where the fun begins.
@@ -47,6 +52,19 @@ public class ConventionSystem {
         ConversationManager conversationManager = conversationManagerSerializer.load(new ConversationManager());
         ConferenceManager conferenceManager = conferenceManagerSerializer.load(new ConferenceManager());
 
+        // Create god mode accounts
+        try {
+            Set<UUID> newGodUUIDs = userManager.loadGodUsers(new CSVReader("godUsers.csv").read());
+
+            if (newGodUUIDs.size() > 0) {
+                System.out.printf("Added %d new god users: %s\n", newGodUUIDs.size(), newGodUUIDs.toString());
+            } else {
+                System.out.println("No new god users added.");
+            }
+        } catch (IOException e) {
+            System.out.println("Unable to load god mode users" + e);
+        }
+
         // User controller
         UserController userController = new UserController(userManager);
 
@@ -55,19 +73,24 @@ public class ConventionSystem {
         ConversationController conversationController = new ConversationController(contactManager, conversationManager);
 
         // Convention controllers
-        RoomController roomController = new RoomController(conferenceManager);
-        EventController eventController = new EventController(conferenceManager, conversationManager);
+        RoomController roomController = new RoomController(conferenceManager, userManager);
+        EventController eventController = new EventController(conferenceManager, conversationManager, userManager);
         ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
 
-        // If we were to change this to a GUI, here is what we would switch out
-        UISystem uiSystem = new UISystem(userController, contactController, conversationController, roomController, eventController, conferenceController);
-        uiSystem.run();
+        // Packages up all the controllers in a nice bundle to make it easy to pass around UI components
+        // without super long parameter lists
+        ControllerBundle controllerBundle = new ControllerBundle(userController, contactController, conversationController, roomController, eventController, conferenceController);
 
-        // Serialize everything for the next run
-        System.out.println("Writing to disk...");
-        userManagerSerializer.save(userManager);
-        contactManagerSerializer.save(contactManager);
-        conversationManagerSerializer.save(conversationManager);
-        conferenceManagerSerializer.save(conferenceManager);
+        Runnable shutdown = () -> {
+            // Serialize everything for the next run
+            System.out.println("Writing to disk...");
+            userManagerSerializer.save(userManager);
+            contactManagerSerializer.save(contactManager);
+            conversationManagerSerializer.save(conversationManager);
+            conferenceManagerSerializer.save(conferenceManager);
+        };
+
+        MainFrame uiSystem = new MainFrame(controllerBundle, shutdown);
+        uiSystem.run();
     }
 }

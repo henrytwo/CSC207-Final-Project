@@ -7,7 +7,10 @@ import convention.permission.PermissionManager;
 import messaging.ConversationManager;
 import user.UserManager;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,7 +40,7 @@ public class ConferenceController {
         this.eventController = eventController;
         this.conferenceManager = conferenceManager;
         this.userManager = userManager;
-        this.permissionManager = new PermissionManager(conferenceManager);
+        this.permissionManager = new PermissionManager(conferenceManager, userManager);
     }
 
     /* Conference operations */
@@ -64,7 +67,7 @@ public class ConferenceController {
         Set<UUID> myConferences = new HashSet<>();
 
         for (UUID conferenceUUID : conferenceManager.getConferences()) {
-            if (conferenceManager.isAffiliated(conferenceUUID, userUUID)) {
+            if (conferenceManager.isAffiliated(conferenceUUID, userUUID, userManager)) {
                 myConferences.add(conferenceUUID);
             }
         }
@@ -83,7 +86,7 @@ public class ConferenceController {
         Set<UUID> myNotConferences = new HashSet<>();
 
         for (UUID conferenceUUID : conferenceManager.getConferences()) {
-            if (!conferenceManager.isAffiliated(conferenceUUID, userUUID)) {
+            if (!conferenceManager.isAffiliated(conferenceUUID, userUUID, userManager)) {
                 myNotConferences.add(conferenceUUID);
             }
         }
@@ -237,7 +240,9 @@ public class ConferenceController {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
         // We must revoke all their roles
-        if (conferenceManager.isOrganizer(conferenceUUID, targetUserUUID)) {
+        // We must check that the target user is part of the organizer set in case they are an organizer thru god mode,
+        // in which case, they aren't actually registered to this conference.
+        if (conferenceManager.getOrganizers(conferenceUUID).contains(targetUserUUID) && conferenceManager.isOrganizer(conferenceUUID, targetUserUUID, userManager)) {
             conferenceManager.removeOrganizer(conferenceUUID, targetUserUUID);
         }
 
@@ -344,7 +349,7 @@ public class ConferenceController {
      */
     public boolean isOrganizer(UUID conferenceUUID, UUID executorUUID, UUID targetUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
-        return conferenceManager.getOrganizers(conferenceUUID).contains(targetUUID);
+        return conferenceManager.isOrganizer(conferenceUUID, targetUUID, userManager);
     }
 
     /* Some more getters */
@@ -375,7 +380,7 @@ public class ConferenceController {
      */
     public boolean isSpeaker(UUID conferenceUUID, UUID executorUUID, UUID targetUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
-        return conferenceManager.getSpeakers(conferenceUUID).contains(targetUUID);
+        return conferenceManager.isSpeaker(conferenceUUID, targetUUID);
     }
 
     /**
@@ -404,7 +409,7 @@ public class ConferenceController {
      */
     public boolean isAttendee(UUID conferenceUUID, UUID executorUUID, UUID targetUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
-        return conferenceManager.getAttendees(conferenceUUID).contains(targetUUID);
+        return conferenceManager.isAttendee(conferenceUUID, targetUUID);
     }
 
     /**
