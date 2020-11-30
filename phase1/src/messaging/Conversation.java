@@ -11,9 +11,9 @@ import java.util.UUID;
  */
 public class Conversation implements Serializable {
     private String conversationName; // either group chat or 2 person chat
-    private ArrayList<Message> conversationMessages = new ArrayList<>();
-    private Set<UUID> writeAccessUsers = new HashSet<>();
-    private Set<UUID> readAccessUsers = new HashSet<>();
+    private ArrayList<Message> conversationMessages;
+    private Set<UUID> writeAccessUsers;
+    private Set<UUID> readAccessUsers;
     private UUID convoId;
 
     /**

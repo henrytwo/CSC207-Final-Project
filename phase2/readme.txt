@@ -22,3 +22,5 @@ Important: Ensure that the working directory for the project is /phase2 to ensur
 
     Note: In god mode, the act of leaving an event does nothing to the membership status, since membership for gods
           is determined beyond the scope of a conference.
+    Note: due to some silly problems with some team member's systems, Main.java has been changed to MainSystem.java.
+          MainSystem.java is now the main entrypoint to the program

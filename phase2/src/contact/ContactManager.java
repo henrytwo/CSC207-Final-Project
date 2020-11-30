@@ -7,11 +7,11 @@ import java.util.*;
  * Stores and performs actions on contacts
  */
 public class ContactManager implements Serializable {
-    private Map<UUID, Set<UUID>> contactsMap = new HashMap<UUID, Set<UUID>>();
+    private Map<UUID, Set<UUID>> contactsMap;
 
-    private Map<UUID, Set<UUID>> requestsMap = new HashMap<UUID, Set<UUID>>();
+    private Map<UUID, Set<UUID>> requestsMap;
 
-    private Map<UUID, Set<UUID>> sentRequestsMap = new HashMap<UUID, Set<UUID>>();
+    private Map<UUID, Set<UUID>> sentRequestsMap;
 
     /**
      * Constructs ContactManager

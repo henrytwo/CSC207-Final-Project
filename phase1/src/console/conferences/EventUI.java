@@ -257,7 +257,7 @@ public class EventUI {
 
         // We store a mapping from the menu ID to the label
         // For each permission, we'll set out a different list of selection IDs, and then generate the selection menu using that
-        HashMap<String, String> selectionIDToLabel = new HashMap<String, String>() {
+        Map<String, String> selectionIDToLabel = new HashMap<String, String>() {
             {
                 put("register", "Register for this event");
                 put("unregister", "Unregister from this event");

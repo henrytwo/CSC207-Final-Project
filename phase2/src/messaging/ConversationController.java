@@ -59,7 +59,7 @@ public class ConversationController {
 //        }
 
         // Give the executor user and the other users read and write permissions
-        HashSet<UUID> conversationUsers = new HashSet<>(otherUsers);
+        Set<UUID> conversationUsers = new HashSet<>(otherUsers);
         conversationUsers.add(executorUUID);
 
         return convoManager.createConversation(convName, conversationUsers, conversationUsers, executorUUID, messageContent);
@@ -71,9 +71,9 @@ public class ConversationController {
      *
      * @param userUUID         The ID of the User
      * @param conversationUUID The Id of the Conversation for which the messages need to be seen
-     * @return returns an arraylist of Hashmaps. Each Hashmap stores information about a message in the conversation.
+     * @return returns an list of Hashmaps. Each Hashmap stores information about a message in the conversation.
      */
-    public ArrayList<Map<String, String>> getMessages(UUID userUUID, UUID conversationUUID) {
+    public List<Map<String, String>> getMessages(UUID userUUID, UUID conversationUUID) {
         return convoManager.getMessages(userUUID, conversationUUID);
     }
 

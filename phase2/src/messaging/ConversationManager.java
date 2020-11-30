@@ -32,7 +32,7 @@ public class ConversationManager implements Serializable {
         // Create an initial message that initiates a conversation
         Message initialMessage = new Message(messageSender_id, messageContent);
         // Adds the initial messages
-        ArrayList<Message> messages = new ArrayList<>();
+        List<Message> messages = new ArrayList<>();
         messages.add(initialMessage);
 
         // Add conversation object to UUID -> Convo map
@@ -180,13 +180,13 @@ public class ConversationManager implements Serializable {
      * @param conversationUUID The Id of the Conversation for which the messages need to be seen
      * @return returns an arraylist of Hashmaps. Each Hashmap stores information about a message in the conversation.
      */
-    public ArrayList<Map<String, String>> getMessages(UUID userUUID, UUID conversationUUID) {
+    public List<Map<String, String>> getMessages(UUID userUUID, UUID conversationUUID) {
         Conversation conversation = getConversation(conversationUUID);
 
         if (conversation.getReadAccessUsers().contains(userUUID)) {
-            ArrayList<Map<String, String>> newList = new ArrayList<>();
+            List<Map<String, String>> newList = new ArrayList<>();
             for(Message message:conversation.getConversationMessages()){
-                HashMap<String, String> messageAsHashmap = new HashMap<>();
+                Map<String, String> messageAsHashmap = new HashMap<>();
                 messageAsHashmap.put("sender", message.getSenderId().toString());
                 messageAsHashmap.put("timestamp", message.getTimestamp().toString());
                 messageAsHashmap.put("content", message.getContent());

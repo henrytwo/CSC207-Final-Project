@@ -5,7 +5,6 @@ import convention.exception.InvalidNameException;
 import convention.exception.NullEventException;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;

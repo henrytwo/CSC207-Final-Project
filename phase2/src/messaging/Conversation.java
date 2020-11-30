@@ -1,8 +1,7 @@
 package messaging;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -11,9 +10,9 @@ import java.util.UUID;
  */
 public class Conversation implements Serializable {
     private String conversationName; // either group chat or 2 person chat
-    private ArrayList<Message> conversationMessages = new ArrayList<>();
-    private Set<UUID> writeAccessUsers = new HashSet<>();
-    private Set<UUID> readAccessUsers = new HashSet<>();
+    private List<Message> conversationMessages;
+    private Set<UUID> writeAccessUsers;
+    private Set<UUID> readAccessUsers;
     private UUID convoId;
 
     /**
@@ -25,7 +24,7 @@ public class Conversation implements Serializable {
      * @param convMessages A list of all the messages in the Chat/conversation
      */
     public Conversation(String convName, Set<UUID> usersWrite, Set<UUID>
-            usersRead, ArrayList<Message> convMessages) {
+            usersRead, List<Message> convMessages) {
         conversationName = convName;
         conversationMessages = convMessages;
         writeAccessUsers = usersWrite;
@@ -101,7 +100,7 @@ public class Conversation implements Serializable {
      *
      * @return list of messages in this conversation
      */
-    public ArrayList<Message> getConversationMessages() {
+    public List<Message> getConversationMessages() {
         return conversationMessages;
     }
 

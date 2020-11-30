@@ -33,7 +33,7 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
     }
 
     private void updateConferenceUsers() {
-        ArrayList<UUID> userUUIDs = new ArrayList<>(conferenceController.getUsers(conferenceUUID, signedInUserUUID));
+        List<UUID> userUUIDs = new ArrayList<>(conferenceController.getUsers(conferenceUUID, signedInUserUUID));
 
         String[] columnNames = {
                 "First Name",
