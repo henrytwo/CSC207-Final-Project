@@ -270,6 +270,10 @@ public class EventController {
 
         CalendarManager roomCalendarManager = roomManager.getCalendarManager(roomUUID);
 
+        /**
+         * TODO: Check that events are creating during their parent conference. Same thing goes for amending the time.
+         */
+
         // TestView that the speakers are not being double booked
         testSpeakersTimeRangeOccupied(conferenceUUID, speakerUUIDs, timeRange);
 
