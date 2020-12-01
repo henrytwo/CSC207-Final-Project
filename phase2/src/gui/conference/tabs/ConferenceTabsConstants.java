@@ -7,7 +7,7 @@ public class ConferenceTabsConstants {
         YOUR_REGISTERED_EVENTS,
         YOUR_SPEAKER_EVENTS,
         ROOMS,
-        SETTINGS
+        SETTINGS,
     }
 
     public int getTabIndex(tabNames tabName) {

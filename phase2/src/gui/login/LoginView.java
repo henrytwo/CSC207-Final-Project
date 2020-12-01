@@ -5,11 +5,11 @@ import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
 
-public class LoginView implements IPanel, ILoginView {
+public class LoginView extends JFrame implements IPanel, ILoginView {
     private JPanel panel;
     private JButton loginButton;
-    private JButton godLoginButton;
-
+    private JTextField username;
+    private JPasswordField password;
     private LoginPresenter loginPresenter;
 
     /**
@@ -21,7 +21,13 @@ public class LoginView implements IPanel, ILoginView {
         loginPresenter = new LoginPresenter(mainFrame, this);
 
         loginButton.addActionListener((e) -> loginPresenter.login());
-        godLoginButton.addActionListener((e) -> loginPresenter.loginAsGod());
+    }
+
+    public String getUsername() {
+        return username.getText();
+    }
+    public String getPassword() {
+        return String.valueOf(password.getPassword());
     }
 
     @Override
