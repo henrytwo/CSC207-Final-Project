@@ -13,7 +13,6 @@ public class ContactsView implements IPanel, IContactsView {
     private JButton deleteContactsButton;
     private JTextPane contactsDisplayPanel;
     private JButton sendRequestsButton;
-    private JPanel Contacts;
 
     public ContactsView (IFrame mainFrame) {
 
