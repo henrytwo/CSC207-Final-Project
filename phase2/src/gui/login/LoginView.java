@@ -6,7 +6,7 @@ import gui.util.interfaces.IPanel;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class LoginView extends JFrame implements IPanel, ILoginView, ActionListener {
+public class LoginView extends JFrame implements IPanel, ILoginView {
     private JPanel panel;
     private JLabel user_label, password_label, message;
     private JButton loginButton;
@@ -16,17 +16,18 @@ public class LoginView extends JFrame implements IPanel, ILoginView, ActionListe
     private JButton submit, cancel;
     private LoginPresenter loginPresenter;
 
-//    /**
-//     * Constructs the loginButton page
-//     *
-//     * @param mainFrame parent gui system
-//     */
-//    public LoginView(IFrame mainFrame) {
-//        loginPresenter = new LoginPresenter(mainFrame, this);
-//
-//        loginButton.addActionListener((e) -> loginPresenter.login());
-//        godLoginButton.addActionListener((e) -> loginPresenter.loginAsGod());
-//    }
+    /**
+     * Constructs the loginButton page
+     *
+     * @param mainFrame parent gui system
+     */
+    public LoginView(IFrame mainFrame) {
+        loginPresenter = new LoginPresenter(mainFrame, this);
+
+        loginButton.addActionListener((e) -> loginPresenter.login());
+        godLoginButton.addActionListener((e) -> loginPresenter.loginAsGod());
+    }
+    /*
     LoginView() {
         // Username Label
         user_label = new JLabel();
@@ -56,7 +57,7 @@ public class LoginView extends JFrame implements IPanel, ILoginView, ActionListe
     }
     public static void main(String[] args) {
         new LoginView();
-    }
+    }*/
 
     @Override
     public JPanel getPanel() {
