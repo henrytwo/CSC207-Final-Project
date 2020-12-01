@@ -4,16 +4,15 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 
 public class LoginView extends JFrame implements IPanel, ILoginView {
     private JPanel panel;
-    private JLabel user_label, password_label, message;
+    //private JLabel user_label, password_label, message;
     private JButton loginButton;
     private JButton godLoginButton;
-    private JTextField userName_text;
+    /*private JTextField userName_text;
     private JPasswordField password_text;
-    private JButton submit, cancel;
+    private JButton submit, cancel;*/
     private LoginPresenter loginPresenter;
 
     /**
