@@ -11,15 +11,15 @@ import java.util.UUID;
  * Controls operations on user contacts
  */
 public class ContactController {
-    private ContactManager linker;
+    private contact.ContactManager contactManager;
 
     /**
      * Construct contact controller
      *
      * @param contactManager
      */
-    public ContactController(ContactManager contactManager) {
-        this.linker = contactManager;
+    public ContactController(contact.ContactManager contactManager) {
+        this.contactManager = contactManager;
     }
 
     /**
@@ -29,13 +29,13 @@ public class ContactController {
      * @param potentialContact UUID of the user receiving this request.
      */
     public void sendRequest(UUID userId, UUID potentialContact) {
-        Set<UUID> requestList = linker.getRequests(potentialContact);
-        Set<UUID> sentList = linker.getSentRequests(userId);
+        Set<UUID> requestList = contactManager.getRequests(potentialContact);
+        Set<UUID> sentList = contactManager.getSentRequests(userId);
         if (!requestList.contains(userId)) {
             requestList.add(userId);
             sentList.add(potentialContact);
-            linker.setRequests(potentialContact, requestList);
-            linker.setSentRequests(userId, sentList);
+            contactManager.setRequests(potentialContact, requestList);
+            contactManager.setSentRequests(userId, sentList);
         } else {
             throw new RequestDeniedException(userId, potentialContact);
         }
@@ -54,11 +54,11 @@ public class ContactController {
             Set<UUID> contacts2 = showContacts(potentialContact);
             contacts.add(potentialContact);
             contacts2.add(userId);
-            Set<UUID> requestsList = linker.getRequests(userId);
+            Set<UUID> requestsList = contactManager.getRequests(userId);
             requestsList.remove(potentialContact);
-            linker.setContacts(userId, contacts);
-            linker.setRequests(potentialContact, contacts2);
-            linker.setRequests(userId, requestsList);
+            contactManager.setContacts(userId, contacts);
+            contactManager.setRequests(potentialContact, contacts2);
+            contactManager.setRequests(userId, requestsList);
         } else {
             throw new GhostAcceptDeniedException(userId, potentialContact);
         }
@@ -71,15 +71,15 @@ public class ContactController {
      * @param extraContact UUID of the user whose contact is being deleted.
      */
     public void deleteContacts(UUID userId, UUID extraContact) {
-        Set<UUID> contactsList = linker.getContacts(userId);
-        Set<UUID> contactsList2 = linker.getContacts(extraContact);
+        Set<UUID> contactsList = contactManager.getContacts(userId);
+        Set<UUID> contactsList2 = contactManager.getContacts(extraContact);
         if (!contactsList.contains(extraContact)) {
             throw new GhostDeleteException(userId, extraContact);
         }
         contactsList.remove(extraContact);
         contactsList2.remove(userId);
-        linker.setContacts(extraContact, contactsList2);
-        linker.setContacts(userId, contactsList);
+        contactManager.setContacts(extraContact, contactsList2);
+        contactManager.setContacts(userId, contactsList);
     }
 
     /**
@@ -89,7 +89,7 @@ public class ContactController {
      * @return set of UUIDs of the users contacts.
      */
     public Set<UUID> showContacts(UUID userId) {
-        return linker.getContacts(userId);
+        return contactManager.getContacts(userId);
     }
 
     /**
@@ -99,7 +99,7 @@ public class ContactController {
      * @return set of UUIDs of the users received requests.
      */
     public Set<UUID> showRequests(UUID userId) {
-        return linker.getRequests(userId);
+        return contactManager.getRequests(userId);
     }
 
     /**
@@ -109,6 +109,6 @@ public class ContactController {
      * @return set of UUIDs of the users who received requests from user with UUID userId.
      */
     public Set<UUID> showSentRequests(UUID userId) {
-        return linker.getSentRequests(userId);
+        return contactManager.getSentRequests(userId);
     }
 }
