@@ -9,6 +9,7 @@ public class PanelFactoryOptions {
         CONFERENCE_MENU,
         CONFERENCE_TABS,
         CONFERENCE_GENERAL,
-        CONFERENCE_SETTINGS
+        CONFERENCE_SETTINGS,
+        CONFERENCE_ROOMS
     }
 }

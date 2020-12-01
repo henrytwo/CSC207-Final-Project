@@ -76,6 +76,15 @@ public class ConferenceTabsPresenter {
             });
 
             conferenceTabsView.setSettingsTabPanel(settingsView);
+
+            IPanel roomsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_ROOMS, new HashMap<String, Object>() {
+                {
+                    put("conferenceUUID", conferenceUUID);
+                }
+            });
+
+            conferenceTabsView.setRoomsTabPanel(roomsView);
+
         } else {
             conferenceTabsView.setTabEnabled(ConferenceTabsConstants.tabNames.ROOMS, false); // Disable rooms tab
             conferenceTabsView.setTabEnabled(ConferenceTabsConstants.tabNames.SETTINGS, false); // Disable settings tab

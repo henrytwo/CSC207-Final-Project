@@ -1,6 +1,6 @@
-package gui.conference.room;
+package gui.conference.rooms;
 
-public interface IConferenceRoomView {
+public interface IConferenceRoomsView {
     void setTableData(String[][] tableData, String[] columnNames);
 
 }
