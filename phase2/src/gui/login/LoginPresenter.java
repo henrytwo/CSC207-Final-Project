@@ -31,6 +31,10 @@ class LoginPresenter {
         dialogFactory = mainFrame.getDialogFactory();
     }
 
+    void goToRegister() {
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.REGISTER));
+    }
+
     void login() {
         if (userController.login(loginView.getUsername(), loginView.getPassword()) != null) {
             mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));

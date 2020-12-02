@@ -12,20 +12,23 @@ public class RegisterView extends JFrame implements IPanel, IRegisterView {
     private JTextField userNameTextField;
     private JPasswordField passwordPasswordField;
     private JButton registerButton;
+    private JButton loginButton;
     private RegisterPresenter RegisterPresenter;
 
     public RegisterView(IFrame mainFrame) {
         RegisterPresenter = new RegisterPresenter(mainFrame, this);
 
+        loginButton.addActionListener((e) -> RegisterPresenter.goToLogin());
         registerButton.addActionListener((e) -> RegisterPresenter.register());
     }
+
     @Override
-    public String getFirstname(){
+    public String getFirstname() {
         return FirstNameTextField.getText();
     }
 
     @Override
-    public String getLastname(){
+    public String getLastname() {
         return lastNameTextField.getText();
     }
 

@@ -22,6 +22,7 @@ public class LoginView extends JFrame implements IPanel, ILoginView {
     public LoginView(IFrame mainFrame) {
         loginPresenter = new LoginPresenter(mainFrame, this);
 
+        registerButton.addActionListener((e) -> loginPresenter.goToRegister());
         loginButton.addActionListener((e) -> loginPresenter.login());
 
         // submit on ENTER

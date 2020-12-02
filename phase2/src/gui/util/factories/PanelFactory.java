@@ -10,6 +10,7 @@ import gui.contacts.ContactsView;
 import gui.login.LoginView;
 import gui.mainMenu.MainMenuView;
 import gui.messaging.MessagingView;
+import gui.register.RegisterView;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.exception.NullPanelException;
 import gui.util.interfaces.IFrame;
@@ -56,6 +57,8 @@ public class PanelFactory implements IPanelFactory {
         switch (name) {
             case LOGIN:
                 return new LoginView(mainFrame);
+            case REGISTER:
+                return new RegisterView(mainFrame);
             case MAIN_MENU:
                 return new MainMenuView(mainFrame, (Integer) initializationArguments.getOrDefault("defaultTabIndex", 0), initializationArguments);
             case CONFERENCE_MENU:
