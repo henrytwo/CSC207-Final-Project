@@ -4,6 +4,7 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 
 public class RegisterView extends JFrame implements IPanel, IRegisterView {
     private JPanel panel;
@@ -13,13 +14,16 @@ public class RegisterView extends JFrame implements IPanel, IRegisterView {
     private JPasswordField passwordPasswordField;
     private JButton registerButton;
     private JButton loginButton;
-    private RegisterPresenter RegisterPresenter;
+    private RegisterPresenter registerPresenter;
 
     public RegisterView(IFrame mainFrame) {
-        RegisterPresenter = new RegisterPresenter(mainFrame, this);
+        registerPresenter = new RegisterPresenter(mainFrame, this);
 
-        loginButton.addActionListener((e) -> RegisterPresenter.goToLogin());
-        registerButton.addActionListener((e) -> RegisterPresenter.register());
+        loginButton.addActionListener((e) -> registerPresenter.goToLogin());
+        registerButton.addActionListener((e) -> registerPresenter.register());
+
+        // submit on ENTER
+        panel.registerKeyboardAction((e) -> registerPresenter.register(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     @Override

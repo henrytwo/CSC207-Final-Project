@@ -45,19 +45,20 @@ class RegisterPresenter {
             });
 
             invalidRegistrationDialog.run();
-        } else if (userController.registerUser(registerView.getFirstname(), registerView.getLastname(), registerView.getUsername(), registerView.getPassword()) != null) {
-            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
         } else {
-            // If register userController.registerUser returns null, then the registration was unsuccessful due to a username conflict
-            IDialog invalidRegistrationDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
-                {
-                    put("message", "Unable to register: Username is already taken");
-                    put("title", "Authentication Error");
-                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
-                }
-            });
+            if (userController.registerUser(registerView.getFirstname(), registerView.getLastname(), registerView.getUsername(), registerView.getPassword()) != null) {
+                mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
+            } else {
+                IDialog invalidRegistrationDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                    {
+                        put("message", "Unable to register: Username is already taken");
+                        put("title", "Authentication Error");
+                        put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                    }
+                });
 
-            invalidRegistrationDialog.run();
+                invalidRegistrationDialog.run();
+            }
         }
     }
 }
