@@ -7,10 +7,7 @@ import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import gui.user.picker.UserPickerDialog;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ContactsPresenter {
     private IContactsView contactsView;
@@ -46,6 +43,13 @@ public class ContactsPresenter {
     }
 
     public void deleteContacts(){
-        
+        UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contanctController.showContacts(signedInUserUUID), "Select User:");
+        UUID pastContactUUID = userPickerDialog.run();
+        contanctController.deleteContacts(signedInUserUUID, pastContactUUID);
+    }
+
+    public void respondToRequests(){
+        Set<UUID> requestsList = contanctController.showRequests(signedInUserUUID);
+
     }
 }

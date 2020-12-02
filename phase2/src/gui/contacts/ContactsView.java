@@ -13,6 +13,7 @@ public class ContactsView implements IPanel, IContactsView {
     private JButton deleteContactsButton;
     private JButton sendRequestsButton;
     private JList contactsList;
+    private ContactsPresenter contactsPresenter;
 
     public ContactsView (IFrame mainFrame) {
 
@@ -25,6 +26,7 @@ public class ContactsView implements IPanel, IContactsView {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
             }
         });
         sendRequestsButton.addActionListener(new ActionListener() {
@@ -35,7 +37,7 @@ public class ContactsView implements IPanel, IContactsView {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                contactsPresenter.sendRequest();
             }
         });
         deleteContactsButton.addActionListener(new ActionListener() {
