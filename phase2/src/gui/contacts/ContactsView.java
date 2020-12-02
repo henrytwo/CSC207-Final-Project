@@ -11,8 +11,8 @@ public class ContactsView implements IPanel, IContactsView {
     private JPanel contactsPanel;
     private JButton requestsButton;
     private JButton deleteContactsButton;
-    private JTextPane contactsDisplayPanel;
     private JButton sendRequestsButton;
+    private JList contactsList;
 
     public ContactsView (IFrame mainFrame) {
 
