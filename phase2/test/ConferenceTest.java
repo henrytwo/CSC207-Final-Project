@@ -41,6 +41,13 @@ public class ConferenceTest {
     String eventNameB = "Event B";
     String roomA = "Room A";
 
+    LocalDateTime dateG = LocalDateTime.of(2015,
+            Month.JULY, 29, 19, 30, 40);
+    LocalDateTime dateH = LocalDateTime.of(2058,
+            Month.JULY, 29, 19, 30, 40);
+
+    TimeRange timeRangeD = new TimeRange(dateG, dateH);
+
     LocalDateTime dateA = LocalDateTime.of(2015,
             Month.JULY, 29, 19, 30, 40);
     LocalDateTime dateB = LocalDateTime.of(2018,
@@ -755,7 +762,7 @@ public class ConferenceTest {
 
     @Test(timeout = 500)
     public void testGetSpeakerEvents() {
-        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeA, myUser);
+        UUID conferenceUUID = conferenceController.createConference(conferenceNameA, timeRangeD, myUser);
         UUID roomUUID = roomController.createRoom(conferenceUUID, myUser, roomA, 2);
 
         assertEquals(eventController.getSpeakerEvents(conferenceUUID, myUser).size(), 0);

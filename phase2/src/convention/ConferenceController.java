@@ -5,8 +5,10 @@ import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.permission.PermissionManager;
 import messaging.ConversationManager;
+import user.User;
 import user.UserManager;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -431,4 +433,10 @@ public class ConferenceController {
 
         return userUUIDs;
     }
+
+//    TODO: implement this
+    public void printSchedule(User u, String sortBy) {}
+
+//    TODO: implement this
+    public void printSchedule(LocalDate date) {}
 }

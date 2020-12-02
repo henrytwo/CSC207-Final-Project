@@ -6,6 +6,7 @@ import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.exception.CalendarDoubleBookingException;
 import convention.exception.FullEventException;
+import convention.exception.InvalidEventTimeException;
 import convention.exception.SpeakerDoubleBookingException;
 import convention.permission.PermissionManager;
 import convention.room.RoomManager;
@@ -98,12 +99,12 @@ public class EventController {
 
     /**
      * Get a list of events happening on a specific day
-     *
+     * <p>
      * Required Permission : ATTENDEE
      *
      * @param conferenceUUID UUID of the conference
-     * @param executorUUID UUID of the user
-     * @param day UUID of the day to filter with
+     * @param executorUUID   UUID of the user
+     * @param day            UUID of the day to filter with
      * @return list of events on that day
      */
     public Set<UUID> getDayEvents(UUID conferenceUUID, UUID executorUUID, LocalDateTime day) {
@@ -249,6 +250,18 @@ public class EventController {
         }
     }
 
+    private boolean isEventDuringConference(UUID conferenceUUID, TimeRange eventTimeRange) {
+        TimeRange conferenceTimeRange = conferenceManager.getTimeRange(conferenceUUID);
+
+        boolean validStart = conferenceTimeRange.getStart().isBefore(eventTimeRange.getStart()) ||
+                conferenceTimeRange.getStart().isEqual(eventTimeRange.getStart());
+
+        boolean validEnd = conferenceTimeRange.getEnd().isAfter(eventTimeRange.getEnd()) ||
+                conferenceTimeRange.getEnd().isEqual(eventTimeRange.getEnd());
+
+        return validEnd && validStart;
+    }
+
     /**
      * Create a new event for this conference. This method will test for scheduling conflicts for both rooms, and speakers.
      * <p>
@@ -270,15 +283,13 @@ public class EventController {
 
         CalendarManager roomCalendarManager = roomManager.getCalendarManager(roomUUID);
 
-        /**
-         * TODO: Check that events are creating during their parent conference. Same thing goes for amending the time.
-         */
-
         // TestView that the speakers are not being double booked
         testSpeakersTimeRangeOccupied(conferenceUUID, speakerUUIDs, timeRange);
 
         // TestView that the room is not being double booked
-        if (roomCalendarManager.timeRangeOccupied(timeRange)) {
+        if (!isEventDuringConference(conferenceUUID, timeRange)) {
+            throw new InvalidEventTimeException(timeRange, conferenceManager.getTimeRange(conferenceUUID));
+        } else if (roomCalendarManager.timeRangeOccupied(timeRange)) {
             throw new CalendarDoubleBookingException();
         } else {
             UUID eventUUID = eventManager.createEvent(eventName, timeRange, roomUUID, speakerUUIDs);
@@ -462,7 +473,9 @@ public class EventController {
         testSpeakersTimeRangeOccupied(conferenceUUID, speakerUUIDs, timeRange);
 
         // TestView that the room is not being double booked
-        if (roomCalendarManager.timeRangeOccupied(timeRange)) {
+        if (!isEventDuringConference(conferenceUUID, timeRange)) {
+            throw new InvalidEventTimeException(timeRange, conferenceManager.getTimeRange(conferenceUUID));
+        } if (roomCalendarManager.timeRangeOccupied(timeRange)) {
             throw new CalendarDoubleBookingException();
         } else {
             // Cancel the booking
