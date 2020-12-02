@@ -8,14 +8,14 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="1ea62" class="javax.swing.JTextField" binding="FIrstNameTextField" default-binding="true">
+      <component id="1ea62" class="javax.swing.JTextField" binding="FirstNameTextField">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
         <properties>
-          <text value="FIrst Name"/>
+          <text value="First Name"/>
         </properties>
       </component>
       <component id="a44a2" class="javax.swing.JTextField" binding="lastNameTextField" default-binding="true">

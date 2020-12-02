@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class RegisterView extends JFrame implements IPanel, IRegisterView {
     private JPanel panel;
-    private JTextField FIrstNameTextField;
+    private JTextField FirstNameTextField;
     private JTextField lastNameTextField;
     private JTextField userNameTextField;
     private JPasswordField passwordPasswordField;
@@ -19,20 +19,22 @@ public class RegisterView extends JFrame implements IPanel, IRegisterView {
 
         registerButton.addActionListener((e) -> RegisterPresenter.register());
     }
-
+    @Override
     public String getFirstname(){
-        return FIrstNameTextField.getText();
+        return FirstNameTextField.getText();
     }
 
+    @Override
     public String getLastname(){
         return lastNameTextField.getText();
     }
 
+    @Override
     public String getUsername() {
         return userNameTextField.getText();
     }
 
-
+    @Override
     public String getPassword() {
         return String.valueOf(passwordPasswordField.getPassword());
     }
