@@ -288,7 +288,7 @@ public class EventController {
 
         // TestView that the room is not being double booked
         if (!isEventDuringConference(conferenceUUID, timeRange)) {
-            throw new InvalidEventTimeException();
+            throw new InvalidEventTimeException(timeRange, conferenceManager.getTimeRange(conferenceUUID));
         } else if (roomCalendarManager.timeRangeOccupied(timeRange)) {
             throw new CalendarDoubleBookingException();
         } else {
@@ -474,7 +474,7 @@ public class EventController {
 
         // TestView that the room is not being double booked
         if (!isEventDuringConference(conferenceUUID, timeRange)) {
-            throw new InvalidEventTimeException();
+            throw new InvalidEventTimeException(timeRange, conferenceManager.getTimeRange(conferenceUUID));
         } if (roomCalendarManager.timeRangeOccupied(timeRange)) {
             throw new CalendarDoubleBookingException();
         } else {
