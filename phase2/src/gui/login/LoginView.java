@@ -8,8 +8,8 @@ import javax.swing.*;
 public class LoginView extends JFrame implements IPanel, ILoginView {
     private JPanel panel;
     private JButton loginButton;
-    private JTextField username;
-    private JPasswordField password;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
     private LoginPresenter loginPresenter;
 
     /**
@@ -23,11 +23,14 @@ public class LoginView extends JFrame implements IPanel, ILoginView {
         loginButton.addActionListener((e) -> loginPresenter.login());
     }
 
+    @Override
     public String getUsername() {
-        return username.getText();
+        return usernameField.getText();
     }
+
+    @Override
     public String getPassword() {
-        return String.valueOf(password.getPassword());
+        return String.valueOf(passwordField.getPassword());
     }
 
     @Override
