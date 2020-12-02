@@ -1,4 +1,4 @@
-package SchedulePrinter;
+package convention.schedulePrinter;
 
 import java.util.Set;
 
