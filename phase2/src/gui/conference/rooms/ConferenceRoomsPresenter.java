@@ -1,6 +1,9 @@
 package gui.conference.rooms;
 
 import gui.conference.AbstractConferencePresenter;
+import gui.conference.rooms.form.RoomFormDialog;
+import gui.util.enums.DialogFactoryOptions;
+import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IFrame;
 import util.ControllerBundle;
 
@@ -9,16 +12,24 @@ import java.util.*;
 public class ConferenceRoomsPresenter extends AbstractConferencePresenter{
 
     private IConferenceRoomsView conferenceRoomView;
-    protected UUID roomUUID;
+    protected UUID conferenceUUID;
 
-    ConferenceRoomsPresenter(IFrame mainFrame, IConferenceRoomsView conferenceRoomView, UUID roomUUID){
-        super(mainFrame, roomUUID);
-
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        roomController = controllerBundle.getRoomController();
+    ConferenceRoomsPresenter(IFrame mainFrame, IConferenceRoomsView conferenceRoomView, UUID conferenceUUID){
+        super(mainFrame, conferenceUUID);
 
         this.conferenceRoomView = conferenceRoomView;
 //        updateRoomData();
+    }
+
+    void createRoom() {
+        IDialog roomFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.ROOM, new HashMap<String, Object>(){
+                    {
+                        put("conferenceUUID", conferenceUUID);
+                    }
+        });
+
+        UUID newRoomUUID = (UUID) roomFormDialog.run();
+
     }
 
 
