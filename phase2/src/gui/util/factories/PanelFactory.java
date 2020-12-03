@@ -74,7 +74,7 @@ public class PanelFactory implements IPanelFactory {
             case CONTACTS:
                 return new ContactsView(mainFrame);
             case MESSAGING:
-                return new MessagingView(mainFrame);
+                return new MessagingView(mainFrame, (UUID) initializationArguments.get("defaultConversationUUID"), initializationArguments);
             default:
                 throw new NullPanelException(name);
         }
