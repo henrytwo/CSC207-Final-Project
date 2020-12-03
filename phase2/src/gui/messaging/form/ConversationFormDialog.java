@@ -13,15 +13,14 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
     private JTextField chatName;
     private JButton saveButton;
     private JButton cancelButton;
-    private JTextField peopleList;
     private JTextField messageContent;
     private JPanel contentPane;
-    private JButton buttonChooseUser;
+    private JButton chooseUsersButton;
 
     private UUID conversationUUID;
     private boolean updated = false;
 
-    public ConversationFormDialog(IFrame mainFrame, UUID conversationUUID) {
+    public ConversationFormDialog(IFrame mainFrame) {
 
         /* Setup formatting */
 
@@ -35,11 +34,11 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
 
         /* Initiate presenter */
 
-        this.conversationUUID = conversationUUID;
-        ConversationFormPresenter conversationFormPresenter = new ConversationFormPresenter(mainFrame, this, conversationUUID);
+        ConversationFormPresenter conversationFormPresenter = new ConversationFormPresenter(mainFrame, this);
 
         /* Initiate listeners */
 
+        chooseUsersButton.addActionListener((e) -> conversationFormPresenter.selectUsers());
         saveButton.addActionListener((e) -> conversationFormPresenter.submit());
         cancelButton.addActionListener((e) -> close());
 
@@ -67,11 +66,6 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
     }
 
     @Override
-    public void setPeopleList(String people_list) {
-        peopleList.setText(people_list);
-    }
-
-    @Override
     public void setMessage(String newMessage) {
         messageContent.setText(newMessage);
     }
@@ -84,11 +78,6 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
     @Override
     public String getChatName() {
         return chatName.getText();
-    }
-
-    @Override
-    public String getPeopleList() {
-        return peopleList.getText();
     }
 
     @Override

@@ -53,7 +53,7 @@ public class DialogFactory implements IDialogFactory {
     public IDialog createDialog(DialogFactoryOptions.dialogNames name, Map<String, Object> arguments) {
         switch (name) {
             case CONVERSATION_FORM:
-                return new ConversationFormDialog(mainFrame, (UUID) arguments.get("conversationUUID"));
+                return new ConversationFormDialog(mainFrame);
             case CONFERENCE_FORM:
                 return new ConferenceFormDialog(mainFrame, (UUID) arguments.get("conferenceUUID"));
             case ROOM_PICKER:

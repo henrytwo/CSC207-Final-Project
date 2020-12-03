@@ -2,7 +2,6 @@ package gui.messaging.form;
 
 
 import contact.ContactController;
-import gui.user.multipicker.IMultiUserPickerDialog;
 import gui.util.DateParser;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
@@ -31,51 +30,39 @@ public class ConversationFormPresenter {
     private IConversationFormDialog conversationFormDialog;
 
     private String conversationName = "";
-    private Set<UUID> peopleSet;
+    private Set<UUID> availableUserUUIDs;
     private String messagecontent;
     private String peopleListString;
 
     private DateParser dateParser = new DateParser();
 
-    ConversationFormPresenter(IFrame mainFrame, IConversationFormDialog conversationFormDialog, UUID conversationUUID) {
+    ConversationFormPresenter(IFrame mainFrame, IConversationFormDialog conversationFormDialog) {
         this.conversationFormDialog = conversationFormDialog;
 
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         conversationController = controllerBundle.getConversationController();
+        contactController = controllerBundle.getContactController();
 
         dialogFactory = mainFrame.getDialogFactory();
 
-        this.conversationUUID = conversationUUID;
+        conversationFormDialog.setDialogTitle("Create New Conversation");
+
         this.userUUID = controllerBundle.getUserController().getCurrentUser();
 
-        // Existing conferences will have a non-null UUID
-        isExistingConversation = conversationUUID != null;
-
-        conversationFormDialog.setDialogTitle(String.format("Create New Conversation (%s)", conversationUUID));
-
-        conversationName = conversationController.getConversationName(conversationUUID);
-        peopleSet = contactController.showContacts(userUUID);
-
-        createPopUp(peopleSet);
-
-
-
-        conversationFormDialog.setChatName(conversationName);
-        conversationFormDialog.setPeopleList(peopleSet.toString());
-
+        availableUserUUIDs = contactController.showContacts(userUUID);
     }
 
     void submit() {
         conversationName = conversationFormDialog.getChatName();
         messagecontent = conversationFormDialog.getMessage();
-        peopleListString = conversationFormDialog.getPeopleList();
+        //peopleListString = conversationFormDialog.getPeopleList();
         String[] temparraystring = peopleListString.split(",");
         Set<UUID> tempSet = new HashSet<>();
-        for (String friendsUuid: temparraystring){
+        for (String friendsUuid : temparraystring) {
             tempSet.add(UUID.fromString(friendsUuid));
         }
-        peopleSet = tempSet;
-        conversationUUID = conversationController.initiateConversation(conversationName, userUUID, peopleSet, messagecontent);
+        availableUserUUIDs = tempSet;
+        conversationUUID = conversationController.initiateConversation(conversationName, userUUID, availableUserUUIDs, messagecontent);
 
         // Update conference UUID in case it has changed
         conversationFormDialog.setConversationUUID(conversationUUID);
@@ -85,11 +72,11 @@ public class ConversationFormPresenter {
         conversationFormDialog.close();
     }
 
-    void createPopUp(Set<UUID> peopleSet) {
+    void selectUsers() {
         IDialog chooseUsersDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MULTI_USER_PICKER, new HashMap<String, Object>() {
             {
                 put("instructions", "Select users to add to the new conversation");
-                put("availableUserUUIDs", peopleSet);
+                put("availableUserUUIDs", availableUserUUIDs);
             }
         });
 
@@ -98,17 +85,7 @@ public class ConversationFormPresenter {
         if (selectedUserUUIDs != null) {
             selectedUserUUIDs.add(userUUID); // We need to add the signed in user in the conversation too
 
-            UUID conversationUUID = conversationController.initiateConversation("Create new Conversation", userUUID, selectedUserUUIDs, "");
 
-            IDialog conversationCreatedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
-                {
-                    put("message", String.format("Conversation with %d users created successfully (%s)", selectedUserUUIDs.size(), conversationUUID));
-                    put("title", "Conversation created");
-                    put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
-                }
-            });
-
-            conversationCreatedDialog.run();
 
         }
     }
