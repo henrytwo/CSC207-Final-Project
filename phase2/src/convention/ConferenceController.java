@@ -435,6 +435,12 @@ public class ConferenceController {
         return userUUIDs;
     }
 
+    /**
+     * @param userId UUID of a speaker if sortBy == "speaker", UUID of the user if sortBy == "registered"
+     * @param sortBy can either be "speaker" or "registered"
+     * @throws IOException
+     * promps a file download for an event schedule sorted by speaker or events user signed up for
+     */
     public void printSchedule(UUID userId, String sortBy) throws IOException {
         if (sortBy.equals("speaker")) {
             Set<Event> eventSet = new HashSet<>(Collections.emptySet());
@@ -465,6 +471,14 @@ public class ConferenceController {
         else throw new InvalidSortMethodException();
     }
 
+    /**
+     * @param userid UUID of the user requesting the printable schedule
+     * @param date a day on which event schedule is printed
+     * @throws IOException
+     *
+     * Overloading the printSchedule method for when the user want to sort by date. A sortBy parameter is not needed
+     * as input
+     */
     public void printSchedule(UUID userid, LocalDate date) throws IOException {
         Set<Event> eventSet = new HashSet<>(Collections.emptySet());
         Set<UUID> conferenceUUIDSet = getConferences();
