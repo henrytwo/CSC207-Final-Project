@@ -3,20 +3,18 @@ package gui.conference.rooms.form;
 import convention.RoomController;
 import convention.exception.InvalidCapacityException;
 import convention.exception.InvalidNameException;
-import gui.conference.form.IConferenceFormDialog;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import util.ControllerBundle;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class RoomFormPresenter {
+class RoomFormPresenter {
 
-    RoomController roomController;
+    private RoomController roomController;
     private boolean isExistingRoom;
     private UUID conferenceUUID;
     private UUID roomUUID;
@@ -29,7 +27,7 @@ public class RoomFormPresenter {
     private String roomLocation = "";
     private int roomCapacity;
 
-    RoomFormPresenter(IFrame mainFrame, IRoomFormDialog roomFormDialog, UUID roomUUID) {
+    RoomFormPresenter(IFrame mainFrame, IRoomFormDialog roomFormDialog, UUID conferenceUUID, UUID roomUUID) {
         this.roomFormDialog = roomFormDialog;
 
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();

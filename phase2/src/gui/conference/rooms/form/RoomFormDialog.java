@@ -27,8 +27,9 @@ public class RoomFormDialog extends JDialog implements IDialog, IRoomFormDialog 
      *
      * @param mainFrame
      * @param conferenceUUID
+     * @param roomUUID
      */
-    public RoomFormDialog(IFrame mainFrame, UUID conferenceUUID) {
+    public RoomFormDialog(IFrame mainFrame, UUID conferenceUUID, UUID roomUUID) {
 
         super(mainFrame.getFrame());
         this.setLocationRelativeTo(mainFrame.getFrame());
@@ -38,7 +39,7 @@ public class RoomFormDialog extends JDialog implements IDialog, IRoomFormDialog 
         getRootPane().setDefaultButton(buttonOK);
 
         this.conferenceUUID = conferenceUUID;
-        RoomFormPresenter roomFormPresenter = new RoomFormPresenter(mainFrame, this, conferenceUUID);
+        RoomFormPresenter roomFormPresenter = new RoomFormPresenter(mainFrame, this, conferenceUUID, roomUUID);
 
         buttonOK.addActionListener((e) -> roomFormPresenter.submit());
         buttonCancel.addActionListener((e) -> close());
