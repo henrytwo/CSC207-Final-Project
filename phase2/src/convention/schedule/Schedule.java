@@ -1,4 +1,4 @@
-package convention.schedulePrinter;
+package convention.schedule;
 
 import java.util.ArrayList;
 

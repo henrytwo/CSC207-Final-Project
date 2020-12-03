@@ -1,6 +1,6 @@
 package util;
 
-import convention.schedulePrinter.Schedule;
+import convention.schedule.Schedule;
 
 import java.awt.*;
 import java.io.BufferedWriter;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SchedulePrinter {
-    public String objectToString(Schedule schedule) {
+    public static String objectToString(Schedule schedule) {
         ArrayList<ArrayList<String>> a = schedule.getEventStringLists();
         if (a.size() == 0) {
             return "";
@@ -74,7 +74,7 @@ public class SchedulePrinter {
         return table.toString();
     }
 
-    public void print(Schedule schedule) throws IOException {
+    public static void print(Schedule schedule) throws IOException {
         String s = objectToString(schedule);
         BufferedWriter table = new BufferedWriter(new FileWriter("event_schedule.txt"));
         table.write(s);

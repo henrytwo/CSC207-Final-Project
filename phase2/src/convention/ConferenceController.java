@@ -2,17 +2,18 @@ package convention;
 
 import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
+import convention.event.Event;
 import convention.event.EventManager;
+import convention.exception.InvalidSortMethodException;
 import convention.permission.PermissionManager;
+import convention.schedule.*;
 import messaging.ConversationManager;
 import user.User;
 import user.UserManager;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -435,7 +436,35 @@ public class ConferenceController {
     }
 
 //    TODO: implement this
-    public void printSchedule(User u, String sortBy) {}
+    public void printSchedule(UUID userId, String sortBy) throws IOException {
+        if (sortBy.equals("speaker")) {
+            Set<Event> eventSet = new HashSet<>(Collections.emptySet());
+            Set<UUID> conferenceUUIDSet = getConferences();
+            for (UUID conferenceID : conferenceUUIDSet) {
+                EventManager em = conferenceManager.getEventManager(conferenceID);
+                Set<UUID> speakerEventInConference = eventController.getSpeakerEvents(conferenceID, userId);
+                for (UUID eventUUID: speakerEventInConference) {
+                    eventSet.add(em.getEvent(eventUUID));
+                }
+            }
+            Schedule s = ScheduleManager.constructSchedule(eventSet, sortBy);
+            util.SchedulePrinter.print(s);
+        }
+        else if (sortBy.equals("registered")) {
+            Set<Event> eventSet = new HashSet<>(Collections.emptySet());
+            Set<UUID> registeredConferences = getUserConferences(userId);
+            for (UUID conferenceID : registeredConferences) {
+                EventManager em = conferenceManager.getEventManager(conferenceID);
+                Set<UUID> registeredEventsInConference = eventController.getAttendeeEvents(conferenceID, userId);
+                for (UUID eventUUID: registeredEventsInConference) {
+                    eventSet.add(em.getEvent(eventUUID));
+                }
+            }
+            Schedule s = ScheduleManager.constructSchedule(eventSet, sortBy);
+            util.SchedulePrinter.print(s);
+        }
+        else throw new InvalidSortMethodException();
+    }
 
 //    TODO: implement this
     public void printSchedule(LocalDate date) {}
