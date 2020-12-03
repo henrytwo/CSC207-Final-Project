@@ -8,7 +8,8 @@ public class DialogFactoryOptions {
         CONFERENCE_FORM,
         MESSAGE,
         CONFIRM_BOOLEAN,
-        CONTACT_PICKER
+        CONTACT_PICKER,
+        EVENT_PICKER
     }
 
     public enum dialogType {
