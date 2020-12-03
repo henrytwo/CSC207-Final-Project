@@ -435,7 +435,6 @@ public class ConferenceController {
         return userUUIDs;
     }
 
-//    TODO: implement this
     public void printSchedule(UUID userId, String sortBy) throws IOException {
         if (sortBy.equals("speaker")) {
             Set<Event> eventSet = new HashSet<>(Collections.emptySet());
@@ -466,6 +465,17 @@ public class ConferenceController {
         else throw new InvalidSortMethodException();
     }
 
-//    TODO: implement this
-    public void printSchedule(LocalDate date) {}
+    public void printSchedule(UUID userid, LocalDate date) throws IOException {
+        Set<Event> eventSet = new HashSet<>(Collections.emptySet());
+        Set<UUID> conferenceUUIDSet = getConferences();
+        for (UUID conferenceID : conferenceUUIDSet){
+            EventManager em = conferenceManager.getEventManager(conferenceID);
+            Set<UUID> eventsOnDayInConference = eventController.getDayEvents(conferenceID, userid, date);
+            for (UUID eventUUID: eventsOnDayInConference) {
+                eventSet.add(em.getEvent(eventUUID));
+            }
+        }
+        Schedule s = ScheduleManager.constructSchedule(eventSet, "day");
+        util.SchedulePrinter.print(s);
+    }
 }

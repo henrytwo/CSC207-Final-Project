@@ -13,6 +13,7 @@ import convention.room.RoomManager;
 import messaging.ConversationManager;
 import user.UserManager;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -107,7 +108,7 @@ public class EventController {
      * @param day            UUID of the day to filter with
      * @return list of events on that day
      */
-    public Set<UUID> getDayEvents(UUID conferenceUUID, UUID executorUUID, LocalDateTime day) {
+    public Set<UUID> getDayEvents(UUID conferenceUUID, UUID executorUUID, LocalDate day) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
         Set<UUID> eventsUUIDsOnDay = new HashSet<>();
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
