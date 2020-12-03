@@ -1,18 +1,21 @@
 package gui.messaging;
 
 import gui.util.enums.DialogFactoryOptions;
-import gui.util.interfaces.*;
+import gui.util.interfaces.IDialog;
+import gui.util.interfaces.IDialogFactory;
+import gui.util.interfaces.IFrame;
 import messaging.ConversationController;
 import user.UserController;
 import util.ControllerBundle;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 class MessagingPresenter {
     private IMessagingView messagingView;
-    private IFrame mainFrame;
 
-    private IPanelFactory panelFactory;
     private IDialogFactory dialogFactory;
 
     private ConversationController conversationController;
@@ -23,17 +26,13 @@ class MessagingPresenter {
 
     private int currentConversationIndex = -1;
     private UUID currentConversationUUID;
-    private Map<String, Object> initializationArguments;
 
     MessagingPresenter(IFrame mainFrame, IMessagingView messagingView, UUID defaultConversationUUID, Map<String, Object> initializationArguments) {
         this.messagingView = messagingView;
-        this.mainFrame = mainFrame;
-        this.initializationArguments = initializationArguments;
 
-        panelFactory = mainFrame.getPanelFactory();
         dialogFactory = mainFrame.getDialogFactory();
 
-//         Init controllers
+        // Init controllers
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         conversationController = controllerBundle.getConversationController();
         userController = controllerBundle.getUserController();
@@ -49,8 +48,8 @@ class MessagingPresenter {
             int defaultConversationIndex = 0;
 
             // Choose the specified default conference UUID
-            if (defaultConversationUUID != null && conversationUUIDs.contains(defaultConversationIndex)) {
-                defaultConversationIndex = conversationUUIDs.indexOf(defaultConversationIndex);
+            if (defaultConversationUUID != null && conversationUUIDs.contains(defaultConversationUUID)) {
+                defaultConversationIndex = conversationUUIDs.indexOf(defaultConversationUUID);
             }
 
             // Set initial conference selection
@@ -59,7 +58,7 @@ class MessagingPresenter {
         }
     }
 
-    void sendMessage(){
+    void sendMessage() {
         String currentMessage = messagingView.getMessagefromtextbox();
         conversationController.sendMessage(signedInUserUUID, currentMessage, currentConversationUUID);
         updateMessage();
@@ -103,26 +102,31 @@ class MessagingPresenter {
         conversationUUIDs = new ArrayList<>(conversationController.getConversationlist(signedInUserUUID));
     }
 
-    void updateSelection(int selectedIndex){
-        if (selectedIndex != currentConversationIndex){
-        currentConversationIndex = selectedIndex;
-        currentConversationUUID = conversationUUIDs.get(selectedIndex);
-        updateMessage();
+    void updateSelection(int selectedIndex) {
+        if (selectedIndex != currentConversationIndex) {
+            currentConversationIndex = selectedIndex;
+            currentConversationUUID = conversationUUIDs.get(selectedIndex);
+            updateMessage();
         }
 
     }
 
-    private void updateMessage(){
+    private void updateMessage() {
         List<Map<String, String>> messagesListMap = conversationController.getMessages(signedInUserUUID, currentConversationUUID);
-        List<String> messagesStringList = new ArrayList();
-        for(Map<String, String> messageMap: messagesListMap){
+
+        String[] messageArray = new String[messagesListMap.size()];
+        int index = 0;
+
+        for (Map<String, String> messageMap : messagesListMap) {
             UUID senderId = UUID.fromString(messageMap.get("sender"));
             String timestamp = messageMap.get("timestamp");
             String content = messageMap.get("content");
             String messageString = String.format("[%s @ %s] %s\n", senderId, timestamp, content);
-            messagesStringList.add(messageString);
+
+            messageArray[index] = messageString;
+            index++;
         }
-        String[] messageArray = (String[]) messagesStringList.toArray();
+
         messagingView.setMessages(messageArray);
     }
 }
