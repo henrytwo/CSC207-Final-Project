@@ -1,24 +1,35 @@
 package gui.conference.rooms;
 
 import gui.conference.AbstractConferencePresenter;
+import gui.util.enums.DialogFactoryOptions;
+import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IFrame;
-import util.ControllerBundle;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.UUID;
 
-public class ConferenceRoomsPresenter extends AbstractConferencePresenter{
+public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
 
     private IConferenceRoomsView conferenceRoomView;
-    protected UUID roomUUID;
+    protected UUID conferenceUUID;
 
-    ConferenceRoomsPresenter(IFrame mainFrame, IConferenceRoomsView conferenceRoomView, UUID roomUUID){
-        super(mainFrame, roomUUID);
+    ConferenceRoomsPresenter(IFrame mainFrame, IConferenceRoomsView conferenceRoomView, UUID conferenceUUID) {
+        super(mainFrame, conferenceUUID);
 
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        roomController = controllerBundle.getRoomController();
-
+        this.conferenceUUID = conferenceUUID;
         this.conferenceRoomView = conferenceRoomView;
 //        updateRoomData();
+    }
+
+    void createRoom() {
+        IDialog roomFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.ROOM_FORM, new HashMap<String, Object>() {
+            {
+                put("conferenceUUID", conferenceUUID);
+            }
+        });
+
+        UUID newRoomUUID = (UUID) roomFormDialog.run();
+
     }
 
 

@@ -4,12 +4,12 @@ public class DialogFactoryOptions {
     public enum dialogNames {
         USER_PICKER,
         MULTI_USER_PICKER,
+        ROOM_PICKER,
         CONFERENCE_PICKER,
         CONFERENCE_FORM,
         MESSAGE,
         CONFIRM_BOOLEAN,
-        CONTACT_PICKER,
-        EVENT_PICKER
+        ROOM_FORM
     }
 
     public enum dialogType {

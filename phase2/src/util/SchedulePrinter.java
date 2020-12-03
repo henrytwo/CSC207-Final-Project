@@ -1,28 +1,17 @@
-package convention.schedulePrinter;
+package util;
 
+import convention.schedule.Schedule;
+
+import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class Schedule {
-    private ArrayList<ArrayList<String>> eventStringLists;
-    private String title;
-
-    public Schedule() {
-        this.eventStringLists = new ArrayList<>();
-    }
-
-    public void setTitle(String t) {
-        this.title = t;
-    }
-
-    public void addEventStringList(ArrayList<String> s) {
-        this.eventStringLists.add(s);
-    }
-
-    /**
-     * @param a List of List of Strings. Each sub List contain strings for description of an event
-     * @return
-     */
-    public String toString(ArrayList<ArrayList<String>> a) {
+public class SchedulePrinter {
+    public static String objectToString(Schedule schedule) {
+        ArrayList<ArrayList<String>> a = schedule.getEventStringLists();
         if (a.size() == 0) {
             return "";
         }
@@ -47,7 +36,7 @@ public class Schedule {
 
         StringBuilder titleLine = new StringBuilder();
         titleLine.append("║");
-        titleLine.append(this.title);
+        titleLine.append(schedule.getTitle());
         while (titleLine.length() < width+1) {
             titleLine.append(" ");
         }
@@ -83,7 +72,18 @@ public class Schedule {
 
         table.append(bottomLine);
         return table.toString();
-        
     }
 
+    public static void print(Schedule schedule) throws IOException {
+        String s = objectToString(schedule);
+        BufferedWriter table = new BufferedWriter(new FileWriter("event_schedule.txt"));
+        table.write(s);
+        table.flush();
+        table.close();
+
+        File scheduleTable = new File("event_schedule.txt");
+
+        Desktop d = Desktop.getDesktop();
+        d.print(scheduleTable);
+    }
 }

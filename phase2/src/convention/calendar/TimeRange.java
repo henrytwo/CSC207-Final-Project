@@ -3,6 +3,7 @@ package convention.calendar;
 import convention.exception.InvalidTimeRangeException;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -62,7 +63,7 @@ public class TimeRange implements Serializable {
      * @param date a day, we don't care about the hours in that day
      * @return true iff the TimeRange start in that day
      */
-    public boolean isInDay(LocalDateTime date) {
+    public boolean isInDay(LocalDate date) {
         return date.getDayOfYear() == this.getStart().getDayOfYear() && date.getYear() == this.start.getYear();
     }
 

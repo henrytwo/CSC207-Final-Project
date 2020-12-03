@@ -9,12 +9,13 @@ import java.util.UUID;
 
 public class EventMenuView implements IPanel, IEventMenuView{
     private JPanel panel1;
-    private JButton editEventButton;
     private JButton createEventButton;
-    private JList list1;
+    private JList eventsList;
     private JSplitPane eventSplitPane;
     private JTable table1;
-    private JButton button1;
+    private JButton registerEventButton;
+    private JButton editEventButton;
+    private JButton deleteEventButton;
 
     public  EventMenuView(IFrame mainFrame, UUID defaultEventUUID, Map<String, Object> initializationArguments){
 
