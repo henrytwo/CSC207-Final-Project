@@ -1,40 +1,53 @@
 package gui.login;
 
+import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
+import gui.util.interfaces.IDialog;
+import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import util.ControllerBundle;
 
-public class LoginPresenter {
+import java.util.HashMap;
+
+class LoginPresenter {
 
     private IFrame mainFrame;
     private ILoginView loginView;
+
+    private IDialogFactory dialogFactory;
     private IPanelFactory panelFactory;
 
-    ControllerBundle controllerBundle;
-    UserController userController;
+    private UserController userController;
 
     LoginPresenter(IFrame mainFrame, ILoginView loginView) {
         this.mainFrame = mainFrame;
         this.loginView = loginView;
 
-        controllerBundle = mainFrame.getControllerBundle();
+        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         userController = controllerBundle.getUserController();
         panelFactory = mainFrame.getPanelFactory();
+        dialogFactory = mainFrame.getDialogFactory();
+    }
+
+    void goToRegister() {
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.REGISTER));
     }
 
     void login() {
-        userController.registerUser("Test", "Testerson", "test", "test");
-        userController.login("test", "test");
-        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
-    }
+        if (userController.login(loginView.getUsername(), loginView.getPassword()) != null) {
+            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
+        } else {
+            IDialog invalidLoginDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("message", "Invalid Credentials");
+                    put("title", "Authentication Error");
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                }
+            });
 
-    /**
-     * TODO: REMOVE THIS WHEN THE LEGIT LOGIN PAGE IS DONE
-     */
-    void loginAsGod() {
-        userController.login("henry", "henry");
-        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
+            invalidLoginDialog.run();
+        }
     }
 }

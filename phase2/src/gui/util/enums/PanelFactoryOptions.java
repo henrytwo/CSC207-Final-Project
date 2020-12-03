@@ -4,6 +4,7 @@ public class PanelFactoryOptions {
     public enum panelNames {
         MAIN_MENU,
         LOGIN,
+        REGISTER,
         CONTACTS,
         MESSAGING,
         CONFERENCE_MENU,
