@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Calendar object - stores mappings from event UUID to timerange and prevents conflicts
+ * Calendar object - stores mappings from events UUID to timerange and prevents conflicts
  */
 public class Calendar implements Serializable {
     // Look at the LocalDateTime library
     // You can probably just store pairs of LocalDateTime (for start and end), in a set (Maybe make another class for the pair?)
     // To check if a time slot is going to conflict, compare the new pair with the previous pairs
-    // We'll probably also want to be able to store the event UUID in the pair
+    // We'll probably also want to be able to store the events UUID in the pair
     //
     // Edit: The TimeRange class will actually handle the pair of times for you
     private Map<UUID, TimeRange> uuidToTimeRange = new HashMap<>();
@@ -52,17 +52,17 @@ public class Calendar implements Serializable {
     }
 
     /**
-     * Books a time slot for an event in this calendar
+     * Books a time slot for an events in this calendar
      *
-     * @param eventUUID UUID of the event
-     * @param timeRange Time range of the event
+     * @param eventUUID UUID of the events
+     * @param timeRange Time range of the events
      */
     public void addTimeBlock(UUID eventUUID, TimeRange timeRange) {
         this.uuidToTimeRange.put(eventUUID, timeRange);
     }
 
     /**
-     * Frees a time slot for an event in this calendar
+     * Frees a time slot for an events in this calendar
      *
      * @param eventUUID UUID of the eventt
      */
@@ -73,7 +73,7 @@ public class Calendar implements Serializable {
     /**
      * Gets a time range for a booking
      *
-     * @param eventUUID UUID of the event
+     * @param eventUUID UUID of the events
      */
     public TimeRange getBooking(UUID eventUUID) {
         return this.uuidToTimeRange.get(eventUUID);
