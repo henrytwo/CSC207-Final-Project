@@ -54,5 +54,4 @@ public abstract class AbstractConferencePresenter {
             role = "Attendee";
         }
     }
-
 }

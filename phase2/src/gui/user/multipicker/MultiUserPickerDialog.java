@@ -24,7 +24,7 @@ public class MultiUserPickerDialog extends JDialog implements IDialog, IMultiUse
 
     private Set<UUID> selectedUserUUIDs;
 
-    public MultiUserPickerDialog(IFrame mainFrame, Set<UUID> availableUserUUIDs, String instructions) {
+    public MultiUserPickerDialog(IFrame mainFrame, Set<UUID> availableUserUUIDs, Set<UUID> selectedUserUUIDs, String instructions) {
         /* Setup formatting */
 
         // Set the parent frame so that this dialog is centered
@@ -39,7 +39,7 @@ public class MultiUserPickerDialog extends JDialog implements IDialog, IMultiUse
 
         /* Initiate presenter */
 
-        MultiUserPickerPresenter multiUserPickerPresenter = new MultiUserPickerPresenter(mainFrame, this, availableUserUUIDs);
+        MultiUserPickerPresenter multiUserPickerPresenter = new MultiUserPickerPresenter(mainFrame, this, availableUserUUIDs, selectedUserUUIDs);
 
         /* Initiate listeners */
         addButton.addActionListener((e) -> multiUserPickerPresenter.addUser());

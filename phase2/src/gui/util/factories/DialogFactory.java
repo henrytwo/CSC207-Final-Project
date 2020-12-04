@@ -4,6 +4,7 @@ import gui.conference.form.ConferenceFormDialog;
 import gui.conference.picker.ConferencePickerDialog;
 import gui.conference.rooms.form.RoomFormDialog;
 import gui.conference.rooms.picker.RoomPickerDialog;
+import gui.messaging.form.ConversationFormDialog;
 import gui.user.multipicker.MultiUserPickerDialog;
 import gui.user.picker.UserPickerDialog;
 import gui.util.dialogs.ConfirmBooleanDialogView;
@@ -51,6 +52,8 @@ public class DialogFactory implements IDialogFactory {
     @Override
     public IDialog createDialog(DialogFactoryOptions.dialogNames name, Map<String, Object> arguments) {
         switch (name) {
+            case CONVERSATION_FORM:
+                return new ConversationFormDialog(mainFrame);
             case CONFERENCE_FORM:
                 return new ConferenceFormDialog(mainFrame, (UUID) arguments.get("conferenceUUID"));
             case ROOM_PICKER:
@@ -58,7 +61,7 @@ public class DialogFactory implements IDialogFactory {
             case CONFERENCE_PICKER:
                 return new ConferencePickerDialog(mainFrame, (Set<UUID>) arguments.get("availableConferenceUUIDs"), (String) arguments.get("instructions"));
             case MULTI_USER_PICKER:
-                return new MultiUserPickerDialog(mainFrame, (Set<UUID>) arguments.get("availableUserUUIDs"), (String) arguments.get("instructions"));
+                return new MultiUserPickerDialog(mainFrame, (Set<UUID>) arguments.get("availableUserUUIDs"), (Set<UUID>) arguments.get("selectedUserUUIDs"), (String) arguments.get("instructions"));
             case USER_PICKER:
                 return new UserPickerDialog(mainFrame, (Set<UUID>) arguments.get("availableUserUUIDs"), (String) arguments.get("instructions"));
             case MESSAGE:

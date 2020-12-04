@@ -4,55 +4,30 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
+import java.util.UUID;
 
 public class MessagingView implements IPanel, IMessagingView {
     private JPanel messagingPanel;
-    private JButton createNewChat;
+    private JButton newConversationButton;
     private JList chatGroups;
     private JTextField messagetext;
     private JList messages;
-    private JLabel Label1;
     private JButton sendButton;
     private JButton Send;
     private MessagingPresenter messagingPresenter;
 
-    public MessagingView(IFrame mainFrame) {
+    public MessagingView(IFrame guiSystem, UUID defaultConversationUUID) {
 
-//        Send.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("Hello");
-//
-//            }
-//        });
-        messagingPanel.addInputMethodListener(new InputMethodListener() {
-            @Override
-            public void inputMethodTextChanged(InputMethodEvent event) {
-                JOptionPane.showMessageDialog(null, "Message Sent Successfully");
-            }
+        messagingPresenter = new MessagingPresenter(guiSystem, this, defaultConversationUUID);
+        chatGroups.addListSelectionListener((e) -> messagingPresenter.updateSelection(chatGroups.getSelectedIndex()));
+        newConversationButton.addActionListener((e) -> messagingPresenter.createConversation());
 
-            @Override
-            public void caretPositionChanged(InputMethodEvent event) {
-
-            }
-        });
-        chatGroups.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-//                chatGroups.addListSelectionListener((e) -> MessagingPresenter.selectConferencePanel(MessageList.getSelectedIndex()));
-            }
-        });
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String messageContent = messagetext.getText();
-                messagingPresenter.sendmessage(messageContent);
+                messagingPresenter.sendMessage();
             }
         });
     }
@@ -60,5 +35,26 @@ public class MessagingView implements IPanel, IMessagingView {
     @Override
     public JPanel getPanel() {
         return messagingPanel;
+    }
+
+    @Override
+    public void setConversationList(String[] conversationNames) {
+        chatGroups.setListData(conversationNames);
+    }
+
+    @Override
+    public void setConversationListSelection(int selectionIndex) {
+        chatGroups.setSelectedIndex(selectionIndex);
+    }
+
+
+    @Override
+    public String getMessagefromtextbox(){
+        return messagetext.getText();
+    }
+
+    @Override
+    public void setMessages(String[] updatedMessages){
+        messages.setListData(updatedMessages);
     }
 }
