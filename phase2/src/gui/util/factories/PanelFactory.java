@@ -1,7 +1,7 @@
 package gui.util.factories;
 
 import gui.conference.events.menu.EventsMenuView;
-import gui.conference.events.rightPane.EventsGeneralView;
+import gui.conference.events.details.EventsDetailsView;
 import gui.conference.general.ConferenceGeneralView;
 import gui.conference.menu.ConferenceMenuView;
 import gui.conference.rooms.ConferenceRoomsView;
@@ -82,8 +82,8 @@ public class PanelFactory implements IPanelFactory {
                 return new MessagingView(mainFrame, (UUID) initializationArguments.get("defaultConversationUUID"));
             case CONFERENCE_EVENTS:
                 return new EventsMenuView(mainFrame, (UUID) initializationArguments.get("eventUUID"),(UUID) initializationArguments.get("conferenceUUID"), initializationArguments);
-            case CONFERENCE_EVENTS_GENERAL:
-                return new EventsGeneralView(mainFrame, (UUID) initializationArguments.get("eventUUID"), (UUID) initializationArguments.get("conferenceUUID"));
+            case CONFERENCE_EVENT_DETAILS:
+                return new EventsDetailsView(mainFrame, (UUID) initializationArguments.get("eventUUID"), (UUID) initializationArguments.get("conferenceUUID"));
             default:
                 throw new NullPanelException(name);
         }

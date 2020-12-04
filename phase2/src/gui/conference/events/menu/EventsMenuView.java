@@ -15,8 +15,8 @@ public class EventsMenuView implements IPanel, IEventsMenuView {
 
     private EventsMenuPresenter eventsMenuPresenter;
 
-    public EventsMenuView(IFrame mainFrame, UUID defaultEventUUID, UUID defaultConferenceUUID, Map<String, Object> initializationArguments){
-        eventsMenuPresenter = new EventsMenuPresenter(mainFrame, this, defaultEventUUID, defaultConferenceUUID, initializationArguments);
+    public EventsMenuView(IFrame mainFrame, UUID defaultEventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments){
+        eventsMenuPresenter = new EventsMenuPresenter(mainFrame, this, defaultEventUUID, conferenceUUID, initializationArguments);
 
         eventsList.addListSelectionListener((e) -> eventsMenuPresenter.selectEventPanel(eventsList.getSelectedIndex()));
         createEventButton.addActionListener((e) -> eventsMenuPresenter.createEvent());

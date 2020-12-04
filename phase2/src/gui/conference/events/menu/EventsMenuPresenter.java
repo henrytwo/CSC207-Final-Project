@@ -25,11 +25,11 @@ public class EventsMenuPresenter {
     private List<UUID> eventUUIDs;
     private UUID signedInUserUUID;
 
-    private UUID currentConferenceUUID;
+    private UUID conferenceUUID;
     private int currentEventIndex = -1;
     private Map<String, Object> initializationArguments;
 
-    public EventsMenuPresenter(IFrame mainFrame, IEventsMenuView eventMenuView, UUID defaultEventUUID, UUID currentConferenceUUID, Map<String, Object> initializationArguments) {
+    public EventsMenuPresenter(IFrame mainFrame, IEventsMenuView eventMenuView, UUID defaultEventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments) {
         this.mainFrame = mainFrame;
         this.eventMenuView = eventMenuView;
         this.panelFactory = mainFrame.getPanelFactory();
@@ -41,23 +41,23 @@ public class EventsMenuPresenter {
         this.conferenceController = controllerBundle.getConferenceController();
 
         signedInUserUUID = userController.getCurrentUser();
-        this.currentConferenceUUID = currentConferenceUUID;
+        this.conferenceUUID = conferenceUUID;
 
-        updateEventsList(currentConferenceUUID, signedInUserUUID);
+        updateEventsList(conferenceUUID, signedInUserUUID);
 
         if (eventUUIDs.size() > 0) {
             updateEventNames();
 
-            int defaultConferenceIndex = 0;
+            int defaultEventIndex = 0;
 
             // Choose the specified default conference UUID
             if (defaultEventUUID != null && eventUUIDs.contains(defaultEventUUID)) {
-                defaultConferenceIndex = eventUUIDs.indexOf(defaultEventUUID);
+                defaultEventIndex = eventUUIDs.indexOf(defaultEventUUID);
             }
 
             // Set initial conference selection
-            eventMenuView.setEventListSelection(defaultConferenceIndex); // makes it look like we select it
-            //selectConferencePanel(defaultConferenceIndex, (ConferenceTabsConstants.tabNames) initializationArguments.get("defaultTabName")); // this one actually sets the right hand panel
+            eventMenuView.setEventListSelection(defaultEventIndex); // makes it look like we select it
+            //selectConferencePanel(defaultEventIndex, (ConferenceTabsConstants.tabNames) initializationArguments.get("defaultTabName")); // this one actually sets the right hand panel
         }
     }
 
@@ -65,7 +65,7 @@ public class EventsMenuPresenter {
         String[] eventNames = new String[eventUUIDs.size()];
 
         for (int i = 0; i < eventUUIDs.size(); i++) {
-            eventNames[i] = eventController.getEventTitle(currentConferenceUUID, signedInUserUUID, eventUUIDs.get(i));
+            eventNames[i] = eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUIDs.get(i));
         }
 
         eventMenuView.setEventList(eventNames);
@@ -89,7 +89,7 @@ public class EventsMenuPresenter {
             // Update UI with tabs for this conference
             IPanel eventTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>() {
                 {
-                    put("conferenceUUID", currentConferenceUUID);
+                    put("conferenceUUID", conferenceUUID);
                     put("eventUUID", selectedEventUUID);
                     put("defaultTabName", defaultTabName);
                 }
@@ -106,7 +106,7 @@ public class EventsMenuPresenter {
      */
     private void updateAndSelectNewEvent(UUID selectedEventUUID) {
         // Update the local list with the new room
-        updateEventsList(currentConferenceUUID, signedInUserUUID);
+        updateEventsList(conferenceUUID, signedInUserUUID);
         updateEventNames();
 
         // Select the latest room
@@ -119,7 +119,7 @@ public class EventsMenuPresenter {
     void createEvent() {
         IDialog eventFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.EVENT_FORM, new HashMap<String, Object>() {
             {
-                put("conferenceUUID", currentConferenceUUID);
+                put("conferenceUUID", conferenceUUID);
             }
         });
 

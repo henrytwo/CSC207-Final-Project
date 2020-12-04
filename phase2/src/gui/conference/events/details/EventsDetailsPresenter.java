@@ -1,4 +1,4 @@
-package gui.conference.events.rightPane;
+package gui.conference.events.details;
 
 import convention.ConferenceController;
 import convention.EventController;
@@ -17,9 +17,9 @@ import util.ControllerBundle;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class EventsGeneralPresenter {
+public class EventsDetailsPresenter {
 
-    private IEventsGeneralView eventsGeneralView;
+    private IEventsDetailsView eventsGeneralView;
     private IFrame mainFrame;
 
     private IPanelFactory panelFactory;
@@ -40,7 +40,7 @@ public class EventsGeneralPresenter {
     private EventsMenuPresenter eventsMenuPresenter;
 
 
-    public EventsGeneralPresenter(IFrame mainFrame, IEventsGeneralView eventGeneralView, UUID defaultEventUUID, UUID currentConferenceUUID) {
+    public EventsDetailsPresenter(IFrame mainFrame, IEventsDetailsView eventGeneralView, UUID defaultEventUUID, UUID currentConferenceUUID) {
         this.mainFrame = mainFrame;
         this.eventsGeneralView = eventGeneralView;
 
