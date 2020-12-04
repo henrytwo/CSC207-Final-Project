@@ -11,11 +11,16 @@ public class MessagingView implements IPanel, IMessagingView {
     private JPanel messagingPanel;
     private JButton newConversationButton;
     private JList chatGroups;
-    private JTextField messagetext;
+    private JTextField messageText;
     private JList messages;
     private JButton sendButton;
     private MessagingPresenter messagingPresenter;
 
+    /**
+     * Creates GUI for the Messaging Functionality
+     * @param guiSystem the gui system
+     * @param defaultConversationUUID UUID of the default conversation to select. If none selected, or invalid, the first one will be selected.
+     */
     public MessagingView(IFrame guiSystem, UUID defaultConversationUUID) {
         messagingPresenter = new MessagingPresenter(guiSystem, this, defaultConversationUUID);
         chatGroups.addListSelectionListener((e) -> messagingPresenter.updateSelection(chatGroups.getSelectedIndex()));
@@ -37,7 +42,7 @@ public class MessagingView implements IPanel, IMessagingView {
 
     @Override
     public void setTextFieldToNull(){
-        messagetext.setText("");
+        messageText.setText("");
     }
 
     @Override
@@ -47,7 +52,7 @@ public class MessagingView implements IPanel, IMessagingView {
 
     @Override
     public String getTextboxContent() {
-        return messagetext.getText();
+        return messageText.getText();
     }
 
     @Override
@@ -62,12 +67,12 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public void disableTextField(boolean instruction){
-        messagetext.setEnabled(instruction);
+    public void setEnableTextField(boolean instruction){
+        messageText.setEnabled(instruction);
     }
 
     @Override
-    public void disableSendButton(boolean instruction){
+    public void setEnableSendButton(boolean instruction){
         sendButton.setEnabled(instruction);
     }
 

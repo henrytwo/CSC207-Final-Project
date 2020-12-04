@@ -20,6 +20,12 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
     private UUID conversationUUID;
     private boolean updated = false;
 
+
+    /**
+     *
+     * Creates conversation form dialog. The form submission will result in a new conversation being created.
+     * @param mainFrame the mainframe of GUI
+     */
     public ConversationFormDialog(IFrame mainFrame) {
 
         /* Setup formatting */

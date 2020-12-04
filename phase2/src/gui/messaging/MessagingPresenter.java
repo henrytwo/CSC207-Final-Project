@@ -27,6 +27,7 @@ class MessagingPresenter {
     private int currentConversationIndex = -1;
     private UUID currentConversationUUID;
 
+
     MessagingPresenter(IFrame mainFrame, IMessagingView messagingView, UUID defaultConversationUUID) {
         this.messagingView = messagingView;
 
@@ -61,8 +62,8 @@ class MessagingPresenter {
             String[] firstMessage = new String[]{"Create a New Conversation to View or Send Messages"};
             messagingView.setMessages(firstMessage);
         }
-            messagingView.disableSendButton(false);
-            messagingView.disableTextField(false);
+            messagingView.setEnableSendButton(false);
+            messagingView.setEnableTextField(false);
         }
     }
 
@@ -83,8 +84,8 @@ class MessagingPresenter {
 
         if (newConversationUUID != null) {
             updateAndSelectNewConversation(newConversationUUID);
-            messagingView.disableSendButton(true);
-            messagingView.disableTextField(true);
+            messagingView.setEnableSendButton(true);
+            messagingView.setEnableTextField(true);
         }
     }
 
@@ -120,6 +121,7 @@ class MessagingPresenter {
             currentConversationIndex = selectedIndex;
             currentConversationUUID = conversationUUIDs.get(selectedIndex);
             updateMessage();
+            messagingView.scrollToLastMessage();
         }
 
     }
