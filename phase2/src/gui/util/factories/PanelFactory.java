@@ -81,7 +81,7 @@ public class PanelFactory implements IPanelFactory {
             case MESSAGING:
                 return new MessagingView(mainFrame, (UUID) initializationArguments.get("defaultConversationUUID"));
             case CONFERENCE_EVENTS:
-                return new EventsMenuView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"), initializationArguments);
+                return new EventsMenuView(mainFrame, (UUID) initializationArguments.get("eventUUID"),(UUID) initializationArguments.get("conferenceUUID"), initializationArguments);
             case CONFERENCE_EVENTS_GENERAL:
                 return new EventsGeneralView(mainFrame, (UUID) initializationArguments.get("eventUUID"), (UUID) initializationArguments.get("conferenceUUID"));
             default:
