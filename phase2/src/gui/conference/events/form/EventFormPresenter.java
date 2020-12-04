@@ -79,7 +79,7 @@ public class EventFormPresenter {
             eventFormDialog.setName(eventName);
             eventFormDialog.setStart(dateParser.dateTimeToString(startTime));
             eventFormDialog.setEnd(dateParser.dateTimeToString(endTime));
-            eventFormDialog.setRoomArea(controllerBundle.getRoomController().getRoomLocation(conferenceUUID, userUUID, roomUUID));
+            //eventFormDialog.setRoomArea(controllerBundle.getRoomController().getRoomLocation(conferenceUUID, userUUID, roomUUID));
 
         } else {
             eventFormDialog.setDialogTitle("Create new event");

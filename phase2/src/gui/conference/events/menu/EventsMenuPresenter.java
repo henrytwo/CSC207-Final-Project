@@ -87,7 +87,7 @@ public class EventsMenuPresenter {
             UUID selectedEventUUID = eventUUIDs.get(index);
 
             // Update UI with tabs for this conference
-            IPanel eventTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>() {
+            IPanel eventTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENT_DETAILS, new HashMap<String, Object>() {
                 {
                     put("conferenceUUID", conferenceUUID);
                     put("eventUUID", selectedEventUUID);
