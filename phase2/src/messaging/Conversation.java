@@ -179,10 +179,11 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * reads a specific message for a specific user
+     * marks a specific message as 'read' for a specific user
      *
-     * @param message
-     * @return
+     * @param message message in question
+     * @param userUUID user in question
+     * @return true if the message is marked as read, false otherwise
      */
     public boolean readMessage(Message message, UUID userUUID){
         if (conversationMessages.contains(message)) {
@@ -193,6 +194,13 @@ public class Conversation implements Serializable {
         }
     }
 
+    /**
+     * unmarks a specific message as 'read' for a specific user
+     *
+     * @param message message in question
+     * @param userUUID user in question
+     * @return true if the message is unmarked as read, false otherwise
+     */
     public boolean unreadMessage(Message message, UUID userUUID){
         if (conversationMessages.contains(message)) {
             message.userUnreadMessage(userUUID);
