@@ -61,6 +61,8 @@ class MessagingPresenter {
             String[] firstMessage = new String[]{"Create a New Conversation to View or Send Messages"};
             messagingView.setMessages(firstMessage);
         }
+            messagingView.disableSendButton(false);
+            messagingView.disableTextField(false);
         }
     }
 
@@ -69,7 +71,8 @@ class MessagingPresenter {
         if(!currentMessage.equals("")) {
         conversationController.sendMessage(signedInUserUUID, currentMessage, currentConversationUUID);
         updateMessage();
-        messagingView.setTextFieldToNull();}
+        messagingView.setTextFieldToNull();
+        messagingView.scrollToLastMessage();}
 
     }
 
@@ -80,6 +83,8 @@ class MessagingPresenter {
 
         if (newConversationUUID != null) {
             updateAndSelectNewConversation(newConversationUUID);
+            messagingView.disableSendButton(true);
+            messagingView.disableTextField(true);
         }
     }
 

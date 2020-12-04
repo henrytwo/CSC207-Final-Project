@@ -61,4 +61,22 @@ public class MessagingView implements IPanel, IMessagingView {
         return list.getSize();
     }
 
+    @Override
+    public void disableTextField(boolean instruction){
+        messagetext.setEnabled(instruction);
+    }
+
+    @Override
+    public void disableSendButton(boolean instruction){
+        sendButton.setEnabled(instruction);
+    }
+
+    @Override
+    public void scrollToLastMessage(){
+    int lastMessageIndex = messages.getModel().getSize() - 1;
+        if(lastMessageIndex >= 0){
+            messages.ensureIndexIsVisible(lastMessageIndex);
+        }
+    }
+
 }
