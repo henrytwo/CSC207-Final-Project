@@ -6,5 +6,9 @@ public interface IMessagingView {
     String getTextboxContent();
     void setMessages(String[] messages);
     void setTextFieldToNull();
+    int getMessagesFromJList();
+    void setEnableTextField(boolean instruction);
+    void setEnableSendButton(boolean instruction);
+    void scrollToLastMessage();
 
 }

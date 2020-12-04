@@ -27,6 +27,7 @@ class MessagingPresenter {
     private int currentConversationIndex = -1;
     private UUID currentConversationUUID;
 
+
     MessagingPresenter(IFrame mainFrame, IMessagingView messagingView, UUID defaultConversationUUID) {
         this.messagingView = messagingView;
 
@@ -56,6 +57,14 @@ class MessagingPresenter {
             messagingView.setConversationListSelection(defaultConversationIndex); // makes it look like we select it
             updateSelection(defaultConversationIndex);
         }
+        else{
+            if (messagingView.getMessagesFromJList() == 0){
+            String[] firstMessage = new String[]{"Create a New Conversation to View or Send Messages"};
+            messagingView.setMessages(firstMessage);
+        }
+            messagingView.setEnableSendButton(false);
+            messagingView.setEnableTextField(false);
+        }
     }
 
     void sendMessage() {
@@ -63,7 +72,8 @@ class MessagingPresenter {
         if(!currentMessage.equals("")) {
         conversationController.sendMessage(signedInUserUUID, currentMessage, currentConversationUUID);
         updateMessage();
-        messagingView.setTextFieldToNull();}
+        messagingView.setTextFieldToNull();
+        messagingView.scrollToLastMessage();}
 
     }
 
@@ -74,6 +84,8 @@ class MessagingPresenter {
 
         if (newConversationUUID != null) {
             updateAndSelectNewConversation(newConversationUUID);
+            messagingView.setEnableSendButton(true);
+            messagingView.setEnableTextField(true);
         }
     }
 
@@ -101,7 +113,7 @@ class MessagingPresenter {
 
     private void updateConversationList() {
         currentConversationIndex = -1;
-        conversationUUIDs = new ArrayList<>(conversationController.getConversationlist(signedInUserUUID));
+        conversationUUIDs = new ArrayList<>(conversationController.getConversationList(signedInUserUUID));
     }
 
     void updateSelection(int selectedIndex) {
@@ -109,6 +121,7 @@ class MessagingPresenter {
             currentConversationIndex = selectedIndex;
             currentConversationUUID = conversationUUIDs.get(selectedIndex);
             updateMessage();
+            messagingView.scrollToLastMessage();
         }
 
     }

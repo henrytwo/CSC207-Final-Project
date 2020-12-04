@@ -113,6 +113,12 @@ public class ConversationManager implements Serializable {
         addConvoToUserList(userUUID, conversationUUID);
     }
 
+    /**
+     * Returns the UUID of users who are part of a Conversation
+     * @param conversationUUID The UUID of a Conversation/Chat Group
+     * @return
+     */
+
     public Set<UUID> getUsers(UUID conversationUUID){
         Set<UUID> usersInConversation = new HashSet<>();
         Set<UUID> allUsersUUID = mapUserConvo.keySet();
@@ -198,12 +204,17 @@ public class ConversationManager implements Serializable {
         if (conversation.getReadAccessUsers().contains(userUUID)) {
             List<Map<String, String>> newList = new ArrayList<>();
             for(Message message:conversation.getConversationMessages()){
-                Map<String, String> messageAsHashmap = new HashMap<>();
-                messageAsHashmap.put("sender", message.getSenderId().toString());
-                messageAsHashmap.put("timestamp", message.getTimestamp().toString());
-                messageAsHashmap.put("content", message.getContent());
-                newList.add(messageAsHashmap);
-                //message.userReadMessage(userUUID);
+
+                if (! message.getUsersArchivingMessage().contains(userUUID)) {
+                    Map<String, String> messageAsHashmap = new HashMap<>();
+                    messageAsHashmap.put("sender", message.getSenderId().toString());
+                    messageAsHashmap.put("timestamp", message.getTimestamp().toString());
+                    messageAsHashmap.put("content", message.getContent());
+                    newList.add(messageAsHashmap);
+                    if ( ! message.getHasRead().contains(userUUID) ){
+                        message.userReadMessage(userUUID);
+                    }
+                }
             }
             return newList;
         } else {

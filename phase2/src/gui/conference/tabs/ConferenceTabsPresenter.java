@@ -1,6 +1,7 @@
 package gui.conference.tabs;
 
 import convention.ConferenceController;
+import convention.EventController;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
@@ -11,12 +12,14 @@ import util.ControllerBundle;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 public class ConferenceTabsPresenter {
     private IPanelFactory panelFactory;
 
     private ConferenceController conferenceController;
     private UserController userController;
+    private EventController eventController;
 
     private UUID conferenceUUID;
     private UUID signedInUserUUID;
@@ -41,6 +44,7 @@ public class ConferenceTabsPresenter {
 
         conferenceController = controllerBundle.getConferenceController();
         userController = controllerBundle.getUserController();
+        eventController = controllerBundle.getEventController();
 
         signedInUserUUID = userController.getCurrentUser();
 
@@ -53,12 +57,28 @@ public class ConferenceTabsPresenter {
 
     private void updateTabs() {
         if (hasAttendeePermissions) {
-            IPanel generalView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_GENERAL, new HashMap<String, Object>() {
+            IPanel generalView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_GENERAL, new HashMap<String, Object>(initializationArguments) {
                 {
                     put("conferenceUUID", conferenceUUID);
                 }
             });
 
+            IPanel allEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(initializationArguments){
+                {
+                    put("conferenceUUID", conferenceUUID);
+                    put("getEvents", (Supplier) () -> eventController.getEvents(conferenceUUID, signedInUserUUID));
+                }
+            });
+
+            IPanel registeredEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(initializationArguments){
+                {
+                    put("conferenceUUID", conferenceUUID);
+                    put("getEvents", (Supplier) () -> eventController.getAttendeeEvents(conferenceUUID, signedInUserUUID));
+                }
+            });
+
+            conferenceTabsView.setAllEventsTabPanel(allEventsView);
+            conferenceTabsView.setRegisteredEventsTabPanel(registeredEventsView);
             conferenceTabsView.setGeneralTabPanel(generalView);
         } else {
             conferenceTabsView.setTabEnabled(ConferenceTabsConstants.tabNames.GENERAL, false); // Disable general tab
@@ -67,7 +87,14 @@ public class ConferenceTabsPresenter {
         }
 
         if (hasSpeakerPermissions) {
+            IPanel speakerEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(){
+                {
+                    put("conferenceUUID", conferenceUUID);
+                    put("getEvents", (Supplier) () -> eventController.getSpeakerEvents(conferenceUUID, signedInUserUUID));
+                }
+            });
 
+            conferenceTabsView.setSpeakersTabPanel(speakerEventsView);
         } else {
             conferenceTabsView.setTabEnabled(ConferenceTabsConstants.tabNames.YOUR_SPEAKER_EVENTS, false); // Disable speaker events tab
         }

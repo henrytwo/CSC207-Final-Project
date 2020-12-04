@@ -10,7 +10,8 @@ public class DialogFactoryOptions {
         MESSAGE,
         CONFIRM_BOOLEAN,
         CONVERSATION_FORM,
-        ROOM_FORM
+        ROOM_FORM,
+        EVENT_FORM
     }
 
     public enum dialogType {

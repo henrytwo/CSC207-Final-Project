@@ -214,7 +214,7 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         UUID removedUserUUID = confirmSelectUser(
                 conferenceUserUUIDs,
                 "Remove user",
-                "Choose a user to remove from the conference. All of their roles, event registrations, and speaker assignments will be cancelled.",
+                "Choose a user to remove from the conference. All of their roles, events registrations, and speaker assignments will be cancelled.",
                 "There are no users to remove from the conference. (wait how did this even happen? are you god?)",
                 (uuid) -> String.format("Are you sure you want to remove %s (%s) from the conference?", userController.getUserFullName(uuid), uuid),
                 (uuid) -> String.format("%s (%s) has been removed from the conference.", userController.getUserFullName(uuid), uuid),

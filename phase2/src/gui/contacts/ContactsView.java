@@ -21,7 +21,7 @@ public class ContactsView implements IPanel, IContactsView {
             /**
              * Invoked when an action occurs.
              *
-             * @param e the event to be processed
+             * @param e the events to be processed
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -33,7 +33,7 @@ public class ContactsView implements IPanel, IContactsView {
             /**
              * Invoked when an action occurs.
              *
-             * @param e the event to be processed
+             * @param e the events to be processed
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -44,7 +44,7 @@ public class ContactsView implements IPanel, IContactsView {
             /**
              * Invoked when an action occurs.
              *
-             * @param e the event to be processed
+             * @param e the events to be processed
              */
             @Override
             public void actionPerformed(ActionEvent e) {

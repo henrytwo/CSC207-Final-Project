@@ -48,4 +48,5 @@ public class ConferenceMenuView implements IPanel, IConferenceMenuView {
     public JPanel getPanel() {
         return panel;
     }
+
 }

@@ -35,7 +35,7 @@ public class ConferenceManager implements Serializable {
      * Gets a map from Event UUID to their respective TimeRange
      *
      * @param conferenceUUID UUID of the conference to operate on
-     * @return a map of event UUIDs to their corresponding TimeRange
+     * @return a map of events UUIDs to their corresponding TimeRange
      */
     public Map<UUID, TimeRange> getConferenceSchedule(UUID conferenceUUID) {
         RoomManager roomManager = getRoomManager(conferenceUUID);
@@ -54,7 +54,7 @@ public class ConferenceManager implements Serializable {
      * Generates an EventManager object to control events for a conference
      *
      * @param conferenceUUID UUID of the conference to operate on
-     * @return the event manager object
+     * @return the events manager object
      */
     public EventManager getEventManager(UUID conferenceUUID) {
         Map<UUID, Event> events = getConference(conferenceUUID).getEvents();
