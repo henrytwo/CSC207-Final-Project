@@ -2,7 +2,6 @@ package gui.conference.events.menu;
 
 import convention.ConferenceController;
 import convention.EventController;
-import gui.conference.tabs.ConferenceTabsConstants;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.*;
@@ -58,6 +57,7 @@ public class EventsMenuPresenter {
             // Set initial conference selection
             eventMenuView.setEventListSelection(defaultEventIndex); // makes it look like we select it
             //selectConferencePanel(defaultEventIndex, (ConferenceTabsConstants.tabNames) initializationArguments.get("defaultTabName")); // this one actually sets the right hand panel
+            selectEventPanel(defaultEventIndex);
         }
     }
 
@@ -77,10 +77,7 @@ public class EventsMenuPresenter {
     }
 
     void selectEventPanel(int index) {
-        selectEventPanel(index, null);
-    }
 
-    void selectEventPanel(int index, ConferenceTabsConstants.tabNames defaultTabName) {
         // Don't need to perform an update if we're already selected
         if (index != currentEventIndex) {
             currentEventIndex = index;
@@ -91,7 +88,6 @@ public class EventsMenuPresenter {
                 {
                     put("conferenceUUID", conferenceUUID);
                     put("eventUUID", selectedEventUUID);
-                    put("defaultTabName", defaultTabName);
                 }
             });
 
