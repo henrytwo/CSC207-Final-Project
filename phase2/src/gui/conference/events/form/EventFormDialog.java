@@ -82,16 +82,6 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
         this.setTitle(newTitle);
     }
 
-//    @Override
-//    public void setRoomArea(String roomInfo) {
-//        roomArea.append(roomInfo);
-//    }
-//
-//    @Override
-//    public void setSpeakerArea(String speakerInfo) {
-//        speakerArea.append(speakerInfo);
-//    }
-
     @Override
     public String getName() {
         return name.getText();

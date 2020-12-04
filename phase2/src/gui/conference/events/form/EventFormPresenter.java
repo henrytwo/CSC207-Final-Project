@@ -94,12 +94,14 @@ public class EventFormPresenter {
             startTime = dateParser.stringToDateTime(eventFormDialog.getStart());
             endTime = dateParser.stringToDateTime(eventFormDialog.getEnd());
 
-            timeRange = new TimeRange(startTime, endTime);
+            TimeRange newtimeRange = new TimeRange(startTime, endTime);
 
             if (isExistingEvent) {
                 eventController.setEventTitle(conferenceUUID, userUUID, eventUUID, eventName);
                 eventController.setEventRoom(conferenceUUID, userUUID, eventUUID, roomUUID);
-                eventController.setEventTimeRange(conferenceUUID, userUUID, eventUUID, timeRange);
+                if(!(eventController.getEventTimeRange(conferenceUUID, userUUID, eventUUID).equals(newtimeRange))){
+                    eventController.setEventTimeRange(conferenceUUID, userUUID, eventUUID, timeRange);
+                }
 
             } else {
                 eventUUID = eventController.createEvent(conferenceUUID, userUUID, eventName, timeRange, roomUUID, speakerUUIDs);
