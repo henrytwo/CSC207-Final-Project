@@ -58,11 +58,48 @@ public class EventsGeneralPresenter {
     }
 
     void registerForEvent(){
-
+        if(eventController.getNumRegistered(currentConferenceUUID, signedInUserUUID, eventUUID) ==
+                roomController.getRoomCapacity(currentConferenceUUID, signedInUserUUID, eventController.getEventRoom(currentConferenceUUID, signedInUserUUID, eventUUID))){
+            IDialog fullCapacityDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("message", "Sorry, that event is already at full capacity.");
+                    put("title", "Error");
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                }
+            });
+            fullCapacityDialog.run();
+        }
+        else{
+            eventController.registerForEvent(currentConferenceUUID, signedInUserUUID, signedInUserUUID, eventUUID);
+        }
     }
 
     void deleteEvent(){
 
+        if(role != "Organiser"){
+            IDialog accessDeniedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("message", "Only Organisers of an event can delete an event.");
+                    put("title", "Error");
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                }
+            });
+
+            accessDeniedDialog.run();
+        }
+        else{
+            IDialog confirmDeleteDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+                {
+                    put("message", String.format("Are you sure you want to delete this event? (%s)", eventController.getEventTitle(currentConferenceUUID, signedInUserUUID, eventUUID)));
+                    put("title", "Confirm delete Event");
+                    put("messageType", DialogFactoryOptions.dialogType.QUESTION);
+                    put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+                }
+            });
+            if((boolean) confirmDeleteDialog.run()){
+                eventController.deleteEvent(currentConferenceUUID, signedInUserUUID, eventUUID);
+            }
+        }
     }
 
     void editEvent(){
@@ -81,6 +118,7 @@ public class EventsGeneralPresenter {
 
         if((boolean) confirmLeaveDialog.run()){
             eventController.unregisterForEvent(currentConferenceUUID, signedInUserUUID, signedInUserUUID, eventUUID);
+            // MAKE SURE TO KICK THIS USER FROM THE CHAT
         }
     }
 

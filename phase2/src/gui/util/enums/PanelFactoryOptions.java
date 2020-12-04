@@ -10,6 +10,8 @@ public class PanelFactoryOptions {
         CONFERENCE_MENU,
         CONFERENCE_TABS,
         CONFERENCE_GENERAL,
+        CONFERENCE_EVENTS,
+        CONFERENCE_EVENTS_GENERAL,
         CONFERENCE_SETTINGS,
         CONFERENCE_ROOMS,
         ROOM_VIEW
