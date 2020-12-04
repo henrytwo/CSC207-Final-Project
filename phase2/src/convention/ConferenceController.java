@@ -453,7 +453,7 @@ public class ConferenceController {
                 }
             }
             Schedule s = ScheduleManager.constructSchedule(eventSet, sortBy);
-            SchedulePrinter.print(s);
+            SchedulePrinter.print(s.getEventStringLists(), s.getTitle());
         }
         else if (sortBy.equals("registered")) {
             Set<Event> eventSet = new HashSet<>(Collections.emptySet());
@@ -466,7 +466,7 @@ public class ConferenceController {
                 }
             }
             Schedule s = ScheduleManager.constructSchedule(eventSet, sortBy);
-            SchedulePrinter.print(s);
+            SchedulePrinter.print(s.getEventStringLists(), s.getTitle());
         }
         else throw new InvalidSortMethodException();
     }
@@ -490,6 +490,6 @@ public class ConferenceController {
             }
         }
         Schedule s = ScheduleManager.constructSchedule(eventSet, "day");
-        SchedulePrinter.print(s);
+        SchedulePrinter.print(s.getEventStringLists(), s.getTitle());
     }
 }
