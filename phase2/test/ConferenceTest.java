@@ -101,10 +101,10 @@ public class ConferenceTest {
     // Edit name X
     // Delete conf X
 
-    // Create event
+    // Create events
     // Assign a speaker
-    // Edit event
-    // Delete event
+    // Edit events
+    // Delete events
     // Revoke speaker access if they don't have any more events
 
     // Create room
@@ -115,14 +115,14 @@ public class ConferenceTest {
 
     // Join convention
     //    - Invite? Search?
-    // Register in event
+    // Register in events
     // List events
     //    - TestView the different ways to sort
 
     // Speaker tasks
 
     // List events they're running
-    // Create convo for an event
+    // Create convo for an events
 
     /* Conference creation */
 

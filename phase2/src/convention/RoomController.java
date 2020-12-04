@@ -158,14 +158,14 @@ public class RoomController {
     }
 
     /**
-     * Get a map of event UUIDs and their respective time ranges for a specific room.
+     * Get a map of events UUIDs and their respective time ranges for a specific room.
      * <p>
      * Required Permission: ATTENDEE
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
      * @param roomUUID       UUID of the room to operate on
-     * @return map of event UUIDs to their time range
+     * @return map of events UUIDs to their time range
      */
     public Map<UUID, TimeRange> getRoomSchedule(UUID conferenceUUID, UUID executorUUID, UUID roomUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);

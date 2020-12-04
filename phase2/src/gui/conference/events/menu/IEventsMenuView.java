@@ -1,9 +1,9 @@
-package gui.conference.event;
+package gui.conference.events.menu;
 
 import gui.util.interfaces.IPanel;
 
-public interface IEventMenuView {
+public interface IEventsMenuView {
     void setEventList(String[] eventNames);
     void setEventListSelection(int selectionIndex);
-    void setEventPane(IPanel tabsPanel);
+    void setEventTabs(IPanel tabsPanel);
 }

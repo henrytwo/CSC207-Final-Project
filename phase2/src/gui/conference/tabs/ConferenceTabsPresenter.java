@@ -59,6 +59,21 @@ public class ConferenceTabsPresenter {
                 }
             });
 
+            IPanel allEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(){
+                {
+                    put("conferenceUUID", conferenceUUID);
+                }
+            });
+
+            IPanel registeredEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(){
+                {
+                    put("conferenceUUID", conferenceUUID);
+                }
+            });
+
+
+            conferenceTabsView.setAllEventsTabPanel(allEventsView);
+            conferenceTabsView.setRegisteredEventsTabPanel(registeredEventsView);
             conferenceTabsView.setGeneralTabPanel(generalView);
         } else {
             conferenceTabsView.setTabEnabled(ConferenceTabsConstants.tabNames.GENERAL, false); // Disable general tab
@@ -67,7 +82,13 @@ public class ConferenceTabsPresenter {
         }
 
         if (hasSpeakerPermissions) {
+            IPanel speakerView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(){
+                {
+                    put("conferenceUUID", conferenceUUID);
+                }
+            });
 
+            conferenceTabsView.setSpeakersTabPanel(speakerView);
         } else {
             conferenceTabsView.setTabEnabled(ConferenceTabsConstants.tabNames.YOUR_SPEAKER_EVENTS, false); // Disable speaker events tab
         }
