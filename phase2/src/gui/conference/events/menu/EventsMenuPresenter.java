@@ -65,7 +65,7 @@ public class EventsMenuPresenter {
         String[] eventNames = new String[eventUUIDs.size()];
 
         for (int i = 0; i < eventUUIDs.size(); i++) {
-            eventNames[i] = conferenceController.getConferenceName(eventUUIDs.get(i));
+            eventNames[i] = eventController.getEventTitle(currentConferenceUUID, signedInUserUUID, eventUUIDs.get(i));
         }
 
         eventMenuView.setEventList(eventNames);
