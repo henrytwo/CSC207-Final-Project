@@ -246,7 +246,7 @@ public class EventController {
     private void testSpeakersTimeRangeOccupied(UUID conferenceUUID, Set<UUID> speakerUUIDs, TimeRange timeRange) {
         for (UUID speakerUUID : speakerUUIDs) {
             if (speakerTimeRangeOccupied(conferenceUUID, speakerUUID, timeRange)) {
-                throw new SpeakerDoubleBookingException();
+                throw new SpeakerDoubleBookingException(speakerUUID, timeRange);
             }
         }
     }
