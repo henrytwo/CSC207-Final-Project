@@ -54,26 +54,9 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
 
         UUID newRoomUUID = (UUID) roomFormDialog.run();
         if (newRoomUUID != null) {
-            updateAndSelectNewRoom(newRoomUUID);
+            reloadManageRoomsPage(newRoomUUID);
         }
 
-    }
-
-    /**
-     * Updates the local list of rooms and selects a room by UUID
-     *
-     * @param selectedRoomUUID UUID of room to open
-     */
-    private void updateAndSelectNewRoom(UUID selectedRoomUUID) {
-        // Update the local list with the new room
-        updateRoomList();
-        updateRoomLocations();
-
-        // Select the latest room
-        int index = roomUUIDs.indexOf(selectedRoomUUID);
-
-        conferenceRoomView.setRoomListSelection(index);
-        selectRoomPanel(index);
     }
 
     /**
@@ -108,6 +91,20 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
 
             conferenceRoomView.setRoomTabs(roomTabsPanel);
         }
+    }
+
+    /**
+     * Reloads page and specifies a default room to open upon next load
+     * @param selectedRoomUUID
+     */
+    private void reloadManageRoomsPage(UUID selectedRoomUUID) {
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
+            {
+                put("defaultConferenceUUID", conferenceUUID);
+                put("defaultRoomUUID", selectedRoomUUID);
+                put("defaultTabName", ConferenceTabsConstants.tabNames.ROOMS);
+            }
+        }));
     }
 
     /**

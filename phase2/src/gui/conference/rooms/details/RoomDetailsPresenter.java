@@ -47,14 +47,22 @@ public class RoomDetailsPresenter extends AbstractConferencePresenter {
 
         if (roomFormDialog.run() != null) {
             // Reload to update changes
-            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
-                {
-                    put("defaultConferenceUUID", conferenceUUID);
-                    put("defaultRoomUUID", roomUUID);
-                    put("defaultTabName", ConferenceTabsConstants.tabNames.ROOMS);
-                }
-            }));
+            reloadManageRoomsPage(roomUUID);
         }
+    }
+
+    /**
+     * Reloads page and specifies a default room to open upon next load
+     * @param selectedRoomUUID
+     */
+    private void reloadManageRoomsPage(UUID selectedRoomUUID) {
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
+            {
+                put("defaultConferenceUUID", conferenceUUID);
+                put("defaultRoomUUID", selectedRoomUUID);
+                put("defaultTabName", ConferenceTabsConstants.tabNames.ROOMS);
+            }
+        }));
     }
 
     private void updateRoomData() {
