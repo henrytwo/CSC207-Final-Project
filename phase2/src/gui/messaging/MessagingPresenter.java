@@ -60,8 +60,10 @@ class MessagingPresenter {
 
     void sendMessage() {
         String currentMessage = messagingView.getTextboxContent();
+        if(!currentMessage.equals("")) {
         conversationController.sendMessage(signedInUserUUID, currentMessage, currentConversationUUID);
         updateMessage();
+        messagingView.setTextFieldToNull();}
 
     }
 
@@ -119,9 +121,10 @@ class MessagingPresenter {
 
         for (Map<String, String> messageMap : messagesListMap) {
             UUID senderId = UUID.fromString(messageMap.get("sender"));
+            String senderName = userController.getUserFullName(senderId);
             String timestamp = messageMap.get("timestamp");
             String content = messageMap.get("content");
-            String messageString = String.format("[%s @ %s] %s\n", senderId, timestamp, content);
+            String messageString = String.format("[%s @ %s] %s\n", senderName, timestamp, content);
 
             messageArray[index] = messageString;
             index++;
