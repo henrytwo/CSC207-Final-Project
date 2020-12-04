@@ -1,6 +1,5 @@
 package gui.conference.events.form;
 
-import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
@@ -10,6 +9,7 @@ import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
+import user.UserController;
 import util.ControllerBundle;
 
 import java.time.LocalDateTime;
@@ -19,11 +19,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class EventFormPresenter {
+class EventFormPresenter {
 
-    ConferenceController conferenceController;
-    EventController eventController;
-    RoomController roomController;
+    private EventController eventController;
+    private RoomController roomController;
+    private UserController userController;
 
     private boolean isExistingEvent;
     private UUID eventUUID;
@@ -52,8 +52,9 @@ public class EventFormPresenter {
 
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         this.eventController = controllerBundle.getEventController();
-        this.conferenceController = controllerBundle.getConferenceController();
         this.roomController = controllerBundle.getRoomController();
+        this.userController = controllerBundle.getUserController();
+
         this.conferenceUUID = conferenceUUID;
         this.eventUUID = eventUUID;
         this.userUUID = controllerBundle.getUserController().getCurrentUser();
@@ -193,7 +194,7 @@ public class EventFormPresenter {
 
     void selectSpeakers() {
         // Getting all available speakerUUIDs
-        Set<UUID> userUUIDs = conferenceController.getUsers(conferenceUUID, userUUID);
+        Set<UUID> userUUIDs = userController.getUsers();
 
         IDialog chooseSpeakersDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MULTI_USER_PICKER, new HashMap<String, Object>() {
             {

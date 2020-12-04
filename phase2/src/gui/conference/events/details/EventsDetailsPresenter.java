@@ -4,7 +4,6 @@ import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.exception.FullEventException;
-import gui.conference.events.menu.EventsMenuPresenter;
 import gui.conference.tabs.ConferenceTabsConstants;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
@@ -20,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class EventsDetailsPresenter {
+class EventsDetailsPresenter {
 
     private IEventsDetailsView eventsGeneralView;
     private IFrame mainFrame;
@@ -37,8 +36,6 @@ public class EventsDetailsPresenter {
     private UUID signedInUserUUID;
 
     private UUID currentConferenceUUID;
-
-    private EventsMenuPresenter eventsMenuPresenter;
 
     private Map<String, Object> initializationArguments;
 
@@ -68,26 +65,10 @@ public class EventsDetailsPresenter {
 
     private void updateUserData() {
         if (conferenceController.isOrganizer(currentConferenceUUID, signedInUserUUID, signedInUserUUID)) {
-
-            Set<UUID> attendeeUUIDs = eventController.getEventAttendees(currentConferenceUUID, signedInUserUUID, eventUUID);
-
-            String[][] tableData = new String[1][attendeeUUIDs.size()];
-
-            int index = 0;
-
-            for (UUID userUUID : attendeeUUIDs) {
-                tableData[0][index] = userController.getUserFullName(userUUID);
-
-                index++;
-            }
-
-            String[] columnNames = {
-                    "Event Attendees",
-            };
-
-            eventsGeneralView.setUserTableData(tableData, columnNames);
-
+            updateAttendeeTable();
         }
+
+        updateSpeakerTable();
     }
 
     private void updateButtons() {
@@ -186,8 +167,6 @@ public class EventsDetailsPresenter {
     }
 
     private void updateGeneralData() {
-        boolean isSpeaker = conferenceController.isSpeaker(currentConferenceUUID, signedInUserUUID, signedInUserUUID);
-
         String[][] tableData = {
                 {"Event Name", eventController.getEventTitle(currentConferenceUUID, signedInUserUUID, eventUUID)},
                 {"Start", eventController.getEventTimeRange(currentConferenceUUID, signedInUserUUID, eventUUID).getStart().toString()},
@@ -206,5 +185,43 @@ public class EventsDetailsPresenter {
         };
 
         eventsGeneralView.setGeneralTableData(tableData, columnNames);
+    }
+
+    private String[][] generateUserTable(Set<UUID> userUUIDs) {
+        String[][] names = new String[userUUIDs.size()][1];
+
+        int index = 0;
+
+        for (UUID userUUID : userUUIDs) {
+            names[index][0] = userController.getUserFullName(userUUID);
+
+            index++;
+        }
+
+        return names;
+    }
+
+    private void updateAttendeeTable() {
+        Set<UUID> attendeeUUIDs = eventController.getEventAttendees(currentConferenceUUID, signedInUserUUID, eventUUID);
+
+        String[][] tableData = generateUserTable(attendeeUUIDs);
+
+        String[] columnNames = {
+                "Event Attendees",
+        };
+
+        eventsGeneralView.setAttendeeTableData(tableData, columnNames);
+    }
+
+    private void updateSpeakerTable() {
+        Set<UUID> speakerUUIDs = eventController.getEventSpeakers(currentConferenceUUID, signedInUserUUID, eventUUID);
+
+        String[][] tableData = generateUserTable(speakerUUIDs);
+
+        String[] columnNames = {
+                "Event Speakers",
+        };
+
+        eventsGeneralView.setSpeakerTableData(tableData, columnNames);
     }
 }
