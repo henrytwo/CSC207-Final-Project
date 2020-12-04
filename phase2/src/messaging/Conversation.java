@@ -161,4 +161,44 @@ public class Conversation implements Serializable {
         }
     }
 
+    /**
+     *
+     *
+     * @param message
+     * @param userUUid
+     * @return
+     */
+    public boolean archiveMessage (Message message, UUID userUUid) {
+        if (conversationMessages.contains(message)) {
+            message.setUsersArchivingMessage(userUUid);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     *
+     *
+     * @param message
+     * @return
+     */
+    public boolean readMessage(Message message){
+        if (conversationMessages.contains(message)) {
+            message.setIsRead(true);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean unreadMessage(Message message){
+        if (conversationMessages.contains(message)) {
+            message.setIsRead(false);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

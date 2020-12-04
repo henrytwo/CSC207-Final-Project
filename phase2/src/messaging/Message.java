@@ -12,6 +12,8 @@ public class Message implements Serializable {
 //    private Set<Message> responses = new HashSet<>();
     private LocalDateTime timestamp;
     private UUID senderId;
+    private boolean isRead = false;
+    private Set<UUID> usersArchivingMessage = new HashSet<>();
 
     /**
      * Constructor for Message.
@@ -58,6 +60,32 @@ public class Message implements Serializable {
     @Override
     public String toString() {
         return String.format("[%s @ %s] %s\n", senderId, timestamp, content);
+    }
+
+    /**
+     * Gets whether a message has been read or not
+     *
+     * @return whether the message has been read or not
+     */
+    public Boolean getIsRead(){ return isRead; }
+
+
+    /**
+     * Sets whether a message has been 'read'
+     *
+     * @param isRead boolean 'true' if message has been 'read', 'false' if unread
+     */
+    public void setIsRead(boolean isRead){
+        this.isRead = isRead;
+    }
+
+    /**
+     * updates the user list that has archived this message
+     *
+     * @param userUUID user intending to archive message
+     */
+    public void setUsersArchivingMessage(UUID userUUID){
+        usersArchivingMessage.add(userUUID);
     }
 
     //    public void edit_message(String new_content, Date new_timestamp){

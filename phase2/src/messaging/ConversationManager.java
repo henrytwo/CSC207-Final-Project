@@ -191,6 +191,7 @@ public class ConversationManager implements Serializable {
                 messageAsHashmap.put("timestamp", message.getTimestamp().toString());
                 messageAsHashmap.put("content", message.getContent());
                 newList.add(messageAsHashmap);
+                message.setIsRead(true);
             }
             return newList;
         } else {
