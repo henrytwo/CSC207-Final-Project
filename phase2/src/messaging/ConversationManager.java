@@ -198,12 +198,17 @@ public class ConversationManager implements Serializable {
         if (conversation.getReadAccessUsers().contains(userUUID)) {
             List<Map<String, String>> newList = new ArrayList<>();
             for(Message message:conversation.getConversationMessages()){
-                Map<String, String> messageAsHashmap = new HashMap<>();
-                messageAsHashmap.put("sender", message.getSenderId().toString());
-                messageAsHashmap.put("timestamp", message.getTimestamp().toString());
-                messageAsHashmap.put("content", message.getContent());
-                newList.add(messageAsHashmap);
-                //message.userReadMessage(userUUID);
+
+                if (! message.getUsersArchivingMessage().contains(userUUID)) {
+                    Map<String, String> messageAsHashmap = new HashMap<>();
+                    messageAsHashmap.put("sender", message.getSenderId().toString());
+                    messageAsHashmap.put("timestamp", message.getTimestamp().toString());
+                    messageAsHashmap.put("content", message.getContent());
+                    newList.add(messageAsHashmap);
+                    if ( ! message.getHasRead().contains(userUUID) ){
+                        message.userReadMessage(userUUID);
+                    }
+                }
             }
             return newList;
         } else {
