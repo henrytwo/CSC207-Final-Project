@@ -3,12 +3,16 @@ package scripts;
 import contact.ContactManager;
 import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
+import convention.event.EventManager;
+import convention.room.RoomManager;
 import gateway.Serializer;
 import messaging.ConversationManager;
 import user.UserManager;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -28,12 +32,16 @@ public class CreateBunchOfConferences {
         ConversationManager conversationManager = conversationManagerSerializer.load(new ConversationManager());
         ConferenceManager conferenceManager = conferenceManagerSerializer.load(new ConferenceManager());
 
+        Set<UUID> existingUserUUIDs = new HashSet<>();
+
         // Create test users
         for (int i = 0; i < 10; i++) {
             userManager.registerUser("User " + i, "Userson", "user"+ i, "password", false, false);
 
             // Login in case the user already exists
             UUID newUserUUID = userManager.login("user"+ i, "password");
+
+            existingUserUUIDs.add(newUserUUID);
 
             // Create test conferences
             for (int j = 0; j < 3; j++) {
@@ -47,8 +55,28 @@ public class CreateBunchOfConferences {
 
                 UUID newConferenceUUID = conferenceManager.createConference("User " + i + "'s conference", timeRange, newUserUUID);
 
-                // create test rooms or whatever here
+                RoomManager roomManager = conferenceManager.getRoomManager(newConferenceUUID);
+                EventManager eventManager = conferenceManager.getEventManager(newConferenceUUID);
 
+                // create test rooms
+                for (int p = 0; p < 5; p++) {
+
+                    UUID newRoomUUID = roomManager.createRoom("BA123" + p, 69);
+
+                    // create test events
+                    for (int q = 0; q < 5; q++) {
+
+
+                        LocalDateTime eventStart = LocalDateTime.of(2015,
+                                Month.JULY, 29, 2 * q, 30, 40);
+                        LocalDateTime eventEnd = LocalDateTime.of(2018,
+                                Month.JULY, 29, q + 1, 30, 40);
+
+                        TimeRange eventTimeRange = new TimeRange(eventStart, eventEnd);
+
+                        UUID newEventUUID = eventManager.createEvent("Test event " + q, eventTimeRange, newRoomUUID, new HashSet<>());
+                    }
+                }
             }
         }
 
