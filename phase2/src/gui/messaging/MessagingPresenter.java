@@ -27,7 +27,7 @@ class MessagingPresenter {
     private int currentConversationIndex = -1;
     private UUID currentConversationUUID;
 
-    MessagingPresenter(IFrame mainFrame, IMessagingView messagingView, UUID defaultConversationUUID, Map<String, Object> initializationArguments) {
+    MessagingPresenter(IFrame mainFrame, IMessagingView messagingView, UUID defaultConversationUUID) {
         this.messagingView = messagingView;
 
         dialogFactory = mainFrame.getDialogFactory();
