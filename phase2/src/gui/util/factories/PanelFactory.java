@@ -3,6 +3,7 @@ package gui.util.factories;
 import gui.conference.general.ConferenceGeneralView;
 import gui.conference.menu.ConferenceMenuView;
 import gui.conference.rooms.ConferenceRoomsView;
+import gui.conference.rooms.details.RoomDetailsView;
 import gui.conference.settings.ConferenceSettingsView;
 import gui.conference.tabs.ConferenceTabsConstants;
 import gui.conference.tabs.ConferenceTabsView;
@@ -71,6 +72,8 @@ public class PanelFactory implements IPanelFactory {
                 return new ConferenceSettingsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
             case CONFERENCE_ROOMS:
                 return new ConferenceRoomsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
+            case ROOM_VIEW:
+                return new RoomDetailsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
             case CONTACTS:
                 return new ContactsView(mainFrame);
             case MESSAGING:

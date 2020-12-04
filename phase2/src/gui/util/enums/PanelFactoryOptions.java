@@ -11,6 +11,7 @@ public class PanelFactoryOptions {
         CONFERENCE_TABS,
         CONFERENCE_GENERAL,
         CONFERENCE_SETTINGS,
-        CONFERENCE_ROOMS
+        CONFERENCE_ROOMS,
+        ROOM_VIEW
     }
 }

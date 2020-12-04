@@ -7,11 +7,10 @@ import javax.swing.*;
 import java.util.UUID;
 
 public class ConferenceRoomsView implements IPanel, IConferenceRoomsView {
-    private JPanel roomsViewPanel;
-    private JSplitPane roomsSplitPane;
+    private JPanel panel;
     private JButton createRoomButton;
     private JList roomsList;
-    private JPanel RoomDetailView;
+    private JSplitPane roomsSplitPane;
 
     private ConferenceRoomsPresenter conferenceRoomsPresenter;
 
@@ -19,11 +18,23 @@ public class ConferenceRoomsView implements IPanel, IConferenceRoomsView {
         ConferenceRoomsPresenter conferenceRoomsPresenter = new ConferenceRoomsPresenter(mainFrame, this, conferenceUUID);
         createRoomButton.addActionListener((e) -> conferenceRoomsPresenter.createRoom());
 
+        roomsList.addListSelectionListener((e) -> conferenceRoomsPresenter.selectRoomPanel(roomsList.getSelectedIndex()));
+
     }
 
+    @Override
+    public void setRoomTabs(IPanel tabsPanel) {
+        roomsSplitPane.setRightComponent(tabsPanel.getPanel());
+    }
+
+    @Override
+    public void setRoomList(String[] roomLocations) { roomsList.setListData(roomLocations); }
+
+    @Override
+    public void setRoomListSelection(int selectionIndex) { roomsList.setSelectedIndex(selectionIndex); }
 
     @Override
     public JPanel getPanel() {
-        return roomsViewPanel;
+        return panel;
     }
 }
