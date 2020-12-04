@@ -4,6 +4,7 @@ import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
+import convention.exception.InvalidEventTimeException;
 import convention.exception.InvalidNameException;
 import convention.exception.InvalidTimeRangeException;
 import gui.util.DateParser;
@@ -141,6 +142,17 @@ public class EventFormPresenter {
             });
 
             invalidConferenceNameDialog.run();
+
+        } catch (InvalidEventTimeException e) {
+            IDialog invalidEventTimeDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("title", "Error");
+                    put("message", "Unable to submit form: " + e.getMessage());
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                }
+            });
+
+            invalidEventTimeDialog.run();
         }
 
 
