@@ -17,6 +17,8 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
     private JTable generalEventsTable;
     private JTable attendeeTable;
     private JTable speakerTable;
+    private JButton eventConversationButton;
+    private JButton messageUserButton;
 
     private EventsDetailsPresenter eventsGeneralPresenter;
 
@@ -26,6 +28,13 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
         registerButton.addActionListener((e) -> eventsGeneralPresenter.toggleRegistration());
         deleteEventsButton.addActionListener((e) -> eventsGeneralPresenter.deleteEvent());
         editEventsButton.addActionListener((e) -> eventsGeneralPresenter.editEvent());
+        messageUserButton.addActionListener((e) -> eventsGeneralPresenter.messageUser());
+        eventConversationButton.addActionListener((e) -> eventsGeneralPresenter.eventConversation());
+    }
+
+    @Override
+    public void enableMessageUserButton(boolean state) {
+        messageUserButton.setEnabled(state);
     }
 
     @Override

@@ -12,4 +12,6 @@ public interface IEventsDetailsView {
     void enableEditEventButton(boolean state);
 
     void enableDeleteEventButton(boolean state);
+
+    void enableMessageUserButton(boolean state);
 }
