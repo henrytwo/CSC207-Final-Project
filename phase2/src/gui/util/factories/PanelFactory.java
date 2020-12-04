@@ -1,7 +1,7 @@
 package gui.util.factories;
 
-import gui.conference.events.menu.EventsMenuView;
 import gui.conference.events.details.EventsDetailsView;
+import gui.conference.events.menu.EventsMenuView;
 import gui.conference.general.ConferenceGeneralView;
 import gui.conference.menu.ConferenceMenuView;
 import gui.conference.rooms.ConferenceRoomsView;
@@ -22,7 +22,9 @@ import gui.util.interfaces.IPanelFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 /**
  * Creates IPanels for an IFrame given its name and some initializing arguments
@@ -81,9 +83,9 @@ public class PanelFactory implements IPanelFactory {
             case MESSAGING:
                 return new MessagingView(mainFrame, (UUID) initializationArguments.get("defaultConversationUUID"));
             case CONFERENCE_EVENTS:
-                return new EventsMenuView(mainFrame, (UUID) initializationArguments.get("eventUUID"),(UUID) initializationArguments.get("conferenceUUID"), initializationArguments);
+                return new EventsMenuView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"), (Supplier<Set<UUID>>) initializationArguments.get("getEvents"), (UUID) initializationArguments.get("defaultEventUUID"), initializationArguments);
             case CONFERENCE_EVENT_DETAILS:
-                return new EventsDetailsView(mainFrame, (UUID) initializationArguments.get("eventUUID"), (UUID) initializationArguments.get("conferenceUUID"));
+                return new EventsDetailsView(mainFrame, (UUID) initializationArguments.get("eventUUID"), (UUID) initializationArguments.get("conferenceUUID"), initializationArguments);
             default:
                 throw new NullPanelException(name);
         }

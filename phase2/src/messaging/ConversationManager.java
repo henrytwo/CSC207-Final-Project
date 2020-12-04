@@ -113,6 +113,12 @@ public class ConversationManager implements Serializable {
         addConvoToUserList(userUUID, conversationUUID);
     }
 
+    /**
+     * Returns the UUID of users who are part of a Conversation
+     * @param conversationUUID The UUID of a Conversation/Chat Group
+     * @return
+     */
+
     public Set<UUID> getUsers(UUID conversationUUID){
         Set<UUID> usersInConversation = new HashSet<>();
         Set<UUID> allUsersUUID = mapUserConvo.keySet();

@@ -1,9 +1,10 @@
 package convention.schedule;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Schedule {
-    private ArrayList<ArrayList<String>> eventStringLists;
+    private List<List<String>> eventStringLists;
     private String title;
 
     public Schedule() {
@@ -16,10 +17,10 @@ public class Schedule {
 
     public String getTitle() {return this.title;}
 
-    public void setEventStringList(ArrayList<ArrayList<String>> s) {
+    public void setEventStringList(List<List<String>> s) {
         this.eventStringLists = s;
     }
 
-    public ArrayList<ArrayList<String>> getEventStringLists() { return this.eventStringLists;}
+    public List<List<String>> getEventStringLists() { return this.eventStringLists;}
 
 }

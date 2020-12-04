@@ -5,7 +5,9 @@ import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 public class EventsMenuView implements IPanel, IEventsMenuView {
     private JPanel panel1;
@@ -15,11 +17,16 @@ public class EventsMenuView implements IPanel, IEventsMenuView {
 
     private EventsMenuPresenter eventsMenuPresenter;
 
-    public EventsMenuView(IFrame mainFrame, UUID defaultEventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments){
-        eventsMenuPresenter = new EventsMenuPresenter(mainFrame, this, defaultEventUUID, conferenceUUID, initializationArguments);
+    public EventsMenuView(IFrame mainFrame, UUID conferenceUUID, Supplier<Set<UUID>> getEvents, UUID defaultEventUUID, Map<String, Object> initializationArguments){
+        eventsMenuPresenter = new EventsMenuPresenter(mainFrame, this, conferenceUUID, getEvents, defaultEventUUID, initializationArguments);
 
         eventsList.addListSelectionListener((e) -> eventsMenuPresenter.selectEventPanel(eventsList.getSelectedIndex()));
         createEventButton.addActionListener((e) -> eventsMenuPresenter.createEvent());
+    }
+
+    @Override
+    public void setCreateEventButtonEnabled(boolean state) {
+        createEventButton.setEnabled(state);
     }
 
     @Override

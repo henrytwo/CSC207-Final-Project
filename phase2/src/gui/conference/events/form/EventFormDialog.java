@@ -35,9 +35,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
         setModal(true);
         getRootPane().setDefaultButton(buttonOk);
 
-
         EventFormPresenter eventFormPresenter = new EventFormPresenter(mainFrame, this, conferenceUUID, eventUUID);
-
 
         // Adding listeners
         roomButton.addActionListener((e) -> eventFormPresenter.selectRoom());

@@ -5,6 +5,7 @@ import gateway.SchedulePrinter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class ScheduleManager {
@@ -19,7 +20,7 @@ public class ScheduleManager {
      * @param titleInfo one of: speaker username, user username, a specified date
      * @return a Schedule with given information
      */
-    public static Schedule constructSchedule(ArrayList<ArrayList<String>> eventStringListsList, String sortBy, String titleInfo) {
+    public static Schedule constructSchedule(List<List<String>> eventStringListsList, String sortBy, String titleInfo) {
         Schedule s = new Schedule();
         if (sortBy.equals("speaker")) {
             s.setTitle("Events with speaker ".concat(titleInfo));
