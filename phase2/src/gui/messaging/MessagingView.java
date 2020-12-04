@@ -17,7 +17,6 @@ public class MessagingView implements IPanel, IMessagingView {
     private MessagingPresenter messagingPresenter;
 
     public MessagingView(IFrame guiSystem, UUID defaultConversationUUID) {
-
         messagingPresenter = new MessagingPresenter(guiSystem, this, defaultConversationUUID);
         chatGroups.addListSelectionListener((e) -> messagingPresenter.updateSelection(chatGroups.getSelectedIndex()));
         newConversationButton.addActionListener((e) -> messagingPresenter.createConversation());
@@ -55,4 +54,11 @@ public class MessagingView implements IPanel, IMessagingView {
     public void setMessages(String[] updatedMessages) {
         messages.setListData(updatedMessages);
     }
+
+    @Override
+    public int getMessagesFromJList(){
+        ListModel list = messages.getModel();
+        return list.getSize();
+    }
+
 }

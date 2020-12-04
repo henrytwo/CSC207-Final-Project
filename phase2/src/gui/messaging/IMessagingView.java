@@ -6,5 +6,6 @@ public interface IMessagingView {
     String getTextboxContent();
     void setMessages(String[] messages);
     void setTextFieldToNull();
+    int getMessagesFromJList();
 
 }

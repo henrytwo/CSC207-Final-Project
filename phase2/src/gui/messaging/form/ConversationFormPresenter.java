@@ -44,15 +44,35 @@ class ConversationFormPresenter {
     void submit() {
         String conversationName = conversationFormDialog.getChatName();
         String messageContent = conversationFormDialog.getMessage();
+        if (conversationName.length() == 0) {
+            IDialog emptyChatNameDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("title", "Error");
+                    put("message", String.format("Unable to submit form: Conversation name must be non-empty"));
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                }
+            });
+            emptyChatNameDialog.run();
+        } else if (messageContent.length() == 0) {
+            IDialog emptyMessageDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("title", "Error");
+                    put("message", String.format("Unable to submit form: Message must be non-empty"));
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                }
+            });
+            emptyMessageDialog.run();
+        } else {
+            UUID conversationUUID = conversationController.initiateConversation(conversationName, userUUID, selectedUserUUIDs, messageContent);
 
-        UUID conversationUUID = conversationController.initiateConversation(conversationName, userUUID, selectedUserUUIDs, messageContent);
+            // Update conference UUID in case it has changed
+            conversationFormDialog.setConversationUUID(conversationUUID);
+            conversationFormDialog.setUpdated(true);
 
-        // Update conference UUID in case it has changed
-        conversationFormDialog.setConversationUUID(conversationUUID);
-        conversationFormDialog.setUpdated(true);
+            // Close the dialog so it isn't blocking anymore
+            conversationFormDialog.close();
+        }
 
-        // Close the dialog so it isn't blocking anymore
-        conversationFormDialog.close();
     }
 
     void selectUsers() {
