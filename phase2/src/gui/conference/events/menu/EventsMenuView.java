@@ -1,6 +1,5 @@
 package gui.conference.events.menu;
 
-import gui.conference.events.menu.IEventsMenuView;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
@@ -13,32 +12,33 @@ public class EventsMenuView implements IPanel, IEventsMenuView {
     private JButton createEventButton;
     private JList eventsList;
     private JSplitPane eventSplitPane;
-    private JTable table1;
-    private JButton registerEventButton;
-    private JButton editEventButton;
-    private JButton deleteEventButton;
 
-    public EventsMenuView(IFrame mainFrame, UUID defaultEventUUID, Map<String, Object> initializationArguments){
+    private EventsMenuPresenter eventsMenuPresenter;
 
+    public EventsMenuView(IFrame mainFrame, UUID defaultEventUUID, UUID defaultConferenceUUID, Map<String, Object> initializationArguments){
+        eventsMenuPresenter = new EventsMenuPresenter(mainFrame, this, defaultEventUUID, defaultConferenceUUID, initializationArguments);
+
+        eventsList.addListSelectionListener((e) -> eventsMenuPresenter.selectEventPanel(eventsList.getSelectedIndex()));
+        createEventButton.addActionListener((e) -> eventsMenuPresenter.createEvent());
     }
 
     @Override
     public void setEventList(String[] eventNames) {
-
+        eventsList.setListData(eventNames);
     }
 
     @Override
     public void setEventListSelection(int selectionIndex) {
-
+        eventsList.setSelectedIndex(selectionIndex);
     }
 
     @Override
-    public void setEventPane(IPanel tabsPanel) {
-
+    public void setEventTabs(IPanel tabsPanel) {
+        eventSplitPane.setRightComponent(tabsPanel.getPanel());
     }
 
     @Override
     public JPanel getPanel() {
-        return null;
+        return panel1;
     }
 }

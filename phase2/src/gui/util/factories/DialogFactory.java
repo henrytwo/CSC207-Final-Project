@@ -1,5 +1,6 @@
 package gui.util.factories;
 
+import gui.conference.events.form.EventFormDialog;
 import gui.conference.form.ConferenceFormDialog;
 import gui.conference.picker.ConferencePickerDialog;
 import gui.conference.rooms.form.RoomFormDialog;
@@ -70,6 +71,8 @@ public class DialogFactory implements IDialogFactory {
                 return new RoomFormDialog(mainFrame, (UUID) arguments.get("conferenceUUID"), (UUID) arguments.get("roomUUID"));
             case CONFIRM_BOOLEAN:
                 return new ConfirmBooleanDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.getOrDefault("title", "Confirm"), (DialogFactoryOptions.dialogType) arguments.get("messageType"), (DialogFactoryOptions.optionType) arguments.get("confirmationType"));
+            case EVENT_FORM:
+                return new EventFormDialog(mainFrame, (UUID) arguments.get("conferenceUUID"), (UUID) arguments.get("eventUUID"));
             default:
                 throw new NullDialogException(name);
         }

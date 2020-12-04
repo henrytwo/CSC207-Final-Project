@@ -3,7 +3,10 @@ package gui.conference.events.rightPane;
 import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
+import gui.conference.events.menu.EventsMenuPresenter;
+import gui.conference.tabs.ConferenceTabsConstants;
 import gui.util.enums.DialogFactoryOptions;
+import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
@@ -33,6 +36,8 @@ public class EventsGeneralPresenter {
     protected String role;
 
     private UUID currentConferenceUUID;
+
+    private EventsMenuPresenter eventsMenuPresenter;
 
 
     public EventsGeneralPresenter(IFrame mainFrame, IEventsGeneralView eventGeneralView, UUID defaultEventUUID, UUID currentConferenceUUID) {
@@ -98,12 +103,29 @@ public class EventsGeneralPresenter {
             });
             if((boolean) confirmDeleteDialog.run()){
                 eventController.deleteEvent(currentConferenceUUID, signedInUserUUID, eventUUID);
+                mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS));
             }
         }
+
     }
 
     void editEvent(){
+        IDialog eventFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.EVENT_FORM, new HashMap<String, Object>() {
+            {
+                put("conferenceUUID", currentConferenceUUID);
+                put("eventUUID", eventUUID);
+            }
+        });
 
+        if (eventFormDialog.run() != null) {
+            // Reload the main menu to update changes
+            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>() {
+                {
+                    put("defaultConferenceUUID", currentConferenceUUID);
+                    put("defaultTabName", ConferenceTabsConstants.tabNames.ALL_EVENTS);
+                }
+            }));
+        }
     }
 
     void unregisterFromEvent(){

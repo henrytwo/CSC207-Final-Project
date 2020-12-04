@@ -216,7 +216,7 @@ public class EventController {
      * @param timeRange      TimeRange to test for overlap
      * @return true iff the speaker is not available at the given time range
      */
-    private boolean speakerTimeRangeOccupied(UUID conferenceUUID, UUID speakerUUID, TimeRange timeRange) {
+    public boolean speakerTimeRangeOccupied(UUID conferenceUUID, UUID speakerUUID, TimeRange timeRange) {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
         for (UUID eventUUID : eventManager.getEvents()) {
             Set<UUID> speakerUUIDs = eventManager.getEventSpeakers(eventUUID);

@@ -2,16 +2,14 @@ package gui.conference.events.menu;
 
 import convention.ConferenceController;
 import convention.EventController;
-import gui.util.interfaces.IDialogFactory;
-import gui.util.interfaces.IFrame;
-import gui.util.interfaces.IPanelFactory;
+import gui.conference.tabs.ConferenceTabsConstants;
+import gui.util.enums.DialogFactoryOptions;
+import gui.util.enums.PanelFactoryOptions;
+import gui.util.interfaces.*;
 import user.UserController;
 import util.ControllerBundle;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class EventsMenuPresenter {
     private IEventsMenuView eventMenuView;
@@ -78,46 +76,58 @@ public class EventsMenuPresenter {
         eventUUIDs = new ArrayList<>(eventController.getEvents(currentConferenceUUID, signedInUserUUID));
     }
 
-//    void joinEvent() {
-//        int numberOfEvents = eventUUIDs.size();
-//        ArrayList<UUID> availableEvents = new ArrayList<>();
-//        for (int i = 0; i < numberOfEvents; i++) {
-//            availableEvents.add(eventUUIDs.get(i));
-//        }
-//        ArrayList<UUID> attendeeEvents = new ArrayList<>(eventController.getAttendeeEvents(currentConferenceUUID, signedInUserUUID));
-//        int attendeeEventsSize = attendeeEvents.size();
-//        for (int j = 0; j < attendeeEventsSize; j++) {
-//            availableEvents.remove(attendeeEvents.get(j));
-//        }
-//
-//        if (availableEvents.size() == 0) {
-//            IDialog noEventsDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
-//                {
-//                    put("title", "Error");
-//                    put("message", "There are no events available for you to join.");
-//                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
-//                }
-//            });
-//
-//            noEventsDialog.run();
-//        } else {
-//            IDialog eventPicker = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.EVENT_PICKER, new HashMap<String, Object>() {
-//                {
-//                    put("instructions", "Choose a conference to join");
-//                    put("availableConferenceUUIDs", availableEvents);
-//                }
-//            });
-//
-//            // IDialog returns Object type by default, so we have to cast
-//            UUID selectedEventUUID = (UUID) eventPicker.run();
-//
-//            if (selectedEventUUID != null) {
-//                eventController.registerForEvent(currentConferenceUUID, signedInUserUUID, signedInUserUUID, selectedEventUUID);
-//
-//                //updateAndSelectNewConference(selectedConferenceUUID);
-//            }
-//
-//        }
-//
-//    }
+    void selectEventPanel(int index) {
+        selectEventPanel(index, null);
+    }
+
+    void selectEventPanel(int index, ConferenceTabsConstants.tabNames defaultTabName) {
+        // Don't need to perform an update if we're already selected
+        if (index != currentEventIndex) {
+            currentEventIndex = index;
+            UUID selectedEventUUID = eventUUIDs.get(index);
+
+            // Update UI with tabs for this conference
+            IPanel eventTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>() {
+                {
+                    put("conferenceUUID", currentConferenceUUID);
+                    put("eventUUID", selectedEventUUID);
+                    put("defaultTabName", defaultTabName);
+                }
+            });
+
+            eventMenuView.setEventTabs(eventTabsPanel);
+        }
+    }
+
+    /**
+     * Updates the local list of events and selects an event by UUID
+     *
+     * @param selectedEventUUID UUID of event to open
+     */
+    private void updateAndSelectNewEvent(UUID selectedEventUUID) {
+        // Update the local list with the new room
+        updateEventsList(currentConferenceUUID, signedInUserUUID);
+        updateEventNames();
+
+        // Select the latest room
+        int index = eventUUIDs.indexOf(selectedEventUUID);
+
+        eventMenuView.setEventListSelection(index);
+        selectEventPanel(index);
+    }
+
+    void createEvent() {
+        IDialog eventFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.EVENT_FORM, new HashMap<String, Object>() {
+            {
+                put("conferenceUUID", currentConferenceUUID);
+            }
+        });
+
+        UUID newEventUUID = (UUID) eventFormDialog.run();
+        if (newEventUUID != null) {
+            updateAndSelectNewEvent(newEventUUID);
+        }
+
+    }
+
 }
