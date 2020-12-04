@@ -117,24 +117,24 @@ public class ConversationController {
      * @return the list of users in this conversation
      */
     public Set<UUID> getUsersInConvo(UUID conversationUUID){return convoManager.getUsers(conversationUUID);}
-
-    /**
-     * Adds user to the a specific chat
-     *
-     * @param signedInUserUUID         The userId of the user to be added to the Chat
-     * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
-     */
+//
+//    /**
+//     * Adds user to the a specific chat
+//     *
+//     * @param signedInUserUUID         The userId of the user to be added to the Chat
+//     * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
+//     */
     //public void addUser(UUID signedInUserUUID, UUID conversationUUID) {
     //    convoManager.addUser(signedInUserUUID, conversationUUID);
     //}
     // Not currently in use, need to add admin chat users for this
 
-    /**
-     * Adds user to the a specific chat
-     *
-     * @param signedInUserUUID         The userId of the user to be added to the Chat
-     * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
-     */
+//    /**
+//     * Adds user to the a specific chat
+//     *
+//     * @param signedInUserUUID         The userId of the user to be added to the Chat
+//     * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
+//     */
     //public void removeUser(UUID signedInUserUUID, UUID conversationUUID) {
     //    convoManager.removeUser(signedInUserUUID, conversationUUID);
     //}
