@@ -16,8 +16,8 @@ public class Schedule {
 
     public String getTitle() {return this.title;}
 
-    public void addEventStringList(ArrayList<String> s) {
-        this.eventStringLists.add(s);
+    public void setEventStringList(ArrayList<ArrayList<String>> s) {
+        this.eventStringLists = s;
     }
 
     public ArrayList<ArrayList<String>> getEventStringLists() { return this.eventStringLists;}

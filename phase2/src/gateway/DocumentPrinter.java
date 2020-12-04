@@ -1,4 +1,4 @@
-package util;
+package gateway;
 
 interface DocumentPrinter {
     String objectToString(Object o);

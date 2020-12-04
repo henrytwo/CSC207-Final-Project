@@ -1,4 +1,4 @@
-package util;
+package gateway;
 
 import convention.schedule.Schedule;
 
@@ -10,8 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SchedulePrinter {
-    public static String objectToString(Schedule schedule) {
-        ArrayList<ArrayList<String>> a = schedule.getEventStringLists();
+    public static String objectToString(ArrayList<ArrayList<String>> a, String title) {
         if (a.size() == 0) {
             return "";
         }
@@ -36,7 +35,7 @@ public class SchedulePrinter {
 
         StringBuilder titleLine = new StringBuilder();
         titleLine.append("║");
-        titleLine.append(schedule.getTitle());
+        titleLine.append(title);
         while (titleLine.length() < width+1) {
             titleLine.append(" ");
         }
@@ -74,8 +73,8 @@ public class SchedulePrinter {
         return table.toString();
     }
 
-    public static void print(Schedule schedule) throws IOException {
-        String s = objectToString(schedule);
+    public static void print(ArrayList<ArrayList<String>> a, String title) throws IOException {
+        String s = objectToString(a, title);
         BufferedWriter table = new BufferedWriter(new FileWriter("event_schedule.txt"));
         table.write(s);
         table.flush();
