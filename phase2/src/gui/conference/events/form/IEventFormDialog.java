@@ -10,8 +10,8 @@ public interface IEventFormDialog {
     void setEnd(String end);
     void setUpdated(boolean updated);
     void setDialogTitle(String title);
-    void setRoomArea(String roomInfo);
-    void setSpeakerArea(String speakerInfo);
+//    void setRoomArea(String roomInfo);
+//    void setSpeakerArea(String speakerInfo);
     String getName();
     String getStart();
     String getEnd();

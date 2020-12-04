@@ -18,8 +18,6 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
     private JButton buttonOk;
     private JButton speakerButton;
     private JButton roomButton;
-    private JTextArea speakerArea;
-    private JTextArea roomArea;
 
     private UUID eventUUID;
     private UUID conferenceUUID;
@@ -84,15 +82,15 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
         this.setTitle(newTitle);
     }
 
-    @Override
-    public void setRoomArea(String roomInfo) {
-        roomArea.append(roomInfo);
-    }
-
-    @Override
-    public void setSpeakerArea(String speakerInfo) {
-        speakerArea.append(speakerInfo);
-    }
+//    @Override
+//    public void setRoomArea(String roomInfo) {
+//        roomArea.append(roomInfo);
+//    }
+//
+//    @Override
+//    public void setSpeakerArea(String speakerInfo) {
+//        speakerArea.append(speakerInfo);
+//    }
 
     @Override
     public String getName() {
