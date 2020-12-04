@@ -91,9 +91,13 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
 
             conversationCreatedDialog.run();
 
-            /**
-             * TODO: Open conversation here
-             */
+            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
+                {
+                    put("defaultConversationUUID", conversationUUID);
+                    put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
+                    put("defaultTabIndex", 1);
+                }
+            }));
         }
     }
 

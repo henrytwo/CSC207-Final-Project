@@ -9,6 +9,7 @@ public class DialogFactoryOptions {
         CONFERENCE_FORM,
         MESSAGE,
         CONFIRM_BOOLEAN,
+        CONVERSATION_FORM,
         ROOM_FORM
     }
 
