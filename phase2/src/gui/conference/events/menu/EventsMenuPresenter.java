@@ -9,6 +9,7 @@ import user.UserController;
 import util.ControllerBundle;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 public class EventsMenuPresenter {
     private IEventsMenuView eventMenuView;
@@ -28,9 +29,12 @@ public class EventsMenuPresenter {
     private int currentEventIndex = -1;
     private Map<String, Object> initializationArguments;
 
-    public EventsMenuPresenter(IFrame mainFrame, IEventsMenuView eventMenuView, UUID defaultEventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments) {
+    private Supplier<Set<UUID>> getEvents;
+
+    EventsMenuPresenter(IFrame mainFrame, IEventsMenuView eventMenuView, UUID conferenceUUID, Supplier<Set<UUID>> getEvents, UUID defaultEventUUID, Map<String, Object> initializationArguments) {
         this.mainFrame = mainFrame;
         this.eventMenuView = eventMenuView;
+        this.getEvents = getEvents;
         this.panelFactory = mainFrame.getPanelFactory();
         this.dialogFactory = mainFrame.getDialogFactory();
 
@@ -42,7 +46,7 @@ public class EventsMenuPresenter {
         signedInUserUUID = userController.getCurrentUser();
         this.conferenceUUID = conferenceUUID;
 
-        updateEventsList(conferenceUUID, signedInUserUUID);
+        updateEventsList(getEvents, conferenceUUID, signedInUserUUID);
 
         if (eventUUIDs.size() > 0) {
             updateEventNames();
@@ -71,9 +75,9 @@ public class EventsMenuPresenter {
         eventMenuView.setEventList(eventNames);
     }
 
-    private void updateEventsList(UUID currentConferenceUUID, UUID signedInUserUUID) {
+    private void updateEventsList(Supplier<Set<UUID>> getEvents, UUID currentConferenceUUID, UUID signedInUserUUID) {
         currentEventIndex = -1;
-        eventUUIDs = new ArrayList<>(eventController.getEvents(currentConferenceUUID, signedInUserUUID));
+        eventUUIDs = new ArrayList<>(getEvents.get());
     }
 
     void selectEventPanel(int index) {
@@ -102,7 +106,7 @@ public class EventsMenuPresenter {
      */
     private void updateAndSelectNewEvent(UUID selectedEventUUID) {
         // Update the local list with the new room
-        updateEventsList(conferenceUUID, signedInUserUUID);
+        updateEventsList(getEvents, conferenceUUID, signedInUserUUID);
         updateEventNames();
 
         // Select the latest room
