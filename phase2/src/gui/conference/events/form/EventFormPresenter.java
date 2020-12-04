@@ -13,11 +13,13 @@ import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
+import user.UserController;
 import util.ControllerBundle;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -40,8 +42,7 @@ public class EventFormPresenter {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private TimeRange timeRange;
-    private Set<UUID> speakerUUIDs;
-    private UUID roomUUID;
+    private Set<UUID> speakerUUIDs = new HashSet<>();
 
     private Set<UUID> selectedSpeakersUUIDS;
     private Set<UUID> availableUserUUIDS;
@@ -49,19 +50,22 @@ public class EventFormPresenter {
 
     private DateParser dateParser = new DateParser();
 
-    public EventFormPresenter(IFrame mainFrame, IEventFormDialog eventFormDialog, UUID conferenceUUID, UUID eventUUID) {
+    EventFormPresenter(IFrame mainFrame, IEventFormDialog eventFormDialog, UUID conferenceUUID, UUID eventUUID) {
 
         this.eventFormDialog = eventFormDialog;
 
         this.dialogFactory = mainFrame.getDialogFactory();
 
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
+        UserController userController = controllerBundle.getUserController();
         this.eventController = controllerBundle.getEventController();
         this.conferenceController = controllerBundle.getConferenceController();
         this.roomController = controllerBundle.getRoomController();
         this.conferenceUUID = conferenceUUID;
         this.eventUUID = eventUUID;
         this.userUUID = controllerBundle.getUserController().getCurrentUser();
+
+        this.availableUserUUIDS = userController.getUsers();
 
         // Existing conferences will have a non-null UUID
         isExistingEvent = eventUUID != null;
@@ -74,7 +78,7 @@ public class EventFormPresenter {
             endTime = eventController.getEventTimeRange(conferenceUUID, userUUID, eventUUID).getEnd();
             timeRange = eventController.getEventTimeRange(conferenceUUID, userUUID, eventUUID);
             speakerUUIDs = eventController.getEventSpeakers(conferenceUUID, userUUID, eventUUID);
-            roomUUID = eventController.getEventRoom(conferenceUUID, userUUID, eventUUID);
+            selectedRoomUUID = eventController.getEventRoom(conferenceUUID, userUUID, eventUUID);
 
             eventFormDialog.setName(eventName);
             eventFormDialog.setStart(dateParser.dateTimeToString(startTime));
@@ -98,11 +102,11 @@ public class EventFormPresenter {
 
             if (isExistingEvent) {
                 eventController.setEventTitle(conferenceUUID, userUUID, eventUUID, eventName);
-                eventController.setEventRoom(conferenceUUID, userUUID, eventUUID, roomUUID);
+                eventController.setEventRoom(conferenceUUID, userUUID, eventUUID, selectedRoomUUID);
                 eventController.setEventTimeRange(conferenceUUID, userUUID, eventUUID, timeRange);
 
             } else {
-                eventUUID = eventController.createEvent(conferenceUUID, userUUID, eventName, timeRange, roomUUID, speakerUUIDs);
+                eventUUID = eventController.createEvent(conferenceUUID, userUUID, eventName, timeRange, selectedRoomUUID, speakerUUIDs);
                 eventController.createEventConversation(conferenceUUID, userUUID, eventUUID);
             }
 
