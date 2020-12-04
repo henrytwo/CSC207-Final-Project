@@ -149,6 +149,7 @@ class EventsDetailsPresenter {
                         addAll(conferenceController.getOrganizers(conferenceUUID, signedInUserUUID));
                         addAll(eventController.getEventAttendees(conferenceUUID, signedInUserUUID, eventUUID));
                         addAll(eventController.getEventSpeakers(conferenceUUID, signedInUserUUID, eventUUID));
+                        add(signedInUserUUID);
                     }
                 });
             }

@@ -87,12 +87,34 @@ public class MainFrame implements IFrame {
         return frame;
     }
 
+    private void setLookAndFeel() {
+        String osName = System.getProperty("os.name").toLowerCase();
+
+        // We don't want to apply a custom theme if we're not on macOS since the default mac look and feel is already hot
+        if (!osName.contains("darwin") && !osName.contains("mac")) {
+
+            try {
+                for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
+                }
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+                System.out.println("Unable to load custom look and feel");
+            }
+        }
+    }
+
     /**
      * Runs the main UI loop
      * <p>
      * If the user is not logged in, present loginUI/register prompts. Otherwise, send them to the main menu.
      */
     public void run() {
+
+        setLookAndFeel();
+
         frame = new JFrame("Bad LinkedIn Clone");
 
         // Adds listener to run shutdown sequence
