@@ -1,5 +1,6 @@
 package gui.conference.rooms.details;
 
+import convention.exception.RoomInUseException;
 import gui.conference.AbstractConferencePresenter;
 import gui.conference.tabs.ConferenceTabsConstants;
 import gui.util.enums.DialogFactoryOptions;
@@ -36,7 +37,19 @@ public class RoomDetailsPresenter extends AbstractConferencePresenter {
         });
 
         if ((Boolean) confirmDeleteDialog.run()) {
-            roomController.deleteRoom(conferenceUUID, signedInUserUUID, roomUUID);
+            try {
+                roomController.deleteRoom(conferenceUUID, signedInUserUUID, roomUUID);
+            } catch (RoomInUseException e) {
+                IDialog roomInUsedExceptionDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                    {
+                        put("title", "Error");
+                        put("message", String.format("Unable to delete room: %s", e.getMessage()));
+                        put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                    }
+                });
+
+                roomInUsedExceptionDialog.run();
+            }
 
             reloadManageRoomsPage(null);
         }
