@@ -7,8 +7,8 @@ public interface IMessagingView {
     void setMessages(String[] messages);
     void setTextFieldToNull();
     int getMessagesFromJList();
-    void disableTextField(boolean instruction);
-    void disableSendButton(boolean instruction);
+    void setEnableTextField(boolean instruction);
+    void setEnableSendButton(boolean instruction);
     void scrollToLastMessage();
 
 }
