@@ -177,12 +177,7 @@ public class EventFormPresenter {
 
     void selectSpeakers() {
         // Getting all available speakerUUIDs
-        Set<UUID> userUUIDs = conferenceController.getUsers(conferenceUUID, userUUID);
-        for (UUID uuid : userUUIDs) {
-            if (eventController.speakerTimeRangeOccupied(conferenceUUID, uuid, timeRange)) {
-                availableUserUUIDS.add(uuid);
-            }
-        }
+        availableUserUUIDS = conferenceController.getSpeakers(conferenceUUID, userUUID);
 
         IDialog chooseSpeakersDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MULTI_USER_PICKER, new HashMap<String, Object>() {
             {
