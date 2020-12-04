@@ -1,4 +1,4 @@
-package gui.conference.rooms;
+package gui.conference.rooms.menu;
 
 import gui.util.interfaces.IPanel;
 

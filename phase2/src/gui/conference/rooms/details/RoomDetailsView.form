@@ -17,7 +17,9 @@
         <children>
           <component id="b1353" class="javax.swing.JTable" binding="roomTable">
             <constraints/>
-            <properties/>
+            <properties>
+              <enabled value="false"/>
+            </properties>
           </component>
         </children>
       </scrollpane>

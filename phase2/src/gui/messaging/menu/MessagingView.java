@@ -1,4 +1,4 @@
-package gui.messaging;
+package gui.messaging.menu;
 
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;

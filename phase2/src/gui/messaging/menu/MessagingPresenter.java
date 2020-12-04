@@ -1,4 +1,4 @@
-package gui.messaging;
+package gui.messaging.menu;
 
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;

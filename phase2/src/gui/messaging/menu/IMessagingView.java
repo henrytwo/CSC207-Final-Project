@@ -1,4 +1,4 @@
-package gui.messaging;
+package gui.messaging.menu;
 
 public interface IMessagingView {
     void setConversationList(String[] conversationNames);
