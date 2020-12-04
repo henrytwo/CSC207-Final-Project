@@ -112,7 +112,7 @@ class MessagingPresenter {
 
     private void updateConversationList() {
         currentConversationIndex = -1;
-        conversationUUIDs = new ArrayList<>(conversationController.getConversationlist(signedInUserUUID));
+        conversationUUIDs = new ArrayList<>(conversationController.getConversationList(signedInUserUUID));
     }
 
     void updateSelection(int selectedIndex) {

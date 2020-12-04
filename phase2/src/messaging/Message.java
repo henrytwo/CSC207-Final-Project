@@ -20,7 +20,6 @@ public class Message implements Serializable {
      *
      * @param messageSender_id The ID of the sender of the message
      * @param messageContent The content of the message to be sent.
-     * @return Returns an instance of Message
      */
     public Message(UUID messageSender_id, String messageContent){
         content = messageContent;
@@ -30,6 +29,7 @@ public class Message implements Serializable {
 
     /**
      *  returns the UUID of the sender of the message
+     *
      * @return UUID of the message sender
      */
     public UUID getSenderId(){
@@ -65,15 +65,15 @@ public class Message implements Serializable {
     /**
      * Gets whether a message has been read or not
      *
-     * @return whether the message has been read or not
+     * @return the list of users who have read this message
      */
-    public Set<UUID> getIsRead(){ return hasRead; }
+    public Set<UUID> getHasRead(){ return hasRead; }
 
 
     /**
      * adds a specific user to the set of users that have read a specific message
      *
-     * @param
+     * @param userUUID user reading this message
      */
     public void userReadMessage(UUID userUUID){
         hasRead.add(userUUID);
@@ -82,7 +82,7 @@ public class Message implements Serializable {
     /**
      * removes a specific user to the set of users that have read a specific message
      *
-     * @param
+     * @param userUUID user unreading this message
      */
     public void userUnreadMessage(UUID userUUID){
         hasRead.remove(userUUID);
@@ -95,6 +95,15 @@ public class Message implements Serializable {
      */
     public void setUsersArchivingMessage(UUID userUUID){
         usersArchivingMessage.add(userUUID);
+    }
+
+    /**
+     * gets the list of users that have archived this message
+     *
+     * @return the list of users that have archived this message
+     */
+    public Set<UUID> getUsersArchivingMessage(){
+        return usersArchivingMessage;
     }
 
     //    public void edit_message(String new_content, Date new_timestamp){
