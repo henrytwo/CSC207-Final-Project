@@ -185,7 +185,6 @@ public class EventFormPresenter {
         if (newSelectedUserUUIDs != null) {
             selectedSpeakersUUIDS = newSelectedUserUUIDs;
         }
-
     }
 
     void selectRoom() {

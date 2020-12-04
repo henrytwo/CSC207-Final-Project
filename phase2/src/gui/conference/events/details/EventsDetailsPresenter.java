@@ -115,7 +115,7 @@ public class EventsDetailsPresenter {
 
             if ((boolean) confirmLeaveDialog.run()) {
                 eventController.unregisterForEvent(currentConferenceUUID, signedInUserUUID, signedInUserUUID, eventUUID);
-                reloadPage(eventUUID);
+                reloadEventsPage(eventUUID);
             }
         } else {
             try {
@@ -131,7 +131,7 @@ public class EventsDetailsPresenter {
 
                 registeredDialog.run();
 
-                reloadPage(eventUUID);
+                reloadEventsPage(eventUUID);
             } catch (FullEventException e) {
                 IDialog fullCapacityDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                     {
@@ -157,7 +157,7 @@ public class EventsDetailsPresenter {
         });
         if ((boolean) confirmDeleteDialog.run()) {
             eventController.deleteEvent(currentConferenceUUID, signedInUserUUID, eventUUID);
-            reloadPage(null);
+            reloadEventsPage(null);
         }
     }
 
@@ -171,11 +171,11 @@ public class EventsDetailsPresenter {
 
         if (eventFormDialog.run() != null) {
             // Reload the main menu to update changes
-            reloadPage(eventUUID);
+            reloadEventsPage(eventUUID);
         }
     }
 
-    private void reloadPage(UUID defaultEventUUID) {
+    private void reloadEventsPage(UUID defaultEventUUID) {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>(initializationArguments) {
             {
                 put("defaultConferenceUUID", currentConferenceUUID);
