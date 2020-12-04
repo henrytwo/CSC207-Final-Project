@@ -17,6 +17,6 @@ public class ScheduleManager {
 
 
     public void print(Schedule s) throws IOException {
-        SchedulePrinter.print(s);
+        SchedulePrinter.print(s.getEventStringLists(), s.getTitle());
     }
 }
