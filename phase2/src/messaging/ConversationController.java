@@ -13,8 +13,8 @@ public class ConversationController {
 
     /**
      * Constructor for ConversationController
-     * @param contactManager
-     * @param conversationManager
+     * @param contactManager ContactManager object relevant to this conversation
+     * @param conversationManager ConversationManager onject for this conversation
      */
     public ConversationController(ContactManager contactManager, ConversationManager conversationManager) {
         this.contactManager = contactManager;
@@ -87,10 +87,35 @@ public class ConversationController {
      * @param userId UUID of the user for which the set of conversation is required
      * @return set of UUID's of conversations that the user is part of
      */
-    public Set<UUID> getConversationlist(UUID userId) {
+    public Set<UUID> getConversationList(UUID userId) {
         return convoManager.getConversationlist(userId);
     }
 
+    /**
+     * adds a specific user to a specific conversation
+     *
+     * @param conversationUUID UUID of the specific conversation
+     * @param userUUID UUID of the specific user
+     */
+    public void addUserToConvo(UUID conversationUUID, UUID userUUID){
+        convoManager.addUser(userUUID, conversationUUID);
+    }
+
+    /**
+     * removes a specific user from a specific conversation
+     *
+     * @param conversationUUID UUID of the specific conversation
+     * @param userUUID UUID of the specific user
+     */
+    public void removeUserFromConvo(UUID conversationUUID, UUID userUUID){
+        convoManager.removeUser(userUUID,conversationUUID);
+    }
+
+    /**
+     * gets the UUID's of all users in a specific conversation
+     * @param conversationUUID the UUID of the conversation in question
+     * @return the list of users in this conversation
+     */
     public Set<UUID> getUsersInConvo(UUID conversationUUID){return convoManager.getUsers(conversationUUID);}
 
     /**

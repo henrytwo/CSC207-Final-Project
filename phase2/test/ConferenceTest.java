@@ -861,13 +861,13 @@ public class ConferenceTest {
 
         eventController.registerForEvent(conferenceUUID, someAttendee, someAttendee, eventUUID);
 
-        assertEquals(conversationController.getConversationlist(someAttendee).size(), 0);
+        assertEquals(conversationController.getConversationList(someAttendee).size(), 0);
 
         UUID eventConversationUUID = eventController.createEventConversation(conferenceUUID, someSpeaker, eventUUID);
-        assertEquals(conversationController.getConversationlist(someAttendee).size(), 1);
+        assertEquals(conversationController.getConversationList(someAttendee).size(), 1);
 
         eventController.registerForEvent(conferenceUUID, someAttendeeB, someAttendeeB, eventUUID);
-        assertEquals(conversationController.getConversationlist(someAttendee).size(), 1);
+        assertEquals(conversationController.getConversationList(someAttendee).size(), 1);
 
         System.out.println(conversationController.getMessages(someAttendee, eventConversationUUID));
 
