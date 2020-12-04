@@ -91,14 +91,19 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
 
             conversationCreatedDialog.run();
 
-            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
-                {
-                    put("defaultConversationUUID", conversationUUID);
-                    put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
-                    put("defaultTabIndex", 1);
-                }
-            }));
+            // Open the new conversation
+            openMessage(conversationUUID);
         }
+    }
+
+    private void openMessage(UUID conversationUUID) {
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
+            {
+                put("defaultConversationUUID", conversationUUID);
+                put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
+                put("defaultTabIndex", 1);
+            }
+        }));
     }
 
     /**
@@ -226,15 +231,10 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
 
         if (removedUserUUID == signedInUserUUID) {
             // Send user back to main menu since they're not in the conference anymore
-            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
+            loadMainMenu();
         } else {
             // Reload the main menu to update page and stats
-            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
-                {
-                    put("defaultConferenceUUID", conferenceUUID);
-                    put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
-                }
-            }));
+            reloadSettingsPage();
         }
     }
 
@@ -268,12 +268,7 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
             }));
         } else {
             // Reload the main menu to update page and stats
-            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
-                {
-                    put("defaultConferenceUUID", conferenceUUID);
-                    put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
-                }
-            }));
+            reloadSettingsPage();
         }
     }
 
@@ -296,12 +291,7 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         );
 
         // Reload the main menu to update page and stats
-        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
-            {
-                put("defaultConferenceUUID", conferenceUUID);
-                put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
-            }
-        }));
+        reloadSettingsPage();
     }
 
     void deleteConference() {
@@ -318,7 +308,7 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
             conferenceController.deleteConference(conferenceUUID, signedInUserUUID);
 
             // Reload the main menu to update changes
-            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
+            loadMainMenu();
         }
     }
 
@@ -331,12 +321,26 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
 
         if (conferenceFormDialog.run() != null) {
             // Reload the main menu to update changes
-            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
-                {
-                    put("defaultConferenceUUID", conferenceUUID);
-                    put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
-                }
-            }));
+           reloadSettingsPage();
         }
+    }
+
+    /**
+     * Return to main menu
+     */
+    private void loadMainMenu() {
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
+    }
+
+    /**
+     * Reload page and select current conference and tab
+     */
+    private void reloadSettingsPage() {
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
+            {
+                put("defaultConferenceUUID", conferenceUUID);
+                put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
+            }
+        }));
     }
 }
