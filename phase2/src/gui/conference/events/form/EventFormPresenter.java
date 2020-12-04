@@ -103,7 +103,9 @@ public class EventFormPresenter {
             if (isExistingEvent) {
                 eventController.setEventTitle(conferenceUUID, userUUID, eventUUID, eventName);
                 eventController.setEventRoom(conferenceUUID, userUUID, eventUUID, selectedRoomUUID);
-                eventController.setEventTimeRange(conferenceUUID, userUUID, eventUUID, timeRange);
+                if(!(eventController.getEventTimeRange(conferenceUUID,userUUID, eventUUID).equals(timeRange))){
+                    eventController.setEventTimeRange(conferenceUUID, userUUID, eventUUID, timeRange);
+                }
 
             } else {
                 eventUUID = eventController.createEvent(conferenceUUID, userUUID, eventName, timeRange, selectedRoomUUID, speakerUUIDs);
