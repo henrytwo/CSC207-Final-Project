@@ -2,6 +2,8 @@ package gui.util.factories;
 
 import gui.conference.general.ConferenceGeneralView;
 import gui.conference.menu.ConferenceMenuView;
+import gui.conference.rooms.ConferenceRoomsView;
+import gui.conference.rooms.details.RoomDetailsView;
 import gui.conference.settings.ConferenceSettingsView;
 import gui.conference.tabs.ConferenceTabsConstants;
 import gui.conference.tabs.ConferenceTabsView;
@@ -9,6 +11,7 @@ import gui.contacts.ContactsView;
 import gui.login.LoginView;
 import gui.mainMenu.MainMenuView;
 import gui.messaging.MessagingView;
+import gui.register.RegisterView;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.exception.NullPanelException;
 import gui.util.interfaces.IFrame;
@@ -55,6 +58,8 @@ public class PanelFactory implements IPanelFactory {
         switch (name) {
             case LOGIN:
                 return new LoginView(mainFrame);
+            case REGISTER:
+                return new RegisterView(mainFrame);
             case MAIN_MENU:
                 return new MainMenuView(mainFrame, (Integer) initializationArguments.getOrDefault("defaultTabIndex", 0), initializationArguments);
             case CONFERENCE_MENU:
@@ -65,10 +70,14 @@ public class PanelFactory implements IPanelFactory {
                 return new ConferenceGeneralView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
             case CONFERENCE_SETTINGS:
                 return new ConferenceSettingsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
+            case CONFERENCE_ROOMS:
+                return new ConferenceRoomsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
+            case ROOM_VIEW:
+                return new RoomDetailsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
             case CONTACTS:
                 return new ContactsView(mainFrame);
             case MESSAGING:
-                return new MessagingView(mainFrame);
+                return new MessagingView(mainFrame, (UUID) initializationArguments.get("defaultConversationUUID"));
             default:
                 throw new NullPanelException(name);
         }

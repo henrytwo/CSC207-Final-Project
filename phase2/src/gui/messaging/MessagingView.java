@@ -4,39 +4,55 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
+import java.awt.event.KeyEvent;
+import java.util.UUID;
 
 public class MessagingView implements IPanel, IMessagingView {
     private JPanel messagingPanel;
-    private JButton Send;
-    private JTextField Message_content;
+    private JButton newConversationButton;
+    private JList chatGroups;
+    private JTextField messagetext;
+    private JList messages;
+    private JButton sendButton;
+    private MessagingPresenter messagingPresenter;
 
-    public MessagingView(IFrame mainFrame) {
+    public MessagingView(IFrame guiSystem, UUID defaultConversationUUID) {
 
-        Send.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        messagingPresenter = new MessagingPresenter(guiSystem, this, defaultConversationUUID);
+        chatGroups.addListSelectionListener((e) -> messagingPresenter.updateSelection(chatGroups.getSelectedIndex()));
+        newConversationButton.addActionListener((e) -> messagingPresenter.createConversation());
 
-            }
-        });
-        messagingPanel.addInputMethodListener(new InputMethodListener() {
-            @Override
-            public void inputMethodTextChanged(InputMethodEvent event) {
-                JOptionPane.showMessageDialog(null, "Message Sent Successfully");
-            }
-
-            @Override
-            public void caretPositionChanged(InputMethodEvent event) {
-
-            }
-        });
+        messagingPanel.registerKeyboardAction((e) -> messagingPresenter.sendMessage(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        sendButton.addActionListener((e) -> messagingPresenter.sendMessage());
     }
 
     @Override
     public JPanel getPanel() {
         return messagingPanel;
+    }
+
+    @Override
+    public void setConversationList(String[] conversationNames) {
+        chatGroups.setListData(conversationNames);
+    }
+
+    @Override
+    public void setTextFieldToNull(){
+        messagetext.setText("");
+    }
+
+    @Override
+    public void setConversationListSelection(int selectionIndex) {
+        chatGroups.setSelectedIndex(selectionIndex);
+    }
+
+    @Override
+    public String getTextboxContent() {
+        return messagetext.getText();
+    }
+
+    @Override
+    public void setMessages(String[] updatedMessages) {
+        messages.setListData(updatedMessages);
     }
 }

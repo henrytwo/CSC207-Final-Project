@@ -113,6 +113,18 @@ public class ConversationManager implements Serializable {
         addConvoToUserList(userUUID, conversationUUID);
     }
 
+    public Set<UUID> getUsers(UUID conversationUUID){
+        Set<UUID> usersInConversation = new HashSet<>();
+        Set<UUID> allUsersUUID = mapUserConvo.keySet();
+        for(UUID userID: allUsersUUID){
+            if (mapUserConvo.get(userID).contains(conversationUUID)) {
+                usersInConversation.add(userID);
+            }
+
+        }
+        return usersInConversation;
+    }
+
     /**
      * Remove user from a specific chat
      *

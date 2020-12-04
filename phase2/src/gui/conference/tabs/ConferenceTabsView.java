@@ -49,7 +49,14 @@ public class ConferenceTabsView implements IPanel, IConferenceTabsView {
     }
 
     @Override
+    public void setRoomsTabPanel(IPanel panel) {
+        roomsPanel.add(panel.getPanel());
+    }
+
+    @Override
     public JPanel getPanel() {
         return conferenceTabsPanel;
     }
+
+
 }

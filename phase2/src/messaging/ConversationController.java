@@ -52,13 +52,6 @@ public class ConversationController {
      * @param messageContent   The content of the initial message to be sent
      */
     public UUID initiateConversation(String convName, UUID executorUUID, Set<UUID> otherUsers, String messageContent) {
-//        for (UUID otherUserUUID : otherUsers) {
-//            if (!checkAccess(executorUUID, otherUserUUID)) {
-//                throw new MessageDeniedException(executorUUID, otherUserUUID);
-//            }
-//        }
-
-        // Give the executor user and the other users read and write permissions
         Set<UUID> conversationUsers = new HashSet<>(otherUsers);
         conversationUsers.add(executorUUID);
 
@@ -97,6 +90,8 @@ public class ConversationController {
     public Set<UUID> getConversationlist(UUID userId) {
         return convoManager.getConversationlist(userId);
     }
+
+    public Set<UUID> getUsersInConvo(UUID conversationUUID){return convoManager.getUsers(conversationUUID);}
 
     /**
      * Adds user to the a specific chat

@@ -2,6 +2,9 @@ package gui.util.factories;
 
 import gui.conference.form.ConferenceFormDialog;
 import gui.conference.picker.ConferencePickerDialog;
+import gui.conference.rooms.form.RoomFormDialog;
+import gui.conference.rooms.picker.RoomPickerDialog;
+import gui.messaging.form.ConversationFormDialog;
 import gui.user.multipicker.MultiUserPickerDialog;
 import gui.user.picker.UserPickerDialog;
 import gui.util.dialogs.ConfirmBooleanDialogView;
@@ -49,16 +52,22 @@ public class DialogFactory implements IDialogFactory {
     @Override
     public IDialog createDialog(DialogFactoryOptions.dialogNames name, Map<String, Object> arguments) {
         switch (name) {
+            case CONVERSATION_FORM:
+                return new ConversationFormDialog(mainFrame);
             case CONFERENCE_FORM:
                 return new ConferenceFormDialog(mainFrame, (UUID) arguments.get("conferenceUUID"));
+            case ROOM_PICKER:
+                return new RoomPickerDialog(mainFrame, (UUID) arguments.get("conferenceUUID"), (Set<UUID>) arguments.get("availableRoomUUIDs"), (String) arguments.get("instructions"));
             case CONFERENCE_PICKER:
                 return new ConferencePickerDialog(mainFrame, (Set<UUID>) arguments.get("availableConferenceUUIDs"), (String) arguments.get("instructions"));
             case MULTI_USER_PICKER:
-                return new MultiUserPickerDialog(mainFrame, (Set<UUID>) arguments.get("availableUserUUIDs"), (String) arguments.get("instructions"));
+                return new MultiUserPickerDialog(mainFrame, (Set<UUID>) arguments.get("availableUserUUIDs"), (Set<UUID>) arguments.get("selectedUserUUIDs"), (String) arguments.get("instructions"));
             case USER_PICKER:
                 return new UserPickerDialog(mainFrame, (Set<UUID>) arguments.get("availableUserUUIDs"), (String) arguments.get("instructions"));
             case MESSAGE:
                 return new MessageDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.getOrDefault("title", "Message"), (DialogFactoryOptions.dialogType) arguments.get("messageType"));
+            case ROOM_FORM:
+                return new RoomFormDialog(mainFrame, (UUID) arguments.get("conferenceUUID"), (UUID) arguments.get("roomUUID"));
             case CONFIRM_BOOLEAN:
                 return new ConfirmBooleanDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.getOrDefault("title", "Confirm"), (DialogFactoryOptions.dialogType) arguments.get("messageType"), (DialogFactoryOptions.optionType) arguments.get("confirmationType"));
             default:

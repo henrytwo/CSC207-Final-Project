@@ -18,9 +18,13 @@ class MultiUserPickerPresenter {
     private UserController userController;
     private IDialogFactory dialogFactory;
 
-    MultiUserPickerPresenter(IFrame mainFrame, IMultiUserPickerDialog multiUserPickerDialog, Set<UUID> availableUserUUIDs) {
+    MultiUserPickerPresenter(IFrame mainFrame, IMultiUserPickerDialog multiUserPickerDialog, Set<UUID> availableUserUUIDs, Set<UUID> selectedUserUUIDs) {
         this.multiUserPickerDialog = multiUserPickerDialog;
         this.availableUserUUIDs = availableUserUUIDs;
+
+        if (selectedUserUUIDs != null) {
+            this.selectedUserUUIDs = selectedUserUUIDs;
+        }
 
         dialogFactory = mainFrame.getDialogFactory();
 
