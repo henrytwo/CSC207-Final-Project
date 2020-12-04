@@ -7,9 +7,10 @@ import gui.util.interfaces.IPanel;
 import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import util.ControllerBundle;
-import java.util.UUID;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class ConferenceTabsPresenter {
     private IPanelFactory panelFactory;
@@ -27,10 +28,13 @@ public class ConferenceTabsPresenter {
     private IFrame mainFrame;
     private IConferenceTabsView conferenceTabsView;
 
-    ConferenceTabsPresenter(IFrame mainFrame, IConferenceTabsView conferenceTabsView, UUID conferenceUUID) {
+    private Map<String, Object> initializationArguments;
+
+    ConferenceTabsPresenter(IFrame mainFrame, IConferenceTabsView conferenceTabsView, UUID conferenceUUID, Map<String, Object> initializationArguments) {
         this.mainFrame = mainFrame;
         this.conferenceTabsView = conferenceTabsView;
         this.conferenceUUID = conferenceUUID;
+        this.initializationArguments = initializationArguments;
 
         panelFactory = mainFrame.getPanelFactory();
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
@@ -77,7 +81,7 @@ public class ConferenceTabsPresenter {
 
             conferenceTabsView.setSettingsTabPanel(settingsView);
 
-            IPanel roomsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_ROOMS, new HashMap<String, Object>() {
+            IPanel roomsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_ROOMS, new HashMap<String, Object>(initializationArguments) {
                 {
                     put("conferenceUUID", conferenceUUID);
                 }

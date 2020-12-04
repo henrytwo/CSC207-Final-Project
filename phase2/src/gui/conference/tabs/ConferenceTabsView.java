@@ -4,6 +4,7 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
+import java.util.Map;
 import java.util.UUID;
 
 public class ConferenceTabsView implements IPanel, IConferenceTabsView {
@@ -18,10 +19,8 @@ public class ConferenceTabsView implements IPanel, IConferenceTabsView {
 
     private ConferenceTabsConstants conferenceTabsConstants = new ConferenceTabsConstants();
 
-    private ConferenceTabsPresenter conferenceTabsPresenter;
-
-    public ConferenceTabsView(IFrame mainFrame, UUID conferenceUUID, ConferenceTabsConstants.tabNames defaultTabName) {
-        conferenceTabsPresenter = new ConferenceTabsPresenter(mainFrame, this, conferenceUUID);
+    public ConferenceTabsView(IFrame mainFrame, UUID conferenceUUID, ConferenceTabsConstants.tabNames defaultTabName, Map<String, Object> initializationArguments) {
+        ConferenceTabsPresenter conferenceTabsPresenter = new ConferenceTabsPresenter(mainFrame, this, conferenceUUID, initializationArguments);
 
         if (defaultTabName != null) {
             setSelectedTab(defaultTabName);

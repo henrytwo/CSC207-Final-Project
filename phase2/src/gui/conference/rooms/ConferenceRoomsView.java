@@ -12,14 +12,11 @@ public class ConferenceRoomsView implements IPanel, IConferenceRoomsView {
     private JList roomsList;
     private JSplitPane roomsSplitPane;
 
-    private ConferenceRoomsPresenter conferenceRoomsPresenter;
-
-    public ConferenceRoomsView(IFrame mainFrame, UUID conferenceUUID) {
-        ConferenceRoomsPresenter conferenceRoomsPresenter = new ConferenceRoomsPresenter(mainFrame, this, conferenceUUID);
+    public ConferenceRoomsView(IFrame mainFrame, UUID conferenceUUID, UUID defaultRoomUUID) {
+        ConferenceRoomsPresenter conferenceRoomsPresenter = new ConferenceRoomsPresenter(mainFrame, this, conferenceUUID, defaultRoomUUID);
         createRoomButton.addActionListener((e) -> conferenceRoomsPresenter.createRoom());
 
         roomsList.addListSelectionListener((e) -> conferenceRoomsPresenter.selectRoomPanel(roomsList.getSelectedIndex()));
-
     }
 
     @Override

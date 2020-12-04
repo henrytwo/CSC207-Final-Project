@@ -21,7 +21,7 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
     private List<UUID> roomUUIDs;
     private int currentRoomIndex=-1;
 
-    ConferenceRoomsPresenter(IFrame mainFrame, IConferenceRoomsView conferenceRoomView, UUID conferenceUUID) {
+    ConferenceRoomsPresenter(IFrame mainFrame, IConferenceRoomsView conferenceRoomView, UUID conferenceUUID, UUID defaultRoomUUID) {
         super(mainFrame, conferenceUUID);
 
         this.conferenceUUID = conferenceUUID;
@@ -34,8 +34,14 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
         if (roomUUIDs.size() > 0) {
             updateRoomLocations();
 
-            conferenceRoomView.setRoomListSelection(0);
-            selectRoomPanel(0);
+            int defaultRoomIndex = 0;
+
+            if (roomUUIDs.contains(defaultRoomUUID)) {
+                defaultRoomIndex = roomUUIDs.indexOf(defaultRoomUUID);
+            }
+
+            conferenceRoomView.setRoomListSelection(defaultRoomIndex);
+            selectRoomPanel(defaultRoomIndex);
         }
     }
 
