@@ -25,6 +25,24 @@ public class RoomDetailsPresenter extends AbstractConferencePresenter {
         updateRoomData();
     }
 
+    void deleteRoom() {
+        IDialog confirmDeleteDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+            {
+                put("message", String.format("Are you sure you want to DELETE this room? You CANNOT undo this. (%s)", roomController.getRoomLocation(conferenceUUID, signedInUserUUID, roomUUID)));
+                put("title", "Confirm delete room");
+                put("messageType", DialogFactoryOptions.dialogType.WARNING);
+                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+            }
+        });
+
+        if ((Boolean) confirmDeleteDialog.run()) {
+            roomController.deleteRoom(conferenceUUID, signedInUserUUID, roomUUID);
+
+            reloadManageRoomsPage(null);
+        }
+    }
+
+
 //    private void updateRoomsView() {
 //        if (hasOrganizerPermissions) {
 //            IPanel roomView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_ROOMS, new HashMap<String, Object>() {

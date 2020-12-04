@@ -12,6 +12,7 @@ public class RoomDetailsView implements IPanel, IRoomDetailsView{
     private JPanel roomViewPanel;
     private JTable roomTable;
     private JButton editRoomButton;
+    private JButton deleteRoomButton;
 
     private RoomDetailsPresenter roomDetailsPresenter;
 
@@ -19,6 +20,7 @@ public class RoomDetailsView implements IPanel, IRoomDetailsView{
         roomDetailsPresenter = new RoomDetailsPresenter(mainFrame,this, conferenceUUID, roomUUID);
 
         editRoomButton.addActionListener((e) -> roomDetailsPresenter.editRoom());
+        deleteRoomButton.addActionListener((e) -> roomDetailsPresenter.deleteRoom());
     }
 
     @Override
