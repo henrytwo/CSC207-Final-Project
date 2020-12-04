@@ -67,7 +67,7 @@ public class EventFormPresenter {
         isExistingEvent = eventUUID != null;
 
         if (isExistingEvent) {
-            eventFormDialog.setDialogTitle(String.format("Editing Conference (%s)", conferenceUUID));
+            eventFormDialog.setDialogTitle(String.format("Editing Event (%s)", eventUUID));
 
             eventName = eventController.getEventTitle(conferenceUUID, userUUID, eventUUID);
             startTime = eventController.getEventTimeRange(conferenceUUID, userUUID, eventUUID).getStart();
@@ -82,7 +82,7 @@ public class EventFormPresenter {
             eventFormDialog.setRoomArea(controllerBundle.getRoomController().getRoomLocation(conferenceUUID, userUUID, roomUUID));
 
         } else {
-            eventFormDialog.setDialogTitle("Create new conference");
+            eventFormDialog.setDialogTitle("Create new event");
         }
 
     }
@@ -184,7 +184,7 @@ public class EventFormPresenter {
 
         IDialog chooseSpeakersDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MULTI_USER_PICKER, new HashMap<String, Object>() {
             {
-                put("instructions", "Select users to add to the new conversation");
+                put("instructions", "Select speakers for this event");
                 put("availableUserUUIDs", availableUserUUIDS);
                 put("selectedUserUUIDs", selectedSpeakersUUIDS);
             }
