@@ -110,13 +110,13 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
      * Method to start a dialog to select a user and confirm selection. Checks if there are actually users available,
      * and executes lambda function on success.
      *
-     * @param availableUserUUIDs set of user UUIDs to be available for selection
-     * @param title dialog title
-     * @param instructions instructions for the user selection menu
-     * @param emptyListMessage message displayed if there are no available users
+     * @param availableUserUUIDs      set of user UUIDs to be available for selection
+     * @param title                   dialog title
+     * @param instructions            instructions for the user selection menu
+     * @param emptyListMessage        message displayed if there are no available users
      * @param confirmMessageGenerator lambda function to generate confirm message
      * @param successMessageGenerator lambda function to generate success message
-     * @param submit lambda function to execute on submit
+     * @param submit                  lambda function to execute on submit
      * @return UUID of the user select, or null if operation was unsuccessful
      */
     private UUID confirmSelectUser(Set<UUID> availableUserUUIDs, String title, String instructions, String emptyListMessage, Function<UUID, String> confirmMessageGenerator, Function<UUID, String> successMessageGenerator, Function<UUID, String> submit) {
@@ -321,7 +321,7 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
 
         if (conferenceFormDialog.run() != null) {
             // Reload the main menu to update changes
-           reloadSettingsPage();
+            reloadSettingsPage();
         }
     }
 

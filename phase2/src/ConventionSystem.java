@@ -6,20 +6,20 @@ import convention.RoomController;
 import convention.conference.ConferenceManager;
 import gateway.CSVReader;
 import gateway.Serializer;
+import gui.MainFrame;
 import messaging.ConversationController;
 import messaging.ConversationManager;
 import user.UserController;
 import user.UserManager;
-import gui.MainFrame;
 import util.ControllerBundle;
 
 import java.io.IOException;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.UUID;
 
 /**
  * Main convention system. This where the fun begins.

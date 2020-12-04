@@ -13,7 +13,8 @@ public class ConversationController {
 
     /**
      * Constructor for ConversationController
-     * @param contactManager ContactManager object relevant to this conversation
+     *
+     * @param contactManager      ContactManager object relevant to this conversation
      * @param conversationManager ConversationManager onject for this conversation
      */
     public ConversationController(ContactManager contactManager, ConversationManager conversationManager) {
@@ -46,10 +47,10 @@ public class ConversationController {
     /**
      * Initiates a new Chat(Conversation) between 2 or more users.
      *
-     * @param convName         the name of the Chat to be initiated
-     * @param executorUUID     the UUID of the user running this operation
-     * @param otherUsers       the set of other users in this conversation
-     * @param messageContent   The content of the initial message to be sent
+     * @param convName       the name of the Chat to be initiated
+     * @param executorUUID   the UUID of the user running this operation
+     * @param otherUsers     the set of other users in this conversation
+     * @param messageContent The content of the initial message to be sent
      */
     public UUID initiateConversation(String convName, UUID executorUUID, Set<UUID> otherUsers, String messageContent) {
         Set<UUID> conversationUsers = new HashSet<>(otherUsers);
@@ -95,9 +96,9 @@ public class ConversationController {
      * adds a specific user to a specific conversation
      *
      * @param conversationUUID UUID of the specific conversation
-     * @param userUUID UUID of the specific user
+     * @param userUUID         UUID of the specific user
      */
-    public void addUserToConvo(UUID conversationUUID, UUID userUUID){
+    public void addUserToConvo(UUID conversationUUID, UUID userUUID) {
         convoManager.addUser(userUUID, conversationUUID);
     }
 
@@ -105,18 +106,21 @@ public class ConversationController {
      * removes a specific user from a specific conversation
      *
      * @param conversationUUID UUID of the specific conversation
-     * @param userUUID UUID of the specific user
+     * @param userUUID         UUID of the specific user
      */
-    public void removeUserFromConvo(UUID conversationUUID, UUID userUUID){
-        convoManager.removeUser(userUUID,conversationUUID);
+    public void removeUserFromConvo(UUID conversationUUID, UUID userUUID) {
+        convoManager.removeUser(userUUID, conversationUUID);
     }
 
     /**
      * gets the UUID's of all users in a specific conversation
+     *
      * @param conversationUUID the UUID of the conversation in question
      * @return the list of users in this conversation
      */
-    public Set<UUID> getUsersInConvo(UUID conversationUUID){return convoManager.getUsers(conversationUUID);}
+    public Set<UUID> getUsersInConvo(UUID conversationUUID) {
+        return convoManager.getUsers(conversationUUID);
+    }
 //
 //    /**
 //     * Adds user to the a specific chat

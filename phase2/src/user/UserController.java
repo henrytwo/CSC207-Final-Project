@@ -32,7 +32,7 @@ public class UserController {
     /**
      * Setter for user's first name
      *
-     * @param userUUID unique user id
+     * @param userUUID  unique user id
      * @param firstName user's first name
      */
     public void setUserFirstName(UUID userUUID, String firstName) {
@@ -80,7 +80,7 @@ public class UserController {
     }
 
     /**
-     *  Setter for last name of the User
+     * Setter for last name of the User
      *
      * @param userUUID unique user id
      * @param lastName user's last name
@@ -133,9 +133,9 @@ public class UserController {
      * Method for registering the user
      *
      * @param firstName user's first name
-     * @param lastName user's last name
-     * @param username user's username
-     * @param password user's password
+     * @param lastName  user's last name
+     * @param username  user's username
+     * @param password  user's password
      * @return user id of the registered user
      */
     public UUID registerUser(String firstName, String lastName, String username, String password) {
@@ -162,6 +162,7 @@ public class UserController {
 
     /**
      * Returns the UUID
+     *
      * @return UUID of the logged in user
      */
     public UUID getCurrentUser() {
@@ -173,7 +174,7 @@ public class UserController {
      *
      * @return set of registered Users
      */
-    public Set<UUID> getUsers(){
+    public Set<UUID> getUsers() {
         return userManager.getAllUsers();
     }
 

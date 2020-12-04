@@ -18,7 +18,8 @@ public class MessagingView implements IPanel, IMessagingView {
 
     /**
      * Creates GUI for the Messaging Functionality
-     * @param guiSystem the gui system
+     *
+     * @param guiSystem               the gui system
      * @param defaultConversationUUID UUID of the default conversation to select. If none selected, or invalid, the first one will be selected.
      */
     public MessagingView(IFrame guiSystem, UUID defaultConversationUUID) {
@@ -41,7 +42,7 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public void setTextFieldToNull(){
+    public void setTextFieldToNull() {
         messageText.setText("");
     }
 
@@ -61,25 +62,25 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public int getMessagesFromJList(){
+    public int getMessagesFromJList() {
         ListModel list = messages.getModel();
         return list.getSize();
     }
 
     @Override
-    public void setEnableTextField(boolean instruction){
+    public void setEnableTextField(boolean instruction) {
         messageText.setEnabled(instruction);
     }
 
     @Override
-    public void setEnableSendButton(boolean instruction){
+    public void setEnableSendButton(boolean instruction) {
         sendButton.setEnabled(instruction);
     }
 
     @Override
-    public void scrollToLastMessage(){
-    int lastMessageIndex = messages.getModel().getSize() - 1;
-        if(lastMessageIndex >= 0){
+    public void scrollToLastMessage() {
+        int lastMessageIndex = messages.getModel().getSize() - 1;
+        if (lastMessageIndex >= 0) {
             messages.ensureIndexIsVisible(lastMessageIndex);
         }
     }

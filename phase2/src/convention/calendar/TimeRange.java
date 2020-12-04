@@ -86,6 +86,7 @@ public class TimeRange implements Serializable {
 
     /**
      * Gets the string representation of this time range
+     *
      * @return
      */
     @Override

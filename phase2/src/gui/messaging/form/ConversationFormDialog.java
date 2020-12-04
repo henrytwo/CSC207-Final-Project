@@ -22,8 +22,8 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
 
 
     /**
-     *
      * Creates conversation form dialog. The form submission will result in a new conversation being created.
+     *
      * @param mainFrame the mainframe of GUI
      */
     public ConversationFormDialog(IFrame mainFrame) {

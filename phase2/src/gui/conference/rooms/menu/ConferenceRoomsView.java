@@ -25,10 +25,14 @@ public class ConferenceRoomsView implements IPanel, IConferenceRoomsView {
     }
 
     @Override
-    public void setRoomList(String[] roomLocations) { roomsList.setListData(roomLocations); }
+    public void setRoomList(String[] roomLocations) {
+        roomsList.setListData(roomLocations);
+    }
 
     @Override
-    public void setRoomListSelection(int selectionIndex) { roomsList.setSelectedIndex(selectionIndex); }
+    public void setRoomListSelection(int selectionIndex) {
+        roomsList.setSelectedIndex(selectionIndex);
+    }
 
     @Override
     public JPanel getPanel() {

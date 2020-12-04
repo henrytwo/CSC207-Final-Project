@@ -2,14 +2,16 @@ package messaging;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Contains information about individual messages, such as the sender, timestamp, etc.
  */
 public class Message implements Serializable {
     private String content;
-//    private Set<Message> responses = new HashSet<>();
+    //    private Set<Message> responses = new HashSet<>();
     private LocalDateTime timestamp;
     private UUID senderId;
     private Set<UUID> hasRead = new HashSet<>();
@@ -19,20 +21,20 @@ public class Message implements Serializable {
      * Constructor for Message.
      *
      * @param messageSender_id The ID of the sender of the message
-     * @param messageContent The content of the message to be sent.
+     * @param messageContent   The content of the message to be sent.
      */
-    public Message(UUID messageSender_id, String messageContent){
+    public Message(UUID messageSender_id, String messageContent) {
         content = messageContent;
         timestamp = LocalDateTime.now();
         senderId = messageSender_id;
     }
 
     /**
-     *  returns the UUID of the sender of the message
+     * returns the UUID of the sender of the message
      *
      * @return UUID of the message sender
      */
-    public UUID getSenderId(){
+    public UUID getSenderId() {
         return senderId;
     }
 
@@ -67,7 +69,9 @@ public class Message implements Serializable {
      *
      * @return the list of users who have read this message
      */
-    public Set<UUID> getHasRead(){ return hasRead; }
+    public Set<UUID> getHasRead() {
+        return hasRead;
+    }
 
 
     /**
@@ -75,7 +79,7 @@ public class Message implements Serializable {
      *
      * @param userUUID user reading this message
      */
-    public void userReadMessage(UUID userUUID){
+    public void userReadMessage(UUID userUUID) {
         hasRead.add(userUUID);
     }
 
@@ -84,7 +88,7 @@ public class Message implements Serializable {
      *
      * @param userUUID user unreading this message
      */
-    public void userUnreadMessage(UUID userUUID){
+    public void userUnreadMessage(UUID userUUID) {
         hasRead.remove(userUUID);
     }
 
@@ -93,7 +97,7 @@ public class Message implements Serializable {
      *
      * @param userUUID user intending to archive message
      */
-    public void setUsersArchivingMessage(UUID userUUID){
+    public void setUsersArchivingMessage(UUID userUUID) {
         usersArchivingMessage.add(userUUID);
     }
 
@@ -102,7 +106,7 @@ public class Message implements Serializable {
      *
      * @return the list of users that have archived this message
      */
-    public Set<UUID> getUsersArchivingMessage(){
+    public Set<UUID> getUsersArchivingMessage() {
         return usersArchivingMessage;
     }
 

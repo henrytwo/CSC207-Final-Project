@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.util.UUID;
 
-public class RoomDetailsView implements IPanel, IRoomDetailsView{
+public class RoomDetailsView implements IPanel, IRoomDetailsView {
     private JPanel roomViewPanel;
     private JTable roomTable;
     private JButton editRoomButton;
@@ -17,14 +17,14 @@ public class RoomDetailsView implements IPanel, IRoomDetailsView{
     private RoomDetailsPresenter roomDetailsPresenter;
 
     public RoomDetailsView(IFrame mainFrame, UUID conferenceUUID, UUID roomUUID) {
-        roomDetailsPresenter = new RoomDetailsPresenter(mainFrame,this, conferenceUUID, roomUUID);
+        roomDetailsPresenter = new RoomDetailsPresenter(mainFrame, this, conferenceUUID, roomUUID);
 
         editRoomButton.addActionListener((e) -> roomDetailsPresenter.editRoom());
         deleteRoomButton.addActionListener((e) -> roomDetailsPresenter.deleteRoom());
     }
 
     @Override
-    public void setRoomTableData(String[][] tableData, String [] columnNames) {
+    public void setRoomTableData(String[][] tableData, String[] columnNames) {
         TableModel tableModel = new DefaultTableModel(tableData, columnNames);
 
         roomTable.setModel(tableModel);

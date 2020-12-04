@@ -1,11 +1,11 @@
 package gui.contacts;
 
 import contact.ContactController;
+import gui.user.picker.UserPickerDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanelFactory;
 import user.UserController;
-import gui.user.picker.UserPickerDialog;
 
 import java.util.*;
 
@@ -36,19 +36,19 @@ public class ContactsPresenter {
         contactsList = new ArrayList<>(contanctController.showContacts(signedInUserUUID));
     }
 
-    public  void sendRequest(){
+    public void sendRequest() {
         UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contanctController.showContacts(signedInUserUUID), "Select User:");
         UUID potentialContactUUID = userPickerDialog.run();
         contanctController.sendRequest(signedInUserUUID, potentialContactUUID);
     }
 
-    public void deleteContacts(){
+    public void deleteContacts() {
         UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contanctController.showContacts(signedInUserUUID), "Select User:");
         UUID pastContactUUID = userPickerDialog.run();
         contanctController.deleteContacts(signedInUserUUID, pastContactUUID);
     }
 
-    public void respondToRequests(){
+    public void respondToRequests() {
         Set<UUID> requestsList = contanctController.showRequests(signedInUserUUID);
 
     }

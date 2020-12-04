@@ -53,17 +53,17 @@ public class ConferenceTabsView implements IPanel, IConferenceTabsView {
     }
 
     @Override
-    public void setSpeakersTabPanel(IPanel panel){
+    public void setSpeakersTabPanel(IPanel panel) {
         speakerEvents.add(panel.getPanel());
     }
 
     @Override
-    public void setAllEventsTabPanel(IPanel panel){
+    public void setAllEventsTabPanel(IPanel panel) {
         allEventsPanel.add(panel.getPanel());
     }
 
     @Override
-    public void setRegisteredEventsTabPanel(IPanel panel){
+    public void setRegisteredEventsTabPanel(IPanel panel) {
         registeredEvents.add(panel.getPanel());
     }
 

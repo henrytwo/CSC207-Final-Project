@@ -19,12 +19,12 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
 
     private EventsDetailsPresenter eventsGeneralPresenter;
 
-    public EventsDetailsView(IFrame mainFrame, UUID eventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments){
+    public EventsDetailsView(IFrame mainFrame, UUID eventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments) {
         eventsGeneralPresenter = new EventsDetailsPresenter(mainFrame, this, eventUUID, conferenceUUID, initializationArguments);
 
-        registerButton.addActionListener((e)-> eventsGeneralPresenter.toggleRegistration());
-        deleteEventsButton.addActionListener((e)-> eventsGeneralPresenter.deleteEvent());
-        editEventsButton.addActionListener((e)-> eventsGeneralPresenter.editEvent());
+        registerButton.addActionListener((e) -> eventsGeneralPresenter.toggleRegistration());
+        deleteEventsButton.addActionListener((e) -> eventsGeneralPresenter.deleteEvent());
+        editEventsButton.addActionListener((e) -> eventsGeneralPresenter.editEvent());
     }
 
     @Override

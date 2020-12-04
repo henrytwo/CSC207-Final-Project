@@ -19,7 +19,7 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
     protected UUID conferenceUUID;
 
     private List<UUID> roomUUIDs;
-    private int currentRoomIndex=-1;
+    private int currentRoomIndex = -1;
 
     ConferenceRoomsPresenter(IFrame mainFrame, IConferenceRoomsView conferenceRoomView, UUID conferenceUUID, UUID defaultRoomUUID) {
         super(mainFrame, conferenceUUID);
@@ -62,7 +62,7 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
     /**
      * Updates the panel on the right side of the screen with the currently selected room
      *
-     * @param index          index of the room to open
+     * @param index index of the room to open
      */
     void selectRoomPanel(int index) {
         selectRoomPanel(index, null);
@@ -95,6 +95,7 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
 
     /**
      * Reloads page and specifies a default room to open upon next load
+     *
      * @param selectedRoomUUID
      */
     private void reloadManageRoomsPage(UUID selectedRoomUUID) {

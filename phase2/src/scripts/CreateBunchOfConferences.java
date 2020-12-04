@@ -20,7 +20,7 @@ import java.util.UUID;
  * This is a quick script to create a lot of conferences for testing purposes
  * <p>
  * This is some really ugly testing code plz don't mark
- *
+ * <p>
  * Seriously -- please do not mark this file
  */
 public class CreateBunchOfConferences {
@@ -71,7 +71,7 @@ public class CreateBunchOfConferences {
                     Set<UUID> speakerUserUUIDs = new HashSet<UUID>();
 
                     for (int z = 0; z < 10; z++) {
-                        UUID newUUID = userManager.registerUser("Speaker "  + i + "!" + p + "!" + z, "Speaker", "speaker" + i + "!" + p + "!" + z, "password", false, false);
+                        UUID newUUID = userManager.registerUser("Speaker " + i + "!" + p + "!" + z, "Speaker", "speaker" + i + "!" + p + "!" + z, "password", false, false);
 
                         if (newUUID != null) {
                             speakerUserUUIDs.add(newUUID);

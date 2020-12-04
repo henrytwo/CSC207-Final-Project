@@ -6,7 +6,8 @@ import convention.event.Event;
 import convention.event.EventManager;
 import convention.exception.InvalidSortMethodException;
 import convention.permission.PermissionManager;
-import convention.schedule.*;
+import convention.schedule.Schedule;
+import convention.schedule.ScheduleManager;
 import gateway.SchedulePrinter;
 import messaging.ConversationManager;
 import user.UserManager;
@@ -438,8 +439,7 @@ public class ConferenceController {
     /**
      * @param userId UUID of a speaker if sortBy == "speaker", UUID of the user if sortBy == "registered"
      * @param sortBy can either be "speaker" or "registered"
-     * @throws IOException
-     * promps a file download for an events schedule sorted by speaker or events user signed up for
+     * @throws IOException promps a file download for an events schedule sorted by speaker or events user signed up for
      */
     public void printSchedule(UUID userId, String sortBy) throws IOException {
         String userName = userManager.getUserUsername(userId);
@@ -449,10 +449,10 @@ public class ConferenceController {
             for (UUID conferenceID : conferenceUUIDSet) {
                 EventManager em = conferenceManager.getEventManager(conferenceID);
                 Set<UUID> speakerEventInConference = eventController.getSpeakerEvents(conferenceID, userId);
-                for (UUID eventUUID: speakerEventInConference) {
+                for (UUID eventUUID : speakerEventInConference) {
                     Event event = em.getEvent(eventUUID);
                     String speakers = "";
-                    for (UUID speakerUUID: event.getSpeakers()) {
+                    for (UUID speakerUUID : event.getSpeakers()) {
                         speakers = speakers.concat(userManager.getUserUsername(speakerUUID).concat(", "));
                     }
                     ArrayList<String> eventStringList = new ArrayList<>(
@@ -469,17 +469,16 @@ public class ConferenceController {
             }
             Schedule s = ScheduleManager.constructSchedule(eventStringLists, sortBy, userName);
             ScheduleManager.print(s);
-        }
-        else if (sortBy.equals("registered")) {
+        } else if (sortBy.equals("registered")) {
             List<List<String>> eventStringLists = new ArrayList<>();
             Set<UUID> registeredConferences = getUserConferences(userId);
             for (UUID conferenceID : registeredConferences) {
                 EventManager em = conferenceManager.getEventManager(conferenceID);
                 Set<UUID> registeredEventsInConference = eventController.getAttendeeEvents(conferenceID, userId);
-                for (UUID eventUUID: registeredEventsInConference) {
+                for (UUID eventUUID : registeredEventsInConference) {
                     Event event = em.getEvent(eventUUID);
                     String speakers = "";
-                    for (UUID speakerUUID: event.getSpeakers()) {
+                    for (UUID speakerUUID : event.getSpeakers()) {
                         speakers = speakers.concat(userManager.getUserUsername(speakerUUID).concat(", "));
                     }
                     ArrayList<String> eventStringList = new ArrayList<>(
@@ -495,28 +494,25 @@ public class ConferenceController {
             }
             Schedule s = ScheduleManager.constructSchedule(eventStringLists, sortBy, userName);
             SchedulePrinter.print(s.getEventStringLists(), s.getTitle());
-        }
-        else throw new InvalidSortMethodException();
+        } else throw new InvalidSortMethodException();
     }
 
     /**
      * @param userid UUID of the user requesting the printable schedule
-     * @param date a day on which events schedule is printed
-     * @throws IOException
-     *
-     * Overloading the printSchedule method for when the user want to sort by date. A sortBy parameter is not needed
-     * as input
+     * @param date   a day on which events schedule is printed
+     * @throws IOException Overloading the printSchedule method for when the user want to sort by date. A sortBy parameter is not needed
+     *                     as input
      */
     public void printSchedule(UUID userid, LocalDate date) throws IOException {
         List<List<String>> eventStringLists = new ArrayList<>();
         Set<UUID> conferenceUUIDSet = getConferences();
-        for (UUID conferenceID : conferenceUUIDSet){
+        for (UUID conferenceID : conferenceUUIDSet) {
             EventManager em = conferenceManager.getEventManager(conferenceID);
             Set<UUID> eventsOnDayInConference = eventController.getDayEvents(conferenceID, userid, date);
-            for (UUID eventUUID: eventsOnDayInConference) {
+            for (UUID eventUUID : eventsOnDayInConference) {
                 Event event = em.getEvent(eventUUID);
                 String speakers = "";
-                for (UUID speakerUUID: event.getSpeakers()) {
+                for (UUID speakerUUID : event.getSpeakers()) {
                     speakers = speakers.concat(userManager.getUserUsername(speakerUUID).concat(", "));
                 }
                 ArrayList<String> eventStringList = new ArrayList<>(
