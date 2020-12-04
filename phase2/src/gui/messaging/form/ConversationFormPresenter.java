@@ -44,7 +44,7 @@ class ConversationFormPresenter {
     void submit() {
         String conversationName = conversationFormDialog.getChatName();
         String messageContent = conversationFormDialog.getMessage();
-
+        if (!messageContent.equals("")){
         UUID conversationUUID = conversationController.initiateConversation(conversationName, userUUID, selectedUserUUIDs, messageContent);
 
         // Update conference UUID in case it has changed
@@ -52,7 +52,18 @@ class ConversationFormPresenter {
         conversationFormDialog.setUpdated(true);
 
         // Close the dialog so it isn't blocking anymore
-        conversationFormDialog.close();
+        conversationFormDialog.close();}
+        else{
+            IDialog emptyMessageDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("title", "Error");
+                    put("message", String.format("Unable to submit form: Invalid date. Please select some message to send"));
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                }
+            });
+            emptyMessageDialog.run();
+        }
+
     }
 
     void selectUsers() {

@@ -56,6 +56,12 @@ class MessagingPresenter {
             messagingView.setConversationListSelection(defaultConversationIndex); // makes it look like we select it
             updateSelection(defaultConversationIndex);
         }
+        else{
+            if (messagingView.getMessagesFromJList() == 0){
+            String[] firstMessage = new String[]{"Create a New Conversation to View or Send Messages"};
+            messagingView.setMessages(firstMessage);
+        }
+        }
     }
 
     void sendMessage() {
