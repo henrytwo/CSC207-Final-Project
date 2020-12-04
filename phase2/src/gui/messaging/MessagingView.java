@@ -37,6 +37,11 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
+    public void setTextFieldToNull(){
+        messagetext.setText("");
+    }
+
+    @Override
     public void setConversationListSelection(int selectionIndex) {
         chatGroups.setSelectedIndex(selectionIndex);
     }

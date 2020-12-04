@@ -5,5 +5,6 @@ public interface IMessagingView {
     void setConversationListSelection(int selectionIndex);
     String getTextboxContent();
     void setMessages(String[] messages);
+    void setTextFieldToNull();
 
 }
