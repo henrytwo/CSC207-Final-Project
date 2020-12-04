@@ -35,6 +35,7 @@ public class EventsMenuPresenter {
         this.mainFrame = mainFrame;
         this.eventMenuView = eventMenuView;
         this.getEvents = getEvents;
+        this.initializationArguments = initializationArguments;
         this.panelFactory = mainFrame.getPanelFactory();
         this.dialogFactory = mainFrame.getDialogFactory();
 
@@ -88,7 +89,7 @@ public class EventsMenuPresenter {
             UUID selectedEventUUID = eventUUIDs.get(index);
 
             // Update UI with tabs for this conference
-            IPanel eventTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENT_DETAILS, new HashMap<String, Object>() {
+            IPanel eventTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENT_DETAILS, new HashMap<String, Object>(initializationArguments) {
                 {
                     put("conferenceUUID", conferenceUUID);
                     put("eventUUID", selectedEventUUID);
@@ -117,7 +118,7 @@ public class EventsMenuPresenter {
     }
 
     void createEvent() {
-        IDialog eventFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.EVENT_FORM, new HashMap<String, Object>() {
+        IDialog eventFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.EVENT_FORM, new HashMap<String, Object>(initializationArguments) {
             {
                 put("conferenceUUID", conferenceUUID);
             }

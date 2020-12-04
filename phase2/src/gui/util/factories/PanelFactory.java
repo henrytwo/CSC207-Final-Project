@@ -85,7 +85,7 @@ public class PanelFactory implements IPanelFactory {
             case CONFERENCE_EVENTS:
                 return new EventsMenuView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"), (Supplier<Set<UUID>>) initializationArguments.get("getEvents"), (UUID) initializationArguments.get("defaultEventUUID"), initializationArguments);
             case CONFERENCE_EVENT_DETAILS:
-                return new EventsDetailsView(mainFrame, (UUID) initializationArguments.get("eventUUID"), (UUID) initializationArguments.get("conferenceUUID"));
+                return new EventsDetailsView(mainFrame, (UUID) initializationArguments.get("eventUUID"), (UUID) initializationArguments.get("conferenceUUID"), initializationArguments);
             default:
                 throw new NullPanelException(name);
         }
