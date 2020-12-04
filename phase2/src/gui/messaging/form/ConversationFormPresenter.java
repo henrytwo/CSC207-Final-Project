@@ -15,7 +15,6 @@ import java.util.UUID;
 
 class ConversationFormPresenter {
     private ConversationController conversationController;
-    private ContactController contactController;
 
     private UUID userUUID;
 
@@ -32,7 +31,7 @@ class ConversationFormPresenter {
 
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         conversationController = controllerBundle.getConversationController();
-        contactController = controllerBundle.getContactController();
+        ContactController contactController = controllerBundle.getContactController();
 
         dialogFactory = mainFrame.getDialogFactory();
 
@@ -44,9 +43,9 @@ class ConversationFormPresenter {
 
     void submit() {
         String conversationName = conversationFormDialog.getChatName();
-       String  messagecontent = conversationFormDialog.getMessage();
+        String messageContent = conversationFormDialog.getMessage();
 
-        UUID conversationUUID = conversationController.initiateConversation(conversationName, userUUID, selectedUserUUIDs, messagecontent);
+        UUID conversationUUID = conversationController.initiateConversation(conversationName, userUUID, selectedUserUUIDs, messageContent);
 
         // Update conference UUID in case it has changed
         conversationFormDialog.setConversationUUID(conversationUUID);
@@ -61,6 +60,7 @@ class ConversationFormPresenter {
             {
                 put("instructions", "Select users to add to the new conversation");
                 put("availableUserUUIDs", availableUserUUIDs);
+                put("selectedUserUUIDs", selectedUserUUIDs);
             }
         });
 

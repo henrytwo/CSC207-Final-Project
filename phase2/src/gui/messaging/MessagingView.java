@@ -4,8 +4,7 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.UUID;
 
 public class MessagingView implements IPanel, IMessagingView {
@@ -15,7 +14,6 @@ public class MessagingView implements IPanel, IMessagingView {
     private JTextField messagetext;
     private JList messages;
     private JButton sendButton;
-    private JButton Send;
     private MessagingPresenter messagingPresenter;
 
     public MessagingView(IFrame guiSystem, UUID defaultConversationUUID) {
@@ -24,12 +22,8 @@ public class MessagingView implements IPanel, IMessagingView {
         chatGroups.addListSelectionListener((e) -> messagingPresenter.updateSelection(chatGroups.getSelectedIndex()));
         newConversationButton.addActionListener((e) -> messagingPresenter.createConversation());
 
-        sendButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                messagingPresenter.sendMessage();
-            }
-        });
+        messagingPanel.registerKeyboardAction((e) -> messagingPresenter.sendMessage(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        sendButton.addActionListener((e) -> messagingPresenter.sendMessage());
     }
 
     @Override
@@ -47,14 +41,13 @@ public class MessagingView implements IPanel, IMessagingView {
         chatGroups.setSelectedIndex(selectionIndex);
     }
 
-
     @Override
-    public String getMessagefromtextbox(){
+    public String getTextboxContent() {
         return messagetext.getText();
     }
 
     @Override
-    public void setMessages(String[] updatedMessages){
+    public void setMessages(String[] updatedMessages) {
         messages.setListData(updatedMessages);
     }
 }

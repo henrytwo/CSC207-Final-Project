@@ -84,6 +84,7 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
             // Update UI with tabs for this room
             IPanel roomTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_ROOMS, new HashMap<String, Object>() {
                 {
+                    put("conferenceUUID", conferenceUUID);
                     put("roomUUID", selectedRoomUUID);
                     put("defaultTabName", defaultTabName);
                 }

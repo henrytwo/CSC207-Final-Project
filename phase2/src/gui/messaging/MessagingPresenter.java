@@ -59,7 +59,7 @@ class MessagingPresenter {
     }
 
     void sendMessage() {
-        String currentMessage = messagingView.getMessagefromtextbox();
+        String currentMessage = messagingView.getTextboxContent();
         conversationController.sendMessage(signedInUserUUID, currentMessage, currentConversationUUID);
         updateMessage();
 
