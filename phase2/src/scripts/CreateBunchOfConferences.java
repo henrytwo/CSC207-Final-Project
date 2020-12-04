@@ -1,6 +1,7 @@
 package scripts;
 
 import contact.ContactManager;
+import convention.EventController;
 import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
 import convention.event.EventManager;
@@ -17,8 +18,10 @@ import java.util.UUID;
 
 /**
  * This is a quick script to create a lot of conferences for testing purposes
- *
+ * <p>
  * This is some really ugly testing code plz don't mark
+ *
+ * Seriously -- please do not mark this file
  */
 public class CreateBunchOfConferences {
     public static void main(String[] args) {
@@ -32,51 +35,66 @@ public class CreateBunchOfConferences {
         ConversationManager conversationManager = conversationManagerSerializer.load(new ConversationManager());
         ConferenceManager conferenceManager = conferenceManagerSerializer.load(new ConferenceManager());
 
-        Set<UUID> existingUserUUIDs = new HashSet<>();
+        EventController eventController = new EventController(conferenceManager, conversationManager, userManager);
+
+        Set<UUID> attendeeUserUUIDs = new HashSet<>();
 
         // Create test users
         for (int i = 0; i < 10; i++) {
-            userManager.registerUser("User " + i, "Userson", "user"+ i, "password", false, false);
+            userManager.registerUser("User " + i, "Userson", "user" + i, "password", false, false);
 
             // Login in case the user already exists
-            UUID newUserUUID = userManager.login("user"+ i, "password");
-
-            existingUserUUIDs.add(newUserUUID);
+            UUID newUserUUID = userManager.login("user" + i, "password");
 
             // Create test conferences
             for (int j = 0; j < 3; j++) {
 
                 LocalDateTime dateA = LocalDateTime.of(2015,
-                        Month.JULY, 29, 19, 30, 40);
-                LocalDateTime dateB = LocalDateTime.of(2018,
+                        Month.JULY, 29, 0, 30, 40);
+                LocalDateTime dateB = LocalDateTime.of(2420,
                         Month.JULY, 29, 19, 30, 40);
 
                 TimeRange timeRange = new TimeRange(dateA, dateB);
 
-                UUID newConferenceUUID = conferenceManager.createConference("User " + i + "'s conference", timeRange, newUserUUID);
+                UUID newConferenceUUID = conferenceManager.createConference("User " + i + "'s " + j + "th conference", timeRange, newUserUUID);
 
                 RoomManager roomManager = conferenceManager.getRoomManager(newConferenceUUID);
                 EventManager eventManager = conferenceManager.getEventManager(newConferenceUUID);
 
+                for (UUID uuid : attendeeUserUUIDs) {
+                    conferenceManager.addAttendee(newConferenceUUID, uuid);
+                }
+
                 // create test rooms
                 for (int p = 0; p < 5; p++) {
+
+                    Set<UUID> speakerUserUUIDs = new HashSet<UUID>();
+
+                    for (int z = 0; z < 10; z++) {
+                        UUID newUUID = userManager.registerUser("Speaker "  + i + "!" + p + "!" + z, "Speaker", "speaker" + i + "!" + p + "!" + z, "password", false, false);
+
+                        if (newUUID != null) {
+                            speakerUserUUIDs.add(newUUID);
+                        }
+                    }
 
                     UUID newRoomUUID = roomManager.createRoom("BA123" + p, 69);
 
                     // create test events
                     for (int q = 0; q < 5; q++) {
-
-
-                        LocalDateTime eventStart = LocalDateTime.of(2015,
-                                Month.JULY, 29, 2 * q, 30, 40);
-                        LocalDateTime eventEnd = LocalDateTime.of(2018,
-                                Month.JULY, 29, q + 1, 30, 40);
+                        LocalDateTime eventStart = LocalDateTime.of(2015 + q, Month.JULY, 29, 0, 30, 40);
+                        LocalDateTime eventEnd = LocalDateTime.of(2015 + q, Month.AUGUST, 30, 1, 30, 40);
 
                         TimeRange eventTimeRange = new TimeRange(eventStart, eventEnd);
 
-                        UUID newEventUUID = eventManager.createEvent("Test event " + q, eventTimeRange, newRoomUUID, new HashSet<>());
+                        UUID newEventUUID = eventController.createEvent(newConferenceUUID, newUserUUID, "Test event " + q, eventTimeRange, newRoomUUID, new HashSet<>(speakerUserUUIDs));
+
                     }
                 }
+            }
+
+            if (i % 2 == 0) {
+                attendeeUserUUIDs.add(newUserUUID);
             }
         }
 
