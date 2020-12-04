@@ -73,7 +73,7 @@ public class PanelFactory implements IPanelFactory {
             case CONFERENCE_ROOMS:
                 return new ConferenceRoomsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
             case CONFERENCE_ROOM_DETAIL:
-                return new RoomDetailsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"));
+                return new RoomDetailsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"), (UUID) initializationArguments.get("roomUUID"));
             case CONTACTS:
                 return new ContactsView(mainFrame);
             case MESSAGING:

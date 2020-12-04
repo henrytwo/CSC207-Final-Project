@@ -26,7 +26,17 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
 
         this.conferenceUUID = conferenceUUID;
         this.conferenceRoomView = conferenceRoomView;
-        //updateRoomData();
+
+        // Fetch local list of rooms
+        updateRoomList();
+
+        // Select default room
+        if (roomUUIDs.size() > 0) {
+            updateRoomLocations();
+
+            conferenceRoomView.setRoomListSelection(0);
+            selectRoomPanel(0);
+        }
     }
 
     void createRoom() {

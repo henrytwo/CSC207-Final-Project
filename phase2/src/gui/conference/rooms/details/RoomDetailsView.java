@@ -14,9 +14,8 @@ public class RoomDetailsView implements IPanel, IRoomDetailsView{
     private JButton editRoomButton;
 
     private RoomDetailsPresenter roomDetailsPresenter;
-    private UUID roomUUID;
 
-    public RoomDetailsView(IFrame mainFrame, UUID conferenceUUID) {
+    public RoomDetailsView(IFrame mainFrame, UUID conferenceUUID, UUID roomUUID) {
         roomDetailsPresenter = new RoomDetailsPresenter(mainFrame,this, conferenceUUID, roomUUID);
 
         editRoomButton.addActionListener((e) -> roomDetailsPresenter.editRoom());
