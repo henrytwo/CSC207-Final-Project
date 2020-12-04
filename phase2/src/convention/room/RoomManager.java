@@ -103,6 +103,9 @@ public class RoomManager implements Serializable {
         if (!roomExists(roomUUID)){
             throw new NullRoomException(roomUUID);
         }
+        if (!validateRoomLocation(roomLocation)) {
+            throw new InvalidNameException();
+        }
 
         getRoom(roomUUID).setRoomLocation(roomLocation);
     }
@@ -116,6 +119,9 @@ public class RoomManager implements Serializable {
     public void setRoomCapacity(UUID roomUUID, int capacity) {
         if (!roomExists(roomUUID)){
             throw new NullRoomException(roomUUID);
+        }
+        if (!validateRoomCapacity(capacity)){
+            throw new InvalidCapacityException();
         }
 
         getRoom(roomUUID).setCapacity(capacity);

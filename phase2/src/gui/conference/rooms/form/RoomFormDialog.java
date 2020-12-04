@@ -78,6 +78,7 @@ public class RoomFormDialog extends JDialog implements IDialog, IRoomFormDialog 
 
     @Override
     public void setCapacity(int roomCapacity) {
+        capacity.setValue(roomCapacity);
     }
 
     @Override
