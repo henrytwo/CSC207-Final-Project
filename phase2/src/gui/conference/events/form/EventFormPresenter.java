@@ -212,9 +212,6 @@ public class EventFormPresenter {
 
     void selectRoom() {
         Set<UUID> availableRoomUUIDS = roomController.getRooms(conferenceUUID, userUUID);
-        for (UUID uuid : eventController.getEvents(conferenceUUID, userUUID)) {
-            availableRoomUUIDS.remove(uuid);
-        }
 
         IDialog chooseRoomDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.ROOM_PICKER, new HashMap<String, Object>() {
             {
