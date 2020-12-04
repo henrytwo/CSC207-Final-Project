@@ -444,7 +444,7 @@ public class ConferenceController {
     public void printSchedule(UUID userId, String sortBy) throws IOException {
         String userName = userManager.getUserUsername(userId);
         if (sortBy.equals("speaker")) {
-            ArrayList<ArrayList<String>> eventStringLists = new ArrayList<>();
+            List<List<String>> eventStringLists = new ArrayList<>();
             Set<UUID> conferenceUUIDSet = getConferences();
             for (UUID conferenceID : conferenceUUIDSet) {
                 EventManager em = conferenceManager.getEventManager(conferenceID);
@@ -471,7 +471,7 @@ public class ConferenceController {
             ScheduleManager.print(s);
         }
         else if (sortBy.equals("registered")) {
-            ArrayList<ArrayList<String>> eventStringLists = new ArrayList<>();
+            List<List<String>> eventStringLists = new ArrayList<>();
             Set<UUID> registeredConferences = getUserConferences(userId);
             for (UUID conferenceID : registeredConferences) {
                 EventManager em = conferenceManager.getEventManager(conferenceID);
@@ -508,7 +508,7 @@ public class ConferenceController {
      * as input
      */
     public void printSchedule(UUID userid, LocalDate date) throws IOException {
-        ArrayList<ArrayList<String>> eventStringLists = new ArrayList<>();
+        List<List<String>> eventStringLists = new ArrayList<>();
         Set<UUID> conferenceUUIDSet = getConferences();
         for (UUID conferenceID : conferenceUUIDSet){
             EventManager em = conferenceManager.getEventManager(conferenceID);

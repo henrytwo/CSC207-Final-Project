@@ -1,17 +1,17 @@
 package gateway;
 
-import convention.schedule.Schedule;
-
 import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
+
 
 public class SchedulePrinter {
-    public static String objectToString(ArrayList<ArrayList<String>> a, String title) {
-        if (a.size() == 0) {
+    public static String objectToString(List<List<String>> a, String title) {
+        if (a.isEmpty()) {
             return "";
         }
         ArrayList<Integer> colWidths = new ArrayList<>();
@@ -50,7 +50,7 @@ public class SchedulePrinter {
         hline.append("╣\r\n");
         table.append(hline);
 
-        for (ArrayList<String> sub : a) {
+        for (List<String> sub : a) {
             StringBuilder row = new StringBuilder();
             row.append("║");
             for (int i = 0; i < colWidths.size(); i++) {
@@ -73,7 +73,7 @@ public class SchedulePrinter {
         return table.toString();
     }
 
-    public static void print(ArrayList<ArrayList<String>> a, String title) throws IOException {
+    public static void print(List<List<String>> a, String title) throws IOException {
         String s = objectToString(a, title);
         BufferedWriter table = new BufferedWriter(new FileWriter("event_schedule.txt"));
         table.write(s);
