@@ -18,7 +18,11 @@ public class EventsGeneralView implements IEventsGeneralView, IPanel {
     private EventsGeneralPresenter eventsGeneralPresenter;
 
     public EventsGeneralView(IFrame mainFrame, UUID eventUUID, UUID conferenceUUID){
+        eventsGeneralPresenter = new EventsGeneralPresenter(mainFrame, this, eventUUID, conferenceUUID);
 
+        registerButton.addActionListener((e)-> eventsGeneralPresenter.registerForEvent());
+        deleteEventsButton.addActionListener((e)-> eventsGeneralPresenter.deleteEvent());
+        editEventsButton.addActionListener((e)-> eventsGeneralPresenter.editEvent());
     }
 
     @Override
