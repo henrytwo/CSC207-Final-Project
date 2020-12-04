@@ -10,7 +10,6 @@ import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import user.UserController;
 import util.ControllerBundle;
 
 import java.time.LocalDateTime;
@@ -40,7 +39,7 @@ public class EventFormPresenter {
     private LocalDateTime endTime;
     private TimeRange timeRange;
 
-    private Set<UUID> selectedSpeakersUUIDS;
+    private Set<UUID> selectedSpeakersUUIDS = new HashSet<>();
     private UUID selectedRoomUUID;
 
     private DateParser dateParser = new DateParser();
@@ -94,8 +93,32 @@ public class EventFormPresenter {
 
             if (isExistingEvent) {
                 eventController.setEventTitle(conferenceUUID, userUUID, eventUUID, eventName);
-                eventController.setEventRoom(conferenceUUID, userUUID, eventUUID, selectedRoomUUID);
-                eventController.setEventTimeRange(conferenceUUID, userUUID, eventUUID, timeRange);
+
+                // Don't update event time if it didn't change
+                if (!eventController.getEventTimeRange(conferenceUUID, userUUID, eventUUID).equals(timeRange)) {
+                    eventController.setEventTimeRange(conferenceUUID, userUUID, eventUUID, timeRange);
+                }
+
+                // Don't update room if it didn't change
+                if (!eventController.getEventRoom(conferenceUUID, userUUID, eventUUID).equals(selectedRoomUUID)) {
+                    eventController.setEventRoom(conferenceUUID, userUUID, eventUUID, selectedRoomUUID);
+                }
+
+                // Only update speakers that were added/removed
+                Set<UUID> existingSpeakerUUIDs = eventController.getEventSpeakers(conferenceUUID, userUUID, eventUUID);
+
+                for (UUID speakerUUID : existingSpeakerUUIDs) {
+                    if (!selectedSpeakersUUIDS.contains(speakerUUID)) {
+                        // Speaker was removed
+                        eventController.removeEventSpeaker(conferenceUUID, userUUID, eventUUID, speakerUUID);
+                    }
+                }
+
+                for (UUID speakerUUID : selectedSpeakersUUIDS) {
+                    if (!existingSpeakerUUIDs.contains(speakerUUID)) {
+                        eventController.addEventSpeaker(conferenceUUID, userUUID, eventUUID, speakerUUID);
+                    }
+                }
 
             } else {
                 eventUUID = eventController.createEvent(conferenceUUID, userUUID, eventName, timeRange, selectedRoomUUID, selectedSpeakersUUIDS);
