@@ -18,51 +18,38 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class RoomDetailsPresenter extends AbstractConferencePresenter {
-    private IPanelFactory panelFactory;
+
 
     private UUID roomUUID;
-    private UUID signedInUserUUID;
+
     private IRoomDetailsView roomDetailsView;
-    private UserController userController;
-    private RoomController roomController;
-    private ConferenceController conferenceController;
 
     private boolean hasAttendeePermissions;
     private boolean hasSpeakerPermissions;
     private boolean hasOrganizerPermissions;
 
-    private IFrame mainFrame;
 
-    RoomDetailsPresenter(IFrame mainFrame, IRoomDetailsView roomDetailsView, UUID conferenceUUID) {
+    RoomDetailsPresenter(IFrame mainFrame, IRoomDetailsView roomDetailsView, UUID conferenceUUID, UUID roomUUID) {
         super(mainFrame, conferenceUUID);
-        //this.mainFrame = mainFrame;
         this.roomDetailsView = roomDetailsView;
-        //this.conferenceUUID = conferenceUUID;
-
-        panelFactory = mainFrame.getPanelFactory();
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        userController = controllerBundle.getUserController();
-        conferenceController = controllerBundle.getConferenceController();
-
-        signedInUserUUID = userController.getCurrentUser();
-
+        this.roomUUID = roomUUID;
         hasOrganizerPermissions = conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID);
         hasSpeakerPermissions = conferenceController.isSpeaker(conferenceUUID, signedInUserUUID, signedInUserUUID) || hasOrganizerPermissions;
         hasAttendeePermissions = conferenceController.isAttendee(conferenceUUID, signedInUserUUID, signedInUserUUID) || hasSpeakerPermissions;
 
-        updateRoomsView();
+        updateRoomData();
     }
 
-    private void updateRoomsView() {
-        if (hasOrganizerPermissions) {
-            IPanel roomView = panelFactory.createPanel(PanelFactoryOptions.panelNames.ROOM_VIEW, new HashMap<String, Object>() {
-                {
-                    put("conferenceUUID", conferenceUUID);
-                }
-            });
-        }
-
-    }
+//    private void updateRoomsView() {
+//        if (hasOrganizerPermissions) {
+//            IPanel roomView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_ROOMS, new HashMap<String, Object>() {
+//                {
+//                    put("conferenceUUID", conferenceUUID);
+//                }
+//            });
+//        }
+//
+//    }
 
     void editRoom(){
         //Only god user and Organizers are allowed to edit rooms.;
@@ -96,6 +83,5 @@ public class RoomDetailsPresenter extends AbstractConferencePresenter {
 
         roomDetailsView.setRoomTableData(tableData, columnNames);
     }
-
 
 }

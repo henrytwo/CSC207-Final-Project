@@ -63,13 +63,11 @@ class RoomFormPresenter {
             if (isExistingRoom) {
                 roomController.setRoomLocation(conferenceUUID, userUUID, roomUUID, roomLocation);
                 roomController.setRoomCapacity(conferenceUUID, userUUID, roomUUID, roomCapacity);
-                System.out.println("HI");
             } else {
                 roomUUID = roomController.createRoom(conferenceUUID, userUUID, roomLocation, roomCapacity);
             }
 
             roomFormDialog.setRoomUUID(roomUUID);
-            System.out.println("roomuuidset");
             roomFormDialog.setUpdated(true);
             roomFormDialog.close();
         } catch (InvalidCapacityException e) {
