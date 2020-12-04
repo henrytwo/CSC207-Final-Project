@@ -7,8 +7,8 @@ import convention.event.EventManager;
 import convention.exception.InvalidSortMethodException;
 import convention.permission.PermissionManager;
 import convention.schedule.*;
+import gateway.SchedulePrinter;
 import messaging.ConversationManager;
-import user.User;
 import user.UserManager;
 
 import java.io.IOException;
@@ -453,7 +453,7 @@ public class ConferenceController {
                 }
             }
             Schedule s = ScheduleManager.constructSchedule(eventSet, sortBy);
-            util.SchedulePrinter.print(s);
+            SchedulePrinter.print(s);
         }
         else if (sortBy.equals("registered")) {
             Set<Event> eventSet = new HashSet<>(Collections.emptySet());
@@ -466,7 +466,7 @@ public class ConferenceController {
                 }
             }
             Schedule s = ScheduleManager.constructSchedule(eventSet, sortBy);
-            util.SchedulePrinter.print(s);
+            SchedulePrinter.print(s);
         }
         else throw new InvalidSortMethodException();
     }
@@ -490,6 +490,6 @@ public class ConferenceController {
             }
         }
         Schedule s = ScheduleManager.constructSchedule(eventSet, "day");
-        util.SchedulePrinter.print(s);
+        SchedulePrinter.print(s);
     }
 }
