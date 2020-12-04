@@ -9,7 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.UUID;
 
-public class EventFormDialog extends JDialog implements IDialog, IEventFormDialog{
+public class EventFormDialog extends JDialog implements IDialog, IEventFormDialog {
     private JPanel contentPane;
     private JTextField name;
     private JTextField start;
@@ -26,7 +26,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
     private boolean updated = false;
 
-    public  EventFormDialog(IFrame mainFrame, UUID eventUUID, UUID conferenceUUID){
+    public EventFormDialog(IFrame mainFrame, UUID conferenceUUID, UUID eventUUID) {
         super(mainFrame.getFrame());
         this.setLocationRelativeTo(mainFrame.getFrame());
 
@@ -42,7 +42,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
 
         // Adding listeners
-        roomButton.addActionListener((e)-> eventFormPresenter.selectRoom());
+        roomButton.addActionListener((e) -> eventFormPresenter.selectRoom());
         speakerButton.addActionListener((e) -> eventFormPresenter.selectSpeakers());
         buttonOk.addActionListener((e) -> eventFormPresenter.submit());
         cancelButton.addActionListener((e) -> close());

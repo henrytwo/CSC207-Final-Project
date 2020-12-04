@@ -7,6 +7,7 @@ import convention.calendar.TimeRange;
 import convention.exception.InvalidEventTimeException;
 import convention.exception.InvalidNameException;
 import convention.exception.InvalidTimeRangeException;
+import convention.exception.NullRoomException;
 import gui.util.DateParser;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
@@ -48,7 +49,11 @@ public class EventFormPresenter {
 
     private DateParser dateParser = new DateParser();
 
-    public EventFormPresenter(IFrame mainFrame, IEventFormDialog eventFormDialog, UUID conferenceUUID, UUID eventUUID){
+    public EventFormPresenter(IFrame mainFrame, IEventFormDialog eventFormDialog, UUID conferenceUUID, UUID eventUUID) {
+
+        this.eventFormDialog = eventFormDialog;
+
+        this.dialogFactory = mainFrame.getDialogFactory();
 
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         this.eventController = controllerBundle.getEventController();
@@ -82,7 +87,7 @@ public class EventFormPresenter {
 
     }
 
-    void submit(){
+    void submit() {
         try {
             eventName = eventFormDialog.getName();
 
@@ -92,7 +97,7 @@ public class EventFormPresenter {
             timeRange = new TimeRange(startTime, endTime);
 
             if (isExistingEvent) {
-                eventController.setEventTitle(conferenceUUID, userUUID, eventUUID,eventName);
+                eventController.setEventTitle(conferenceUUID, userUUID, eventUUID, eventName);
                 eventController.setEventRoom(conferenceUUID, userUUID, eventUUID, roomUUID);
                 eventController.setEventTimeRange(conferenceUUID, userUUID, eventUUID, timeRange);
 
@@ -153,16 +158,26 @@ public class EventFormPresenter {
             });
 
             invalidEventTimeDialog.run();
+        } catch (NullRoomException e) {
+            IDialog nullRoomExceptionDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("title", "Error");
+                    put("message", "Unable to submit form: Invalid room selection");
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                }
+            });
+
+            nullRoomExceptionDialog.run();
         }
 
 
     }
 
-    void selectSpeakers(){
+    void selectSpeakers() {
         // Getting all available speakerUUIDs
         Set<UUID> userUUIDs = conferenceController.getUsers(conferenceUUID, userUUID);
-        for(UUID uuid : userUUIDs){
-            if(eventController.speakerTimeRangeOccupied(conferenceUUID, uuid, timeRange)){
+        for (UUID uuid : userUUIDs) {
+            if (eventController.speakerTimeRangeOccupied(conferenceUUID, uuid, timeRange)) {
                 availableUserUUIDS.add(uuid);
             }
         }
@@ -184,10 +199,10 @@ public class EventFormPresenter {
 
     }
 
-    void selectRoom(){
+    void selectRoom() {
         Set<UUID> availableRoomUUIDS = roomController.getRooms(conferenceUUID, userUUID);
-        for(UUID uuid : eventController.getEvents(conferenceUUID, userUUID)){
-            if(availableRoomUUIDS.contains(uuid)){
+        for (UUID uuid : eventController.getEvents(conferenceUUID, userUUID)) {
+            if (availableRoomUUIDS.contains(uuid)) {
                 availableRoomUUIDS.remove(uuid);
             }
         }
@@ -200,6 +215,6 @@ public class EventFormPresenter {
             }
         });
 
-        selectedRoomUUID =(UUID) chooseRoomDialog.run();
+        selectedRoomUUID = (UUID) chooseRoomDialog.run();
     }
 }
