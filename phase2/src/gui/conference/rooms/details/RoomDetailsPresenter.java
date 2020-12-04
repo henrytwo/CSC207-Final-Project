@@ -56,14 +56,17 @@ public class RoomDetailsPresenter extends AbstractConferencePresenter {
         IDialog roomFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.ROOM_FORM, new HashMap<String, Object>() {
             {
                 put("conferenceUUID", conferenceUUID);
+                put("roomUUID", roomUUID);
             }
         });
 
         if (roomFormDialog.run() != null) {
             // Reload to update changes
-            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_ROOMS, new HashMap<String, Object>() {
+            mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
                 {
                     put("defaultConferenceUUID", conferenceUUID);
+                    put("defaultRoomUUID", roomUUID);
+                    put("defaultTabName", ConferenceTabsConstants.tabNames.ROOMS);
                 }
             }));
         }

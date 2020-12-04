@@ -35,8 +35,9 @@ class RoomFormPresenter {
 
         dialogFactory = mainFrame.getDialogFactory();
 
-        this.conferenceUUID = conferenceUUID;
         this.userUUID = controllerBundle.getUserController().getCurrentUser();
+        this.roomUUID = roomUUID;
+        this.conferenceUUID = conferenceUUID;
 
         isExistingRoom = roomUUID != null;
 
