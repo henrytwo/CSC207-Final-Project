@@ -26,7 +26,7 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
 
         this.conferenceUUID = conferenceUUID;
         this.conferenceRoomView = conferenceRoomView;
-//        updateRoomData();
+        //updateRoomData();
     }
 
     void createRoom() {
@@ -73,7 +73,7 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
      * Updates the panel on the right side of the screen with the currently selected room
      *
      * @param index          index of the room to open
-     * @param defaultTabName name of the tab to open by default
+     * @param defaultTabName name of the room to open by default
      */
     void selectRoomPanel(int index, ConferenceTabsConstants.tabNames defaultTabName) {
         // Don't need to perform an update if we're already selected
@@ -82,7 +82,7 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
             UUID selectedRoomUUID = roomUUIDs.get(index);
 
             // Update UI with tabs for this room
-            IPanel roomTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_ROOMS, new HashMap<String, Object>() {
+            IPanel roomTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_ROOM_DETAIL, new HashMap<String, Object>() {
                 {
                     put("conferenceUUID", conferenceUUID);
                     put("roomUUID", selectedRoomUUID);
@@ -110,7 +110,6 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
 
         for (int i = 0; i < roomUUIDs.size(); i++) {
             roomLocations[i] = roomController.getRoomLocation(conferenceUUID, signedInUserUUID, roomUUIDs.get(i));
-            ;
         }
 
         conferenceRoomView.setRoomList(roomLocations);
