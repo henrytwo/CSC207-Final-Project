@@ -35,10 +35,10 @@ public class CalendarManager {
     }
 
     /**
-     * adds the UUID and TimeRange of a event object to Calendar
+     * adds the UUID and TimeRange of a events object to Calendar
      *
-     * @param eventUUID the UUID of the event object
-     * @param timeRange the TimeRange of the event object
+     * @param eventUUID the UUID of the events object
+     * @param timeRange the TimeRange of the events object
      */
     public void addTimeBlock(UUID eventUUID, TimeRange timeRange) {
         if (this.timeRangeOccupied(timeRange)) {
@@ -51,7 +51,7 @@ public class CalendarManager {
     /**
      * Removes a booking from the calendar
      *
-     * @param eventUUID the UUID of the event object
+     * @param eventUUID the UUID of the events object
      */
     public void removeTimeBlock(UUID eventUUID) {
         if (calendar.getBooking(eventUUID) == null) {

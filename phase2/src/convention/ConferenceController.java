@@ -196,13 +196,13 @@ public class ConferenceController {
     }
 
     /**
-     * Get all the event UUID to TimeRange pairs for this conference.
+     * Get all the events UUID to TimeRange pairs for this conference.
      * <p>
      * Required Permission: ATTENDEE
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user executing the command
-     * @return map from event UUID to their respective time ranges.
+     * @return map from events UUID to their respective time ranges.
      */
     public Map<UUID, TimeRange> getConferenceSchedule(UUID conferenceUUID, UUID executorUUID) {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
@@ -251,7 +251,7 @@ public class ConferenceController {
 
         if (conferenceManager.isSpeaker(conferenceUUID, targetUserUUID)) {
             // We'll handle revoking speaker access in updateSpeakers, since having speaker permissions is linked to
-            // whether or not a user is a speaker of an event.
+            // whether or not a user is a speaker of an events.
             for (UUID eventUUID : eventController.getSpeakerEvents(conferenceUUID, targetUserUUID)) {
                 eventManager.removeEventSpeaker(eventUUID, targetUserUUID);
             }
@@ -439,7 +439,7 @@ public class ConferenceController {
      * @param userId UUID of a speaker if sortBy == "speaker", UUID of the user if sortBy == "registered"
      * @param sortBy can either be "speaker" or "registered"
      * @throws IOException
-     * promps a file download for an event schedule sorted by speaker or events user signed up for
+     * promps a file download for an events schedule sorted by speaker or events user signed up for
      */
     public void printSchedule(UUID userId, String sortBy) throws IOException {
         if (sortBy.equals("speaker")) {
@@ -473,7 +473,7 @@ public class ConferenceController {
 
     /**
      * @param userid UUID of the user requesting the printable schedule
-     * @param date a day on which event schedule is printed
+     * @param date a day on which events schedule is printed
      * @throws IOException
      *
      * Overloading the printSchedule method for when the user want to sort by date. A sortBy parameter is not needed

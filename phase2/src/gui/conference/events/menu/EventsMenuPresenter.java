@@ -1,4 +1,4 @@
-package gui.conference.event;
+package gui.conference.events.menu;
 
 import convention.ConferenceController;
 import convention.EventController;
@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class EventMenuPresenter {
-    private IEventMenuView eventMenuView;
+public class EventsMenuPresenter {
+    private IEventsMenuView eventMenuView;
     private IFrame mainFrame;
 
     private IPanelFactory panelFactory;
@@ -31,7 +31,7 @@ public class EventMenuPresenter {
     private int currentEventIndex = -1;
     private Map<String, Object> initializationArguments;
 
-    public EventMenuPresenter(IFrame mainFrame, IEventMenuView eventMenuView, UUID defaultEventUUID, UUID currentConferenceUUID, Map<String, Object> initializationArguments) {
+    public EventsMenuPresenter(IFrame mainFrame, IEventsMenuView eventMenuView, UUID defaultEventUUID, UUID currentConferenceUUID, Map<String, Object> initializationArguments) {
         this.mainFrame = mainFrame;
         this.eventMenuView = eventMenuView;
         this.panelFactory = mainFrame.getPanelFactory();

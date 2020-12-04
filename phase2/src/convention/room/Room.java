@@ -14,7 +14,7 @@ public class Room implements Serializable {
     private UUID roomUUID;
     //stores capacity of the room
     private int capacity;
-    //store calendar for this room, calendar stores the times and event IDs which are in this room
+    //store calendar for this room, calendar stores the times and events IDs which are in this room
     private Calendar calendar;
     //location as a string
     private String roomLocation;

@@ -19,7 +19,7 @@ public class EventManager implements Serializable {
     /**
      * Event Manager constructor
      * <p>
-     * holds all event objects for this conference
+     * holds all events objects for this conference
      *
      * @param events map of UUIDs for all events in this conference
      */
@@ -37,10 +37,10 @@ public class EventManager implements Serializable {
     }
 
     /**
-     * checks whether an event is in this conference
+     * checks whether an events is in this conference
      *
-     * @param eventUUID the event being checked
-     * @return True if event is in this.events, false otherwise
+     * @param eventUUID the events being checked
+     * @return True if events is in this.events, false otherwise
      */
     public boolean eventExists(UUID eventUUID) {
         return events.containsKey(eventUUID);
@@ -57,10 +57,10 @@ public class EventManager implements Serializable {
     }
 
     /**
-     * Gets the event with the given UUID
+     * Gets the events with the given UUID
      *
-     * @param eventUUID UUID of the event
-     * @return The event with the given UUID
+     * @param eventUUID UUID of the events
+     * @return The events with the given UUID
      */
     public Event getEvent(UUID eventUUID) {
         if (!eventExists(eventUUID)) {
@@ -70,13 +70,13 @@ public class EventManager implements Serializable {
     }
 
     /**
-     * Creates a new event
+     * Creates a new events
      *
-     * @param title        title of this event
-     * @param timeRange    TimeRange of this event
-     * @param roomUUID     room hosting this event
-     * @param speakerUUIDs speakers of this event
-     * @return the UUID of this event
+     * @param title        title of this events
+     * @param timeRange    TimeRange of this events
+     * @param roomUUID     room hosting this events
+     * @param speakerUUIDs speakers of this events
+     * @return the UUID of this events
      */
     public UUID createEvent(String title, TimeRange timeRange, UUID roomUUID, Set<UUID> speakerUUIDs) {
         if (!validateEventTitle(title)) {
@@ -90,9 +90,9 @@ public class EventManager implements Serializable {
     }
 
     /**
-     * removes an event from this conference
+     * removes an events from this conference
      *
-     * @param eventUUID UUID of event being removed
+     * @param eventUUID UUID of events being removed
      */
     public void deleteEvent(UUID eventUUID) {
         if (!eventExists(eventUUID)) {
@@ -103,19 +103,19 @@ public class EventManager implements Serializable {
     }
 
     /**
-     * gets the set of speakers for an event
+     * gets the set of speakers for an events
      *
-     * @param eventUUID UUID of event
-     * @return set of UUIDs of speakers for this event
+     * @param eventUUID UUID of events
+     * @return set of UUIDs of speakers for this events
      */
     public Set<UUID> getEventSpeakers(UUID eventUUID) {
         return new HashSet<>(getEvent(eventUUID).getSpeakers());
     }
 
     /**
-     * adds a speaker to an event
+     * adds a speaker to an events
      *
-     * @param eventUUID   UUID of this event
+     * @param eventUUID   UUID of this events
      * @param speakerUUID UUID of speaker being added
      */
     public void addEventSpeaker(UUID eventUUID, UUID speakerUUID) {
@@ -125,9 +125,9 @@ public class EventManager implements Serializable {
     }
 
     /**
-     * removes a speaker from an event
+     * removes a speaker from an events
      *
-     * @param eventUUID   UUID of this event
+     * @param eventUUID   UUID of this events
      * @param speakerUUID UUID of speaker being removed
      */
     public void removeEventSpeaker(UUID eventUUID, UUID speakerUUID) {
@@ -137,9 +137,9 @@ public class EventManager implements Serializable {
     }
 
     /**
-     * Changes the title of an event
+     * Changes the title of an events
      *
-     * @param eventUUID  UUID of this event
+     * @param eventUUID  UUID of this events
      * @param eventTitle String of the new title
      */
     public void setEventTitle(UUID eventUUID, String eventTitle) {
@@ -150,9 +150,9 @@ public class EventManager implements Serializable {
     }
 
     /**
-     * Changes the room hosting an event
+     * Changes the room hosting an events
      *
-     * @param eventUUID UUID of event in question
+     * @param eventUUID UUID of events in question
      * @param roomUUID  UUID of new room
      */
     public void setEventRoom(UUID eventUUID, UUID roomUUID) {
@@ -160,19 +160,19 @@ public class EventManager implements Serializable {
     }
 
     /**
-     * Changes the time of an event
+     * Changes the time of an events
      *
-     * @param eventUUID UUID of this event
-     * @param timeRange new TimeRange of this event
+     * @param eventUUID UUID of this events
+     * @param timeRange new TimeRange of this events
      */
     public void setEventTimeRange(UUID eventUUID, TimeRange timeRange) {
         getEvent(eventUUID).setTimeRange(timeRange);
     }
 
     /**
-     * Get the title of an event
+     * Get the title of an events
      *
-     * @param eventUUID UUID of this event
+     * @param eventUUID UUID of this events
      * @return String of title name
      */
     public String getEventTitle(UUID eventUUID) {
@@ -180,20 +180,20 @@ public class EventManager implements Serializable {
     }
 
     /**
-     * Gets the room holding this event
+     * Gets the room holding this events
      *
-     * @param eventUUID UUID of this event
-     * @return UUID of the room hosting this event
+     * @param eventUUID UUID of this events
+     * @return UUID of the room hosting this events
      */
     public UUID getEventRoom(UUID eventUUID) {
         return getEvent(eventUUID).getRoomUUID();
     }
 
     /**
-     * Gets the time of an event
+     * Gets the time of an events
      *
-     * @param eventUUID UUID of this event
-     * @return the TimeRange of this event
+     * @param eventUUID UUID of this events
+     * @return the TimeRange of this events
      */
     public TimeRange getEventTimeRange(UUID eventUUID) {
         return getEvent(eventUUID).getTimeRange();
@@ -201,19 +201,19 @@ public class EventManager implements Serializable {
 
 
     /**
-     * Gets the conversation for an event
+     * Gets the conversation for an events
      *
-     * @param eventUUID UUID of event in question
-     * @return UUID of this event's conversation
+     * @param eventUUID UUID of events in question
+     * @return UUID of this events's conversation
      */
     public UUID getEventConversationUUID(UUID eventUUID) {
         return getEvent(eventUUID).getConversationUUID();
     }
 
     /**
-     * Change the conversation for an event
+     * Change the conversation for an events
      *
-     * @param eventUUID        UUID of this event
+     * @param eventUUID        UUID of this events
      * @param conversationUUID UUID of new conversation
      */
     public void setEventConversationUUID(UUID eventUUID, UUID conversationUUID) {
@@ -221,19 +221,19 @@ public class EventManager implements Serializable {
     }
 
     /**
-     * Gets the set of all users registered for an event
+     * Gets the set of all users registered for an events
      *
-     * @param eventUUID UUID of this event
-     * @return set of UUIDs of users registered for this event
+     * @param eventUUID UUID of this events
+     * @return set of UUIDs of users registered for this events
      */
     public Set<UUID> getEventAttendees(UUID eventUUID) {
         return new HashSet<>(getEvent(eventUUID).getAttendeeUUIDs());
     }
 
     /**
-     * registers a new attendee for this event
+     * registers a new attendee for this events
      *
-     * @param eventUUID    UUID of this event
+     * @param eventUUID    UUID of this events
      * @param attendeeUUID UUID of the user being registered
      */
     public void registerAttendee(UUID eventUUID, UUID attendeeUUID) {
@@ -241,9 +241,9 @@ public class EventManager implements Serializable {
     }
 
     /**
-     * removes an attendee from an event
+     * removes an attendee from an events
      *
-     * @param eventUUID    UUID of this event
+     * @param eventUUID    UUID of this events
      * @param attendeeUUID UUID of user being removed
      */
     public void unregisterAttendee(UUID eventUUID, UUID attendeeUUID) {

@@ -1,5 +1,6 @@
-package gui.conference.event;
+package gui.conference.events.menu;
 
+import gui.conference.events.menu.IEventsMenuView;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
@@ -7,7 +8,7 @@ import javax.swing.*;
 import java.util.Map;
 import java.util.UUID;
 
-public class EventMenuView implements IPanel, IEventMenuView{
+public class EventsMenuView implements IPanel, IEventsMenuView {
     private JPanel panel1;
     private JButton createEventButton;
     private JList eventsList;
@@ -17,7 +18,7 @@ public class EventMenuView implements IPanel, IEventMenuView{
     private JButton editEventButton;
     private JButton deleteEventButton;
 
-    public  EventMenuView(IFrame mainFrame, UUID defaultEventUUID, Map<String, Object> initializationArguments){
+    public EventsMenuView(IFrame mainFrame, UUID defaultEventUUID, Map<String, Object> initializationArguments){
 
     }
 
