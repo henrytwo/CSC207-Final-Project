@@ -162,11 +162,11 @@ public class Conversation implements Serializable {
     }
 
     /**
+     * archives a specific message for a specific user
      *
-     *
-     * @param message
-     * @param userUUid
-     * @return
+     * @param message message in question
+     * @param userUUid user in question
+     * @return whether the message has been archived or not
      */
     public boolean archiveMessage (Message message, UUID userUUid) {
         if (conversationMessages.contains(message)) {
@@ -179,23 +179,23 @@ public class Conversation implements Serializable {
     }
 
     /**
-     *
+     * reads a specific message for a specific user
      *
      * @param message
      * @return
      */
-    public boolean readMessage(Message message){
+    public boolean readMessage(Message message, UUID userUUID){
         if (conversationMessages.contains(message)) {
-            message.setIsRead(true);
+            message.userReadMessage(userUUID);
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean unreadMessage(Message message){
+    public boolean unreadMessage(Message message, UUID userUUID){
         if (conversationMessages.contains(message)) {
-            message.setIsRead(false);
+            message.userUnreadMessage(userUUID);
             return true;
         } else {
             return false;

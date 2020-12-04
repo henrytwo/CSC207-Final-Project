@@ -12,7 +12,7 @@ public class Message implements Serializable {
 //    private Set<Message> responses = new HashSet<>();
     private LocalDateTime timestamp;
     private UUID senderId;
-    private boolean isRead = false;
+    private Set<UUID> hasRead = new HashSet<>();
     private Set<UUID> usersArchivingMessage = new HashSet<>();
 
     /**
@@ -67,16 +67,25 @@ public class Message implements Serializable {
      *
      * @return whether the message has been read or not
      */
-    public Boolean getIsRead(){ return isRead; }
+    public Set<UUID> getIsRead(){ return hasRead; }
 
 
     /**
-     * Sets whether a message has been 'read'
+     * adds a specific user to the set of users that have read a specific message
      *
-     * @param isRead boolean 'true' if message has been 'read', 'false' if unread
+     * @param
      */
-    public void setIsRead(boolean isRead){
-        this.isRead = isRead;
+    public void userReadMessage(UUID userUUID){
+        hasRead.add(userUUID);
+    }
+
+    /**
+     * removes a specific user to the set of users that have read a specific message
+     *
+     * @param
+     */
+    public void userUnreadMessage(UUID userUUID){
+        hasRead.remove(userUUID);
     }
 
     /**
