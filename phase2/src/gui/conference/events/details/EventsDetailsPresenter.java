@@ -17,6 +17,7 @@ import util.ControllerBundle;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class EventsDetailsPresenter {
@@ -60,8 +61,33 @@ public class EventsDetailsPresenter {
         signedInUserUUID = userController.getCurrentUser();
         this.currentConferenceUUID = currentConferenceUUID;
 
+        updateUserData();
         updateGeneralData();
         updateButtons();
+    }
+
+    private void updateUserData() {
+        if (conferenceController.isOrganizer(currentConferenceUUID, signedInUserUUID, signedInUserUUID)) {
+
+            Set<UUID> attendeeUUIDs = eventController.getEventAttendees(currentConferenceUUID, signedInUserUUID, eventUUID);
+
+            String[][] tableData = new String[1][attendeeUUIDs.size()];
+
+            int index = 0;
+
+            for (UUID userUUID : attendeeUUIDs) {
+                tableData[0][index] = userController.getUserFullName(userUUID);
+
+                index++;
+            }
+
+            String[] columnNames = {
+                    "Event Attendees",
+            };
+
+            eventsGeneralView.setUserTableData(tableData, columnNames);
+
+        }
     }
 
     private void updateButtons() {
@@ -179,6 +205,6 @@ public class EventsDetailsPresenter {
                 "Value"
         };
 
-        eventsGeneralView.setTableData(tableData, columnNames);
+        eventsGeneralView.setGeneralTableData(tableData, columnNames);
     }
 }

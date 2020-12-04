@@ -6,6 +6,6 @@ public interface IConferenceRoomsView {
     void setRoomTabs(IPanel tabsPanel);
     void setRoomList(String[] conferenceNames);
     void setRoomListSelection(int selectionIndex);
-    //void setTableData(String[][] tableData, String[] columnNames);
+    //void setGeneralTableData(String[][] tableData, String[] columnNames);
 
 }

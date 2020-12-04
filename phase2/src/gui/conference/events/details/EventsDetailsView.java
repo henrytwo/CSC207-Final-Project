@@ -15,6 +15,7 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
     private JButton deleteEventsButton;
     private JButton editEventsButton;
     private JTable generalEventsTable;
+    private JTable userTable;
 
     private EventsDetailsPresenter eventsGeneralPresenter;
 
@@ -42,9 +43,15 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
     }
 
     @Override
-    public void setTableData(String[][] tableData, String[] columnNames) {
+    public void setGeneralTableData(String[][] tableData, String[] columnNames) {
         TableModel tableModel = new DefaultTableModel(tableData, columnNames);
         generalEventsTable.setModel(tableModel);
+    }
+
+    @Override
+    public void setUserTableData(String[][] tableData, String[] columnNames) {
+        TableModel tableModel = new DefaultTableModel(tableData, columnNames);
+        userTable.setModel(tableModel);
     }
 
     @Override
