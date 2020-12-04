@@ -64,6 +64,14 @@ public class EventsMenuPresenter {
             //selectConferencePanel(defaultEventIndex, (ConferenceTabsConstants.tabNames) initializationArguments.get("defaultTabName")); // this one actually sets the right hand panel
             selectEventPanel(defaultEventIndex);
         }
+
+        updateButtons();
+    }
+
+    private void updateButtons() {
+        if (!conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID)) {
+            eventMenuView.setCreateEventButtonEnabled(false);
+        }
     }
 
     private void updateEventNames() {

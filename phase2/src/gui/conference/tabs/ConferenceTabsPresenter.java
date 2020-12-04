@@ -57,26 +57,25 @@ public class ConferenceTabsPresenter {
 
     private void updateTabs() {
         if (hasAttendeePermissions) {
-            IPanel generalView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_GENERAL, new HashMap<String, Object>() {
+            IPanel generalView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_GENERAL, new HashMap<String, Object>(initializationArguments) {
                 {
                     put("conferenceUUID", conferenceUUID);
                 }
             });
 
-            IPanel allEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(){
+            IPanel allEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(initializationArguments){
                 {
                     put("conferenceUUID", conferenceUUID);
                     put("getEvents", (Supplier) () -> eventController.getEvents(conferenceUUID, signedInUserUUID));
                 }
             });
 
-            IPanel registeredEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(){
+            IPanel registeredEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(initializationArguments){
                 {
                     put("conferenceUUID", conferenceUUID);
                     put("getEvents", (Supplier) () -> eventController.getAttendeeEvents(conferenceUUID, signedInUserUUID));
                 }
             });
-
 
             conferenceTabsView.setAllEventsTabPanel(allEventsView);
             conferenceTabsView.setRegisteredEventsTabPanel(registeredEventsView);

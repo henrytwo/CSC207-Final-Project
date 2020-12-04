@@ -25,6 +25,11 @@ public class EventsMenuView implements IPanel, IEventsMenuView {
     }
 
     @Override
+    public void setCreateEventButtonEnabled(boolean state) {
+        createEventButton.setEnabled(state);
+    }
+
+    @Override
     public void setEventList(String[] eventNames) {
         eventsList.setListData(eventNames);
     }

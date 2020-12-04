@@ -6,4 +6,5 @@ public interface IEventsMenuView {
     void setEventList(String[] eventNames);
     void setEventListSelection(int selectionIndex);
     void setEventTabs(IPanel tabsPanel);
+    void setCreateEventButtonEnabled(boolean state);
 }

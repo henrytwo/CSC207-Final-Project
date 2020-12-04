@@ -70,6 +70,10 @@ public class EventsDetailsPresenter {
             eventsGeneralView.setRegisterButtonText("Unregister");
         }
 
+        if (!conferenceController.isOrganizer(currentConferenceUUID, signedInUserUUID, signedInUserUUID)) {
+            eventsGeneralView.enableEditEventButton(false);
+            eventsGeneralView.enableDeleteEventButton(false);
+        }
     }
 
     void toggleRegistration() {

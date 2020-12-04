@@ -27,6 +27,16 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
     }
 
     @Override
+    public void enableEditEventButton(boolean state) {
+        editEventsButton.setEnabled(state);
+    }
+
+    @Override
+    public void enableDeleteEventButton(boolean state) {
+        deleteEventsButton.setEnabled(state);
+    }
+
+    @Override
     public void setRegisterButtonText(String text) {
         registerButton.setText(text);
     }
