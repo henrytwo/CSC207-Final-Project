@@ -80,9 +80,9 @@ public class ContactsPresenter {
     private void updateContactNames() {
         String[] contactNames = new String[contactsList.size()];
 
-//        for (int i = 0; i < contactsList.size(); i++) {
-//            contactNames[i] = contactController.;
-//        }
+        for (int i = 0; i < contactsList.size(); i++) {
+            contactNames[i] = userController.getUserFullName(contactsList.get(i));
+        }
 
         contactsView.setContactsList(contactNames);
     }
@@ -115,6 +115,8 @@ public class ContactsPresenter {
         UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contactController.showContacts(signedInUserUUID), "Select User:");
         UUID pastContactUUID = userPickerDialog.run();
         contactController.deleteContacts(signedInUserUUID, pastContactUUID);
+        updateContactsList();
+        updateContactNames();
     }
 
     public  void requestSelectionUpdate(int selectedIndex){
