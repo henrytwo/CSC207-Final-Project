@@ -1,6 +1,5 @@
 package gui.contacts;
 
-import com.sun.java.swing.plaf.windows.WindowsInternalFrameTitlePane;
 import contact.ContactController;
 import gui.user.picker.UserPickerDialog;
 import gui.util.interfaces.IDialogFactory;

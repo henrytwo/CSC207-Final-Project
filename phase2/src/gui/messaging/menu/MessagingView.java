@@ -10,11 +10,11 @@ import java.util.UUID;
 public class MessagingView implements IPanel, IMessagingView {
     private JPanel messagingPanel;
     private JButton newConversationButton;
-    private JList chatGroups;
+    private JList conversationList;
     private JTextField messageText;
     private JList messages;
     private JButton sendButton;
-    private JList usersInConversation;
+    private JList userList;
     private MessagingPresenter messagingPresenter;
 
     /**
@@ -25,7 +25,7 @@ public class MessagingView implements IPanel, IMessagingView {
      */
     public MessagingView(IFrame guiSystem, UUID defaultConversationUUID) {
         messagingPresenter = new MessagingPresenter(guiSystem, this, defaultConversationUUID);
-        chatGroups.addListSelectionListener((e) -> messagingPresenter.updateSelection(chatGroups.getSelectedIndex()));
+        conversationList.addListSelectionListener((e) -> messagingPresenter.updateSelection(conversationList.getSelectedIndex()));
         newConversationButton.addActionListener((e) -> messagingPresenter.createConversation());
 
         messagingPanel.registerKeyboardAction((e) -> messagingPresenter.sendMessage(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
@@ -39,7 +39,7 @@ public class MessagingView implements IPanel, IMessagingView {
 
     @Override
     public void setConversationList(String[] conversationNames) {
-        chatGroups.setListData(conversationNames);
+        conversationList.setListData(conversationNames);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MessagingView implements IPanel, IMessagingView {
 
     @Override
     public void setConversationListSelection(int selectionIndex) {
-        chatGroups.setSelectedIndex(selectionIndex);
+        conversationList.setSelectedIndex(selectionIndex);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class MessagingView implements IPanel, IMessagingView {
 
     @Override
     public void setUsersList(String[] users){
-        usersInConversation.setListData(users);
+        userList.setListData(users);
     }
 
 }
