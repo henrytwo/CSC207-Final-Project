@@ -117,15 +117,6 @@ class MessagingPresenter {
         int index = conversationUUIDs.indexOf(selectedConversationUUID);
 
         messagingView.setConversationListSelection(index);
-
-        Set<UUID> usersUUIDList = conversationController.getUsersInConvo(selectedConversationUUID);
-        String[] userNames = new String[usersUUIDList.size()];
-        int i = 0;
-        for(UUID userUUID: usersUUIDList){
-            userNames[i] = userController.getUserFullName(userUUID);
-            i++;
-        }
-        messagingView.setUsersList(userNames);
     }
 
 
