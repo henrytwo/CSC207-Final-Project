@@ -70,7 +70,7 @@ public class ConventionSystem {
 
         // Messaging controllers
         ContactController contactController = new ContactController(contactManager);
-        ConversationController conversationController = new ConversationController(contactManager, conversationManager);
+        ConversationController conversationController = new ConversationController(contactManager, conversationManager, userManager);
 
         // Convention controllers
         RoomController roomController = new RoomController(conferenceManager, userManager);
