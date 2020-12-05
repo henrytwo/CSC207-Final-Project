@@ -82,7 +82,7 @@ public class ConferenceTest {
         ContactManager contactManager = new ContactManager();
 
         // Convention controllers
-        conversationController = new ConversationController(contactManager, conversationManager);
+        conversationController = new ConversationController(contactManager, conversationManager, userManager);
         roomController = new RoomController(conferenceManager, userManager);
         eventController = new EventController(conferenceManager, conversationManager, userManager);
         conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
