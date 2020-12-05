@@ -20,6 +20,7 @@ public class ContactsView implements IPanel, IContactsView {
     public ContactsView(IFrame mainFrame, UUID contactUUID) {
         contactsPresenter = new ContactsPresenter(mainFrame, this, contactUUID);
         //contactsList.addListSelectionListener((e) -> contactsPresenter.selectContact(contactsList.getSelectedIndex()));
+        sendRequestButton.addActionListener((e) -> contactsPresenter.sendRequest());
         deleteButton.addActionListener((e) -> contactsPresenter.deleteContact());
     }
 
@@ -29,7 +30,7 @@ public class ContactsView implements IPanel, IContactsView {
     }
 
     @Override
-    public void setContactsList(String[] contacts) {
+    public void setContactList(String[] contacts) {
         contactsList.setListData(contacts);
     }
 
