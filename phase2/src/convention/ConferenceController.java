@@ -6,9 +6,7 @@ import convention.event.Event;
 import convention.event.EventManager;
 import convention.exception.InvalidSortMethodException;
 import convention.permission.PermissionManager;
-import convention.schedule.Schedule;
 import convention.schedule.ScheduleManager;
-import gateway.SchedulePrinter;
 import messaging.ConversationManager;
 import user.UserManager;
 
@@ -467,8 +465,9 @@ public class ConferenceController {
                     eventStringLists.add(eventStringList);
                 }
             }
-            Schedule s = ScheduleManager.constructSchedule(eventStringLists, sortBy, userName);
-            ScheduleManager.print(s);
+            ScheduleManager scheduleManager = new ScheduleManager();
+            scheduleManager.constructSchedule(eventStringLists, sortBy, userName);
+            scheduleManager.print();
         } else if (sortBy.equals("registered")) {
             List<List<String>> eventStringLists = new ArrayList<>();
             Set<UUID> registeredConferences = getUserConferences(userId);
@@ -492,8 +491,9 @@ public class ConferenceController {
                     eventStringLists.add(eventStringList);
                 }
             }
-            Schedule s = ScheduleManager.constructSchedule(eventStringLists, sortBy, userName);
-            SchedulePrinter.print(s.getEventStringLists(), s.getTitle());
+            ScheduleManager scheduleManager = new ScheduleManager();
+            scheduleManager.constructSchedule(eventStringLists, sortBy, userName);
+            scheduleManager.print();
         } else throw new InvalidSortMethodException();
     }
 
@@ -525,7 +525,8 @@ public class ConferenceController {
                 eventStringLists.add(eventStringList);
             }
         }
-        Schedule s = ScheduleManager.constructSchedule(eventStringLists, "day", date.toString());
-        SchedulePrinter.print(s.getEventStringLists(), s.getTitle());
+        ScheduleManager scheduleManager = new ScheduleManager();
+        scheduleManager.constructSchedule(eventStringLists, "day", date.toString());
+        scheduleManager.print();
     }
 }

@@ -1,11 +1,11 @@
 package convention.schedule;
 
-import gateway.SchedulePrinter;
-
+import gateway.TablePrinter;
 import java.io.IOException;
 import java.util.List;
 
 public class ScheduleManager {
+    Schedule schedule = new Schedule();
 
     /**
      * @param eventStringListsList list of list of strings, each sublist looks like
@@ -15,22 +15,20 @@ public class ScheduleManager {
      *                             name of speakers]
      * @param sortBy               one of "speaker", "registered", or "day"
      * @param titleInfo            one of: speaker username, user username, a specified date
-     * @return a Schedule with given information
      */
-    public static Schedule constructSchedule(List<List<String>> eventStringListsList, String sortBy, String titleInfo) {
-        Schedule s = new Schedule();
+    public void constructSchedule(List<List<String>> eventStringListsList, String sortBy, String titleInfo) {
         if (sortBy.equals("speaker")) {
-            s.setTitle("Events with speaker ".concat(titleInfo));
+            schedule.setTitle("Events with speaker ".concat(titleInfo));
         } else if (sortBy.equals("registered")) {
-            s.setTitle("Events ".concat(titleInfo).concat(" signed up for"));
+            schedule.setTitle("Events ".concat(titleInfo).concat(" signed up for"));
         } else {
-            s.setTitle("events on ".concat(titleInfo));
+            schedule.setTitle("events on ".concat(titleInfo));
         }
-        s.setEventStringList(eventStringListsList);
-        return s;
+        schedule.setEventStringList(eventStringListsList);
     }
 
-    public static void print(Schedule s) throws IOException {
-        SchedulePrinter.print(s.getEventStringLists(), s.getTitle());
+    public void print() throws IOException {
+        TablePrinter tablePrinter = new TablePrinter();
+        tablePrinter.print(schedule.getTitle());
     }
 }

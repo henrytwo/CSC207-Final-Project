@@ -5,24 +5,23 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 
-public class SchedulePrinter {
-    public static String objectToString(List<List<String>> a, String title) {
-        if (a.isEmpty()) {
+public class TablePrinter {
+    List<List<String>> table = new ArrayList<>();
+
+    public String stringifyTable(String title) {
+        if (this.table.isEmpty()) {
             return "";
         }
         ArrayList<Integer> colWidths = new ArrayList<>();
-        for (String s : a.get(0)) {
-            colWidths.add(Math.floorDiv(70, a.get(0).size()));
-        }
+        for (String s: this.table.get(0)) {
+            colWidths.add(Math.floorDiv(70, this.table.get(0).size()));}
         int width = 0;
-        for (int i : colWidths) {
-            width = width + i;
-        }
-        width = width + a.get(0).size() - 1;
+        for (int i: colWidths) { width = width + i;}
+        width = width + this.table.get(0).size() - 1;
         StringBuilder table = new StringBuilder();
         StringBuilder topLine = new StringBuilder();
         StringBuilder bottomLine = new StringBuilder();
@@ -39,7 +38,7 @@ public class SchedulePrinter {
         StringBuilder titleLine = new StringBuilder();
         titleLine.append("║");
         titleLine.append(title);
-        while (titleLine.length() < width + 1) {
+        while (titleLine.length() < width+1) {
             titleLine.append(" ");
         }
         titleLine.append("║\r\n");
@@ -53,14 +52,14 @@ public class SchedulePrinter {
         hline.append("╣\r\n");
         table.append(hline);
 
-        for (List<String> sub : a) {
+        for (List<String> sub : this.table) {
             StringBuilder row = new StringBuilder();
             row.append("║");
             for (int i = 0; i < colWidths.size(); i++) {
                 StringBuilder cell = new StringBuilder();
 
                 cell.append(sub.get(i));
-                while (cell.length() <= colWidths.get(i) - 1) {
+                while (cell.length() <= colWidths.get(i) -1) {
                     cell.append(" ");
                 }
                 cell.append("│");
@@ -76,10 +75,9 @@ public class SchedulePrinter {
         return table.toString();
     }
 
-    public static void print(List<List<String>> a, String title) throws IOException {
-        String s = objectToString(a, title);
+    public void print(String title) throws IOException {
         BufferedWriter table = new BufferedWriter(new FileWriter("event_schedule.txt"));
-        table.write(s);
+        table.write(this.stringifyTable(title));
         table.flush();
         table.close();
 
