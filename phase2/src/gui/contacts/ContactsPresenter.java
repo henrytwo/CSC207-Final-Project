@@ -49,6 +49,7 @@ public class ContactsPresenter {
         this.panelFactory = mainFrame.getPanelFactory();
         this.dialogFactory = mainFrame.getDialogFactory();
 
+        updateRequestsList();
 
         if (requestsList.size() > 0) {
             updateRequestsNames();
