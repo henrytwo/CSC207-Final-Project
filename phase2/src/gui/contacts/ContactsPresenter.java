@@ -48,6 +48,19 @@ public class ContactsPresenter {
 
         this.panelFactory = mainFrame.getPanelFactory();
         this.dialogFactory = mainFrame.getDialogFactory();
+
+
+        if (requestsList.size() > 0) {
+            updateRequestsNames();
+
+            int defaultRequestIndex = 0;
+
+            if (defaultRequestUUID != null && requestsList.contains(defaultRequestUUID)) {
+                defaultRequestIndex = requestsList.indexOf(defaultRequestUUID);
+            }
+
+            contactsView.setRequestsListSelection(defaultRequestIndex);
+        }
     }
 
     private void updateContactNames() {
