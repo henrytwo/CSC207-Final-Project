@@ -69,14 +69,28 @@ class EventsDetailsPresenter {
     }
 
     private void updateButtons() {
-        if (eventController.isRegistered(conferenceUUID, signedInUserUUID, eventUUID)) {
+        boolean isRegistered = eventController.isRegistered(conferenceUUID, signedInUserUUID, eventUUID);
+        boolean isOrganizer = conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID);
+
+        // Speaker for THIS event
+        boolean isSpeaker = eventController.getEventSpeakers(conferenceUUID, signedInUserUUID, eventUUID).contains(signedInUserUUID);
+
+        if (isRegistered) {
             eventsGeneralView.setRegisterButtonText("Unregister");
         }
 
-        if (!conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID)) {
+        if (!isOrganizer) {
             eventsGeneralView.enableEditEventButton(false);
             eventsGeneralView.enableDeleteEventButton(false);
             eventsGeneralView.enableMessageUserButton(false);
+        }
+
+        if (!isRegistered && !isOrganizer && !isSpeaker) {
+            eventsGeneralView.enableEventConversationButton(false);
+        }
+
+        if (isOrganizer || isSpeaker) {
+            eventsGeneralView.enableRegisterButton(false);
         }
     }
 
@@ -181,7 +195,7 @@ class EventsDetailsPresenter {
         UUID eventConversationUUID = eventController.getEventConversationUUID(conferenceUUID, signedInUserUUID, eventUUID);
         String eventName = eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUID);
 
-        boolean canCreateConversation = conferenceController.isSpeaker(conferenceUUID, signedInUserUUID, signedInUserUUID) ||
+        boolean canCreateConversation = eventController.getEventSpeakers(conferenceUUID, signedInUserUUID, eventUUID).contains(signedInUserUUID) ||
                 conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID);
 
         if (eventConversationUUID == null) {
@@ -233,7 +247,7 @@ class EventsDetailsPresenter {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
             {
                 put("defaultConversationUUID", conversationUUID);
-                put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
+                put("defaultTabName", ConferenceTabsConstants.tabNames.ALL_EVENTS);
                 put("defaultTabIndex", 1);
             }
         }));

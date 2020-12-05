@@ -144,14 +144,8 @@ public class EventController {
             throw new FullEventException();
         }
 
-        // If this events has a conversation between the speaker and attendees, add this user to it
-        UUID eventConversationUUID = eventManager.getEventConversationUUID(eventUUID);
-
-        if (eventConversationUUID != null) {
-            conversationManager.addUser(targetUserUUID, eventConversationUUID);
-        }
-
         eventManager.registerAttendee(eventUUID, targetUserUUID);
+        updateEventConversationMembers(conferenceUUID, eventUUID);
     }
 
     /**
@@ -165,14 +159,8 @@ public class EventController {
     void doUnregisterForEvent(UUID conferenceUUID, UUID targetUserUUID, UUID eventUUID) {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-        // If this events has a conversation between the speaker and attendees, remove the user from it
-        UUID eventConversationUUID = eventManager.getEventConversationUUID(eventUUID);
-
-        if (eventConversationUUID != null) {
-            conversationManager.removeUser(targetUserUUID, eventConversationUUID);
-        }
-
         eventManager.unregisterAttendee(eventUUID, targetUserUUID);
+        updateEventConversationMembers(conferenceUUID, eventUUID);
     }
 
     /**
@@ -216,7 +204,7 @@ public class EventController {
      * @param timeRange      TimeRange to test for overlap
      * @return true iff the speaker is not available at the given time range
      */
-    public boolean speakerTimeRangeOccupied(UUID conferenceUUID, UUID speakerUUID, TimeRange timeRange) {
+    private boolean speakerTimeRangeOccupied(UUID conferenceUUID, UUID speakerUUID, TimeRange timeRange) {
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
         for (UUID eventUUID : eventManager.getEvents()) {
             Set<UUID> speakerUUIDs = eventManager.getEventSpeakers(eventUUID);
@@ -325,15 +313,9 @@ public class EventController {
             }
         }, eventTimeRange);
 
-        // Add speaker to the existing conversation for this events
-        UUID eventConversationUUID = eventManager.getEventConversationUUID(eventUUID);
-
-        if (eventConversationUUID != null) {
-            conversationManager.addUser(speakerUUID, eventConversationUUID);
-        }
-
         eventManager.addEventSpeaker(eventUUID, speakerUUID);
         updateSpeakers(conferenceUUID);
+        updateEventConversationMembers(conferenceUUID, eventUUID);
     }
 
     /**
@@ -352,14 +334,9 @@ public class EventController {
 
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-        // Remove speaker to the existing conversation for this events
-        UUID eventConversationUUID = eventManager.getEventConversationUUID(eventUUID);
-
-        if (eventConversationUUID != null) {
-            conversationManager.removeUser(speakerUUID, eventConversationUUID);
-        }
         eventManager.removeEventSpeaker(eventUUID, speakerUUID);
         updateSpeakers(conferenceUUID);
+        updateEventConversationMembers(conferenceUUID, eventUUID);
     }
 
     /**
@@ -630,6 +607,51 @@ public class EventController {
     }
 
     /**
+     * Triggers an update of the members of an event conversation
+     *
+     * @param conferenceUUID UUID of the conference to operate on
+     * @param eventUUID      UUID of the events to operate on
+     */
+    void updateEventConversationMembers(UUID conferenceUUID, UUID eventUUID) {
+        EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+
+        UUID conversationUUID = eventManager.getEventConversationUUID(eventUUID);
+
+        if (conversationUUID != null) {
+            // This is the current list of users
+            Set<UUID> existingMembers = conversationManager.getUsers(conversationUUID);
+
+            // This is what we want
+            Set<UUID> targetUserList = compileEventConversationMembers(conferenceUUID, eventUUID);
+
+            // Remove users no longer on the list
+            for (UUID userUUID : existingMembers) {
+                if (!targetUserList.contains(userUUID)) {
+                    conversationManager.removeUser(userUUID, conversationUUID);
+                }
+            }
+
+            // Add new users to the list
+            for (UUID userUUID : targetUserList) {
+                if (!existingMembers.contains(userUUID)) {
+                    conversationManager.addUser(userUUID, conversationUUID);
+                }
+            }
+        }
+    }
+
+    private Set<UUID> compileEventConversationMembers(UUID conferenceUUID, UUID eventUUID) {
+        EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+
+        Set<UUID> conversationUsers = new HashSet<>();
+        conversationUsers.addAll(eventManager.getEventAttendees(eventUUID));
+        conversationUsers.addAll(eventManager.getEventSpeakers(eventUUID));
+        conversationUsers.addAll(conferenceManager.getOrganizers(conferenceUUID));
+
+        return conversationUsers;
+    }
+
+    /**
      * Creates a conversation between all attendees of an events and the speakers. Subsequent changes to the roster of
      * speakers and attendees will be reflected in the conversations. (i.e. we will update who is in the chat)
      * <p>
@@ -649,10 +671,8 @@ public class EventController {
 
         String conversationName = String.format("%s Event Chat @ %s", eventTitle, conferenceName);
 
-        // Give all events speaker and attendees read and write access to the converastion
-        Set<UUID> conversationUsers = new HashSet<>();
-        conversationUsers.addAll(eventManager.getEventAttendees(eventUUID));
-        conversationUsers.addAll(eventManager.getEventSpeakers(eventUUID));
+        // Give all events speaker and attendees read and write access to the conversation
+        Set<UUID> conversationUsers = compileEventConversationMembers(conferenceUUID, eventUUID);
 
         UUID conversationUUID = conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, executorUUID, String.format("Welcome to the events: %s", eventTitle));
 

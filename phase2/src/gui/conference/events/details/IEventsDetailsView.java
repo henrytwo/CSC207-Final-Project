@@ -9,6 +9,10 @@ public interface IEventsDetailsView {
 
     void setRegisterButtonText(String text);
 
+    void enableRegisterButton(boolean state);
+
+    void enableEventConversationButton(boolean state);
+
     void enableEditEventButton(boolean state);
 
     void enableDeleteEventButton(boolean state);

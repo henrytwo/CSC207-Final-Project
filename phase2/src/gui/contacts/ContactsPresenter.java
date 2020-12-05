@@ -2,8 +2,6 @@ package gui.contacts;
 
 import contact.ContactController;
 import gui.user.picker.UserPickerDialog;
-import gui.util.enums.DialogFactoryOptions;
-import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanelFactory;
@@ -61,6 +59,19 @@ public class ContactsPresenter {
             }
 
             contactsView.setRequestsListSelection(defaultRequestIndex);
+        }
+
+        // Select default contact
+        if (contactsList.size() > 0) {
+            updateContactNames();
+
+            int defaultContactIndex = 0;
+
+            if (contactsList.contains(defaultContactUUID)) {
+                defaultContactIndex = contactsList.indexOf(defaultContactUUID);
+            }
+
+            contactsView.setContactsListSelection(defaultContactIndex);
         }
     }
 

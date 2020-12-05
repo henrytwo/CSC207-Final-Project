@@ -46,24 +46,24 @@ class MessagingPresenter {
             int defaultConversationIndex = 0;
 
             // Choose the specified default conference UUID
-            if (defaultConversationUUID != null && conversationUUIDs.contains(defaultConversationUUID)) {
-                defaultConversationIndex = conversationUUIDs.indexOf(defaultConversationUUID);
+            if (defaultConversationUUID != null) {
+                if( conversationUUIDs.contains(defaultConversationUUID)) {
+                    defaultConversationIndex = conversationUUIDs.indexOf(defaultConversationUUID);
+                } else {
+                    IDialog unableToOpenMessageDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                        {
+                            put("title", "Access Denied");
+                            put("message", String.format("You don't have permission to read this conversation. (%s)", defaultConversationUUID));
+                            put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                        }
+                    });
+                    unableToOpenMessageDialog.run();
+                }
             }
 
             // Set initial conference selection
             messagingView.setConversationListSelection(defaultConversationIndex); // makes it look like we select it
             updateSelection(defaultConversationIndex);
-
-            // setting the panel that shows all the users in the conversation:
-            Set<UUID> usersUUIDList = conversationController.getUsersInConvo(currentConversationUUID);
-            String[] userNames = new String[usersUUIDList.size()];
-            int i = 0;
-            for(UUID userUUID: usersUUIDList){
-                userNames[i] = userController.getUserFullName(userUUID);
-                i++;
-            }
-            messagingView.setUsersList(userNames);
-
         } else {
             if (messagingView.getMessagesFromJList() == 0) {
                 String[] firstMessage = new String[]{"Create a New Conversation to View or Send Messages"};
@@ -97,16 +97,21 @@ class MessagingPresenter {
             messagingView.setEnableSendButton(true);
             messagingView.setEnableTextField(true);
 
-            Set<UUID> usersUUIDList = conversationController.getUsersInConvo(newConversationUUID);
-            String[] userNames = new String[usersUUIDList.size()];
-            int i = 0;
-            for(UUID userUUID: usersUUIDList){
-                userNames[i] = userController.getUserFullName(userUUID);
-                i++;
-            }
-            messagingView.setUsersList(userNames);
+            updateUserList(newConversationUUID);
         }
     }
+
+    private void updateUserList(UUID conversationUUID) {
+        Set<UUID> usersUUIDList = conversationController.getUsersInConvo(conversationUUID);
+        String[] userNames = new String[usersUUIDList.size()];
+        int i = 0;
+        for (UUID userUUID : usersUUIDList) {
+            userNames[i] = userController.getUserFullName(userUUID);
+            i++;
+        }
+        messagingView.setUsersList(userNames);
+    }
+
 
     private void updateAndSelectNewConversation(UUID selectedConversationUUID) {
         // Update the local list with the new conference
@@ -117,15 +122,6 @@ class MessagingPresenter {
         int index = conversationUUIDs.indexOf(selectedConversationUUID);
 
         messagingView.setConversationListSelection(index);
-
-        Set<UUID> usersUUIDList = conversationController.getUsersInConvo(selectedConversationUUID);
-        String[] userNames = new String[usersUUIDList.size()];
-        int i = 0;
-        for(UUID userUUID: usersUUIDList){
-            userNames[i] = userController.getUserFullName(userUUID);
-            i++;
-        }
-        messagingView.setUsersList(userNames);
     }
 
 
@@ -151,14 +147,7 @@ class MessagingPresenter {
             updateMessage();
             messagingView.scrollToLastMessage();
 
-            Set<UUID> usersUUIDList = conversationController.getUsersInConvo(currentConversationUUID);
-            String[] userNames = new String[usersUUIDList.size()];
-            int i = 0;
-            for(UUID userUUID: usersUUIDList){
-                userNames[i] = userController.getUserFullName(userUUID);
-                i++;
-            }
-            messagingView.setUsersList(userNames);
+            updateUserList(currentConversationUUID);
         }
 
     }
