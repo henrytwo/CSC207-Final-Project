@@ -114,7 +114,7 @@ public class MainFrame implements IFrame {
 
         setLookAndFeel();
 
-        frame = new JFrame("Bad LinkedIn Clone");
+        frame = new JFrame("Conference Management System");
 
         // Adds listener to run shutdown sequence
         frame.addWindowListener(new WindowAdapter() {
