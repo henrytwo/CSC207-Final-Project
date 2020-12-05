@@ -106,7 +106,9 @@ public class ContactsPresenter {
     }
 
     public void sendRequest() {
-        UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, userController.getUsers(), "Select User:");
+        Set<UUID> potentialContacts = userController.getUsers();
+        potentialContacts.removeAll(contactController.showContacts(signedInUserUUID));
+        UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, potentialContacts, "Select User:");
         UUID potentialContactUUID = userPickerDialog.run();
         contactController.sendRequest(signedInUserUUID, potentialContactUUID);
     }
