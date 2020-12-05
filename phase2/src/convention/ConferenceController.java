@@ -248,12 +248,7 @@ public class ConferenceController {
         // We must check that the target user is part of the organizer set in case they are an organizer thru god mode,
         // in which case, they aren't actually registered to this conference.
         if (conferenceManager.getOrganizers(conferenceUUID).contains(targetUserUUID) && conferenceManager.isOrganizer(conferenceUUID, targetUserUUID, userManager)) {
-            conferenceManager.removeOrganizer(conferenceUUID, targetUserUUID);
-
-            // Update the conversation list for each event
-            for (UUID eventUUID : eventController.getEvents(conferenceUUID, executorUUID)) {
-                eventController.updateEventConversationMembers(conferenceUUID, eventUUID);
-            }
+            removeOrganizer(conferenceUUID, targetUserUUID, targetUserUUID);
         }
 
         if (conferenceManager.isSpeaker(conferenceUUID, targetUserUUID)) {
@@ -316,6 +311,8 @@ public class ConferenceController {
     public void addOrganizer(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
         conferenceManager.addOrganizer(conferenceUUID, targetUserUUID);
+
+        updateConferenceEventsConversationMembers(conferenceUUID);
     }
 
     /**
@@ -331,6 +328,17 @@ public class ConferenceController {
     public void removeOrganizer(UUID conferenceUUID, UUID executorUUID, UUID targetUserUUID) {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
         conferenceManager.removeOrganizer(conferenceUUID, targetUserUUID);
+
+        updateConferenceEventsConversationMembers(conferenceUUID);
+    }
+
+    private void updateConferenceEventsConversationMembers(UUID conferenceUUID) {
+        EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
+
+        // Update the conversation list for each event
+        for (UUID eventUUID : eventManager.getEvents()) {
+            eventController.updateEventConversationMembers(conferenceUUID, eventUUID);
+        }
     }
 
     /**
