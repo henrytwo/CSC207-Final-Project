@@ -30,7 +30,7 @@ public class ContactsView implements IPanel, IContactsView {
     }
 
     @Override
-    public void setContactList(String[] contacts) {
+    public void setContactsList(String[] contacts) {
         contactsList.setListData(contacts);
     }
 

@@ -33,6 +33,16 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
     }
 
     @Override
+    public void enableRegisterButton(boolean state) {
+        registerButton.setEnabled(state);
+    }
+
+    @Override
+    public void enableEventConversationButton(boolean state) {
+        eventConversationButton.setEnabled(state);
+    }
+
+    @Override
     public void enableMessageUserButton(boolean state) {
         messageUserButton.setEnabled(state);
     }

@@ -2,8 +2,6 @@ package gui.contacts;
 
 import contact.ContactController;
 import gui.user.picker.UserPickerDialog;
-import gui.util.enums.DialogFactoryOptions;
-import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanelFactory;
@@ -66,7 +64,7 @@ public class ContactsPresenter {
 //            contactNames[i] = contactController.;
 //        }
 
-        contactsView.setContactList(contactNames);
+        contactsView.setContactsList(contactNames);
     }
 
     private void updateContactsList() {
