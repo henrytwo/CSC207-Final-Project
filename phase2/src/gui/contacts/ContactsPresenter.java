@@ -61,6 +61,7 @@ public class ContactsPresenter {
             }
 
             contactsView.setRequestsListSelection(defaultRequestIndex);
+            requestSelectionUpdate(defaultRequestIndex);
         }
 
         // Select default contact
@@ -101,7 +102,7 @@ public class ContactsPresenter {
     }
 
     private void updateRequestsList(){
-        currentRequestIndex = 0;
+        currentRequestIndex = -1;
         requestsList = new ArrayList<>(contactController.showRequests(signedInUserUUID));
     }
 
