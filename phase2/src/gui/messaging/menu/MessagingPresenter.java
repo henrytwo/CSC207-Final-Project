@@ -8,10 +8,7 @@ import messaging.ConversationController;
 import user.UserController;
 import util.ControllerBundle;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 class MessagingPresenter {
     private IMessagingView messagingView;
@@ -56,6 +53,17 @@ class MessagingPresenter {
             // Set initial conference selection
             messagingView.setConversationListSelection(defaultConversationIndex); // makes it look like we select it
             updateSelection(defaultConversationIndex);
+
+            // setting the panel that shows all the users in the conversation:
+            Set<UUID> usersUUIDList = conversationController.getUsersInConvo(currentConversationUUID);
+            String[] userNames = new String[usersUUIDList.size()];
+            int i = 0;
+            for(UUID userUUID: usersUUIDList){
+                userNames[i] = userController.getUserFullName(userUUID);
+                i++;
+            }
+            messagingView.setUsersList(userNames);
+
         } else {
             if (messagingView.getMessagesFromJList() == 0) {
                 String[] firstMessage = new String[]{"Create a New Conversation to View or Send Messages"};
@@ -63,6 +71,8 @@ class MessagingPresenter {
             }
             messagingView.setEnableSendButton(false);
             messagingView.setEnableTextField(false);
+            String[] messageInUsersList = new String[]{"Create New Conversation to Add Users"};
+            messagingView.setUsersList(messageInUsersList);
         }
     }
 
@@ -86,6 +96,15 @@ class MessagingPresenter {
             updateAndSelectNewConversation(newConversationUUID);
             messagingView.setEnableSendButton(true);
             messagingView.setEnableTextField(true);
+
+            Set<UUID> usersUUIDList = conversationController.getUsersInConvo(newConversationUUID);
+            String[] userNames = new String[usersUUIDList.size()];
+            int i = 0;
+            for(UUID userUUID: usersUUIDList){
+                userNames[i] = userController.getUserFullName(userUUID);
+                i++;
+            }
+            messagingView.setUsersList(userNames);
         }
     }
 
@@ -98,6 +117,15 @@ class MessagingPresenter {
         int index = conversationUUIDs.indexOf(selectedConversationUUID);
 
         messagingView.setConversationListSelection(index);
+
+        Set<UUID> usersUUIDList = conversationController.getUsersInConvo(selectedConversationUUID);
+        String[] userNames = new String[usersUUIDList.size()];
+        int i = 0;
+        for(UUID userUUID: usersUUIDList){
+            userNames[i] = userController.getUserFullName(userUUID);
+            i++;
+        }
+        messagingView.setUsersList(userNames);
     }
 
 
@@ -122,6 +150,15 @@ class MessagingPresenter {
             currentConversationUUID = conversationUUIDs.get(selectedIndex);
             updateMessage();
             messagingView.scrollToLastMessage();
+
+            Set<UUID> usersUUIDList = conversationController.getUsersInConvo(currentConversationUUID);
+            String[] userNames = new String[usersUUIDList.size()];
+            int i = 0;
+            for(UUID userUUID: usersUUIDList){
+                userNames[i] = userController.getUserFullName(userUUID);
+                i++;
+            }
+            messagingView.setUsersList(userNames);
         }
 
     }

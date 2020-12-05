@@ -19,4 +19,6 @@ public interface IMessagingView {
 
     void scrollToLastMessage();
 
+    void setUsersList(String[] users);
+
 }

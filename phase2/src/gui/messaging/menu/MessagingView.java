@@ -14,6 +14,7 @@ public class MessagingView implements IPanel, IMessagingView {
     private JTextField messageText;
     private JList messages;
     private JButton sendButton;
+    private JList usersInConversation;
     private MessagingPresenter messagingPresenter;
 
     /**
@@ -83,6 +84,11 @@ public class MessagingView implements IPanel, IMessagingView {
         if (lastMessageIndex >= 0) {
             messages.ensureIndexIsVisible(lastMessageIndex);
         }
+    }
+
+    @Override
+    public void setUsersList(String[] users){
+        usersInConversation.setListData(users);
     }
 
 }
