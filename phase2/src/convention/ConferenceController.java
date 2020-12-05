@@ -249,6 +249,11 @@ public class ConferenceController {
         // in which case, they aren't actually registered to this conference.
         if (conferenceManager.getOrganizers(conferenceUUID).contains(targetUserUUID) && conferenceManager.isOrganizer(conferenceUUID, targetUserUUID, userManager)) {
             conferenceManager.removeOrganizer(conferenceUUID, targetUserUUID);
+
+            // Update the conversation list for each event
+            for (UUID eventUUID : eventController.getEvents(conferenceUUID, executorUUID)) {
+                eventController.updateEventConversationMembers(conferenceUUID, eventUUID);
+            }
         }
 
         if (conferenceManager.isSpeaker(conferenceUUID, targetUserUUID)) {

@@ -195,7 +195,7 @@ class EventsDetailsPresenter {
         UUID eventConversationUUID = eventController.getEventConversationUUID(conferenceUUID, signedInUserUUID, eventUUID);
         String eventName = eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUID);
 
-        boolean canCreateConversation = conferenceController.isSpeaker(conferenceUUID, signedInUserUUID, signedInUserUUID) ||
+        boolean canCreateConversation = eventController.getEventSpeakers(conferenceUUID, signedInUserUUID, eventUUID).contains(signedInUserUUID) ||
                 conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID);
 
         if (eventConversationUUID == null) {
