@@ -1,6 +1,7 @@
 package gui.contacts;
 
 public interface IContactsView {
-    void setContactList(String[] contacts);
+    void setContactsList(String[] contacts);
+
     void setContactsListSelection(int selectionIndex);
 }

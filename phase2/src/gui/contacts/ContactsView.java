@@ -4,7 +4,6 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
-import java.util.Map;
 import java.util.UUID;
 
 public class ContactsView implements IPanel, IContactsView {
@@ -19,7 +18,7 @@ public class ContactsView implements IPanel, IContactsView {
     private ContactsPresenter contactsPresenter;
 
     public ContactsView(IFrame mainFrame, UUID contactUUID) {
-        contactsPresenter = new ContactsPresenter(mainFrame, this, contactUUID );
+        contactsPresenter = new ContactsPresenter(mainFrame, this, contactUUID);
         //contactsList.addListSelectionListener((e) -> contactsPresenter.selectContact(contactsList.getSelectedIndex()));
         sendRequestButton.addActionListener((e) -> contactsPresenter.sendRequest());
         deleteButton.addActionListener((e) -> contactsPresenter.deleteContact());

@@ -12,7 +12,10 @@ import user.UserManager;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -440,12 +443,17 @@ public class ConferenceController {
      * @throws IOException promps a file download for an events schedule sorted by speaker or events user signed up for
      */
     public void printSchedule(UUID userId, String sortBy, String fileName) throws IOException {
-        if (!(sortBy.equals("speaker") || sortBy.equals("registered"))) { throw new InvalidSortMethodException(); }
+        if (!(sortBy.equals("speaker") || sortBy.equals("registered"))) {
+            throw new InvalidSortMethodException();
+        }
         String userName = userManager.getUserUsername(userId);
         ScheduleManager scheduleManager = new ScheduleManager();
         Set<UUID> conferenceUUIDSet;
-        if (sortBy.equals("speaker")) { conferenceUUIDSet = getConferences(); }
-        else { conferenceUUIDSet = getUserConferences(userId); }
+        if (sortBy.equals("speaker")) {
+            conferenceUUIDSet = getConferences();
+        } else {
+            conferenceUUIDSet = getUserConferences(userId);
+        }
         for (UUID conferenceID : conferenceUUIDSet) {
             EventManager em = conferenceManager.getEventManager(conferenceID);
             Set<UUID> EventsInConference = eventController.getAttendeeEvents(conferenceID, userId);
