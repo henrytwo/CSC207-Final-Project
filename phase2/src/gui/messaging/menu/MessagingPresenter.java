@@ -1,4 +1,4 @@
-package gui.messaging;
+package gui.messaging.menu;
 
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
@@ -56,12 +56,11 @@ class MessagingPresenter {
             // Set initial conference selection
             messagingView.setConversationListSelection(defaultConversationIndex); // makes it look like we select it
             updateSelection(defaultConversationIndex);
-        }
-        else{
-            if (messagingView.getMessagesFromJList() == 0){
-            String[] firstMessage = new String[]{"Create a New Conversation to View or Send Messages"};
-            messagingView.setMessages(firstMessage);
-        }
+        } else {
+            if (messagingView.getMessagesFromJList() == 0) {
+                String[] firstMessage = new String[]{"Create a New Conversation to View or Send Messages"};
+                messagingView.setMessages(firstMessage);
+            }
             messagingView.setEnableSendButton(false);
             messagingView.setEnableTextField(false);
         }
@@ -69,11 +68,12 @@ class MessagingPresenter {
 
     void sendMessage() {
         String currentMessage = messagingView.getTextboxContent();
-        if(!currentMessage.equals("")) {
-        conversationController.sendMessage(signedInUserUUID, currentMessage, currentConversationUUID);
-        updateMessage();
-        messagingView.setTextFieldToNull();
-        messagingView.scrollToLastMessage();}
+        if (!currentMessage.equals("")) {
+            conversationController.sendMessage(signedInUserUUID, currentMessage, currentConversationUUID);
+            updateMessage();
+            messagingView.setTextFieldToNull();
+            messagingView.scrollToLastMessage();
+        }
 
     }
 

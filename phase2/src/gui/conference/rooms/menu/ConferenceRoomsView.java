@@ -1,4 +1,4 @@
-package gui.conference.rooms;
+package gui.conference.rooms.menu;
 
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
@@ -25,10 +25,14 @@ public class ConferenceRoomsView implements IPanel, IConferenceRoomsView {
     }
 
     @Override
-    public void setRoomList(String[] roomLocations) { roomsList.setListData(roomLocations); }
+    public void setRoomList(String[] roomLocations) {
+        roomsList.setListData(roomLocations);
+    }
 
     @Override
-    public void setRoomListSelection(int selectionIndex) { roomsList.setSelectedIndex(selectionIndex); }
+    public void setRoomListSelection(int selectionIndex) {
+        roomsList.setSelectedIndex(selectionIndex);
+    }
 
     @Override
     public JPanel getPanel() {

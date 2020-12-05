@@ -15,12 +15,16 @@ public class Schedule {
         this.title = t;
     }
 
-    public String getTitle() {return this.title;}
+    public String getTitle() {
+        return this.title;
+    }
 
     public void setEventStringList(List<List<String>> s) {
         this.eventStringLists = s;
     }
 
-    public List<List<String>> getEventStringLists() { return this.eventStringLists;}
+    public List<List<String>> getEventStringLists() {
+        return this.eventStringLists;
+    }
 
 }

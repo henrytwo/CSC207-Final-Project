@@ -2,6 +2,7 @@ package gui.conference.events.menu;
 
 import convention.ConferenceController;
 import convention.EventController;
+import gui.conference.tabs.ConferenceTabsConstants;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.*;
@@ -134,9 +135,17 @@ public class EventsMenuPresenter {
 
         UUID newEventUUID = (UUID) eventFormDialog.run();
         if (newEventUUID != null) {
-            updateAndSelectNewEvent(newEventUUID);
+            reloadEventsPage(newEventUUID);
         }
-
     }
 
+    private void reloadEventsPage(UUID defaultEventUUID) {
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>(initializationArguments) {
+            {
+                put("defaultConferenceUUID", conferenceUUID);
+                put("defaultTabName", ConferenceTabsConstants.tabNames.ALL_EVENTS);
+                put("defaultEventUUID", defaultEventUUID);
+            }
+        }));
+    }
 }

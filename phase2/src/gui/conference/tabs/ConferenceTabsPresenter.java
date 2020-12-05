@@ -63,14 +63,14 @@ public class ConferenceTabsPresenter {
                 }
             });
 
-            IPanel allEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(initializationArguments){
+            IPanel allEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(initializationArguments) {
                 {
                     put("conferenceUUID", conferenceUUID);
                     put("getEvents", (Supplier) () -> eventController.getEvents(conferenceUUID, signedInUserUUID));
                 }
             });
 
-            IPanel registeredEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(initializationArguments){
+            IPanel registeredEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(initializationArguments) {
                 {
                     put("conferenceUUID", conferenceUUID);
                     put("getEvents", (Supplier) () -> eventController.getAttendeeEvents(conferenceUUID, signedInUserUUID));
@@ -87,7 +87,7 @@ public class ConferenceTabsPresenter {
         }
 
         if (hasSpeakerPermissions) {
-            IPanel speakerEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>(){
+            IPanel speakerEventsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_EVENTS, new HashMap<String, Object>() {
                 {
                     put("conferenceUUID", conferenceUUID);
                     put("getEvents", (Supplier) () -> eventController.getSpeakerEvents(conferenceUUID, signedInUserUUID));

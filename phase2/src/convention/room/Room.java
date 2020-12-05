@@ -3,7 +3,7 @@ package convention.room;
 import convention.calendar.Calendar;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.UUID;
 
 /**
  * Room entity
@@ -23,7 +23,7 @@ public class Room implements Serializable {
      * Room constructor.
      *
      * @param roomLocation Location of the room in predefined format
-     * @param capacity capacity of this room
+     * @param capacity     capacity of this room
      */
     public Room(String roomLocation, int capacity) {
         this.roomUUID = UUID.randomUUID();

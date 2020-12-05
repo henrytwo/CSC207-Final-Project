@@ -475,7 +475,8 @@ public class EventController {
         // TestView that the room is not being double booked
         if (!isEventDuringConference(conferenceUUID, timeRange)) {
             throw new InvalidEventTimeException(timeRange, conferenceManager.getTimeRange(conferenceUUID));
-        } if (roomCalendarManager.timeRangeOccupied(timeRange)) {
+        }
+        if (roomCalendarManager.timeRangeOccupied(timeRange)) {
             throw new CalendarDoubleBookingException();
         } else {
             // Cancel the booking

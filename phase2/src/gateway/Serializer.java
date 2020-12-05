@@ -12,6 +12,7 @@ public class Serializer<T> {
 
     /**
      * Creates a serializer that serializes an object to a file name
+     *
      * @param fileName name of serialized file
      */
     public Serializer(String fileName) {
@@ -20,6 +21,7 @@ public class Serializer<T> {
 
     /**
      * Loads a serialized object from file. If that fails, then return the fall back object (which should be a new instance)
+     *
      * @param fallback object to return if unable to read from file
      * @return object deserialized from file, or fallback if applicable
      */
@@ -36,6 +38,7 @@ public class Serializer<T> {
 
     /**
      * Write the object to file
+     *
      * @param object object to serialize
      */
     public void save(T object) {

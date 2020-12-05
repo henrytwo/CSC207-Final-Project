@@ -115,14 +115,15 @@ public class ConversationManager implements Serializable {
 
     /**
      * Returns the UUID of users who are part of a Conversation
+     *
      * @param conversationUUID The UUID of a Conversation/Chat Group
      * @return
      */
 
-    public Set<UUID> getUsers(UUID conversationUUID){
+    public Set<UUID> getUsers(UUID conversationUUID) {
         Set<UUID> usersInConversation = new HashSet<>();
         Set<UUID> allUsersUUID = mapUserConvo.keySet();
-        for(UUID userID: allUsersUUID){
+        for (UUID userID : allUsersUUID) {
             if (mapUserConvo.get(userID).contains(conversationUUID)) {
                 usersInConversation.add(userID);
             }
@@ -194,7 +195,7 @@ public class ConversationManager implements Serializable {
      * Gets messages for a conversation a user has read access to. Throws NoReadAccessException if the user has no
      * read access.
      *
-     * @param userUUID The ID of the User
+     * @param userUUID         The ID of the User
      * @param conversationUUID The Id of the Conversation for which the messages need to be seen
      * @return returns an arraylist of Hashmaps. Each Hashmap stores information about a message in the conversation.
      */
@@ -203,15 +204,15 @@ public class ConversationManager implements Serializable {
 
         if (conversation.getReadAccessUsers().contains(userUUID)) {
             List<Map<String, String>> newList = new ArrayList<>();
-            for(Message message:conversation.getConversationMessages()){
+            for (Message message : conversation.getConversationMessages()) {
 
-                if (! message.getUsersArchivingMessage().contains(userUUID)) {
+                if (!message.getUsersArchivingMessage().contains(userUUID)) {
                     Map<String, String> messageAsHashmap = new HashMap<>();
                     messageAsHashmap.put("sender", message.getSenderId().toString());
                     messageAsHashmap.put("timestamp", message.getTimestamp().toString());
                     messageAsHashmap.put("content", message.getContent());
                     newList.add(messageAsHashmap);
-                    if ( ! message.getHasRead().contains(userUUID) ){
+                    if (!message.getHasRead().contains(userUUID)) {
                         message.userReadMessage(userUUID);
                     }
                 }

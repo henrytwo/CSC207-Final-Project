@@ -1,6 +1,7 @@
 package convention.exception;
 
 import convention.calendar.TimeRange;
+
 import java.util.UUID;
 
 public class SpeakerDoubleBookingException extends RuntimeException {

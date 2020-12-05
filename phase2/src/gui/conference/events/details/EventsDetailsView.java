@@ -15,16 +15,26 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
     private JButton deleteEventsButton;
     private JButton editEventsButton;
     private JTable generalEventsTable;
-    private JTable userTable;
+    private JTable attendeeTable;
+    private JTable speakerTable;
+    private JButton eventConversationButton;
+    private JButton messageUserButton;
 
     private EventsDetailsPresenter eventsGeneralPresenter;
 
-    public EventsDetailsView(IFrame mainFrame, UUID eventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments){
+    public EventsDetailsView(IFrame mainFrame, UUID eventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments) {
         eventsGeneralPresenter = new EventsDetailsPresenter(mainFrame, this, eventUUID, conferenceUUID, initializationArguments);
 
-        registerButton.addActionListener((e)-> eventsGeneralPresenter.toggleRegistration());
-        deleteEventsButton.addActionListener((e)-> eventsGeneralPresenter.deleteEvent());
-        editEventsButton.addActionListener((e)-> eventsGeneralPresenter.editEvent());
+        registerButton.addActionListener((e) -> eventsGeneralPresenter.toggleRegistration());
+        deleteEventsButton.addActionListener((e) -> eventsGeneralPresenter.deleteEvent());
+        editEventsButton.addActionListener((e) -> eventsGeneralPresenter.editEvent());
+        messageUserButton.addActionListener((e) -> eventsGeneralPresenter.messageUser());
+        eventConversationButton.addActionListener((e) -> eventsGeneralPresenter.eventConversation());
+    }
+
+    @Override
+    public void enableMessageUserButton(boolean state) {
+        messageUserButton.setEnabled(state);
     }
 
     @Override
@@ -49,9 +59,15 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
     }
 
     @Override
-    public void setUserTableData(String[][] tableData, String[] columnNames) {
+    public void setAttendeeTableData(String[][] tableData, String[] columnNames) {
         TableModel tableModel = new DefaultTableModel(tableData, columnNames);
-        userTable.setModel(tableModel);
+        attendeeTable.setModel(tableModel);
+    }
+
+    @Override
+    public void setSpeakerTableData(String[][] tableData, String[] columnNames) {
+        TableModel tableModel = new DefaultTableModel(tableData, columnNames);
+        speakerTable.setModel(tableModel);
     }
 
     @Override

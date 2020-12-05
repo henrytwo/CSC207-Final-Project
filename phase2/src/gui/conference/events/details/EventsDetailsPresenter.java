@@ -4,7 +4,6 @@ import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.exception.FullEventException;
-import gui.conference.events.menu.EventsMenuPresenter;
 import gui.conference.tabs.ConferenceTabsConstants;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
@@ -15,12 +14,9 @@ import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import util.ControllerBundle;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
-public class EventsDetailsPresenter {
+class EventsDetailsPresenter {
 
     private IEventsDetailsView eventsGeneralView;
     private IFrame mainFrame;
@@ -36,9 +32,7 @@ public class EventsDetailsPresenter {
     private UUID eventUUID;
     private UUID signedInUserUUID;
 
-    private UUID currentConferenceUUID;
-
-    private EventsMenuPresenter eventsMenuPresenter;
+    private UUID conferenceUUID;
 
     private Map<String, Object> initializationArguments;
 
@@ -59,7 +53,7 @@ public class EventsDetailsPresenter {
         this.eventUUID = defaultEventUUID;
 
         signedInUserUUID = userController.getCurrentUser();
-        this.currentConferenceUUID = currentConferenceUUID;
+        this.conferenceUUID = currentConferenceUUID;
 
         updateUserData();
         updateGeneralData();
@@ -67,46 +61,30 @@ public class EventsDetailsPresenter {
     }
 
     private void updateUserData() {
-        if (conferenceController.isOrganizer(currentConferenceUUID, signedInUserUUID, signedInUserUUID)) {
-
-            Set<UUID> attendeeUUIDs = eventController.getEventAttendees(currentConferenceUUID, signedInUserUUID, eventUUID);
-
-            String[][] tableData = new String[1][attendeeUUIDs.size()];
-
-            int index = 0;
-
-            for (UUID userUUID : attendeeUUIDs) {
-                tableData[0][index] = userController.getUserFullName(userUUID);
-
-                index++;
-            }
-
-            String[] columnNames = {
-                    "Event Attendees",
-            };
-
-            eventsGeneralView.setUserTableData(tableData, columnNames);
-
+        if (conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID)) {
+            updateAttendeeTable();
         }
+
+        updateSpeakerTable();
     }
 
     private void updateButtons() {
-
-        if (eventController.isRegistered(currentConferenceUUID, signedInUserUUID, eventUUID)) {
+        if (eventController.isRegistered(conferenceUUID, signedInUserUUID, eventUUID)) {
             eventsGeneralView.setRegisterButtonText("Unregister");
         }
 
-        if (!conferenceController.isOrganizer(currentConferenceUUID, signedInUserUUID, signedInUserUUID)) {
+        if (!conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID)) {
             eventsGeneralView.enableEditEventButton(false);
             eventsGeneralView.enableDeleteEventButton(false);
+            eventsGeneralView.enableMessageUserButton(false);
         }
     }
 
     void toggleRegistration() {
-        if (eventController.isRegistered(currentConferenceUUID, signedInUserUUID, eventUUID)) {
+        if (eventController.isRegistered(conferenceUUID, signedInUserUUID, eventUUID)) {
             IDialog confirmLeaveDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                 {
-                    put("message", String.format("Are you sure you want to unregister from this event? (%s)", eventController.getEventTitle(currentConferenceUUID, signedInUserUUID, eventUUID)));
+                    put("message", String.format("Are you sure you want to unregister from this event? (%s)", eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUID)));
                     put("title", "Confirm unregister Event");
                     put("messageType", DialogFactoryOptions.dialogType.QUESTION);
                     put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
@@ -114,12 +92,12 @@ public class EventsDetailsPresenter {
             });
 
             if ((boolean) confirmLeaveDialog.run()) {
-                eventController.unregisterForEvent(currentConferenceUUID, signedInUserUUID, signedInUserUUID, eventUUID);
-                reloadPage(eventUUID);
+                eventController.unregisterForEvent(conferenceUUID, signedInUserUUID, signedInUserUUID, eventUUID);
+                reloadEventsPage(eventUUID);
             }
         } else {
             try {
-                eventController.registerForEvent(currentConferenceUUID, signedInUserUUID, signedInUserUUID, eventUUID);
+                eventController.registerForEvent(conferenceUUID, signedInUserUUID, signedInUserUUID, eventUUID);
 
                 IDialog registeredDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                     {
@@ -131,7 +109,7 @@ public class EventsDetailsPresenter {
 
                 registeredDialog.run();
 
-                reloadPage(eventUUID);
+                reloadEventsPage(eventUUID);
             } catch (FullEventException e) {
                 IDialog fullCapacityDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                     {
@@ -149,55 +127,155 @@ public class EventsDetailsPresenter {
     void deleteEvent() {
         IDialog confirmDeleteDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
             {
-                put("message", String.format("Are you sure you want to delete this event? (%s)", eventController.getEventTitle(currentConferenceUUID, signedInUserUUID, eventUUID)));
+                put("message", String.format("Are you sure you want to delete this event? (%s)", eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUID)));
                 put("title", "Confirm delete Event");
                 put("messageType", DialogFactoryOptions.dialogType.QUESTION);
                 put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
             }
         });
+
         if ((boolean) confirmDeleteDialog.run()) {
-            eventController.deleteEvent(currentConferenceUUID, signedInUserUUID, eventUUID);
-            reloadPage(null);
+            eventController.deleteEvent(conferenceUUID, signedInUserUUID, eventUUID);
+            reloadEventsPage(null);
         }
+    }
+
+    void messageUser() {
+        IDialog chooseUsersDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MULTI_USER_PICKER, new HashMap<String, Object>() {
+            {
+                put("instructions", "Select users to add to the new conversation");
+                put("availableUserUUIDs", new HashSet<UUID>() {
+                    {
+                        addAll(conferenceController.getOrganizers(conferenceUUID, signedInUserUUID));
+                        addAll(eventController.getEventAttendees(conferenceUUID, signedInUserUUID, eventUUID));
+                        addAll(eventController.getEventSpeakers(conferenceUUID, signedInUserUUID, eventUUID));
+                        add(signedInUserUUID);
+                    }
+                });
+            }
+        });
+
+        Set<UUID> selectedUserUUIDs = (Set<UUID>) chooseUsersDialog.run();
+
+        if (selectedUserUUIDs != null) {
+            selectedUserUUIDs.add(signedInUserUUID); // We need to add the signed in user in the conversation too
+
+            UUID conversationUUID = conferenceController.createConversationWithUsers(conferenceUUID, signedInUserUUID, selectedUserUUIDs);
+
+            IDialog conversationCreatedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
+                    put("message", String.format("Conversation with %d users created successfully (%s)", selectedUserUUIDs.size(), conversationUUID));
+                    put("title", "Conversation created");
+                }
+            });
+
+            conversationCreatedDialog.run();
+
+            // Open the new conversation
+            openMessage(conversationUUID);
+        }
+    }
+
+    void eventConversation() {
+        UUID eventConversationUUID = eventController.getEventConversationUUID(conferenceUUID, signedInUserUUID, eventUUID);
+        String eventName = eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUID);
+
+        boolean canCreateConversation = conferenceController.isSpeaker(conferenceUUID, signedInUserUUID, signedInUserUUID) ||
+                conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID);
+
+        if (eventConversationUUID == null) {
+
+            // Anyone can open the event conversation, but only speakers can create it
+            if (canCreateConversation) {
+                IDialog confirmEventConversation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+                    {
+                        put("message", String.format("There is currently no conversation associated with this event. Do you want to create an event conversation for %s? All users associated with this event will be added to the conversation.", eventName));
+                        put("title", "Create event conversation");
+                        put("messageType", DialogFactoryOptions.dialogType.QUESTION);
+                        put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+                    }
+                });
+
+                if ((boolean) confirmEventConversation.run()) {
+                    UUID newEventConversationUUID = eventController.createEventConversation(conferenceUUID, signedInUserUUID, eventUUID);
+
+                    IDialog conversationCreatedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                        {
+                            put("message", String.format("Successfully created an event conversation for %s", eventName));
+                            put("title", "Conversation created");
+                            put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
+                        }
+                    });
+
+                    conversationCreatedDialog.run();
+                    openMessage(newEventConversationUUID);
+                }
+            } else {
+
+                IDialog conversationCreatedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                    {
+                        put("message", "This event currently doesn't have a conversation associated with it. Contact a speaker or organizer for further assistance.");
+                        put("title", "Access denied");
+                        put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                    }
+                });
+
+                conversationCreatedDialog.run();
+            }
+
+        } else {
+            openMessage(eventConversationUUID);
+        }
+    }
+
+    private void openMessage(UUID conversationUUID) {
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
+            {
+                put("defaultConversationUUID", conversationUUID);
+                put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
+                put("defaultTabIndex", 1);
+            }
+        }));
     }
 
     void editEvent() {
         IDialog eventFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.EVENT_FORM, new HashMap<String, Object>() {
             {
-                put("conferenceUUID", currentConferenceUUID);
+                put("conferenceUUID", conferenceUUID);
                 put("eventUUID", eventUUID);
             }
         });
 
         if (eventFormDialog.run() != null) {
             // Reload the main menu to update changes
-            reloadPage(eventUUID);
+            reloadEventsPage(eventUUID);
         }
     }
 
-    private void reloadPage(UUID defaultEventUUID) {
+    private void reloadEventsPage(UUID defaultEventUUID) {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>(initializationArguments) {
             {
-                put("defaultConferenceUUID", currentConferenceUUID);
+                put("defaultConferenceUUID", conferenceUUID);
                 put("defaultTabName", ConferenceTabsConstants.tabNames.ALL_EVENTS);
                 put("defaultEventUUID", defaultEventUUID);
+                put("defaultTabIndex", 0);
             }
         }));
     }
 
     private void updateGeneralData() {
-        boolean isSpeaker = conferenceController.isSpeaker(currentConferenceUUID, signedInUserUUID, signedInUserUUID);
-
         String[][] tableData = {
-                {"Event Name", eventController.getEventTitle(currentConferenceUUID, signedInUserUUID, eventUUID)},
-                {"Start", eventController.getEventTimeRange(currentConferenceUUID, signedInUserUUID, eventUUID).getStart().toString()},
-                {"End", eventController.getEventTimeRange(currentConferenceUUID, signedInUserUUID, eventUUID).getEnd().toString()},
+                {"Event Name", eventController.getEventTitle(conferenceUUID, signedInUserUUID, eventUUID)},
+                {"Start", eventController.getEventTimeRange(conferenceUUID, signedInUserUUID, eventUUID).getStart().toString()},
+                {"End", eventController.getEventTimeRange(conferenceUUID, signedInUserUUID, eventUUID).getEnd().toString()},
                 {"UUID", eventUUID.toString()},
+                {"Conversation UUID", eventController.getEventConversationUUID(conferenceUUID, signedInUserUUID, eventUUID) == null ? "N/A" : eventController.getEventConversationUUID(conferenceUUID, signedInUserUUID, eventUUID).toString()},
                 {},
-                {"Room Location", "" + roomController.getRoomLocation(currentConferenceUUID, signedInUserUUID, eventController.getEventRoom(currentConferenceUUID, signedInUserUUID, eventUUID))},
+                {"Room Location", "" + roomController.getRoomLocation(conferenceUUID, signedInUserUUID, eventController.getEventRoom(conferenceUUID, signedInUserUUID, eventUUID))},
                 {},
-                {"# Attendees", "" + eventController.getNumRegistered(currentConferenceUUID, signedInUserUUID, eventUUID) + "/" + roomController.getRoomCapacity(currentConferenceUUID, signedInUserUUID, eventController.getEventRoom(currentConferenceUUID, signedInUserUUID, eventUUID))},
-                {"# Speakers", "" + eventController.getEventSpeakers(currentConferenceUUID, signedInUserUUID, eventUUID).size()},
+                {"# Attendees", "" + eventController.getNumRegistered(conferenceUUID, signedInUserUUID, eventUUID) + "/" + roomController.getRoomCapacity(conferenceUUID, signedInUserUUID, eventController.getEventRoom(conferenceUUID, signedInUserUUID, eventUUID))},
+                {"# Speakers", "" + eventController.getEventSpeakers(conferenceUUID, signedInUserUUID, eventUUID).size()},
         };
 
         String[] columnNames = {
@@ -206,5 +284,43 @@ public class EventsDetailsPresenter {
         };
 
         eventsGeneralView.setGeneralTableData(tableData, columnNames);
+    }
+
+    private String[][] generateUserTable(Set<UUID> userUUIDs) {
+        String[][] names = new String[userUUIDs.size()][1];
+
+        int index = 0;
+
+        for (UUID userUUID : userUUIDs) {
+            names[index][0] = userController.getUserFullName(userUUID);
+
+            index++;
+        }
+
+        return names;
+    }
+
+    private void updateAttendeeTable() {
+        Set<UUID> attendeeUUIDs = eventController.getEventAttendees(conferenceUUID, signedInUserUUID, eventUUID);
+
+        String[][] tableData = generateUserTable(attendeeUUIDs);
+
+        String[] columnNames = {
+                "Event Attendees",
+        };
+
+        eventsGeneralView.setAttendeeTableData(tableData, columnNames);
+    }
+
+    private void updateSpeakerTable() {
+        Set<UUID> speakerUUIDs = eventController.getEventSpeakers(conferenceUUID, signedInUserUUID, eventUUID);
+
+        String[][] tableData = generateUserTable(speakerUUIDs);
+
+        String[] columnNames = {
+                "Event Speakers",
+        };
+
+        eventsGeneralView.setSpeakerTableData(tableData, columnNames);
     }
 }

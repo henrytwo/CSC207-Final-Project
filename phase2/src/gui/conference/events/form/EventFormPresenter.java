@@ -1,13 +1,9 @@
 package gui.conference.events.form;
 
-import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import convention.calendar.TimeRange;
-import convention.exception.InvalidEventTimeException;
-import convention.exception.InvalidNameException;
-import convention.exception.InvalidTimeRangeException;
-import convention.exception.NullRoomException;
+import convention.exception.*;
 import gui.util.DateParser;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
@@ -23,11 +19,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class EventFormPresenter {
+class EventFormPresenter {
 
-    ConferenceController conferenceController;
-    EventController eventController;
-    RoomController roomController;
+    private EventController eventController;
+    private RoomController roomController;
+    private UserController userController;
 
     private boolean isExistingEvent;
     private UUID eventUUID;
@@ -42,10 +38,8 @@ public class EventFormPresenter {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private TimeRange timeRange;
-    private Set<UUID> speakerUUIDs = new HashSet<>();
 
-    private Set<UUID> selectedSpeakersUUIDS;
-    private Set<UUID> availableUserUUIDS;
+    private Set<UUID> selectedSpeakersUUIDS = new HashSet<>();
     private UUID selectedRoomUUID;
 
     private DateParser dateParser = new DateParser();
@@ -57,15 +51,13 @@ public class EventFormPresenter {
         this.dialogFactory = mainFrame.getDialogFactory();
 
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        UserController userController = controllerBundle.getUserController();
         this.eventController = controllerBundle.getEventController();
-        this.conferenceController = controllerBundle.getConferenceController();
         this.roomController = controllerBundle.getRoomController();
+        this.userController = controllerBundle.getUserController();
+
         this.conferenceUUID = conferenceUUID;
         this.eventUUID = eventUUID;
         this.userUUID = controllerBundle.getUserController().getCurrentUser();
-
-        this.availableUserUUIDS = userController.getUsers();
 
         // Existing conferences will have a non-null UUID
         isExistingEvent = eventUUID != null;
@@ -77,7 +69,7 @@ public class EventFormPresenter {
             startTime = eventController.getEventTimeRange(conferenceUUID, userUUID, eventUUID).getStart();
             endTime = eventController.getEventTimeRange(conferenceUUID, userUUID, eventUUID).getEnd();
             timeRange = eventController.getEventTimeRange(conferenceUUID, userUUID, eventUUID);
-            speakerUUIDs = eventController.getEventSpeakers(conferenceUUID, userUUID, eventUUID);
+            selectedSpeakersUUIDS = eventController.getEventSpeakers(conferenceUUID, userUUID, eventUUID);
             selectedRoomUUID = eventController.getEventRoom(conferenceUUID, userUUID, eventUUID);
 
             eventFormDialog.setName(eventName);
@@ -102,13 +94,35 @@ public class EventFormPresenter {
 
             if (isExistingEvent) {
                 eventController.setEventTitle(conferenceUUID, userUUID, eventUUID, eventName);
-                eventController.setEventRoom(conferenceUUID, userUUID, eventUUID, selectedRoomUUID);
-                if(!timeRange.hasOverlap(eventController.getEventTimeRange(conferenceUUID, userUUID, eventUUID))){
+
+                // Don't update event time if it didn't change
+                if (!eventController.getEventTimeRange(conferenceUUID, userUUID, eventUUID).equals(timeRange)) {
                     eventController.setEventTimeRange(conferenceUUID, userUUID, eventUUID, timeRange);
                 }
 
+                // Don't update room if it didn't change
+                if (!eventController.getEventRoom(conferenceUUID, userUUID, eventUUID).equals(selectedRoomUUID)) {
+                    eventController.setEventRoom(conferenceUUID, userUUID, eventUUID, selectedRoomUUID);
+                }
+
+                // Only update speakers that were added/removed
+                Set<UUID> existingSpeakerUUIDs = eventController.getEventSpeakers(conferenceUUID, userUUID, eventUUID);
+
+                for (UUID speakerUUID : existingSpeakerUUIDs) {
+                    if (!selectedSpeakersUUIDS.contains(speakerUUID)) {
+                        // Speaker was removed
+                        eventController.removeEventSpeaker(conferenceUUID, userUUID, eventUUID, speakerUUID);
+                    }
+                }
+
+                for (UUID speakerUUID : selectedSpeakersUUIDS) {
+                    if (!existingSpeakerUUIDs.contains(speakerUUID)) {
+                        eventController.addEventSpeaker(conferenceUUID, userUUID, eventUUID, speakerUUID);
+                    }
+                }
+
             } else {
-                eventUUID = eventController.createEvent(conferenceUUID, userUUID, eventName, timeRange, selectedRoomUUID, speakerUUIDs);
+                eventUUID = eventController.createEvent(conferenceUUID, userUUID, eventName, timeRange, selectedRoomUUID, selectedSpeakersUUIDS);
                 eventController.createEventConversation(conferenceUUID, userUUID, eventUUID);
             }
 
@@ -119,12 +133,11 @@ public class EventFormPresenter {
             // Close the dialog so it isn't blocking anymore
             eventFormDialog.close();
         } catch (DateTimeParseException e) {
-
             IDialog dateTimeParseErrorDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
                     put("title", "Error");
                     put("message", String.format("Unable to submit form: Invalid date. Please follow the given format. [%s]", dateParser.getFormat()));
-                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
                 }
             });
 
@@ -154,7 +167,7 @@ public class EventFormPresenter {
 
             invalidConferenceNameDialog.run();
 
-        } catch (InvalidEventTimeException e) {
+        } catch (SpeakerDoubleBookingException | CalendarDoubleBookingException | InvalidEventTimeException e) {
             IDialog invalidEventTimeDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("title", "Error");
@@ -181,17 +194,12 @@ public class EventFormPresenter {
 
     void selectSpeakers() {
         // Getting all available speakerUUIDs
-        Set<UUID> userUUIDs = conferenceController.getUsers(conferenceUUID, userUUID);
-        for (UUID uuid : userUUIDs) {
-            if (eventController.speakerTimeRangeOccupied(conferenceUUID, uuid, timeRange)) {
-                availableUserUUIDS.add(uuid);
-            }
-        }
+        Set<UUID> userUUIDs = userController.getUsers();
 
         IDialog chooseSpeakersDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MULTI_USER_PICKER, new HashMap<String, Object>() {
             {
                 put("instructions", "Select speakers for this event");
-                put("availableUserUUIDs", availableUserUUIDS);
+                put("availableUserUUIDs", userUUIDs);
                 put("selectedUserUUIDs", selectedSpeakersUUIDS);
             }
         });
@@ -199,19 +207,12 @@ public class EventFormPresenter {
         Set<UUID> newSelectedUserUUIDs = (Set<UUID>) chooseSpeakersDialog.run();
 
         if (newSelectedUserUUIDs != null) {
-            newSelectedUserUUIDs.add(userUUID); // We need to add the signed in user in the conversation too
             selectedSpeakersUUIDS = newSelectedUserUUIDs;
         }
-
     }
 
     void selectRoom() {
         Set<UUID> availableRoomUUIDS = roomController.getRooms(conferenceUUID, userUUID);
-        for (UUID uuid : eventController.getEvents(conferenceUUID, userUUID)) {
-            if (availableRoomUUIDS.contains(uuid)) {
-                availableRoomUUIDS.remove(uuid);
-            }
-        }
 
         IDialog chooseRoomDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.ROOM_PICKER, new HashMap<String, Object>() {
             {

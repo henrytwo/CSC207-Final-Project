@@ -15,7 +15,7 @@ public class ContactsView implements IPanel, IContactsView {
     private JList contactsList;
     private ContactsPresenter contactsPresenter;
 
-    public ContactsView (IFrame mainFrame) {
+    public ContactsView(IFrame mainFrame) {
 
         requestsButton.addActionListener(new ActionListener() {
             /**

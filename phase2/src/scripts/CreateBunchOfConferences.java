@@ -20,7 +20,7 @@ import java.util.UUID;
  * This is a quick script to create a lot of conferences for testing purposes
  * <p>
  * This is some really ugly testing code plz don't mark
- *
+ * <p>
  * Seriously -- please do not mark this file
  */
 public class CreateBunchOfConferences {
@@ -50,9 +50,9 @@ public class CreateBunchOfConferences {
             for (int j = 0; j < 3; j++) {
 
                 LocalDateTime dateA = LocalDateTime.of(2015,
-                        Month.JULY, 29, 0, 30, 40);
+                        Month.JULY, 29, 0, 30);
                 LocalDateTime dateB = LocalDateTime.of(2420,
-                        Month.JULY, 29, 19, 30, 40);
+                        Month.JULY, 29, 19, 30);
 
                 TimeRange timeRange = new TimeRange(dateA, dateB);
 
@@ -71,7 +71,7 @@ public class CreateBunchOfConferences {
                     Set<UUID> speakerUserUUIDs = new HashSet<UUID>();
 
                     for (int z = 0; z < 10; z++) {
-                        UUID newUUID = userManager.registerUser("Speaker "  + i + "!" + p + "!" + z, "Speaker", "speaker" + i + "!" + p + "!" + z, "password", false, false);
+                        UUID newUUID = userManager.registerUser("Speaker " + i + "!" + p + "!" + z, "Speaker", "speaker" + i + "!" + p + "!" + z, "password", false, false);
 
                         if (newUUID != null) {
                             speakerUserUUIDs.add(newUUID);
@@ -82,8 +82,8 @@ public class CreateBunchOfConferences {
 
                     // create test events
                     for (int q = 0; q < 5; q++) {
-                        LocalDateTime eventStart = LocalDateTime.of(2015 + q, Month.JULY, 29, 0, 30, 40);
-                        LocalDateTime eventEnd = LocalDateTime.of(2015 + q, Month.AUGUST, 30, 1, 30, 40);
+                        LocalDateTime eventStart = LocalDateTime.of(2015 + q, Month.JULY, 29, 0, 30);
+                        LocalDateTime eventEnd = LocalDateTime.of(2015 + q, Month.AUGUST, 30, 1, 30);
 
                         TimeRange eventTimeRange = new TimeRange(eventStart, eventEnd);
 

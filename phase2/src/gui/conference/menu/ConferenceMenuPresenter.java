@@ -135,7 +135,7 @@ class ConferenceMenuPresenter {
     /**
      * Updates the panel on the right side of the screen with the currently selected conference
      *
-     * @param index          index of the conference to open
+     * @param index index of the conference to open
      */
     void selectConferencePanel(int index) {
         selectConferencePanel(index, null);

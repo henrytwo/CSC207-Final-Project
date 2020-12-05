@@ -84,6 +84,7 @@ public class RoomDetailsPresenter extends AbstractConferencePresenter {
 
     /**
      * Reloads page and specifies a default room to open upon next load
+     *
      * @param selectedRoomUUID
      */
     private void reloadManageRoomsPage(UUID selectedRoomUUID) {

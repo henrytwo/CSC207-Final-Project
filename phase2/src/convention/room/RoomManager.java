@@ -1,10 +1,15 @@
 package convention.room;
 
-import java.io.Serializable;
-import java.util.*;
-
 import convention.calendar.CalendarManager;
-import convention.exception.*;
+import convention.exception.InvalidCapacityException;
+import convention.exception.InvalidNameException;
+import convention.exception.NullRoomException;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Manages room entities
@@ -26,7 +31,7 @@ public class RoomManager implements Serializable {
     /**
      * Room capacities must be positive and non-zero; this method tests for that condition
      *
-     * @param  capacity the capacity of the room
+     * @param capacity the capacity of the room
      * @return true iff the capacity is valid
      */
     private boolean validateRoomCapacity(int capacity) {
@@ -63,7 +68,7 @@ public class RoomManager implements Serializable {
      * @return True or False
      */
     public boolean roomExists(UUID roomUUID) {
-         return rooms.containsKey(roomUUID);
+        return rooms.containsKey(roomUUID);
     }
 
     private Room getRoom(UUID roomUUID) {
@@ -84,7 +89,7 @@ public class RoomManager implements Serializable {
         if (!validateRoomLocation(roomLocation)) {
             throw new InvalidNameException();
         }
-        if (!validateRoomCapacity(roomCapacity)){
+        if (!validateRoomCapacity(roomCapacity)) {
             throw new InvalidCapacityException();
         }
         Room room = new Room(roomLocation, roomCapacity);// make the room here and stuff
@@ -96,11 +101,11 @@ public class RoomManager implements Serializable {
     /**
      * Sets the Room location to the provided new location.
      *
-     * @param roomUUID the Room whose location is to be set
+     * @param roomUUID     the Room whose location is to be set
      * @param roomLocation the new location to which the Room has shifted
      */
     public void setRoomLocation(UUID roomUUID, String roomLocation) {
-        if (!roomExists(roomUUID)){
+        if (!roomExists(roomUUID)) {
             throw new NullRoomException(roomUUID);
         }
         if (!validateRoomLocation(roomLocation)) {
@@ -117,10 +122,10 @@ public class RoomManager implements Serializable {
      * @param capacity the new capacity of the Room
      */
     public void setRoomCapacity(UUID roomUUID, int capacity) {
-        if (!roomExists(roomUUID)){
+        if (!roomExists(roomUUID)) {
             throw new NullRoomException(roomUUID);
         }
-        if (!validateRoomCapacity(capacity)){
+        if (!validateRoomCapacity(capacity)) {
             throw new InvalidCapacityException();
         }
 

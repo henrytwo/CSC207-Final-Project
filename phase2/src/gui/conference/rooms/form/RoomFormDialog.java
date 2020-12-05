@@ -4,8 +4,9 @@ import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IFrame;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.UUID;
 
 public class RoomFormDialog extends JDialog implements IDialog, IRoomFormDialog {
@@ -102,15 +103,15 @@ public class RoomFormDialog extends JDialog implements IDialog, IRoomFormDialog 
     }
 
     @Override
-    public int getCapacity(){
-        try{
+    public int getCapacity() {
+        try {
             capacity.commitEdit();
         } catch (java.text.ParseException e) {
             // Edited value is invalid, spinner.getValue() will return
             // the last valid value, you could revert the spinner to show that:
             JComponent editor = capacity.getEditor();
             if (editor instanceof JSpinner.DefaultEditor) {
-                ((JSpinner.DefaultEditor)editor).getTextField().setValue(capacity.getValue());
+                ((JSpinner.DefaultEditor) editor).getTextField().setValue(capacity.getValue());
             }
             // reset the value to some known value:
             capacity.setValue(fallbackValue);
