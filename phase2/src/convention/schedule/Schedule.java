@@ -3,7 +3,14 @@ package convention.schedule;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class Schedule {
+    /**
+     * Each sublist looks like in eventStringLists should look like
+     * [event title, event time range, room location, name of speakers]
+     */
     private List<List<String>> eventStringLists;
     private String title;
 
@@ -19,8 +26,8 @@ public class Schedule {
         return this.title;
     }
 
-    public void setEventStringList(List<List<String>> s) {
-        this.eventStringLists = s;
+    public void addEventStringList(List<String> s) {
+        this.eventStringLists.add(s);
     }
 
     public List<List<String>> getEventStringLists() {

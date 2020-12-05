@@ -6,9 +6,7 @@ import convention.event.Event;
 import convention.event.EventManager;
 import convention.exception.InvalidSortMethodException;
 import convention.permission.PermissionManager;
-import convention.schedule.Schedule;
 import convention.schedule.ScheduleManager;
-import gateway.SchedulePrinter;
 import messaging.ConversationManager;
 import user.UserManager;
 
@@ -441,60 +439,32 @@ public class ConferenceController {
      * @param sortBy can either be "speaker" or "registered"
      * @throws IOException promps a file download for an events schedule sorted by speaker or events user signed up for
      */
-    public void printSchedule(UUID userId, String sortBy) throws IOException {
+    public void printSchedule(UUID userId, String sortBy, String fileName) throws IOException {
+        if (!(sortBy.equals("speaker") || sortBy.equals("registered"))) { throw new InvalidSortMethodException(); }
         String userName = userManager.getUserUsername(userId);
-        if (sortBy.equals("speaker")) {
-            List<List<String>> eventStringLists = new ArrayList<>();
-            Set<UUID> conferenceUUIDSet = getConferences();
-            for (UUID conferenceID : conferenceUUIDSet) {
-                EventManager em = conferenceManager.getEventManager(conferenceID);
-                Set<UUID> speakerEventInConference = eventController.getSpeakerEvents(conferenceID, userId);
-                for (UUID eventUUID : speakerEventInConference) {
-                    Event event = em.getEvent(eventUUID);
-                    String speakers = "";
-                    for (UUID speakerUUID : event.getSpeakers()) {
-                        speakers = speakers.concat(userManager.getUserUsername(speakerUUID).concat(", "));
-                    }
-                    ArrayList<String> eventStringList = new ArrayList<>(
-                            Arrays.asList(
-                                    event.getTitle(),
-                                    event.getTimeRange().toString(),
-                                    conferenceManager.getRoomManager(conferenceID).getRoomLocation(event.getRoomUUID()),
-                                    speakers
-                            )
-                    );
-
-                    eventStringLists.add(eventStringList);
+        ScheduleManager scheduleManager = new ScheduleManager();
+        Set<UUID> conferenceUUIDSet;
+        if (sortBy.equals("speaker")) { conferenceUUIDSet = getConferences(); }
+        else { conferenceUUIDSet = getUserConferences(userId); }
+        for (UUID conferenceID : conferenceUUIDSet) {
+            EventManager em = conferenceManager.getEventManager(conferenceID);
+            Set<UUID> EventsInConference = eventController.getAttendeeEvents(conferenceID, userId);
+            for (UUID eventUUID : EventsInConference) {
+                Event event = em.getEvent(eventUUID);
+                String speakers = "";
+                for (UUID speakerUUID : event.getSpeakers()) {
+                    speakers = speakers.concat(userManager.getUserUsername(speakerUUID).concat(", "));
                 }
+                scheduleManager.addEventStringList(
+                        event.getTitle(),
+                        event.getTimeRange().toString(),
+                        conferenceManager.getRoomManager(conferenceID).getRoomLocation(event.getRoomUUID()),
+                        speakers
+                );
             }
-            Schedule s = ScheduleManager.constructSchedule(eventStringLists, sortBy, userName);
-            ScheduleManager.print(s);
-        } else if (sortBy.equals("registered")) {
-            List<List<String>> eventStringLists = new ArrayList<>();
-            Set<UUID> registeredConferences = getUserConferences(userId);
-            for (UUID conferenceID : registeredConferences) {
-                EventManager em = conferenceManager.getEventManager(conferenceID);
-                Set<UUID> registeredEventsInConference = eventController.getAttendeeEvents(conferenceID, userId);
-                for (UUID eventUUID : registeredEventsInConference) {
-                    Event event = em.getEvent(eventUUID);
-                    String speakers = "";
-                    for (UUID speakerUUID : event.getSpeakers()) {
-                        speakers = speakers.concat(userManager.getUserUsername(speakerUUID).concat(", "));
-                    }
-                    ArrayList<String> eventStringList = new ArrayList<>(
-                            Arrays.asList(
-                                    event.getTitle(),
-                                    event.getTimeRange().toString(),
-                                    conferenceManager.getRoomManager(conferenceID).getRoomLocation(event.getRoomUUID()),
-                                    speakers
-                            )
-                    );
-                    eventStringLists.add(eventStringList);
-                }
-            }
-            Schedule s = ScheduleManager.constructSchedule(eventStringLists, sortBy, userName);
-            SchedulePrinter.print(s.getEventStringLists(), s.getTitle());
-        } else throw new InvalidSortMethodException();
+        }
+        scheduleManager.setScheduleTitle(sortBy, userName);
+        scheduleManager.print(fileName);
     }
 
     /**
@@ -503,9 +473,10 @@ public class ConferenceController {
      * @throws IOException Overloading the printSchedule method for when the user want to sort by date. A sortBy parameter is not needed
      *                     as input
      */
-    public void printSchedule(UUID userid, LocalDate date) throws IOException {
-        List<List<String>> eventStringLists = new ArrayList<>();
+    public void printSchedule(UUID userid, LocalDate date, String fileName) throws IOException {
         Set<UUID> conferenceUUIDSet = getConferences();
+        ScheduleManager scheduleManager = new ScheduleManager();
+
         for (UUID conferenceID : conferenceUUIDSet) {
             EventManager em = conferenceManager.getEventManager(conferenceID);
             Set<UUID> eventsOnDayInConference = eventController.getDayEvents(conferenceID, userid, date);
@@ -515,17 +486,15 @@ public class ConferenceController {
                 for (UUID speakerUUID : event.getSpeakers()) {
                     speakers = speakers.concat(userManager.getUserUsername(speakerUUID).concat(", "));
                 }
-                ArrayList<String> eventStringList = new ArrayList<>(
-                        Arrays.asList(
-                                event.getTitle(),
-                                event.getTimeRange().toString(),
-                                conferenceManager.getRoomManager(conferenceID).getRoomLocation(event.getRoomUUID()),
-                                speakers)
+                scheduleManager.addEventStringList(
+                        event.getTitle(),
+                        event.getTimeRange().toString(),
+                        conferenceManager.getRoomManager(conferenceID).getRoomLocation(event.getRoomUUID()),
+                        speakers
                 );
-                eventStringLists.add(eventStringList);
             }
         }
-        Schedule s = ScheduleManager.constructSchedule(eventStringLists, "day", date.toString());
-        SchedulePrinter.print(s.getEventStringLists(), s.getTitle());
+        scheduleManager.setScheduleTitle("day", date.toString());
+        scheduleManager.print(fileName);
     }
 }

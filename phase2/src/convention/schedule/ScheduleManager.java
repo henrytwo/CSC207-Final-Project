@@ -1,36 +1,37 @@
 package convention.schedule;
 
-import gateway.SchedulePrinter;
-
+import gateway.TablePrinter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ScheduleManager {
+    Schedule schedule = new Schedule();
 
     /**
-     * @param eventStringListsList list of list of strings, each sublist looks like
-     *                             [event title,
-     *                             event time range,
-     *                             room location,
-     *                             name of speakers]
      * @param sortBy               one of "speaker", "registered", or "day"
      * @param titleInfo            one of: speaker username, user username, a specified date
-     * @return a Schedule with given information
      */
-    public static Schedule constructSchedule(List<List<String>> eventStringListsList, String sortBy, String titleInfo) {
-        Schedule s = new Schedule();
+    public void setScheduleTitle(String sortBy, String titleInfo) {
         if (sortBy.equals("speaker")) {
-            s.setTitle("Events with speaker ".concat(titleInfo));
+            schedule.setTitle("Events with speaker ".concat(titleInfo));
         } else if (sortBy.equals("registered")) {
-            s.setTitle("Events ".concat(titleInfo).concat(" signed up for"));
+            schedule.setTitle("Events ".concat(titleInfo).concat(" signed up for"));
         } else {
-            s.setTitle("events on ".concat(titleInfo));
+            schedule.setTitle("events on ".concat(titleInfo));
         }
-        s.setEventStringList(eventStringListsList);
-        return s;
     }
 
-    public static void print(Schedule s) throws IOException {
-        SchedulePrinter.print(s.getEventStringLists(), s.getTitle());
+    public void addEventStringList(String title, String timeRange, String roomLocation, String speakers) {
+        ArrayList<String> eventStringList = new ArrayList<>(
+                Arrays.asList(title, timeRange, roomLocation, speakers)
+        );
+        this.schedule.addEventStringList(eventStringList);
+    }
+
+    public void print(String fileName) throws IOException {
+        TablePrinter tablePrinter = new TablePrinter();
+        tablePrinter.print(schedule.getTitle(), fileName);
     }
 }
