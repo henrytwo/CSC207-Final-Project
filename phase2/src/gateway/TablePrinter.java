@@ -75,13 +75,13 @@ public class TablePrinter {
         return table.toString();
     }
 
-    public void print(String title) throws IOException {
-        BufferedWriter table = new BufferedWriter(new FileWriter("event_schedule.txt"));
+    public void print(String title, String fileName) throws IOException {
+        BufferedWriter table = new BufferedWriter(new FileWriter(fileName.concat(".txt")));
         table.write(this.stringifyTable(title));
         table.flush();
         table.close();
 
-        File scheduleTable = new File("event_schedule.txt");
+        File scheduleTable = new File(fileName.concat(".txt"));
 
         Desktop d = Desktop.getDesktop();
         d.print(scheduleTable);
