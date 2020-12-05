@@ -439,7 +439,7 @@ public class ConferenceController {
      * @param sortBy can either be "speaker" or "registered"
      * @throws IOException promps a file download for an events schedule sorted by speaker or events user signed up for
      */
-    public void printSchedule(UUID userId, String sortBy) throws IOException {
+    public void printSchedule(UUID userId, String sortBy, String fileName) throws IOException {
         if (!(sortBy.equals("speaker") || sortBy.equals("registered"))) { throw new InvalidSortMethodException(); }
         String userName = userManager.getUserUsername(userId);
         ScheduleManager scheduleManager = new ScheduleManager();
@@ -464,7 +464,7 @@ public class ConferenceController {
             }
         }
         scheduleManager.setScheduleTitle(sortBy, userName);
-        scheduleManager.print();
+        scheduleManager.print(fileName);
     }
 
     /**
@@ -473,7 +473,7 @@ public class ConferenceController {
      * @throws IOException Overloading the printSchedule method for when the user want to sort by date. A sortBy parameter is not needed
      *                     as input
      */
-    public void printSchedule(UUID userid, LocalDate date) throws IOException {
+    public void printSchedule(UUID userid, LocalDate date, String fileName) throws IOException {
         Set<UUID> conferenceUUIDSet = getConferences();
         ScheduleManager scheduleManager = new ScheduleManager();
 
@@ -495,6 +495,6 @@ public class ConferenceController {
             }
         }
         scheduleManager.setScheduleTitle("day", date.toString());
-        scheduleManager.print();
+        scheduleManager.print(fileName);
     }
 }

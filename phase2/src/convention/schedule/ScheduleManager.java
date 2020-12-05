@@ -30,8 +30,8 @@ public class ScheduleManager {
         this.schedule.addEventStringList(eventStringList);
     }
 
-    public void print() throws IOException {
+    public void print(String fileName) throws IOException {
         TablePrinter tablePrinter = new TablePrinter();
-        tablePrinter.print(schedule.getTitle());
+        tablePrinter.print(schedule.getTitle(), fileName);
     }
 }
