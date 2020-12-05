@@ -12,24 +12,32 @@ import java.util.*;
 public class ContactsPresenter {
     private IContactsView contactsView;
     private IFrame mainFrame;
+
     private IPanelFactory panelFactory;
     private IDialogFactory dialogFactory;
+
     private ContactController contanctController;
     private UserController userController;
-    private Map<String, Object> initializationArguments;
+
+    //private Map<String, Object> initializationArguments;
+
     private UUID signedInUserUUID;
+    private UUID currentContactUUID;
+    private int currentContactIndex;
+
     private List<UUID> contactsList;
 
-    public ContactsPresenter(IFrame mainFrame, IContactsView contactsView, Map<String, Object> initializationArguments) {
+    public ContactsPresenter(IFrame mainFrame, IContactsView contactsView,UUID defaultContactUUID) {
         this.mainFrame = mainFrame;
         this.contactsView = contactsView;
-        this.initializationArguments = initializationArguments;
+
+        this.currentContactUUID = defaultContactUUID;
 
         signedInUserUUID = userController.getCurrentUser();
         updateContactsList();
 
-        panelFactory = mainFrame.getPanelFactory();
-        dialogFactory = mainFrame.getDialogFactory();
+        this.panelFactory = mainFrame.getPanelFactory();
+        this.dialogFactory = mainFrame.getDialogFactory();
     }
 
     private void updateContactsList() {
