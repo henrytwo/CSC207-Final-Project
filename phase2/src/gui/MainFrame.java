@@ -92,7 +92,6 @@ public class MainFrame implements IFrame {
 
         // We don't want to apply a custom theme if we're not on macOS since the default mac look and feel is already hot
         if (!osName.contains("darwin") && !osName.contains("mac")) {
-
             try {
                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
