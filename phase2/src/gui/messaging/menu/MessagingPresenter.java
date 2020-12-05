@@ -58,7 +58,7 @@ class MessagingPresenter {
             Set<UUID> usersUUIDList = conversationController.getUsersInConvo(currentConversationUUID);
             String[] userNames = new String[usersUUIDList.size()];
             int i = 0;
-            for(UUID userUUID: usersUUIDList){
+            for (UUID userUUID : usersUUIDList) {
                 userNames[i] = userController.getUserFullName(userUUID);
                 i++;
             }
@@ -100,7 +100,7 @@ class MessagingPresenter {
             Set<UUID> usersUUIDList = conversationController.getUsersInConvo(newConversationUUID);
             String[] userNames = new String[usersUUIDList.size()];
             int i = 0;
-            for(UUID userUUID: usersUUIDList){
+            for (UUID userUUID : usersUUIDList) {
                 userNames[i] = userController.getUserFullName(userUUID);
                 i++;
             }
@@ -145,7 +145,7 @@ class MessagingPresenter {
             Set<UUID> usersUUIDList = conversationController.getUsersInConvo(currentConversationUUID);
             String[] userNames = new String[usersUUIDList.size()];
             int i = 0;
-            for(UUID userUUID: usersUUIDList){
+            for (UUID userUUID : usersUUIDList) {
                 userNames[i] = userController.getUserFullName(userUUID);
                 i++;
             }

@@ -1,17 +1,17 @@
 package convention.schedule;
 
 import gateway.TablePrinter;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class ScheduleManager {
     Schedule schedule = new Schedule();
 
     /**
-     * @param sortBy               one of "speaker", "registered", or "day"
-     * @param titleInfo            one of: speaker username, user username, a specified date
+     * @param sortBy    one of "speaker", "registered", or "day"
+     * @param titleInfo one of: speaker username, user username, a specified date
      */
     public void setScheduleTitle(String sortBy, String titleInfo) {
         if (sortBy.equals("speaker")) {

@@ -87,7 +87,7 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public void setUsersList(String[] users){
+    public void setUsersList(String[] users) {
         userList.setListData(users);
     }
 

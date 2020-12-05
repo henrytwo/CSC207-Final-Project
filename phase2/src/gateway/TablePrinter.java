@@ -5,7 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,10 +17,13 @@ public class TablePrinter {
             return "";
         }
         ArrayList<Integer> colWidths = new ArrayList<>();
-        for (String s: this.table.get(0)) {
-            colWidths.add(Math.floorDiv(70, this.table.get(0).size()));}
+        for (String s : this.table.get(0)) {
+            colWidths.add(Math.floorDiv(70, this.table.get(0).size()));
+        }
         int width = 0;
-        for (int i: colWidths) { width = width + i;}
+        for (int i : colWidths) {
+            width = width + i;
+        }
         width = width + this.table.get(0).size() - 1;
         StringBuilder table = new StringBuilder();
         StringBuilder topLine = new StringBuilder();
@@ -38,7 +41,7 @@ public class TablePrinter {
         StringBuilder titleLine = new StringBuilder();
         titleLine.append("║");
         titleLine.append(title);
-        while (titleLine.length() < width+1) {
+        while (titleLine.length() < width + 1) {
             titleLine.append(" ");
         }
         titleLine.append("║\r\n");
@@ -59,7 +62,7 @@ public class TablePrinter {
                 StringBuilder cell = new StringBuilder();
 
                 cell.append(sub.get(i));
-                while (cell.length() <= colWidths.get(i) -1) {
+                while (cell.length() <= colWidths.get(i) - 1) {
                     cell.append(" ");
                 }
                 cell.append("│");
