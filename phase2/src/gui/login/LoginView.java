@@ -12,6 +12,7 @@ public class LoginView extends JFrame implements IPanel, ILoginView {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton registerButton;
+    private JButton resetPasswordButton;
     private LoginPresenter loginPresenter;
 
     /**
@@ -24,6 +25,7 @@ public class LoginView extends JFrame implements IPanel, ILoginView {
 
         registerButton.addActionListener((e) -> loginPresenter.goToRegister());
         loginButton.addActionListener((e) -> loginPresenter.login());
+        resetPasswordButton.addActionListener((e) -> loginPresenter.resetPassword());
 
         // submit on ENTER
         panel.registerKeyboardAction((e) -> loginPresenter.login(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);

@@ -31,6 +31,17 @@ class LoginPresenter {
         dialogFactory = mainFrame.getDialogFactory();
     }
 
+    void resetPassword() {
+        IDialog resetPasswordDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+            {
+                put("title", "Reset Password");
+                put("message", "Oh you forgot your password? That's too bad \uD83D\uDE1B");
+                put("messageType", DialogFactoryOptions.dialogType.PLAIN);
+            }
+        });
+        resetPasswordDialog.run();
+    }
+
     void goToRegister() {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.REGISTER));
     }

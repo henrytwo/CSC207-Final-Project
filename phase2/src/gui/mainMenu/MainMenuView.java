@@ -17,6 +17,8 @@ public class MainMenuView implements IPanel, IMainMenuView {
     private JPanel contactsPanel;
     private JPanel topBarPanel;
     private JLabel bottomMessageBar;
+    private JButton surpriseButton;
+    private JButton aboutButton;
 
     /**
      * Constructs the main menu.
@@ -30,7 +32,9 @@ public class MainMenuView implements IPanel, IMainMenuView {
 
         setTabIndex(defaultTabIndex);
 
+        aboutButton.addActionListener((e) -> mainMenuPresenter.about());
         logoutButton.addActionListener((e) -> mainMenuPresenter.logout());
+        surpriseButton.addActionListener((e) -> mainMenuPresenter.surprise());
     }
 
     @Override
