@@ -101,7 +101,7 @@ public class ContactsPresenter {
     }
 
     private void updateRequestsList(){
-        currentRequestIndex = -1;
+        currentRequestIndex = 0;
         requestsList = new ArrayList<>(contactController.showRequests(signedInUserUUID));
     }
 
