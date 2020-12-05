@@ -46,8 +46,19 @@ class MessagingPresenter {
             int defaultConversationIndex = 0;
 
             // Choose the specified default conference UUID
-            if (defaultConversationUUID != null && conversationUUIDs.contains(defaultConversationUUID)) {
-                defaultConversationIndex = conversationUUIDs.indexOf(defaultConversationUUID);
+            if (defaultConversationUUID != null) {
+                if( conversationUUIDs.contains(defaultConversationUUID)) {
+                    defaultConversationIndex = conversationUUIDs.indexOf(defaultConversationUUID);
+                } else {
+                    IDialog unableToOpenMessageDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                        {
+                            put("title", "Access Denied");
+                            put("message", String.format("You don't have permission to read this conversation. (%s)", defaultConversationUUID));
+                            put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                        }
+                    });
+                    unableToOpenMessageDialog.run();
+                }
             }
 
             // Set initial conference selection

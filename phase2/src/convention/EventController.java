@@ -653,6 +653,8 @@ public class EventController {
         Set<UUID> conversationUsers = new HashSet<>();
         conversationUsers.addAll(eventManager.getEventAttendees(eventUUID));
         conversationUsers.addAll(eventManager.getEventSpeakers(eventUUID));
+        conversationUsers.addAll(conferenceManager.getOrganizers(conferenceUUID));
+        conversationUsers.add(executorUUID);
 
         UUID conversationUUID = conversationManager.createConversation(conversationName, conversationUsers, conversationUsers, executorUUID, String.format("Welcome to the events: %s", eventTitle));
 
