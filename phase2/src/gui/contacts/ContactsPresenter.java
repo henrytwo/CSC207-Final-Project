@@ -143,6 +143,8 @@ public class ContactsPresenter {
             contactController.acceptRequests(signedInUserUUID, currentRequestUUID);
             updateContactsList();
             updateContactNames();
+            updateRequestsList();
+            updateRequestsNames();
         }
 
     }
