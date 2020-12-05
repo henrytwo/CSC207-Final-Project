@@ -1,11 +1,13 @@
 package gui.contacts;
 
+import com.sun.java.swing.plaf.windows.WindowsInternalFrameTitlePane;
 import contact.ContactController;
 import gui.user.picker.UserPickerDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanelFactory;
 import user.UserController;
+import util.ControllerBundle;
 
 import java.util.*;
 
@@ -16,23 +18,27 @@ public class ContactsPresenter {
     private IPanelFactory panelFactory;
     private IDialogFactory dialogFactory;
 
-    private ContactController contanctController;
+    private ContactController contactController;
     private UserController userController;
 
-    //private Map<String, Object> initializationArguments;
+    private Map<String, Object> initializationArguments;
 
     private UUID signedInUserUUID;
     private UUID currentContactUUID;
+
     private int currentContactIndex;
 
     private List<UUID> contactsList;
 
-    public ContactsPresenter(IFrame mainFrame, IContactsView contactsView,UUID defaultContactUUID) {
+    public ContactsPresenter(IFrame mainFrame, IContactsView contactsView,UUID defaultContactUUID, Map<String, Object> initializationArguments) {
         this.mainFrame = mainFrame;
         this.contactsView = contactsView;
+        this.initializationArguments = initializationArguments;
 
         this.currentContactUUID = defaultContactUUID;
-
+        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
+        this.contactController = controllerBundle.getContactController();
+        this.userController = controllerBundle.getUserController();
         signedInUserUUID = userController.getCurrentUser();
         updateContactsList();
 
@@ -40,24 +46,36 @@ public class ContactsPresenter {
         this.dialogFactory = mainFrame.getDialogFactory();
     }
 
-    private void updateContactsList() {
-        contactsList = new ArrayList<>(contanctController.showContacts(signedInUserUUID));
+    private void updateContactNames() {
+        String[] contactNames = new String[contactsList.size()];
+
+//        for (int i = 0; i < contactsList.size(); i++) {
+//            contactNames[i] = contactController.;
+//        }
+
+        contactsView.setContactsList(contactNames);
     }
+
+    private void updateContactsList() {
+        contactsList = new ArrayList<>(contactController.showContacts(signedInUserUUID));
+    }
+
 
     public void sendRequest() {
-        UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contanctController.showContacts(signedInUserUUID), "Select User:");
+        UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contactController.showContacts(signedInUserUUID), "Select User:");
         UUID potentialContactUUID = userPickerDialog.run();
-        contanctController.sendRequest(signedInUserUUID, potentialContactUUID);
+        contactController.sendRequest(signedInUserUUID, potentialContactUUID);
     }
 
-    public void deleteContacts() {
-        UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contanctController.showContacts(signedInUserUUID), "Select User:");
+    public void deleteContact() {
+        UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contactController.showContacts(signedInUserUUID), "Select User:");
         UUID pastContactUUID = userPickerDialog.run();
-        contanctController.deleteContacts(signedInUserUUID, pastContactUUID);
+        contactController.deleteContacts(signedInUserUUID, pastContactUUID);
     }
 
     public void respondToRequests() {
-        Set<UUID> requestsList = contanctController.showRequests(signedInUserUUID);
+        Set<UUID> requestsList = contactController.showRequests(signedInUserUUID);
 
     }
+
 }
