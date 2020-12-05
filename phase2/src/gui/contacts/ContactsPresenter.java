@@ -30,10 +30,9 @@ public class ContactsPresenter {
 
     private List<UUID> contactsList;
 
-    public ContactsPresenter(IFrame mainFrame, IContactsView contactsView,UUID defaultContactUUID, Map<String, Object> initializationArguments) {
+    public ContactsPresenter(IFrame mainFrame, IContactsView contactsView, UUID defaultContactUUID) {
         this.mainFrame = mainFrame;
         this.contactsView = contactsView;
-        this.initializationArguments = initializationArguments;
 
         this.currentContactUUID = defaultContactUUID;
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();

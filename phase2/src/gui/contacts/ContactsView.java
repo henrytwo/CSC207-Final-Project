@@ -18,8 +18,8 @@ public class ContactsView implements IPanel, IContactsView {
 
     private ContactsPresenter contactsPresenter;
 
-    public ContactsView(IFrame mainFrame, UUID contactUUID, Map<String, Object> initializationArguments) {
-        contactsPresenter = new ContactsPresenter(mainFrame, this, contactUUID, initializationArguments );
+    public ContactsView(IFrame mainFrame, UUID contactUUID) {
+        contactsPresenter = new ContactsPresenter(mainFrame, this, contactUUID );
         //contactsList.addListSelectionListener((e) -> contactsPresenter.selectContact(contactsList.getSelectedIndex()));
         deleteButton.addActionListener((e) -> contactsPresenter.deleteContact());
     }
