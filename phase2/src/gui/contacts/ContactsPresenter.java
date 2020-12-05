@@ -3,6 +3,8 @@ package gui.contacts;
 import com.sun.java.swing.plaf.windows.WindowsInternalFrameTitlePane;
 import contact.ContactController;
 import gui.user.picker.UserPickerDialog;
+import gui.util.enums.DialogFactoryOptions;
+import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanelFactory;
@@ -43,6 +45,19 @@ public class ContactsPresenter {
 
         this.panelFactory = mainFrame.getPanelFactory();
         this.dialogFactory = mainFrame.getDialogFactory();
+
+        // Select default contact
+        if (contactsList.size() > 0) {
+            updateContactNames();
+
+            int defaultContactIndex = 0;
+
+            if (contactsList.contains(defaultContactUUID)) {
+                defaultContactIndex = contactsList.indexOf(defaultContactUUID);
+            }
+
+            contactsView.setContactsListSelection(defaultContactIndex);
+        }
     }
 
     private void updateContactNames() {
@@ -52,7 +67,7 @@ public class ContactsPresenter {
 //            contactNames[i] = contactController.;
 //        }
 
-        contactsView.setContactsList(contactNames);
+        contactsView.setContactList(contactNames);
     }
 
     private void updateContactsList() {
