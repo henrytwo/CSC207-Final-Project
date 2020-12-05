@@ -65,6 +65,21 @@ public class ContactController {
     }
 
     /**
+     * Allows a user to reject a request from another user.
+     * @param userId UUID of the user who is rejecting the request.
+     * @param potentialContact UUID of the user whose request is being rejected :(
+     */
+    public void rejectRequests(UUID userId, UUID potentialContact) {
+        if (showRequests(userId).contains(potentialContact)) {
+            Set<UUID> requestsList = contactManager.getRequests(userId);
+            requestsList.remove(potentialContact);
+            contactManager.setRequests(userId, requestsList);
+        } else {
+            throw new GhostAcceptDeniedException(userId, potentialContact);
+        }
+    }
+
+    /**
      * Delete a contact from the list of a users contacts.
      *
      * @param userId       UUID of the user deleting the contact.

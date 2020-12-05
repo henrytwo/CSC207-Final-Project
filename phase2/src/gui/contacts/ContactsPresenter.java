@@ -1,8 +1,9 @@
 package gui.contacts;
 
-import com.sun.java.swing.plaf.windows.WindowsInternalFrameTitlePane;
 import contact.ContactController;
 import gui.user.picker.UserPickerDialog;
+import gui.util.enums.DialogFactoryOptions;
+import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanelFactory;
@@ -25,16 +26,20 @@ public class ContactsPresenter {
 
     private UUID signedInUserUUID;
     private UUID currentContactUUID;
+    private UUID currentRequestUUID;
 
     private int currentContactIndex;
+    private int currentRequestIndex;
 
     private List<UUID> contactsList;
+    private List<UUID> requestsList;
 
-    public ContactsPresenter(IFrame mainFrame, IContactsView contactsView, UUID defaultContactUUID) {
+    public ContactsPresenter(IFrame mainFrame, IContactsView contactsView, UUID defaultContactUUID, UUID defaultRequestUUID) {
         this.mainFrame = mainFrame;
         this.contactsView = contactsView;
 
         this.currentContactUUID = defaultContactUUID;
+        this.currentRequestUUID = defaultRequestUUID;
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         this.contactController = controllerBundle.getContactController();
         this.userController = controllerBundle.getUserController();
@@ -55,10 +60,23 @@ public class ContactsPresenter {
         contactsView.setContactsList(contactNames);
     }
 
+    private void updateRequestsNames(){
+        String[] requestNames = new String[requestsList.size()];
+        for(int i = 0; i < requestsList.size(); i++){
+            requestNames[i] = userController.getUserFullName(requestsList.get(i));
+        }
+
+        contactsView.setRequestsList(requestNames);
+    }
+
     private void updateContactsList() {
         contactsList = new ArrayList<>(contactController.showContacts(signedInUserUUID));
     }
 
+    private void updateRequestsList(){
+        currentRequestIndex = -1;
+        requestsList = new ArrayList<>(contactController.showRequests(signedInUserUUID));
+    }
 
     public void sendRequest() {
         UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contactController.showContacts(signedInUserUUID), "Select User:");
@@ -72,9 +90,45 @@ public class ContactsPresenter {
         contactController.deleteContacts(signedInUserUUID, pastContactUUID);
     }
 
-    public void respondToRequests() {
-        Set<UUID> requestsList = contactController.showRequests(signedInUserUUID);
+    public  void requestSelectionUpdate(int selectedIndex){
+        if(selectedIndex != currentRequestIndex){
+            currentRequestIndex = selectedIndex;
+            currentRequestUUID = requestsList.get(selectedIndex);
+        }
+    }
+
+    public void acceptRequest(){
+        IDialog confirmAcceptDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+            {
+                put("message", String.format("Are you sure you want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
+                put("title", "Confirm Accept Request");
+                put("messageType", DialogFactoryOptions.dialogType.QUESTION);
+                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+            }
+        });
+
+        if((boolean) confirmAcceptDialog.run()){
+            contactController.acceptRequests(signedInUserUUID, currentRequestUUID);
+            updateContactsList();
+            updateContactNames();
+        }
 
     }
 
+    public void rejectRequest(){
+        IDialog confirmRejectDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+            {
+                put("message", String.format("Are you sure you don't want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
+                put("title", "Confirm Reject Request");
+                put("messageType", DialogFactoryOptions.dialogType.QUESTION);
+                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+            }
+        });
+
+        if((boolean) confirmRejectDialog.run()){
+            contactController.rejectRequests(signedInUserUUID, currentRequestUUID);
+            updateRequestsList();
+            updateRequestsNames();
+        }
+    }
 }

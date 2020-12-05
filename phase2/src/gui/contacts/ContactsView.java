@@ -4,7 +4,6 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
-import java.util.Map;
 import java.util.UUID;
 
 public class ContactsView implements IPanel, IContactsView {
@@ -14,14 +13,17 @@ public class ContactsView implements IPanel, IContactsView {
     private JButton sendRequestButton;
     private JButton rejectRequestButton;
     private JButton acceptRequestButton;
-    private JTable table1;
+    private JList requestsList;
 
     private ContactsPresenter contactsPresenter;
 
-    public ContactsView(IFrame mainFrame, UUID contactUUID) {
-        contactsPresenter = new ContactsPresenter(mainFrame, this, contactUUID );
+    public ContactsView(IFrame mainFrame, UUID contactUUID, UUID requestUUID) {
+        contactsPresenter = new ContactsPresenter(mainFrame, this, contactUUID, requestUUID);
         //contactsList.addListSelectionListener((e) -> contactsPresenter.selectContact(contactsList.getSelectedIndex()));
         deleteButton.addActionListener((e) -> contactsPresenter.deleteContact());
+        acceptRequestButton.addActionListener((e) -> contactsPresenter.acceptRequest());
+        rejectRequestButton.addActionListener((e)-> contactsPresenter.rejectRequest());
+        requestsList.addListSelectionListener((e) -> contactsPresenter.requestSelectionUpdate(requestsList.getSelectedIndex()));
     }
 
     @Override
@@ -33,9 +35,20 @@ public class ContactsView implements IPanel, IContactsView {
     public void setContactsList(String[] contacts) {
         contactsList.setListData(contacts);
     }
+
+    @Override
+    public void setRequestsList(String[] requests) {
+        requestsList.setListData(requests);
+    }
+
     @Override
     public void setContactsListSelection(int selectionIndex) {
         contactsList.setSelectedIndex(selectionIndex);
+    }
+
+    @Override
+    public void setRequestsListSelection(int selectionIndex) {
+        requestsList.setSelectedIndex(selectionIndex);
     }
 
 
