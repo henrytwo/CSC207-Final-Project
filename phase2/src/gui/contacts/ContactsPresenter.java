@@ -28,8 +28,8 @@ public class ContactsPresenter {
     private UUID currentContactUUID;
     private UUID currentRequestUUID;
 
-    private int currentContactIndex;
-    private int currentRequestIndex;
+    private int currentContactIndex = -1;
+    private int currentRequestIndex = -1;
 
     private List<UUID> contactsList;
     private List<UUID> requestsList;
@@ -125,51 +125,7 @@ public class ContactsPresenter {
      * Updates requestsList attribute.
      */
     private void updateRequestsList() {
-        currentRequestIndex = -1;
         requestsList = new ArrayList<>(contactController.showRequests(signedInUserUUID));
-    }
-
-    /**
-     * Sends a request to the user that is selected from the pop up dialog.
-     */
-    public void sendRequest() {
-        Set<UUID> potentialContacts = userController.getUsers();
-        potentialContacts.removeAll(contactController.showContacts(signedInUserUUID));
-        potentialContacts.remove(signedInUserUUID);
-        UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, potentialContacts, "Select User:");
-        UUID potentialContactUUID = userPickerDialog.run();
-        contactController.sendRequest(signedInUserUUID, potentialContactUUID);
-        IDialog requestConfirmationDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
-            {
-                put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
-                put("title", "Confirmation");
-                put("message", String.format("Request has been sent to [%s].", userController.getUserFullName(potentialContactUUID)));
-            }
-        });
-
-        requestConfirmationDialog.run();
-    }
-
-    public void deleteContact() {
-        IDialog confirmDeletionDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
-            {
-                put("message", String.format("Are you sure you want to delete (%s) ?", userController.getUserFullName(currentContactUUID)));
-                put("title", "Confirm Delete Contact");
-                put("messageType", DialogFactoryOptions.dialogType.QUESTION);
-                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
-            }
-        });
-
-        if ((boolean) confirmDeletionDialog.run()) {
-            contactController.deleteContacts(signedInUserUUID, currentContactUUID);
-            updateContactsList();
-            updateContactNames();
-        }
-//        UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contactController.showContacts(signedInUserUUID), "Select User:");
-//        UUID pastContactUUID = userPickerDialog.run();
-//        contactController.deleteContacts(signedInUserUUID, pastContactUUID);
-//        updateContactsList();
-//        updateContactNames();
     }
 
     /**
@@ -179,8 +135,8 @@ public class ContactsPresenter {
      */
     public void requestSelectionUpdate(int selectedIndex) {
         if (selectedIndex != currentRequestIndex) {
-            currentRequestIndex = selectedIndex;
-            currentRequestUUID = requestsList.get(selectedIndex);
+            this.currentRequestIndex = selectedIndex;
+            this.currentRequestUUID = requestsList.get(currentRequestIndex);
         }
     }
 
@@ -193,24 +149,70 @@ public class ContactsPresenter {
     }
 
     /**
+     * Sends a request to the user that is selected from the pop up dialog.
+     */
+    public void sendRequest() {
+        Set<UUID> potentialContacts = userController.getUsers();
+        potentialContacts.removeAll(contactController.showContacts(signedInUserUUID));
+        potentialContacts.removeAll(contactController.showSentRequests(signedInUserUUID));
+        potentialContacts.remove(signedInUserUUID);
+        UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, potentialContacts, "Select User:");
+        UUID potentialContactUUID = userPickerDialog.run();
+        contactController.sendRequest(signedInUserUUID, potentialContactUUID);
+        if(potentialContactUUID != null) {
+            IDialog requestConfirmationDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
+                    put("title", "Confirmation");
+                    put("message", String.format("Request has been sent to [%s].", userController.getUserFullName(potentialContactUUID)));
+                }
+            });
+
+            requestConfirmationDialog.run();
+        }
+
+    }
+
+    public void deleteContact() {
+        if(currentContactUUID != null) {
+            IDialog confirmDeletionDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+                {
+                    put("message", String.format("Are you sure you want to delete (%s) ?", userController.getUserFullName(currentContactUUID)));
+                    put("title", "Confirm Delete Contact");
+                    put("messageType", DialogFactoryOptions.dialogType.QUESTION);
+                    put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+                }
+            });
+
+            if ((boolean) confirmDeletionDialog.run()) {
+                contactController.deleteContacts(signedInUserUUID, currentContactUUID);
+                updateContactsList();
+                updateContactNames();
+            }
+        }
+    }
+
+    /**
      * Accepts the currently selected request, first takes a confirmation from the user through a popup dialog.
      */
     public void acceptRequest() {
-        IDialog confirmAcceptDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
-            {
-                put("message", String.format("Are you sure you want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
-                put("title", "Confirm Accept Request");
-                put("messageType", DialogFactoryOptions.dialogType.QUESTION);
-                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
-            }
-        });
+        if(currentRequestUUID != null) {
+            IDialog confirmAcceptDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+                {
+                    put("message", String.format("Are you sure you want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
+                    put("title", "Confirm Accept Request");
+                    put("messageType", DialogFactoryOptions.dialogType.QUESTION);
+                    put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+                }
+            });
 
-        if ((boolean) confirmAcceptDialog.run()) {
-            contactController.acceptRequests(signedInUserUUID, currentRequestUUID);
-            updateContactsList();
-            updateContactNames();
-            updateRequestsList();
-            updateRequestsNames();
+            if ((boolean) confirmAcceptDialog.run()) {
+                contactController.acceptRequests(signedInUserUUID, currentRequestUUID);
+                updateContactsList();
+                updateContactNames();
+                updateRequestsList();
+                updateRequestsNames();
+            }
         }
 
     }
@@ -219,19 +221,21 @@ public class ContactsPresenter {
      * Rejects currently selected request, takes confirmation from the user first through a pop up dialog.
      */
     public void rejectRequest() {
-        IDialog confirmRejectDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
-            {
-                put("message", String.format("Are you sure you don't want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
-                put("title", "Confirm Reject Request");
-                put("messageType", DialogFactoryOptions.dialogType.QUESTION);
-                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
-            }
-        });
+        if(currentRequestUUID != null) {
+            IDialog confirmRejectDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+                {
+                    put("message", String.format("Are you sure you don't want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
+                    put("title", "Confirm Reject Request");
+                    put("messageType", DialogFactoryOptions.dialogType.QUESTION);
+                    put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+                }
+            });
 
-        if ((boolean) confirmRejectDialog.run()) {
-            contactController.rejectRequests(signedInUserUUID, currentRequestUUID);
-            updateRequestsList();
-            updateRequestsNames();
+            if ((boolean) confirmRejectDialog.run()) {
+                contactController.rejectRequests(signedInUserUUID, currentRequestUUID);
+                updateRequestsList();
+                updateRequestsNames();
+            }
         }
     }
 }
