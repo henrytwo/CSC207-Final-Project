@@ -1,5 +1,7 @@
 package gateway;
 
+import javafx.scene.control.Tab;
+
 import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,7 +12,11 @@ import java.util.List;
 
 
 public class TablePrinter {
-    List<List<String>> table = new ArrayList<>();
+    List<List<String>> table;
+
+    public TablePrinter(List<List<String>> table) {
+        this.table = table;
+    }
 
     public String stringifyTable(String title) {
         if (this.table.isEmpty()) {

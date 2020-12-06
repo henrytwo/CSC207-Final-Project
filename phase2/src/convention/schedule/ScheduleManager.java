@@ -5,6 +5,7 @@ import gateway.TablePrinter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ScheduleManager {
     Schedule schedule = new Schedule();
@@ -30,8 +31,7 @@ public class ScheduleManager {
         this.schedule.addEventStringList(eventStringList);
     }
 
-    public void print(String fileName) throws IOException {
-        TablePrinter tablePrinter = new TablePrinter();
-        tablePrinter.print(schedule.getTitle(), fileName);
+    public Schedule getSchedule() {
+        return schedule;
     }
 }

@@ -7,6 +7,7 @@ import convention.event.EventManager;
 import convention.exception.InvalidSortMethodException;
 import convention.permission.PermissionManager;
 import convention.schedule.ScheduleManager;
+import gateway.TablePrinter;
 import messaging.ConversationManager;
 import user.UserManager;
 
@@ -453,7 +454,7 @@ public class ConferenceController {
     /**
      * @param userId UUID of a speaker if sortBy == "speaker", UUID of the user if sortBy == "registered"
      * @param sortBy can either be "speaker" or "registered"
-     * @throws IOException promps a file download for an events schedule sorted by speaker or events user signed up for
+     * @throws IOException prompts a file download for an events schedule sorted by speaker or events user signed up for
      */
     public void printSchedule(UUID userId, String sortBy, String fileName) throws IOException {
         if (!(sortBy.equals("speaker") || sortBy.equals("registered"))) {
@@ -485,7 +486,8 @@ public class ConferenceController {
             }
         }
         scheduleManager.setScheduleTitle(sortBy, userName);
-        scheduleManager.print(fileName);
+        TablePrinter tablePrinter = new TablePrinter(scheduleManager.getSchedule().getEventStringLists());
+        tablePrinter.print(scheduleManager.getSchedule().getTitle(), fileName);
     }
 
     /**
@@ -516,6 +518,7 @@ public class ConferenceController {
             }
         }
         scheduleManager.setScheduleTitle("day", date.toString());
-        scheduleManager.print(fileName);
+        TablePrinter tablePrinter = new TablePrinter(scheduleManager.getSchedule().getEventStringLists());
+        tablePrinter.print(scheduleManager.getSchedule().getTitle(),fileName);
     }
 }
