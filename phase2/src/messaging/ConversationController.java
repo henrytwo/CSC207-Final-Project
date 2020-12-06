@@ -138,7 +138,25 @@ public class ConversationController {
         return conversationManager.getUsers(conversationUUID);
     }
 
+    /**
+     * archives a conversation for a specific user
+     *
+     * @param userUUID user in question
+     * @param conversationUUID conversation in question
+     */
+    public void userArchiveConversation(UUID userUUID, UUID conversationUUID){
+        conversationManager.userArchiveConversation(userUUID, conversationUUID);
+    }
 
+    /**
+     * archives a conversation
+     *
+     * @param userUUID user in question
+     * @param conversationUUID conversation in question
+     */
+    public void userUnreadConversation(UUID userUUID, UUID conversationUUID){
+        conversationManager.userUnreadConversation(userUUID, conversationUUID);
+    }
 
 
 

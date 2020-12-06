@@ -150,7 +150,9 @@ public class Conversation implements Serializable {
         }
     }
 
-
+    public void deleteMessage(int index){
+        conversationMessages.remove(index);
+    }
 
     /**
      * Marks a conversation for a specific user

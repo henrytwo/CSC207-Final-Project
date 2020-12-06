@@ -234,7 +234,7 @@ public class ConversationManager implements Serializable {
      * @param userUUID user in question
      * @param conversationUUID conversation in question
      */
-    private void userUnreadConversation(UUID userUUID, UUID conversationUUID){
+    public void userUnreadConversation(UUID userUUID, UUID conversationUUID){
         Conversation conversation = getConversation(conversationUUID);
         conversation.unreadConversation(userUUID);
     }
@@ -245,9 +245,15 @@ public class ConversationManager implements Serializable {
      * @param userUUID user in question
      * @param conversationUUID conversation in question
      */
-    private void userArchiveConversation(UUID userUUID, UUID conversationUUID){
+    public void userArchiveConversation(UUID userUUID, UUID conversationUUID){
         Conversation conversation = getConversation(conversationUUID);
         conversation.archiveConversation(userUUID);
+    }
+
+    public void userDeleteConversation(UUID userUUID, UUID conversationUUID, int index){
+        if (getConversation(conversationUUID).getConversationMessages().get(index).getSenderId() == userUUID){
+            getConversation(conversationUUID).deleteMessage(index);
+        }
     }
 
 
