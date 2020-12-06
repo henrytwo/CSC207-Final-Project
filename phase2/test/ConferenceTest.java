@@ -86,6 +86,8 @@ public class ConferenceTest {
         roomController = new RoomController(conferenceManager, userManager);
         eventController = new EventController(conferenceManager, conversationManager, userManager);
         conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
+
+        someAttendee = userManager.registerUser("A", "A", "A", "A");
     }
 
     // TestView with and without permission

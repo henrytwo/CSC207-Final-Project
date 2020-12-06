@@ -198,21 +198,6 @@ public class ConferenceController {
     }
 
     /**
-     * Get all the events UUID to TimeRange pairs for this conference.
-     * <p>
-     * Required Permission: ATTENDEE
-     *
-     * @param conferenceUUID UUID of the conference to operate on
-     * @param executorUUID   UUID of the user executing the command
-     * @return map from events UUID to their respective time ranges.
-     */
-    public Map<UUID, TimeRange> getConferenceSchedule(UUID conferenceUUID, UUID executorUUID) {
-        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
-
-        return conferenceManager.getConferenceSchedule(conferenceUUID);
-    }
-
-    /**
      * Join a conference as an attendee.
      * <p>
      * (This is a special case because users aren't an attendee until after they join a conference)
