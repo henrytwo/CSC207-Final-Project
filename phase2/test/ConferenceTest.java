@@ -436,11 +436,6 @@ public class ConferenceTest {
         });
     }
 
-    /**
-     * TODO: Room test cases
-     */
-
-
     /* TestView attendee operations */
     @Test(timeout = 500)
     public void testJoinConference() {

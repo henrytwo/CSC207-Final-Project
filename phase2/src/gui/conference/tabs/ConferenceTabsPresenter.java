@@ -8,10 +8,9 @@ import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import util.ControllerBundle;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import java.util.HashMap;
 
 public class ConferenceTabsPresenter {
     private IPanelFactory panelFactory;

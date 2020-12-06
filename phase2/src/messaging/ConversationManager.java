@@ -232,7 +232,7 @@ public class ConversationManager implements Serializable {
      * @param userUUID         user in question
      * @param conversationUUID conversation in question
      */
-    public void userUnreadConversation(UUID userUUID, UUID conversationUUID){
+    public void userUnreadConversation(UUID userUUID, UUID conversationUUID) {
         Conversation conversation = getConversation(conversationUUID);
         conversation.unreadConversation(userUUID);
     }
@@ -243,13 +243,13 @@ public class ConversationManager implements Serializable {
      * @param userUUID         user in question
      * @param conversationUUID conversation in question
      */
-    public void userArchiveConversation(UUID userUUID, UUID conversationUUID){
+    public void userArchiveConversation(UUID userUUID, UUID conversationUUID) {
         Conversation conversation = getConversation(conversationUUID);
         conversation.archiveConversation(userUUID);
     }
 
-    public void userDeleteMessage(UUID conversationUUID, int index){
-            getConversation(conversationUUID).deleteMessage(index);
+    public void userDeleteMessage(UUID conversationUUID, int index) {
+        getConversation(conversationUUID).deleteMessage(index);
 
     }
 

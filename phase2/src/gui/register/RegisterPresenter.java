@@ -22,7 +22,7 @@ class RegisterPresenter {
     /**
      * Constructor for Register Presenter
      *
-     * @param mainFrame mainframe of the GUI
+     * @param mainFrame    mainframe of the GUI
      * @param registerView view that this presenter is managing
      */
     RegisterPresenter(IFrame mainFrame, IRegisterView registerView) {

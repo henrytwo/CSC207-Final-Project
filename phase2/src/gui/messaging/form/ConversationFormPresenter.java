@@ -6,7 +6,6 @@ import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import messaging.ConversationController;
-import user.UserController;
 import util.ControllerBundle;
 
 import java.util.HashMap;
@@ -33,7 +32,6 @@ class ConversationFormPresenter {
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         conversationController = controllerBundle.getConversationController();
         ContactController contactController = controllerBundle.getContactController();
-        UserController userController = controllerBundle.getUserController();
 
         dialogFactory = mainFrame.getDialogFactory();
 
@@ -41,11 +39,7 @@ class ConversationFormPresenter {
 
         this.userUUID = controllerBundle.getUserController().getCurrentUser();
 
-        /**
-         * TODO: Update this to only allow users on contact list
-         */
-
-        this.availableUserUUIDs = contactController.showContacts(userUUID); // userController.getUsers();
+        this.availableUserUUIDs = contactController.showContacts(userUUID);
     }
 
     void submit() {
@@ -85,7 +79,7 @@ class ConversationFormPresenter {
     void selectUsers() {
         IDialog chooseUsersDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MULTI_USER_PICKER, new HashMap<String, Object>() {
             {
-                put("instructions", "Select users to add to the new conversation");
+                put("instructions", "Select users to add to the new conversation. You may only add users that are on your contacts list.");
                 put("availableUserUUIDs", availableUserUUIDs);
                 put("selectedUserUUIDs", selectedUserUUIDs);
             }

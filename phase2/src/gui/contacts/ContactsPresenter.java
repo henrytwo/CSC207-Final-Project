@@ -142,7 +142,7 @@ public class ContactsPresenter {
 
 
     public void contactSelectionUpdate(int selectedIndex) {
-        if(selectedIndex != currentContactIndex){
+        if (selectedIndex != currentContactIndex) {
             currentContactIndex = selectedIndex;
             currentContactUUID = contactsList.get(selectedIndex);
         }
@@ -159,7 +159,7 @@ public class ContactsPresenter {
         UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, potentialContacts, "Select User:");
         UUID potentialContactUUID = userPickerDialog.run();
         contactController.sendRequest(signedInUserUUID, potentialContactUUID);
-        if(potentialContactUUID != null) {
+        if (potentialContactUUID != null) {
             IDialog requestConfirmationDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
@@ -174,7 +174,7 @@ public class ContactsPresenter {
     }
 
     public void deleteContact() {
-        if(currentContactUUID != null) {
+        if (currentContactUUID != null) {
             IDialog confirmDeletionDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                 {
                     put("message", String.format("Are you sure you want to delete (%s) ?", userController.getUserFullName(currentContactUUID)));
@@ -196,7 +196,7 @@ public class ContactsPresenter {
      * Accepts the currently selected request, first takes a confirmation from the user through a popup dialog.
      */
     public void acceptRequest() {
-        if(currentRequestUUID != null) {
+        if (currentRequestUUID != null) {
             IDialog confirmAcceptDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                 {
                     put("message", String.format("Are you sure you want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
@@ -221,7 +221,7 @@ public class ContactsPresenter {
      * Rejects currently selected request, takes confirmation from the user first through a pop up dialog.
      */
     public void rejectRequest() {
-        if(currentRequestUUID != null) {
+        if (currentRequestUUID != null) {
             IDialog confirmRejectDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                 {
                     put("message", String.format("Are you sure you don't want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));

@@ -4,16 +4,17 @@ import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.permission.PermissionManager;
-//import convention.schedule.ScheduleConstants;
 import messaging.ConversationManager;
 import user.UserManager;
 
 import java.util.HashSet;
-//import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+//import convention.schedule.ScheduleConstants;
+//import java.util.Map;
 
 /**
  * Operations on Conferences
@@ -33,8 +34,8 @@ public class ConferenceController {
      * send instructions to it to create or mutate conversations that are created for conferences.
      *
      * @param conversationManager an instance of conversationManager
-     * @param eventController an instance of eventController
-     * @param conferenceManager an instance of conferenceManager
+     * @param eventController     an instance of eventController
+     * @param conferenceManager   an instance of conferenceManager
      */
     public ConferenceController(ConversationManager conversationManager, EventController eventController, ConferenceManager conferenceManager, UserManager userManager) {
         this.conversationManager = conversationManager;
@@ -435,11 +436,11 @@ public class ConferenceController {
     }
 
 }
-    /*/**
-     * @param userId UUID of a speaker if sortBy == "speaker", UUID of the user if sortBy == "registered"
-     * @param sortBy can either be "speaker" or "registered"
-     * @throws IOException prompts a file download for an events schedule sorted by speaker or events user signed up for
-     */
+/*/**
+ * @param userId UUID of a speaker if sortBy == "speaker", UUID of the user if sortBy == "registered"
+ * @param sortBy can either be "speaker" or "registered"
+ * @throws IOException prompts a file download for an events schedule sorted by speaker or events user signed up for
+ */
     /*
     public void printSchedule(UUID userId, String sortBy, String fileName) throws IOException {
         if (!(sortBy.equals("speaker") || sortBy.equals("registered"))) {
@@ -475,12 +476,12 @@ public class ConferenceController {
         tablePrinter.print(scheduleManager.getSchedule().getTitle(), fileName);
     }*/
 
-    ///**
-    // * @param userid UUID of the user requesting the printable schedule
-    // * @param date   a day on which events schedule is printed
-    // * @throws IOException Overloading the printSchedule method for when the user want to sort by date. A sortBy parameter is not needed
-    // *                     as input
-    // */
+///**
+// * @param userid UUID of the user requesting the printable schedule
+// * @param date   a day on which events schedule is printed
+// * @throws IOException Overloading the printSchedule method for when the user want to sort by date. A sortBy parameter is not needed
+// *                     as input
+// */
     /*
     public void printSchedule(UUID userid, LocalDate date, String fileName) throws IOException {
         Set<UUID> conferenceUUIDSet = getConferences();

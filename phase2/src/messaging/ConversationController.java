@@ -1,6 +1,7 @@
 package messaging;
 
 import contact.ContactManager;
+import messaging.exception.MessageDeniedException;
 import user.UserManager;
 
 import java.util.*;
@@ -31,8 +32,8 @@ public class ConversationController {
      * <p>
      * God users can message anyone without restriction.
      *
-     * @param  sender   UUID of the person who wants to send the message
-     * @param  receiver UUID of the person to whom the message is to be sent
+     * @param sender   UUID of the person who wants to send the message
+     * @param receiver UUID of the person to whom the message is to be sent
      * @return true iff the receiver is in the friend list of sender
      */
     private boolean checkAccess(UUID sender, UUID receiver) {
@@ -62,9 +63,13 @@ public class ConversationController {
         Set<UUID> conversationUsers = new HashSet<>(otherUsers);
         conversationUsers.add(executorUUID);
 
-        /**
-         * TODO: Verify access before allowing conversation to be created
-         */
+        // Verify recipient is on the sender's contact list before creating conversation
+        for (UUID otherUserUUID : otherUsers) {
+            if (!checkAccess(executorUUID, otherUserUUID)) {
+                throw new MessageDeniedException(executorUUID, otherUserUUID);
+            }
+        }
+
         return conversationManager.createConversation(convName, conversationUsers, conversationUsers, executorUUID, messageContent);
     }
 
@@ -74,8 +79,8 @@ public class ConversationController {
      * <p>
      * God users can bypass read-restrictions.
      *
-     * @param  executorUUID     The ID of the User
-     * @param  conversationUUID The Id of the Conversation for which the messages need to be seen
+     * @param executorUUID     The ID of the User
+     * @param conversationUUID The Id of the Conversation for which the messages need to be seen
      * @return returns an list of Hashmaps. Each Hashmap stores information about a message in the conversation.
      */
     public List<Map<String, String>> getMessages(UUID executorUUID, UUID conversationUUID) {
@@ -85,7 +90,7 @@ public class ConversationController {
     /**
      * Get the conversation name
      *
-     * @param  conversationUUID UUID of the conversation to operate on
+     * @param conversationUUID UUID of the conversation to operate on
      * @return Conversation name
      */
     public String getConversationName(UUID conversationUUID) {
@@ -144,7 +149,7 @@ public class ConversationController {
      * @param userUUID         user in question
      * @param conversationUUID conversation in question
      */
-    public void userArchiveConversation(UUID userUUID, UUID conversationUUID){
+    public void userArchiveConversation(UUID userUUID, UUID conversationUUID) {
         conversationManager.userArchiveConversation(userUUID, conversationUUID);
     }
 
@@ -154,7 +159,7 @@ public class ConversationController {
      * @param userUUID         user in question
      * @param conversationUUID conversation in question
      */
-    public void userUnreadConversation(UUID userUUID, UUID conversationUUID){
+    public void userUnreadConversation(UUID userUUID, UUID conversationUUID) {
         conversationManager.userUnreadConversation(userUUID, conversationUUID);
     }
 
@@ -165,13 +170,12 @@ public class ConversationController {
      * @param userUUID         user in question
      * @param index            index of the message in question
      */
-    public void deleteMessage(UUID conversationUUID, UUID userUUID, int index){
+    public void deleteMessage(UUID conversationUUID, UUID userUUID, int index) {
         if (conversationManager.getConversation(conversationUUID).getConversationMessages().get(index).getSenderUUID() == userUUID
-                || userManager.getUserIsGod(userUUID)){
+                || userManager.getUserIsGod(userUUID)) {
             conversationManager.userDeleteMessage(conversationUUID, index);
         }
     }
-
 
 
 //    /**

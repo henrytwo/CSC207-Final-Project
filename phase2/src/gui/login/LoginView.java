@@ -33,6 +33,7 @@ public class LoginView extends JFrame implements IPanel, ILoginView {
 
     /**
      * Getter for username
+     *
      * @return username of the user
      */
     @Override
@@ -42,6 +43,7 @@ public class LoginView extends JFrame implements IPanel, ILoginView {
 
     /**
      * Getter for password
+     *
      * @return password of the user
      */
     @Override

@@ -61,7 +61,6 @@ public class Message implements Serializable {
     }
 
 
-
     //    public void edit_message(String new_content, Date new_timestamp){
 //        content = new_content;
 //        timestamp = new_timestamp;

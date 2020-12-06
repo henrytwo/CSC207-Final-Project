@@ -126,11 +126,10 @@ public class Conversation implements Serializable {
     }
 
 
-
     /**
      * Adds message to the list of messages in this Conversation
      *
-     * @param  message Message to be added in the conversation
+     * @param message Message to be added in the conversation
      */
     public void addMessage(Message message) {
         if (conversationMessages.contains(message)) {
@@ -140,7 +139,7 @@ public class Conversation implements Serializable {
         }
     }
 
-    public void deleteMessage(int index){
+    public void deleteMessage(int index) {
         conversationMessages.remove(index);
     }
 
@@ -149,11 +148,11 @@ public class Conversation implements Serializable {
      *
      * @param userUUID the user having read the conversation
      */
-    public void readConversation(UUID userUUID){
+    public void readConversation(UUID userUUID) {
         usersHaveRead.add(userUUID);
     }
 
-    public void unreadConversation(UUID userUUID){
+    public void unreadConversation(UUID userUUID) {
         usersHaveRead.remove(userUUID);
     }
 
@@ -162,7 +161,7 @@ public class Conversation implements Serializable {
      *
      * @param userUUID the user archiving the conversation
      */
-    public void archiveConversation(UUID userUUID){
+    public void archiveConversation(UUID userUUID) {
         userArchivedUUIDs.add(userUUID);
     }
 
