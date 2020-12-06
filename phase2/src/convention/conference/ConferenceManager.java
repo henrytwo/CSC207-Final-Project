@@ -19,7 +19,7 @@ import java.util.*;
  * Manages conferences
  */
 public class ConferenceManager implements Serializable {
-    private Map<UUID, Conference> conferences = new HashMap<>();
+    private final Map<UUID, Conference> conferences = new HashMap<>();
 
     /**
      * Conference names must be non-empty; this method tests for that condition
@@ -28,7 +28,7 @@ public class ConferenceManager implements Serializable {
      * @return true iff the conference name is valid
      */
     private boolean validateConferenceName(String name) {
-        return name.length() > 0;
+        return name.length() <= 0;
     }
 
     /**
@@ -73,11 +73,11 @@ public class ConferenceManager implements Serializable {
      *
      * @param conferenceName the desired conference name (Must be non-empty)
      * @param timeRange      time range of the conference
-     * @param organizerUUID  UUID of the initial organier user
+     * @param organizerUUID  UUID of the initial organizer user
      * @return UUID of the new conference
      */
     public UUID createConference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
-        if (!validateConferenceName(conferenceName)) {
+        if (validateConferenceName(conferenceName)) {
             throw new InvalidNameException();
         }
 
@@ -175,7 +175,7 @@ public class ConferenceManager implements Serializable {
      * @param newName        name to assign the convention (Must be non-empty)
      */
     public void setConferenceName(UUID conferenceUUID, String newName) {
-        if (!validateConferenceName(newName)) {
+        if (validateConferenceName(newName)) {
             throw new InvalidNameException();
         }
 
@@ -212,7 +212,7 @@ public class ConferenceManager implements Serializable {
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param userUUID       UUID of the user to test
-     * @param userManager    User manager to fetch data fram
+     * @param userManager    User manager to fetch data from
      * @return true iff the signedInUserUUID belongs to an organizer OR the user has god mode
      */
     public boolean isOrganizer(UUID conferenceUUID, UUID userUUID, UserManager userManager) {
@@ -336,7 +336,6 @@ public class ConferenceManager implements Serializable {
      * Throws NullConferenceException if the conferenceUUID does not correspond to a valid convention.
      *
      * @param conferenceUUID UUID of the conference to operate on
-     * @return set of UUIDs speaker users
      */
     public void setSpeakers(UUID conferenceUUID, Set<UUID> speakers) {
         getConference(conferenceUUID).setSpeakerUUIDs(speakers);

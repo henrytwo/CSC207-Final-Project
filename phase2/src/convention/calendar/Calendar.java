@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Calendar object - stores mappings from events UUID to timerange and prevents conflicts
+ * Calendar object - stores mappings from events UUID to timeRange and prevents conflicts
  */
 public class Calendar implements Serializable {
     // Look at the LocalDateTime library
@@ -13,12 +13,12 @@ public class Calendar implements Serializable {
     // We'll probably also want to be able to store the events UUID in the pair
     //
     // Edit: The TimeRange class will actually handle the pair of times for you
-    private Map<UUID, TimeRange> uuidToTimeRange = new HashMap<>();
+    private final Map<UUID, TimeRange> uuidToTimeRange = new HashMap<>();
 
     /**
      * Gets the full mapping from UUID to Time range
      *
-     * @return
+     * @return a map of UUIDs to timeRange
      */
     Map<UUID, TimeRange> getUUIDToTimeRange() {
         return new HashMap<>(uuidToTimeRange);
@@ -58,7 +58,7 @@ public class Calendar implements Serializable {
     /**
      * Frees a time slot for an events in this calendar
      *
-     * @param eventUUID UUID of the eventt
+     * @param eventUUID UUID of the event
      */
     void removeTimeBlock(UUID eventUUID) {
         this.uuidToTimeRange.remove(eventUUID);

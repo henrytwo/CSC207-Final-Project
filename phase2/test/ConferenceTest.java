@@ -124,7 +124,7 @@ public class ConferenceTest {
     // Speaker tasks
 
     // List events they're running
-    // Create convo for an events
+    // Create conversation for an events
 
     /* Conference creation */
 

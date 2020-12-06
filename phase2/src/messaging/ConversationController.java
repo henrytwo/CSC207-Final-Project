@@ -17,7 +17,7 @@ public class ConversationController {
      * Constructor for ConversationController
      *
      * @param contactManager      ContactManager object relevant to this conversation
-     * @param conversationManager ConversationManager onject for this conversation
+     * @param conversationManager ConversationManager object for this conversation
      * @param userManager         User Manager object
      */
     public ConversationController(ContactManager contactManager, ConversationManager conversationManager, UserManager userManager) {
@@ -181,7 +181,7 @@ public class ConversationController {
 //     * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
 //     */
     //public void addUser(UUID signedInUserUUID, UUID conversationUUID) {
-    //    convoManager.addUser(signedInUserUUID, conversationUUID);
+    //    conversationManager.addUser(signedInUserUUID, conversationUUID);
     //}
     // Not currently in use, need to add admin chat users for this
 
@@ -192,7 +192,7 @@ public class ConversationController {
 //     * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
 //     */
     //public void removeUser(UUID signedInUserUUID, UUID conversationUUID) {
-    //    convoManager.removeUser(signedInUserUUID, conversationUUID);
+    //    conversationManager.removeUser(signedInUserUUID, conversationUUID);
     //}
     // Not currently in use, need to add admin chat users for this
 }
