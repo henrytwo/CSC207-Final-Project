@@ -36,8 +36,9 @@ public class ContactsPresenter {
 
     /**
      * Constructor for contacts presenter.
-     * @param mainFrame main frame of the GUI
-     * @param contactsView view object for contacts UI
+     *
+     * @param mainFrame          main frame of the GUI
+     * @param contactsView       view object for contacts UI
      * @param defaultContactUUID UUID of the default contact that is selected when we open the contacts page
      * @param defaultRequestUUID UUID of the default request that is selected when we open the contacts page
      */
@@ -101,9 +102,9 @@ public class ContactsPresenter {
     /**
      * Updates the requests list that is visible to the user.
      */
-    private void updateRequestsNames(){
+    private void updateRequestsNames() {
         String[] requestNames = new String[requestsList.size()];
-        for(int i = 0; i < requestsList.size(); i++){
+        for (int i = 0; i < requestsList.size(); i++) {
             requestNames[i] = userController.getUserFullName(requestsList.get(i));
         }
 
@@ -120,7 +121,7 @@ public class ContactsPresenter {
     /**
      * Updates requestsList attribute.
      */
-    private void updateRequestsList(){
+    private void updateRequestsList() {
         currentRequestIndex = -1;
         requestsList = new ArrayList<>(contactController.showRequests(signedInUserUUID));
     }
@@ -156,10 +157,11 @@ public class ContactsPresenter {
 
     /**
      * Updates the index of the current selected request with the new selection.
+     *
      * @param selectedIndex index of the new selection(request)
      */
-    public  void requestSelectionUpdate(int selectedIndex){
-        if(selectedIndex != currentRequestIndex){
+    public void requestSelectionUpdate(int selectedIndex) {
+        if (selectedIndex != currentRequestIndex) {
             currentRequestIndex = selectedIndex;
             currentRequestUUID = requestsList.get(selectedIndex);
         }
@@ -168,7 +170,7 @@ public class ContactsPresenter {
     /**
      * Accepts the currently selected request, first takes a confirmation from the user through a popup dialog.
      */
-    public void acceptRequest(){
+    public void acceptRequest() {
         IDialog confirmAcceptDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
             {
                 put("message", String.format("Are you sure you want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
@@ -178,7 +180,7 @@ public class ContactsPresenter {
             }
         });
 
-        if((boolean) confirmAcceptDialog.run()){
+        if ((boolean) confirmAcceptDialog.run()) {
             contactController.acceptRequests(signedInUserUUID, currentRequestUUID);
             updateContactsList();
             updateContactNames();
@@ -191,7 +193,7 @@ public class ContactsPresenter {
     /**
      * Rejects currently selected request, takes confirmation from the user first through a pop up dialog.
      */
-    public void rejectRequest(){
+    public void rejectRequest() {
         IDialog confirmRejectDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
             {
                 put("message", String.format("Are you sure you don't want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
@@ -201,7 +203,7 @@ public class ContactsPresenter {
             }
         });
 
-        if((boolean) confirmRejectDialog.run()){
+        if ((boolean) confirmRejectDialog.run()) {
             contactController.rejectRequests(signedInUserUUID, currentRequestUUID);
             updateRequestsList();
             updateRequestsNames();

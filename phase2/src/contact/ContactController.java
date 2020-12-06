@@ -66,7 +66,8 @@ public class ContactController {
 
     /**
      * Allows a user to reject a request from another user.
-     * @param userId UUID of the user who is rejecting the request.
+     *
+     * @param userId           UUID of the user who is rejecting the request.
      * @param potentialContact UUID of the user whose request is being rejected :(
      */
     public void rejectRequests(UUID userId, UUID potentialContact) {
