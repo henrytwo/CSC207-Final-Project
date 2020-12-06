@@ -1,21 +1,19 @@
 package util;
 
-import java.util.UUID;
+public class Pair<T, U> {
+    private T key;
+    private U value;
 
-public class Pair {
-    UUID key;
-    UUID value;
-
-    Pair(UUID key, UUID value) {
+    private Pair(T key, U value) {
         this.key = key;
         this.value = value;
     }
 
-    public UUID getKey() {
+    public T getKey() {
         return key;
     }
 
-    public UUID getValue() {
+    public U getValue() {
         return value;
     }
 }

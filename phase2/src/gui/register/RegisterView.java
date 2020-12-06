@@ -66,7 +66,6 @@ public class RegisterView extends JFrame implements IPanel, IRegisterView {
      *
      * @return paasword of the user
      */
-
     @Override
     public String getPassword() {
         return String.valueOf(passwordPasswordField.getPassword());
