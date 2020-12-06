@@ -45,7 +45,7 @@ class ConversationFormPresenter {
          * TODO: Update this to only allow users on contact list
          */
 
-        this.availableUserUUIDs = userController.getUsers(); //contactController.showContacts(userUUID);
+        this.availableUserUUIDs = contactController.showContacts(userUUID); // userController.getUsers();
     }
 
     void submit() {
