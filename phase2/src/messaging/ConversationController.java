@@ -65,7 +65,8 @@ public class ConversationController {
 
         // Verify recipient is on the sender's contact list before creating conversation
         for (UUID otherUserUUID : otherUsers) {
-            if (!checkAccess(executorUUID, otherUserUUID)) {
+            // You aren't on your own contact list but that's fine
+            if (otherUserUUID != executorUUID && !checkAccess(executorUUID, otherUserUUID)) {
                 throw new MessageDeniedException(executorUUID, otherUserUUID);
             }
         }

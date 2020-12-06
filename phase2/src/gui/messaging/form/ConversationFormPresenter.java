@@ -6,6 +6,7 @@ import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import messaging.ConversationController;
+import user.UserController;
 import util.ControllerBundle;
 
 import java.util.HashMap;
@@ -32,6 +33,7 @@ class ConversationFormPresenter {
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         conversationController = controllerBundle.getConversationController();
         ContactController contactController = controllerBundle.getContactController();
+        UserController userController = controllerBundle.getUserController();
 
         dialogFactory = mainFrame.getDialogFactory();
 
@@ -39,7 +41,10 @@ class ConversationFormPresenter {
 
         this.userUUID = controllerBundle.getUserController().getCurrentUser();
 
-        this.availableUserUUIDs = contactController.showContacts(userUUID);
+        // God users can message anyone
+        this.availableUserUUIDs = userController.getUserIsGod(userUUID)
+                                    ? userController.getUsers()
+                                    : contactController.showContacts(userUUID);
     }
 
     void submit() {
