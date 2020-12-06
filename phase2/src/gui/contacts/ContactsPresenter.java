@@ -72,6 +72,8 @@ public class ContactsPresenter {
             requestSelectionUpdate(defaultRequestIndex);
         }
 
+        updateContactsList();
+
         // Select default contact
         if (contactsList.size() > 0) {
             updateContactNames();
@@ -83,6 +85,7 @@ public class ContactsPresenter {
             }
 
             contactsView.setContactsListSelection(defaultContactIndex);
+            contactSelectionUpdate(defaultContactIndex);
         }
     }
 
@@ -146,13 +149,26 @@ public class ContactsPresenter {
         requestConfirmationDialog.run();
     }
 
-
     public void deleteContact() {
-        UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contactController.showContacts(signedInUserUUID), "Select User:");
-        UUID pastContactUUID = userPickerDialog.run();
-        contactController.deleteContacts(signedInUserUUID, pastContactUUID);
-        updateContactsList();
-        updateContactNames();
+        IDialog confirmDeletionDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+            {
+                put("message", String.format("Are you sure you want to delete (%s) ?", userController.getUserFullName(currentContactUUID)));
+                put("title", "Confirm Delete Contact");
+                put("messageType", DialogFactoryOptions.dialogType.QUESTION);
+                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+            }
+        });
+
+        if ((boolean) confirmDeletionDialog.run()) {
+            contactController.deleteContacts(signedInUserUUID, currentContactUUID);
+            updateContactsList();
+            updateContactNames();
+        }
+//        UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contactController.showContacts(signedInUserUUID), "Select User:");
+//        UUID pastContactUUID = userPickerDialog.run();
+//        contactController.deleteContacts(signedInUserUUID, pastContactUUID);
+//        updateContactsList();
+//        updateContactNames();
     }
 
     /**
@@ -164,6 +180,14 @@ public class ContactsPresenter {
         if (selectedIndex != currentRequestIndex) {
             currentRequestIndex = selectedIndex;
             currentRequestUUID = requestsList.get(selectedIndex);
+        }
+    }
+
+
+    public void contactSelectionUpdate(int selectedIndex) {
+        if(selectedIndex != currentContactIndex){
+            currentContactIndex = selectedIndex;
+            currentContactUUID = contactsList.get(selectedIndex);
         }
     }
 
