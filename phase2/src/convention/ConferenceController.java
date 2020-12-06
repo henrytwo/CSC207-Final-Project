@@ -2,17 +2,13 @@ package convention;
 
 import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
-import convention.event.Event;
 import convention.event.EventManager;
-import convention.exception.InvalidSortMethodException;
 import convention.permission.PermissionManager;
-import convention.schedule.ScheduleManager;
-import gateway.TablePrinter;
+import convention.schedule.ScheduleConstants;
 import messaging.ConversationManager;
 import user.UserManager;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -47,6 +43,9 @@ public class ConferenceController {
         this.conferenceManager = conferenceManager;
         this.userManager = userManager;
         this.permissionManager = new PermissionManager(conferenceManager, userManager);
+
+        // store a copy of the printer somewhere
+        // TODO: make a schedule manager and pass in the eventManager and conferenceManager
     }
 
     /* Conference operations */
@@ -456,6 +455,7 @@ public class ConferenceController {
      * @param sortBy can either be "speaker" or "registered"
      * @throws IOException prompts a file download for an events schedule sorted by speaker or events user signed up for
      */
+    /*
     public void printSchedule(UUID userId, String sortBy, String fileName) throws IOException {
         if (!(sortBy.equals("speaker") || sortBy.equals("registered"))) {
             throw new InvalidSortMethodException();
@@ -486,9 +486,9 @@ public class ConferenceController {
             }
         }
         scheduleManager.setScheduleTitle(sortBy, userName);
-        TablePrinter tablePrinter = new TablePrinter(scheduleManager.getSchedule().getEventStringLists());
+        DocumentPrinter tablePrinter = new DocumentPrinter(scheduleManager.getSchedule().getEventStringLists());
         tablePrinter.print(scheduleManager.getSchedule().getTitle(), fileName);
-    }
+    }*/
 
     /**
      * @param userid UUID of the user requesting the printable schedule
@@ -496,6 +496,7 @@ public class ConferenceController {
      * @throws IOException Overloading the printSchedule method for when the user want to sort by date. A sortBy parameter is not needed
      *                     as input
      */
+    /*
     public void printSchedule(UUID userid, LocalDate date, String fileName) throws IOException {
         Set<UUID> conferenceUUIDSet = getConferences();
         ScheduleManager scheduleManager = new ScheduleManager();
@@ -518,7 +519,24 @@ public class ConferenceController {
             }
         }
         scheduleManager.setScheduleTitle("day", date.toString());
-        TablePrinter tablePrinter = new TablePrinter(scheduleManager.getSchedule().getEventStringLists());
+        DocumentPrinter tablePrinter = new DocumentPrinter(scheduleManager.getSchedule().getEventStringLists());
         tablePrinter.print(scheduleManager.getSchedule().getTitle(),fileName);
+    }*/
+    public void printSchedule(ScheduleConstants.sortByMethods sortByMethod, Map<String, Object> arguments) {
+
+        // Sorted list of pairs List<Pairs<UUID, UUID>> //
+
+        switch (sortByMethod) {
+            case DATE:
+                // you somehow get the event-conference pairs by sorting by date
+                break;
+        }
+
+        // String scheduleStr = scheduleManager.compileSchedule(sortByMethod, listOfPairs) -> str
+
+        //IDocumentPrinter asdad;
+
+        //asdad.print(scheduleStr, "soimething.txt");
+
     }
 }

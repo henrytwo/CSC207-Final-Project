@@ -1,11 +1,7 @@
 package convention.schedule;
 
-import gateway.TablePrinter;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class ScheduleManager {
     Schedule schedule = new Schedule();

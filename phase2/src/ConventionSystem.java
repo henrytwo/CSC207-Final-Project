@@ -65,6 +65,9 @@ public class ConventionSystem {
             System.out.println("Unable to load god mode users" + e);
         }
 
+        // Create the document writer
+        // TODO: IDocumentPrinter documentPrinter = ...
+
         // User controller
         UserController userController = new UserController(userManager);
 
@@ -75,6 +78,7 @@ public class ConventionSystem {
         // Convention controllers
         RoomController roomController = new RoomController(conferenceManager, userManager);
         EventController eventController = new EventController(conferenceManager, conversationManager, userManager);
+        // TODO: pass the document printer as a param
         ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
 
         // Packages up all the controllers in a nice bundle to make it easy to pass around UI components
