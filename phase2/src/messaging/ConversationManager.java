@@ -238,7 +238,7 @@ public class ConversationManager implements Serializable {
     }
 
     /**
-     * Arcchives a conversation for a specific user
+     * Archives a conversation for a specific user
      *
      * @param userUUID         user in question
      * @param conversationUUID conversation in question
