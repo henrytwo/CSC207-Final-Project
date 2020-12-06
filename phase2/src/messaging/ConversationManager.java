@@ -14,9 +14,9 @@ public class ConversationManager implements Serializable {
 
     // Note that the userUUIDtoConversationUUIDs HashMap is only there for efficiency reasons
     // the permissions are decided based on the read/write access to each conversation
-    // (looping thru all the convos is O(n), but accessing the HashMap is O(1) time)
-    private Map<UUID, Set<UUID>> userUUIDtoConversationUUIDs = new HashMap<>();
-    private Map<UUID, Conversation> conversationUUIDsToEntity = new HashMap<>();
+    // (looping thru all the conversations is O(n), but accessing the HashMap is O(1) time)
+    private final Map<UUID, Set<UUID>> userUUIDtoConversationUUIDs = new HashMap<>();
+    private final Map<UUID, Conversation> conversationUUIDsToEntity = new HashMap<>();
 
     /**
      * Creates an instance of Conversation
@@ -35,25 +35,25 @@ public class ConversationManager implements Serializable {
         List<Message> messages = new ArrayList<>();
         messages.add(initialMessage);
 
-        // Add conversation object to UUID -> Convo map
+        // Add conversation object to UUID -> Conversation map
         Conversation newConversation = new Conversation(convName, usersWrite, usersRead, messages);
         UUID conversationUUID = newConversation.getConversationUUID();
         conversationUUIDsToEntity.put(conversationUUID, newConversation);
 
-        // This contains all the users in this convo
+        // This contains all the users in this conversation
         Set<UUID> conversationUsers = new HashSet<>();
         conversationUsers.addAll(usersWrite);
         conversationUsers.addAll(usersRead);
 
         // Add this conversation to the user's list
         for (UUID user : conversationUsers) {
-            addConvoToUserList(user, conversationUUID);
+            addConversationToUserList(user, conversationUUID);
         }
 
         return conversationUUID;
     }
 
-    private Conversation getConversation(UUID conversationUUID) {
+    public Conversation getConversation(UUID conversationUUID) {
         if (conversationUUIDsToEntity.get(conversationUUID) == null) {
             throw new NullConversationException(conversationUUID);
         }
@@ -61,15 +61,13 @@ public class ConversationManager implements Serializable {
         return conversationUUIDsToEntity.get(conversationUUID);
     }
 
-    private void addConvoToUserList(UUID userUUID, UUID conversationUUID) {
-        if (userUUIDtoConversationUUIDs.get(userUUID) == null) {
-            userUUIDtoConversationUUIDs.put(userUUID, new HashSet<>());
-        }
+    private void addConversationToUserList(UUID userUUID, UUID conversationUUID) {
+        userUUIDtoConversationUUIDs.computeIfAbsent(userUUID, k -> new HashSet<>());
 
         userUUIDtoConversationUUIDs.get(userUUID).add(conversationUUID);
     }
 
-    private void removeConvoFromUserList(UUID userUUID, UUID conversationUUID) {
+    private void removeConversationFromUserList(UUID userUUID, UUID conversationUUID) {
         if (userUUIDtoConversationUUIDs.get(userUUID) != null) {
             userUUIDtoConversationUUIDs.get(userUUID).remove(conversationUUID);
         }
@@ -84,13 +82,13 @@ public class ConversationManager implements Serializable {
         Conversation conversation = getConversation(conversationUUID);
 
         // Fetch all the users that are in this conversation
-        Set<UUID> convoUsers = new HashSet<>();
-        convoUsers.addAll(conversation.getReadAccessUsers());
-        convoUsers.addAll(conversation.getWriteAccessUsers());
+        Set<UUID> conversationUsers = new HashSet<>();
+        conversationUsers.addAll(conversation.getReadAccessUsers());
+        conversationUsers.addAll(conversation.getWriteAccessUsers());
 
         // Remove the conversation from all the user lists
-        for (UUID userUUID : convoUsers) {
-            removeConvoFromUserList(userUUID, conversationUUID);
+        for (UUID userUUID : conversationUsers) {
+            removeConversationFromUserList(userUUID, conversationUUID);
         }
 
         conversationUUIDsToEntity.remove(conversationUUID);
@@ -110,14 +108,14 @@ public class ConversationManager implements Serializable {
         conversation.grantReadAccess(userUUID);
 
         // Add conversation to user's list
-        addConvoToUserList(userUUID, conversationUUID);
+        addConversationToUserList(userUUID, conversationUUID);
     }
 
     /**
      * Returns the UUID of users who are part of a Conversation
      *
      * @param conversationUUID The UUID of a Conversation/Chat Group
-     * @return
+     * @return set of users in the conversation
      */
     public Set<UUID> getUsers(UUID conversationUUID) {
         Set<UUID> usersInConversation = new HashSet<>();
@@ -145,7 +143,7 @@ public class ConversationManager implements Serializable {
         conversation.removeUserFromRead(userUUID);
 
         // Add conversation to user's list
-        removeConvoFromUserList(userUUID, conversationUUID);
+        removeConversationFromUserList(userUUID, conversationUUID);
     }
 
     /**
@@ -190,7 +188,7 @@ public class ConversationManager implements Serializable {
         Message message = new Message(messageSender_id, messageContent);
         Conversation conversation = getConversation(convId);
 
-        UUID userId = message.getSenderId();
+        UUID userId = message.getSenderUUID();
 
         if (conversation.getWriteAccessUsers().contains(userId) || bypassRestriction) {
             conversation.addMessage(message);
@@ -217,7 +215,7 @@ public class ConversationManager implements Serializable {
 
             for (Message message : conversation.getConversationMessages()) {
                 Map<String, String> messageAsHashmap = new HashMap<>();
-                messageAsHashmap.put("sender", message.getSenderId().toString());
+                messageAsHashmap.put("sender", message.getSenderUUID().toString());
                 messageAsHashmap.put("timestamp", message.getTimestamp().toString());
                 messageAsHashmap.put("content", message.getContent());
                 newList.add(messageAsHashmap);
@@ -231,7 +229,7 @@ public class ConversationManager implements Serializable {
     /**
      * Marks a conversation as unread for a specific user
      *
-     * @param userUUID user in question
+     * @param userUUID         user in question
      * @param conversationUUID conversation in question
      */
     public void userUnreadConversation(UUID userUUID, UUID conversationUUID){
@@ -242,7 +240,7 @@ public class ConversationManager implements Serializable {
     /**
      * Arcchives a conversation for a specific user
      *
-     * @param userUUID user in question
+     * @param userUUID         user in question
      * @param conversationUUID conversation in question
      */
     public void userArchiveConversation(UUID userUUID, UUID conversationUUID){
@@ -250,12 +248,9 @@ public class ConversationManager implements Serializable {
         conversation.archiveConversation(userUUID);
     }
 
-    public void userDeleteConversation(UUID userUUID, UUID conversationUUID, int index){
-        if (getConversation(conversationUUID).getConversationMessages().get(index).getSenderId() == userUUID){
+    public void userDeleteMessage(UUID conversationUUID, int index){
             getConversation(conversationUUID).deleteMessage(index);
-        }
+
     }
-
-
 
 }

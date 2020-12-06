@@ -11,12 +11,12 @@ import java.util.UUID;
  */
 public class Conversation implements Serializable {
     private String conversationName; // either group chat or 2 person chat
-    private List<Message> conversationMessages;
-    private Set<UUID> writeAccessUsers;
-    private Set<UUID> readAccessUsers;
-    private UUID conversationUUID;
-    private Set<UUID> hasRead = new HashSet<>();
-    private Set<UUID> hasArchived = new HashSet<>();
+    private final List<Message> conversationMessages;
+    private final Set<UUID> writeAccessUsers;
+    private final Set<UUID> readAccessUsers;
+    private final UUID conversationUUID;
+    private final Set<UUID> usersHaveRead = new HashSet<>();
+    private final Set<UUID> userArchivedUUIDs = new HashSet<>();
 
 
     /**
@@ -125,28 +125,18 @@ public class Conversation implements Serializable {
         return conversationName;
     }
 
-    /**
-     * Gets the name of the Conversation
-     *
-     * @param conversationId The UUID associated with this Conversation
-     */
-    public String getConversationName(UUID conversationId) {
-        return conversationName;
-    }
+
 
     /**
      * Adds message to the list of messages in this Conversation
      *
-     * @param message Message to be added in the conversation
-     * @return true iff message was sent successfully
+     * @param  message Message to be added in the conversation
      */
-    public boolean addMessage(Message message) {
+    public void addMessage(Message message) {
         if (conversationMessages.contains(message)) {
             System.out.println("Message has already been added");
-            return false;
         } else {
             conversationMessages.add(message);
-            return true;
         }
     }
 
@@ -160,11 +150,11 @@ public class Conversation implements Serializable {
      * @param userUUID the user having read the conversation
      */
     public void readConversation(UUID userUUID){
-        hasRead.add(userUUID);
+        usersHaveRead.add(userUUID);
     }
 
     public void unreadConversation(UUID userUUID){
-        hasRead.remove(userUUID);
+        usersHaveRead.remove(userUUID);
     }
 
     /**
@@ -173,7 +163,7 @@ public class Conversation implements Serializable {
      * @param userUUID the user archiving the conversation
      */
     public void archiveConversation(UUID userUUID){
-        hasArchived.add(userUUID);
+        userArchivedUUIDs.add(userUUID);
     }
 
 }
