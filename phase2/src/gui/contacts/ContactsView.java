@@ -17,6 +17,12 @@ public class ContactsView implements IPanel, IContactsView {
 
     private ContactsPresenter contactsPresenter;
 
+    /**
+     * Constructor fot contacts UI view.
+     * @param mainFrame the mainFrame of the GUI
+     * @param defaultContactUUID UUID of the default contact that is selected when we open the contacts page
+     * @param defaultRequestUUID UUID of the default request that is selected when we open the contacts page
+     */
     public ContactsView(IFrame mainFrame, UUID defaultContactUUID, UUID defaultRequestUUID) {
         contactsPresenter = new ContactsPresenter(mainFrame, this, defaultContactUUID, defaultRequestUUID);
         //contactsList.addListSelectionListener((e) -> contactsPresenter.selectContact(contactsList.getSelectedIndex()));
@@ -27,11 +33,18 @@ public class ContactsView implements IPanel, IContactsView {
         requestsList.addListSelectionListener((e) -> contactsPresenter.requestSelectionUpdate(requestsList.getSelectedIndex()));
     }
 
+    /**
+     * Gets the panel for contacts view.
+     * @return contacts view panel.
+     */
     @Override
     public JPanel getPanel() {
         return contactsPanel;
     }
 
+    /**
+     * Sets the contacts list.
+     */
     @Override
     public void setContactsList(String[] contacts) {
         contactsList.setListData(contacts);

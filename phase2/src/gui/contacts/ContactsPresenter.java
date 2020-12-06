@@ -34,6 +34,13 @@ public class ContactsPresenter {
     private List<UUID> contactsList;
     private List<UUID> requestsList;
 
+    /**
+     * Constructor for contacts presenter.
+     * @param mainFrame main frame of the GUI
+     * @param contactsView view object for contacts UI
+     * @param defaultContactUUID UUID of the default contact that is selected when we open the contacts page
+     * @param defaultRequestUUID UUID of the default request that is selected when we open the contacts page
+     */
     public ContactsPresenter(IFrame mainFrame, IContactsView contactsView, UUID defaultContactUUID, UUID defaultRequestUUID) {
         this.mainFrame = mainFrame;
         this.contactsView = contactsView;
@@ -78,6 +85,9 @@ public class ContactsPresenter {
         }
     }
 
+    /**
+     * Updates the contacts list that is visible to the user
+     */
     private void updateContactNames() {
         String[] contactNames = new String[contactsList.size()];
 
@@ -88,6 +98,9 @@ public class ContactsPresenter {
         contactsView.setContactsList(contactNames);
     }
 
+    /**
+     * Updates the requests list that is visible to the user.
+     */
     private void updateRequestsNames(){
         String[] requestNames = new String[requestsList.size()];
         for(int i = 0; i < requestsList.size(); i++){
@@ -97,22 +110,41 @@ public class ContactsPresenter {
         contactsView.setRequestsList(requestNames);
     }
 
+    /**
+     * Updates contactsList attribute.
+     */
     private void updateContactsList() {
         contactsList = new ArrayList<>(contactController.showContacts(signedInUserUUID));
     }
 
+    /**
+     * Updates requestsList attribute.
+     */
     private void updateRequestsList(){
         currentRequestIndex = -1;
         requestsList = new ArrayList<>(contactController.showRequests(signedInUserUUID));
     }
 
+    /**
+     * Sends a request to the user that is selected from the pop up dialog.
+     */
     public void sendRequest() {
         Set<UUID> potentialContacts = userController.getUsers();
         potentialContacts.removeAll(contactController.showContacts(signedInUserUUID));
         UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, potentialContacts, "Select User:");
         UUID potentialContactUUID = userPickerDialog.run();
         contactController.sendRequest(signedInUserUUID, potentialContactUUID);
+        IDialog requestConfirmationDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+            {
+                put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
+                put("title", "Confirmation");
+                put("message", String.format("Request has been sent to [%s].", userController.getUserFullName(potentialContactUUID)));
+            }
+        });
+
+        requestConfirmationDialog.run();
     }
+
 
     public void deleteContact() {
         UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, contactController.showContacts(signedInUserUUID), "Select User:");
@@ -122,6 +154,10 @@ public class ContactsPresenter {
         updateContactNames();
     }
 
+    /**
+     * Updates the index of the current selected request with the new selection.
+     * @param selectedIndex index of the new selection(request)
+     */
     public  void requestSelectionUpdate(int selectedIndex){
         if(selectedIndex != currentRequestIndex){
             currentRequestIndex = selectedIndex;
@@ -129,6 +165,9 @@ public class ContactsPresenter {
         }
     }
 
+    /**
+     * Accepts the currently selected request, first takes a confirmation from the user through a popup dialog.
+     */
     public void acceptRequest(){
         IDialog confirmAcceptDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
             {
@@ -149,6 +188,9 @@ public class ContactsPresenter {
 
     }
 
+    /**
+     * Rejects currently selected request, takes confirmation from the user first through a pop up dialog.
+     */
     public void rejectRequest(){
         IDialog confirmRejectDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
             {

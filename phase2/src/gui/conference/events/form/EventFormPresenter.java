@@ -44,6 +44,13 @@ class EventFormPresenter {
 
     private DateParser dateParser = new DateParser();
 
+    /**
+     * Constructor for EventFormPresenter
+     * @param mainFrame current frame
+     * @param eventFormDialog
+     * @param conferenceUUID UUID of the current conference.
+     * @param eventUUID UUID of the current event.
+     */
     EventFormPresenter(IFrame mainFrame, IEventFormDialog eventFormDialog, UUID conferenceUUID, UUID eventUUID) {
 
         this.eventFormDialog = eventFormDialog;
@@ -83,6 +90,9 @@ class EventFormPresenter {
 
     }
 
+    /**
+     * Launches a pop up that allows users to enter in details for creating(or editing) an event
+     */
     void submit() {
         try {
             eventName = eventFormDialog.getName();
@@ -192,6 +202,9 @@ class EventFormPresenter {
 
     }
 
+    /**
+     * Launches a pop up dialog that allows organisers to add speakers to an event.
+     */
     void selectSpeakers() {
         // Getting all available speakerUUIDs
         Set<UUID> userUUIDs = userController.getUsers();
@@ -211,6 +224,9 @@ class EventFormPresenter {
         }
     }
 
+    /**
+     * Launches a pop up that allows users to select room for an event.
+     */
     void selectRoom() {
         Set<UUID> availableRoomUUIDS = roomController.getRooms(conferenceUUID, userUUID);
 
