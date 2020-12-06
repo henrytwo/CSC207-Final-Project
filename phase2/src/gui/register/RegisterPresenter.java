@@ -19,6 +19,12 @@ class RegisterPresenter {
 
     private UserController userController;
 
+    /**
+     * Constructor for Register Presenter
+     *
+     * @param mainFrame mainframe of the GUI
+     * @param registerView view that this presenter is managing
+     */
     RegisterPresenter(IFrame mainFrame, IRegisterView registerView) {
         this.mainFrame = mainFrame;
         this.registerView = registerView;
@@ -29,10 +35,16 @@ class RegisterPresenter {
         dialogFactory = mainFrame.getDialogFactory();
     }
 
+    /**
+     * Goes to the login page if the user is already registered
+     */
     void goToLogin() {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.LOGIN));
     }
 
+    /**
+     * Registers and  authenticates a new user
+     */
     void register() {
         if (registerView.getFirstName().length() == 0 || registerView.getLastName().length() == 0 || registerView.getUsername().length() == 0 || registerView.getPassword().length() == 0) {
             IDialog invalidRegistrationDialog
