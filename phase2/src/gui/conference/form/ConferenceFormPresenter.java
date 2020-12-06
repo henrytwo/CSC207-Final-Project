@@ -18,7 +18,7 @@ import java.util.UUID;
 
 class ConferenceFormPresenter {
 
-    ConferenceController conferenceController;
+    private ConferenceController conferenceController;
 
     private boolean isExistingConference;
     private UUID conferenceUUID;

@@ -5,7 +5,7 @@ public interface IRegisterView {
 
     String getPassword();
 
-    String getLastname();
+    String getLastName();
 
-    String getFirstname();
+    String getFirstName();
 }

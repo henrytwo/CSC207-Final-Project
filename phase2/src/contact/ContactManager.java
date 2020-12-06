@@ -92,14 +92,14 @@ public class ContactManager implements Serializable {
     /**
      * Sets/updates the request(sent) list of this particular User
      *
-     * @param user_id      the userId of the person for whom we need to update the requests(sent) set
-     * @param sentrequests the set of requests sent by this user
+     * @param userUUID     the userId of the person for whom we need to update the requests(sent) set
+     * @param sentRequests the set of requests sent by this user
      */
-    public void setSentRequests(UUID user_id, Set<UUID> sentrequests) {
-        if (sentRequestsMap.containsKey(user_id)) {
-            sentRequestsMap.replace(user_id, sentrequests);
+    public void setSentRequests(UUID userUUID, Set<UUID> sentRequests) {
+        if (sentRequestsMap.containsKey(userUUID)) {
+            sentRequestsMap.replace(userUUID, sentRequests);
         } else {
-            sentRequestsMap.putIfAbsent(user_id, sentrequests);
+            sentRequestsMap.putIfAbsent(userUUID, sentRequests);
         }
     }
 

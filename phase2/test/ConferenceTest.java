@@ -559,7 +559,7 @@ public class ConferenceTest {
             }
         });
 
-        assertTrue(eventController.getAttendeeEvents(conferenceUUID, myUser).size() == 0);
+        assertEquals(eventController.getAttendeeEvents(conferenceUUID, myUser).size(), 0);
 
         eventController.registerForEvent(conferenceUUID, myUser, myUser, eventUUID);
 

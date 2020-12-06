@@ -30,7 +30,7 @@ class ConferenceMenuPresenter {
      * @param mainFrame
      * @param conferenceMenuView
      * @param defaultConferenceUUID   UUID of the default conference to select. If none selected, or invalid, the first one will be selected.
-     * @param initializationArguments hashmap of values that can be used to set the initial state of a panel
+     * @param initializationArguments HashMap of values that can be used to set the initial state of a panel
      */
     ConferenceMenuPresenter(IFrame mainFrame, IConferenceMenuView conferenceMenuView, UUID defaultConferenceUUID, Map<String, Object> initializationArguments) {
         this.conferenceMenuView = conferenceMenuView;

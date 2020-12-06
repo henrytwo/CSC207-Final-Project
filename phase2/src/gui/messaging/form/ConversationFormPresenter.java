@@ -55,7 +55,7 @@ class ConversationFormPresenter {
             IDialog emptyChatNameDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("title", "Error");
-                    put("message", String.format("Unable to submit form: Conversation name must be non-empty"));
+                    put("message", "Unable to submit form: Conversation name must be non-empty");
                     put("messageType", DialogFactoryOptions.dialogType.ERROR);
                 }
             });
@@ -64,7 +64,7 @@ class ConversationFormPresenter {
             IDialog emptyMessageDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("title", "Error");
-                    put("message", String.format("Unable to submit form: Message must be non-empty"));
+                    put("message", "Unable to submit form: Message must be non-empty");
                     put("messageType", DialogFactoryOptions.dialogType.ERROR);
                 }
             });

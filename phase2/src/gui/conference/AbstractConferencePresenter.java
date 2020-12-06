@@ -27,7 +27,7 @@ public abstract class AbstractConferencePresenter {
 
     protected String role;
 
-    public AbstractConferencePresenter(IFrame mainFrame, UUID conferenceUUID) {
+    protected AbstractConferencePresenter(IFrame mainFrame, UUID conferenceUUID) {
         this.mainFrame = mainFrame;
         this.conferenceUUID = conferenceUUID;
 

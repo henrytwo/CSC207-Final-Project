@@ -13,23 +13,23 @@ public class Conversation implements Serializable {
     private List<Message> conversationMessages;
     private Set<UUID> writeAccessUsers;
     private Set<UUID> readAccessUsers;
-    private UUID convoId;
+    private UUID conversationUUID;
 
     /**
      * Constructor for Conversation
      *
-     * @param convName     name of the Conversation
-     * @param usersWrite   The set of users that have write access to the chat/conversation
-     * @param usersRead    The set of users that have read access to the chat/conversation
-     * @param convMessages A list of all the messages in the Chat/conversation
+     * @param name            name of the Conversation
+     * @param usersWriteUUIDs The set of users that have write access to the chat/conversation
+     * @param usersReadUUIDs  The set of users that have read access to the chat/conversation
+     * @param messages        A list of all the messages in the Chat/conversation
      */
-    public Conversation(String convName, Set<UUID> usersWrite, Set<UUID>
-            usersRead, List<Message> convMessages) {
-        conversationName = convName;
-        conversationMessages = convMessages;
-        writeAccessUsers = usersWrite;
-        readAccessUsers = usersRead;
-        convoId = UUID.randomUUID();
+    public Conversation(String name, Set<UUID> usersWriteUUIDs, Set<UUID>
+            usersReadUUIDs, List<Message> messages) {
+        conversationName = name;
+        conversationMessages = messages;
+        writeAccessUsers = usersWriteUUIDs;
+        readAccessUsers = usersReadUUIDs;
+        conversationUUID = UUID.randomUUID();
     }
 
     /**
@@ -37,8 +37,8 @@ public class Conversation implements Serializable {
      *
      * @return the UUID associated with this conversation
      */
-    public UUID getconvId() {
-        return convoId;
+    public UUID getConversationUUID() {
+        return conversationUUID;
     }
 
     /**
@@ -46,7 +46,7 @@ public class Conversation implements Serializable {
      *
      * @param userUUID UserId of the User
      */
-    public void addUserToWrite(UUID userUUID) {
+    void grantWriteAccess(UUID userUUID) {
         writeAccessUsers.add(userUUID);
     }
 
@@ -55,7 +55,7 @@ public class Conversation implements Serializable {
      *
      * @param userUUID UserId of the User
      */
-    public void addUserToRead(UUID userUUID) {
+    void grantReadAccess(UUID userUUID) {
         readAccessUsers.add(userUUID);
     }
 

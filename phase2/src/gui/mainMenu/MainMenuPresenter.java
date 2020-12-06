@@ -27,7 +27,7 @@ class MainMenuPresenter {
     /**
      * @param mainFrame
      * @param mainMenuView
-     * @param initializationArguments hashmap of values that can be used to set the initial state of a panel
+     * @param initializationArguments HashMap of values that can be used to set the initial state of a panel
      */
     MainMenuPresenter(IFrame mainFrame, IMainMenuView mainMenuView, Map<String, Object> initializationArguments) {
         this.initializationArguments = initializationArguments;
