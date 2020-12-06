@@ -46,10 +46,11 @@ class EventFormPresenter {
 
     /**
      * Constructor for EventFormPresenter
-     * @param mainFrame current frame
+     *
+     * @param mainFrame       current frame
      * @param eventFormDialog
-     * @param conferenceUUID UUID of the current conference.
-     * @param eventUUID UUID of the current event.
+     * @param conferenceUUID  UUID of the current conference.
+     * @param eventUUID       UUID of the current event.
      */
     EventFormPresenter(IFrame mainFrame, IEventFormDialog eventFormDialog, UUID conferenceUUID, UUID eventUUID) {
 

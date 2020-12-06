@@ -26,9 +26,10 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
     /**
      * Constructor for EventForm object, a form that allows users to enter details of an event.
-     * @param mainFrame current frame
+     *
+     * @param mainFrame      current frame
      * @param conferenceUUID UUID of the current conference.
-     * @param eventUUID UUID of the current event.
+     * @param eventUUID      UUID of the current event.
      */
     public EventFormDialog(IFrame mainFrame, UUID conferenceUUID, UUID eventUUID) {
         super(mainFrame.getFrame());

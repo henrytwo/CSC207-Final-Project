@@ -47,7 +47,7 @@ class MessagingPresenter {
 
             // Choose the specified default conference UUID
             if (defaultConversationUUID != null) {
-                if( conversationUUIDs.contains(defaultConversationUUID)) {
+                if (conversationUUIDs.contains(defaultConversationUUID)) {
                     defaultConversationIndex = conversationUUIDs.indexOf(defaultConversationUUID);
                 } else {
                     IDialog unableToOpenMessageDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {

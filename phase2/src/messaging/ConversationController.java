@@ -28,7 +28,7 @@ public class ConversationController {
 
     /**
      * Checks if the User have access to start a conversation with another User.
-     *
+     * <p>
      * God users can message anyone without restriction.
      *
      * @param sender   UUID of the person who wants to send the message
@@ -42,9 +42,9 @@ public class ConversationController {
     /**
      * Sends a particular message to a specific chat. God users can bypass write-restrictions.
      *
-     * @param executorUUID the Id of the sender of the message
-     * @param messageContent   The content of the message to be sent
-     * @param convId           the conversation Id of the conversation to which this message has to be added
+     * @param executorUUID   the Id of the sender of the message
+     * @param messageContent The content of the message to be sent
+     * @param convId         the conversation Id of the conversation to which this message has to be added
      */
     public void sendMessage(UUID executorUUID, String messageContent, UUID convId) {
         convoManager.sendMessage(executorUUID, messageContent, convId, userManager.getUserIsGod(executorUUID));
@@ -71,10 +71,10 @@ public class ConversationController {
     /**
      * Gets messages for a conversation a user has read access to. Throws NoReadAccessException if the user has no
      * read access.
-     *
+     * <p>
      * God users can bypass read-restrictions.
      *
-     * @param executorUUID         The ID of the User
+     * @param executorUUID     The ID of the User
      * @param conversationUUID The Id of the Conversation for which the messages need to be seen
      * @return returns an list of Hashmaps. Each Hashmap stores information about a message in the conversation.
      */
