@@ -1,57 +1,33 @@
 package convention.schedule;
 
-import convention.conference.ConferenceManager;
-import convention.event.EventManager;
-import javafx.util.Pair;
-import user.UserManager;
-import util.TableTools;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 public class ScheduleManager {
-    String title;
-    UserManager userManager;
-    ConferenceManager conferenceManager;
+    Schedule schedule = new Schedule();
 
-    public ScheduleManager(UserManager userManager, ConferenceManager conferenceManager) {
-        this.userManager = userManager;
-        this.conferenceManager = conferenceManager;
+    /**
+     * @param sortBy    one of "speaker", "registered", or "day"
+     * @param titleInfo one of: speaker username, user username, a specified date
+     */
+    public void setScheduleTitle(String sortBy, String titleInfo) {
+        if (sortBy.equals("speaker")) {
+            schedule.setTitle("Events with speaker ".concat(titleInfo));
+        } else if (sortBy.equals("registered")) {
+            schedule.setTitle("Events ".concat(titleInfo).concat(" signed up for"));
+        } else {
+            schedule.setTitle("events on ".concat(titleInfo));
+        }
     }
 
+    public void addEventStringList(String title, String timeRange, String roomLocation, String speakers) {
+        ArrayList<String> eventStringList = new ArrayList<>(
+                Arrays.asList(title, timeRange, roomLocation, speakers)
+        );
+        this.schedule.addEventStringList(eventStringList);
+    }
 
-    public String compileSchedule(ScheduleConstants.sortByMethods sortByMethod, List<Pair<UUID, UUID>> ListOfPairs) {
-//        TODO: figure out how to add title for diff sortBy
-        switch (sortByMethod) {
-            case REGISTERED:
-                break;
-            case SPEAKER:
-                break;
-            case DATE:
-                break;
-
-        }
-        List<List<String>> table = new ArrayList<>();
-        for (Pair<UUID, UUID> pair: ListOfPairs) {
-            ArrayList<String> speakerNames = new ArrayList<>();
-            for (UUID speakerUUID: conferenceManager.getEventManager(pair.getValue()).getEvent(pair.getKey()).getSpeakers()) {
-                speakerNames.add(userManager.getUserUsername(speakerUUID));
-            }
-            String speakers = String.join(",", speakerNames);
-            ArrayList<String> eventInfoStrings = new ArrayList<>(
-                    Arrays.asList(
-                            conferenceManager.getConferenceName(pair.getValue()),
-                            conferenceManager.getEventManager(pair.getValue()).getEventTitle(pair.getKey()),
-                            speakers,
-                            conferenceManager.getRoomManager(pair.getValue()).getRoomLocation(conferenceManager.getEventManager(pair.getValue()).getEvent(pair.getKey()).getRoomUUID())
-                            )
-            );
-            table.add(eventInfoStrings);
-        }
-        TableTools tableTools = new TableTools(table);
-        return tableTools.stringifyTable(this.title);
-
+    public Schedule getSchedule() {
+        return schedule;
     }
 }

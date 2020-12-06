@@ -5,8 +5,6 @@ import convention.EventController;
 import convention.RoomController;
 import convention.conference.ConferenceManager;
 import gateway.CSVReader;
-import gateway.DocumentPrinter;
-import gateway.IDocumentPrinter;
 import gateway.Serializer;
 import gui.MainFrame;
 import messaging.ConversationController;
@@ -68,7 +66,6 @@ public class ConventionSystem {
         }
 
         // Create the document writer
-        IDocumentPrinter documentPrinter = new DocumentPrinter();
         // TODO: IDocumentPrinter documentPrinter = ...
 
         // User controller
