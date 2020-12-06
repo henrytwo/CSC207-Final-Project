@@ -12,13 +12,11 @@ import java.util.*;
 
 class ConferenceMenuPresenter {
     private IConferenceMenuView conferenceMenuView;
-    private IFrame mainFrame;
 
     private IPanelFactory panelFactory;
     private IDialogFactory dialogFactory;
 
     private ConferenceController conferenceController;
-    private UserController userController;
 
     private List<UUID> conferenceUUIDs;
     private UUID signedInUserUUID;
@@ -27,14 +25,13 @@ class ConferenceMenuPresenter {
     private Map<String, Object> initializationArguments;
 
     /**
-     * @param mainFrame
-     * @param conferenceMenuView
+     * @param mainFrame               main UI frame
+     * @param conferenceMenuView      view that this presenter is managing
      * @param defaultConferenceUUID   UUID of the default conference to select. If none selected, or invalid, the first one will be selected.
-     * @param initializationArguments hashmap of values that can be used to set the initial state of a panel
+     * @param initializationArguments HashMap of values that can be used to set the initial state of a panel
      */
     ConferenceMenuPresenter(IFrame mainFrame, IConferenceMenuView conferenceMenuView, UUID defaultConferenceUUID, Map<String, Object> initializationArguments) {
         this.conferenceMenuView = conferenceMenuView;
-        this.mainFrame = mainFrame;
         this.initializationArguments = initializationArguments;
 
         panelFactory = mainFrame.getPanelFactory();
@@ -42,8 +39,8 @@ class ConferenceMenuPresenter {
 
         // Init controllers
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
+        UserController userController = controllerBundle.getUserController();
         conferenceController = controllerBundle.getConferenceController();
-        userController = controllerBundle.getUserController();
 
         // Fetch initial data
         signedInUserUUID = userController.getCurrentUser();
@@ -154,7 +151,7 @@ class ConferenceMenuPresenter {
             UUID selectedConferenceUUID = conferenceUUIDs.get(index);
 
             // Update UI with tabs for this conference
-            IPanel conferenceTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_TABS, new HashMap<String, Object>() {
+            IPanel conferenceTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_TABS, new HashMap<String, Object>(initializationArguments) {
                 {
                     put("conferenceUUID", selectedConferenceUUID);
                     put("defaultTabName", defaultTabName);
