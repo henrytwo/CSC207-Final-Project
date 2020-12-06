@@ -31,16 +31,29 @@ public class LoginView extends JFrame implements IPanel, ILoginView {
         panel.registerKeyboardAction((e) -> loginPresenter.login(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     * Getter for username
+     * @return username of the user
+     */
     @Override
     public String getUsername() {
         return usernameField.getText();
     }
 
+    /**
+     * Getter for password
+     * @return password of the user
+     */
     @Override
     public String getPassword() {
         return String.valueOf(passwordField.getPassword());
     }
 
+    /**
+     * Getter for panel
+     *
+     * @return panel
+     */
     @Override
     public JPanel getPanel() {
         return panel;

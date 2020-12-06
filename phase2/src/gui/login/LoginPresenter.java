@@ -21,6 +21,12 @@ class LoginPresenter {
 
     private UserController userController;
 
+    /**
+     * Constructor for Login Presenter
+     *
+     * @param mainFrame mainframe of the GUI
+     * @param loginView view that this presenter is managing
+     */
     LoginPresenter(IFrame mainFrame, ILoginView loginView) {
         this.mainFrame = mainFrame;
         this.loginView = loginView;
@@ -31,6 +37,9 @@ class LoginPresenter {
         dialogFactory = mainFrame.getDialogFactory();
     }
 
+    /**
+     * This method helps to reset the password for a user who forgot their current password
+     */
     void resetPassword() {
         IDialog resetPasswordDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
             {
@@ -42,10 +51,16 @@ class LoginPresenter {
         resetPasswordDialog.run();
     }
 
+    /**
+     * Goes to the register page if a first time user
+     */
     void goToRegister() {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.REGISTER));
     }
 
+    /**
+     * Logins an already registered user
+     */
     void login() {
         if (userController.login(loginView.getUsername(), loginView.getPassword()) != null) {
             mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));

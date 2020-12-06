@@ -30,7 +30,7 @@ class ConferenceMenuPresenter {
      * @param mainFrame
      * @param conferenceMenuView
      * @param defaultConferenceUUID   UUID of the default conference to select. If none selected, or invalid, the first one will be selected.
-     * @param initializationArguments HashMap of values that can be used to set the initial state of a panel
+     * @param initializationArguments hashmap of values that can be used to set the initial state of a panel
      */
     ConferenceMenuPresenter(IFrame mainFrame, IConferenceMenuView conferenceMenuView, UUID defaultConferenceUUID, Map<String, Object> initializationArguments) {
         this.conferenceMenuView = conferenceMenuView;
@@ -135,7 +135,7 @@ class ConferenceMenuPresenter {
     /**
      * Updates the panel on the right side of the screen with the currently selected conference
      *
-     * @param index index of the conference to open
+     * @param index          index of the conference to open
      */
     void selectConferencePanel(int index) {
         selectConferencePanel(index, null);
@@ -154,7 +154,7 @@ class ConferenceMenuPresenter {
             UUID selectedConferenceUUID = conferenceUUIDs.get(index);
 
             // Update UI with tabs for this conference
-            IPanel conferenceTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_TABS, new HashMap<String, Object>(initializationArguments) {
+            IPanel conferenceTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_TABS, new HashMap<String, Object>() {
                 {
                     put("conferenceUUID", selectedConferenceUUID);
                     put("defaultTabName", defaultTabName);
