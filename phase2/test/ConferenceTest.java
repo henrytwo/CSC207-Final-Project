@@ -86,6 +86,8 @@ public class ConferenceTest {
         roomController = new RoomController(conferenceManager, userManager);
         eventController = new EventController(conferenceManager, conversationManager, userManager);
         conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
+
+        someAttendee = userManager.registerUser("A", "A", "A", "A");
     }
 
     // TestView with and without permission
@@ -122,7 +124,7 @@ public class ConferenceTest {
     // Speaker tasks
 
     // List events they're running
-    // Create convo for an events
+    // Create conversation for an events
 
     /* Conference creation */
 
@@ -559,7 +561,7 @@ public class ConferenceTest {
             }
         });
 
-        assertTrue(eventController.getAttendeeEvents(conferenceUUID, myUser).size() == 0);
+        assertEquals(eventController.getAttendeeEvents(conferenceUUID, myUser).size(), 0);
 
         eventController.registerForEvent(conferenceUUID, myUser, myUser, eventUUID);
 

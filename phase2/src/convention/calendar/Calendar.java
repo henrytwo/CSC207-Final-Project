@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Calendar object - stores mappings from events UUID to timerange and prevents conflicts
+ * Calendar object - stores mappings from events UUID to timeRange and prevents conflicts
  */
 public class Calendar implements Serializable {
     // Look at the LocalDateTime library
@@ -13,27 +13,21 @@ public class Calendar implements Serializable {
     // We'll probably also want to be able to store the events UUID in the pair
     //
     // Edit: The TimeRange class will actually handle the pair of times for you
-    private Map<UUID, TimeRange> uuidToTimeRange = new HashMap<>();
-
-    /**
-     * constructor for an empty calendar
-     */
-    public Calendar() {
-    }
+    private final Map<UUID, TimeRange> uuidToTimeRange = new HashMap<>();
 
     /**
      * Gets the full mapping from UUID to Time range
      *
-     * @return
+     * @return a map of UUIDs to timeRange
      */
-    public Map<UUID, TimeRange> getUUIDToTimeRange() {
+    Map<UUID, TimeRange> getUUIDToTimeRange() {
         return new HashMap<>(uuidToTimeRange);
     }
 
     /**
      * @return get a Set of TimeRanges booked on this calendar
      */
-    public Set<TimeRange> getUUIDtoTimeRanges() {
+    private Set<TimeRange> getUUIDtoTimeRanges() {
         return new HashSet<>(uuidToTimeRange.values());
     }
 
@@ -41,7 +35,7 @@ public class Calendar implements Serializable {
      * @param t the TimeRange that is being compared to existing TimeRange objects on this calendar
      * @return true iff t conflicts with an existing TimeRange object
      */
-    public boolean hasConflict(TimeRange t) {
+    boolean hasConflict(TimeRange t) {
         Set<TimeRange> timeRangeSet = this.getUUIDtoTimeRanges();
         for (TimeRange tr : timeRangeSet) {
             if (t.hasOverlap(tr)) {
@@ -57,16 +51,16 @@ public class Calendar implements Serializable {
      * @param eventUUID UUID of the events
      * @param timeRange Time range of the events
      */
-    public void addTimeBlock(UUID eventUUID, TimeRange timeRange) {
+    void addTimeBlock(UUID eventUUID, TimeRange timeRange) {
         this.uuidToTimeRange.put(eventUUID, timeRange);
     }
 
     /**
      * Frees a time slot for an events in this calendar
      *
-     * @param eventUUID UUID of the eventt
+     * @param eventUUID UUID of the event
      */
-    public void removeTimeBlock(UUID eventUUID) {
+    void removeTimeBlock(UUID eventUUID) {
         this.uuidToTimeRange.remove(eventUUID);
     }
 
@@ -75,7 +69,7 @@ public class Calendar implements Serializable {
      *
      * @param eventUUID UUID of the events
      */
-    public TimeRange getBooking(UUID eventUUID) {
+    TimeRange getBooking(UUID eventUUID) {
         return this.uuidToTimeRange.get(eventUUID);
     }
 }

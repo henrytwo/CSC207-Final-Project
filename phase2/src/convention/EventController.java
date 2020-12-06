@@ -150,7 +150,7 @@ public class EventController {
 
     /**
      * Actually executes the unregister operation. We have a separate helper method here so that we don't forget
-     * to run the check to remove the user from the events's conversation.
+     * to run the check to remove the user from the event's conversation.
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param targetUserUUID UUID of the user to operate on

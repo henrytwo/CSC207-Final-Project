@@ -57,7 +57,7 @@ public class ContactController {
             Set<UUID> requestsList = contactManager.getRequests(userId);
             requestsList.remove(potentialContact);
             contactManager.setContacts(userId, contacts);
-            contactManager.setRequests(potentialContact, contacts2);
+            contactManager.setContacts(potentialContact, contacts2);
             contactManager.setRequests(userId, requestsList);
         } else {
             throw new GhostAcceptDeniedException(userId, potentialContact);
@@ -66,7 +66,8 @@ public class ContactController {
 
     /**
      * Allows a user to reject a request from another user.
-     * @param userId UUID of the user who is rejecting the request.
+     *
+     * @param userId           UUID of the user who is rejecting the request.
      * @param potentialContact UUID of the user whose request is being rejected :(
      */
     public void rejectRequests(UUID userId, UUID potentialContact) {
@@ -86,9 +87,9 @@ public class ContactController {
      * @param extraContact UUID of the user whose contact is being deleted.
      */
     public void deleteContacts(UUID userId, UUID extraContact) {
-        Set<UUID> contactsList = contactManager.getContacts(userId);
-        Set<UUID> contactsList2 = contactManager.getContacts(extraContact);
-        if (!contactsList.contains(extraContact)) {
+        Set<UUID> contactsList = showContacts(userId);
+        Set<UUID> contactsList2 = showContacts(extraContact);
+        if (!showContacts(userId).contains(extraContact)) {
             throw new GhostDeleteException(userId, extraContact);
         }
         contactsList.remove(extraContact);

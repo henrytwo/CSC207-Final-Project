@@ -204,7 +204,7 @@ public class EventManager implements Serializable {
      * Gets the conversation for an events
      *
      * @param eventUUID UUID of events in question
-     * @return UUID of this events's conversation
+     * @return UUID of this event's conversation
      */
     public UUID getEventConversationUUID(UUID eventUUID) {
         return getEvent(eventUUID).getConversationUUID();

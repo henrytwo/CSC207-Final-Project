@@ -2,18 +2,14 @@ package convention;
 
 import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
-import convention.event.Event;
 import convention.event.EventManager;
-import convention.exception.InvalidSortMethodException;
 import convention.permission.PermissionManager;
-import convention.schedule.ScheduleManager;
+//import convention.schedule.ScheduleConstants;
 import messaging.ConversationManager;
 import user.UserManager;
 
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Map;
+//import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -24,21 +20,21 @@ import java.util.logging.Logger;
  */
 public class ConferenceController {
 
-    Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    private UserManager userManager;
-    private ConversationManager conversationManager;
-    private EventController eventController;
-    private ConferenceManager conferenceManager;
-    private PermissionManager permissionManager;
+    private final UserManager userManager;
+    private final ConversationManager conversationManager;
+    private final EventController eventController;
+    private final ConferenceManager conferenceManager;
+    private final PermissionManager permissionManager;
 
     /**
      * Creates an instance of ConferenceController. We store an instance of conversationController so we can
      * send instructions to it to create or mutate conversations that are created for conferences.
      *
-     * @param conversationManager
-     * @param eventController
-     * @param conferenceManager
+     * @param conversationManager an instance of conversationManager
+     * @param eventController an instance of eventController
+     * @param conferenceManager an instance of conferenceManager
      */
     public ConferenceController(ConversationManager conversationManager, EventController eventController, ConferenceManager conferenceManager, UserManager userManager) {
         this.conversationManager = conversationManager;
@@ -46,6 +42,9 @@ public class ConferenceController {
         this.conferenceManager = conferenceManager;
         this.userManager = userManager;
         this.permissionManager = new PermissionManager(conferenceManager, userManager);
+
+        // store a copy of the printer somewhere
+        // TODO: make a schedule manager and pass in the eventManager and conferenceManager
     }
 
     /* Conference operations */
@@ -198,21 +197,6 @@ public class ConferenceController {
     }
 
     /**
-     * Get all the events UUID to TimeRange pairs for this conference.
-     * <p>
-     * Required Permission: ATTENDEE
-     *
-     * @param conferenceUUID UUID of the conference to operate on
-     * @param executorUUID   UUID of the user executing the command
-     * @return map from events UUID to their respective time ranges.
-     */
-    public Map<UUID, TimeRange> getConferenceSchedule(UUID conferenceUUID, UUID executorUUID) {
-        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
-
-        return conferenceManager.getConferenceSchedule(conferenceUUID);
-    }
-
-    /**
      * Join a conference as an attendee.
      * <p>
      * (This is a special case because users aren't an attendee until after they join a conference)
@@ -287,7 +271,7 @@ public class ConferenceController {
         permissionManager.testIsSpeaker(conferenceUUID, executorUUID);
         permissionManager.testTargetsAreAttendee(conferenceUUID, executorUUID, targetUUIDs);
 
-        // Allow all the target users + the organizer running this to have read/write access to the new convo
+        // Allow all the target users + the organizer running this to have read/write access to the new conversation
         Set<UUID> conversationUsers = new HashSet<>(targetUUIDs);
         conversationUsers.add(executorUUID);
 
@@ -450,11 +434,13 @@ public class ConferenceController {
         return userUUIDs;
     }
 
-    /**
+}
+    /*/**
      * @param userId UUID of a speaker if sortBy == "speaker", UUID of the user if sortBy == "registered"
      * @param sortBy can either be "speaker" or "registered"
-     * @throws IOException promps a file download for an events schedule sorted by speaker or events user signed up for
+     * @throws IOException prompts a file download for an events schedule sorted by speaker or events user signed up for
      */
+    /*
     public void printSchedule(UUID userId, String sortBy, String fileName) throws IOException {
         if (!(sortBy.equals("speaker") || sortBy.equals("registered"))) {
             throw new InvalidSortMethodException();
@@ -485,15 +471,17 @@ public class ConferenceController {
             }
         }
         scheduleManager.setScheduleTitle(sortBy, userName);
-        scheduleManager.print(fileName);
-    }
+        DocumentPrinter tablePrinter = new DocumentPrinter(scheduleManager.getSchedule().getEventStringLists());
+        tablePrinter.print(scheduleManager.getSchedule().getTitle(), fileName);
+    }*/
 
-    /**
-     * @param userid UUID of the user requesting the printable schedule
-     * @param date   a day on which events schedule is printed
-     * @throws IOException Overloading the printSchedule method for when the user want to sort by date. A sortBy parameter is not needed
-     *                     as input
-     */
+    ///**
+    // * @param userid UUID of the user requesting the printable schedule
+    // * @param date   a day on which events schedule is printed
+    // * @throws IOException Overloading the printSchedule method for when the user want to sort by date. A sortBy parameter is not needed
+    // *                     as input
+    // */
+    /*
     public void printSchedule(UUID userid, LocalDate date, String fileName) throws IOException {
         Set<UUID> conferenceUUIDSet = getConferences();
         ScheduleManager scheduleManager = new ScheduleManager();
@@ -516,6 +504,24 @@ public class ConferenceController {
             }
         }
         scheduleManager.setScheduleTitle("day", date.toString());
-        scheduleManager.print(fileName);
+        DocumentPrinter tablePrinter = new DocumentPrinter(scheduleManager.getSchedule().getEventStringLists());
+        tablePrinter.print(scheduleManager.getSchedule().getTitle(),fileName);
+    }*/
+    /*public void printSchedule(ScheduleConstants.sortByMethods sortByMethod, Map<String, Object> arguments) {
+
+        // Sorted list of pairs List<Pairs<UUID, UUID>> //
+
+        switch (sortByMethod) {
+            case DATE:
+                // you somehow get the event-conference pairs by sorting by date
+                break;
+        }
+
+        // String scheduleStr = scheduleManager.compileSchedule(sortByMethod, listOfPairs) -> str
+
+        //IDocumentPrinter testWord;
+
+        //testWord.print(scheduleStr, "something.txt");
+
     }
-}
+}*/

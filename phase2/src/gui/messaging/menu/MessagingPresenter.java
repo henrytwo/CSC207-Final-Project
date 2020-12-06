@@ -47,7 +47,7 @@ class MessagingPresenter {
 
             // Choose the specified default conference UUID
             if (defaultConversationUUID != null) {
-                if( conversationUUIDs.contains(defaultConversationUUID)) {
+                if (conversationUUIDs.contains(defaultConversationUUID)) {
                     defaultConversationIndex = conversationUUIDs.indexOf(defaultConversationUUID);
                 } else {
                     IDialog unableToOpenMessageDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
@@ -102,7 +102,7 @@ class MessagingPresenter {
     }
 
     private void updateUserList(UUID conversationUUID) {
-        Set<UUID> usersUUIDList = conversationController.getUsersInConvo(conversationUUID);
+        Set<UUID> usersUUIDList = conversationController.getUsersInConversation(conversationUUID);
         String[] userNames = new String[usersUUIDList.size()];
         int i = 0;
         for (UUID userUUID : usersUUIDList) {

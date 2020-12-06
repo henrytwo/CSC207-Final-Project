@@ -1,8 +1,5 @@
 package convention.schedule;
 
-import gateway.TablePrinter;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -30,8 +27,7 @@ public class ScheduleManager {
         this.schedule.addEventStringList(eventStringList);
     }
 
-    public void print(String fileName) throws IOException {
-        TablePrinter tablePrinter = new TablePrinter();
-        tablePrinter.print(schedule.getTitle(), fileName);
+    public Schedule getSchedule() {
+        return schedule;
     }
 }

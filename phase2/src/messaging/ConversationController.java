@@ -9,30 +9,30 @@ import java.util.*;
  * Operations on Conversations
  */
 public class ConversationController {
-    private ConversationManager convoManager;
-    private ContactManager contactManager;
-    private UserManager userManager;
+    private final ConversationManager conversationManager;
+    private final ContactManager contactManager;
+    private final UserManager userManager;
 
     /**
      * Constructor for ConversationController
      *
      * @param contactManager      ContactManager object relevant to this conversation
-     * @param conversationManager ConversationManager onject for this conversation
+     * @param conversationManager ConversationManager object for this conversation
      * @param userManager         User Manager object
      */
     public ConversationController(ContactManager contactManager, ConversationManager conversationManager, UserManager userManager) {
         this.contactManager = contactManager;
-        this.convoManager = conversationManager;
+        this.conversationManager = conversationManager;
         this.userManager = userManager;
     }
 
     /**
      * Checks if the User have access to start a conversation with another User.
-     *
+     * <p>
      * God users can message anyone without restriction.
      *
-     * @param sender   UUID of the person who wants to send the message
-     * @param receiver UUID of the person to whom the message is to be sent
+     * @param  sender   UUID of the person who wants to send the message
+     * @param  receiver UUID of the person to whom the message is to be sent
      * @return true iff the receiver is in the friend list of sender
      */
     private boolean checkAccess(UUID sender, UUID receiver) {
@@ -42,12 +42,12 @@ public class ConversationController {
     /**
      * Sends a particular message to a specific chat. God users can bypass write-restrictions.
      *
-     * @param executorUUID the Id of the sender of the message
-     * @param messageContent   The content of the message to be sent
-     * @param convId           the conversation Id of the conversation to which this message has to be added
+     * @param executorUUID   the Id of the sender of the message
+     * @param messageContent The content of the message to be sent
+     * @param convId         the conversation Id of the conversation to which this message has to be added
      */
     public void sendMessage(UUID executorUUID, String messageContent, UUID convId) {
-        convoManager.sendMessage(executorUUID, messageContent, convId, userManager.getUserIsGod(executorUUID));
+        conversationManager.sendMessage(executorUUID, messageContent, convId, userManager.getUserIsGod(executorUUID));
     }
 
     /**
@@ -65,31 +65,31 @@ public class ConversationController {
         /**
          * TODO: Verify access before allowing conversation to be created
          */
-        return convoManager.createConversation(convName, conversationUsers, conversationUsers, executorUUID, messageContent);
+        return conversationManager.createConversation(convName, conversationUsers, conversationUsers, executorUUID, messageContent);
     }
 
     /**
      * Gets messages for a conversation a user has read access to. Throws NoReadAccessException if the user has no
      * read access.
-     *
+     * <p>
      * God users can bypass read-restrictions.
      *
-     * @param executorUUID         The ID of the User
-     * @param conversationUUID The Id of the Conversation for which the messages need to be seen
+     * @param  executorUUID     The ID of the User
+     * @param  conversationUUID The Id of the Conversation for which the messages need to be seen
      * @return returns an list of Hashmaps. Each Hashmap stores information about a message in the conversation.
      */
     public List<Map<String, String>> getMessages(UUID executorUUID, UUID conversationUUID) {
-        return convoManager.getMessages(executorUUID, conversationUUID, userManager.getUserIsGod(executorUUID));
+        return conversationManager.getMessages(executorUUID, conversationUUID, userManager.getUserIsGod(executorUUID));
     }
 
     /**
      * Get the conversation name
      *
-     * @param conversationUUID UUID of the conversation to operate on
+     * @param  conversationUUID UUID of the conversation to operate on
      * @return Conversation name
      */
     public String getConversationName(UUID conversationUUID) {
-        return convoManager.getConversationName(conversationUUID);
+        return conversationManager.getConversationName(conversationUUID);
     }
 
 
@@ -102,9 +102,9 @@ public class ConversationController {
     public Set<UUID> getConversationList(UUID userId) {
         // God users can see all conversations
         if (userManager.getUserIsGod(userId)) {
-            return convoManager.getConversationList();
+            return conversationManager.getConversationList();
         } else {
-            return convoManager.getConversationList(userId);
+            return conversationManager.getConversationList(userId);
         }
     }
 
@@ -114,8 +114,8 @@ public class ConversationController {
      * @param conversationUUID UUID of the specific conversation
      * @param userUUID         UUID of the specific user
      */
-    public void addUserToConvo(UUID conversationUUID, UUID userUUID) {
-        convoManager.addUser(userUUID, conversationUUID);
+    public void addUserToConversation(UUID conversationUUID, UUID userUUID) {
+        conversationManager.addUser(userUUID, conversationUUID);
     }
 
     /**
@@ -124,8 +124,8 @@ public class ConversationController {
      * @param conversationUUID UUID of the specific conversation
      * @param userUUID         UUID of the specific user
      */
-    public void removeUserFromConvo(UUID conversationUUID, UUID userUUID) {
-        convoManager.removeUser(userUUID, conversationUUID);
+    public void removeUserFromConversation(UUID conversationUUID, UUID userUUID) {
+        conversationManager.removeUser(userUUID, conversationUUID);
     }
 
     /**
@@ -134,10 +134,46 @@ public class ConversationController {
      * @param conversationUUID the UUID of the conversation in question
      * @return the list of users in this conversation
      */
-    public Set<UUID> getUsersInConvo(UUID conversationUUID) {
-        return convoManager.getUsers(conversationUUID);
+    public Set<UUID> getUsersInConversation(UUID conversationUUID) {
+        return conversationManager.getUsers(conversationUUID);
     }
-//
+
+    /**
+     * archives a conversation for a specific user
+     *
+     * @param userUUID         user in question
+     * @param conversationUUID conversation in question
+     */
+    public void userArchiveConversation(UUID userUUID, UUID conversationUUID){
+        conversationManager.userArchiveConversation(userUUID, conversationUUID);
+    }
+
+    /**
+     * archives a conversation
+     *
+     * @param userUUID         user in question
+     * @param conversationUUID conversation in question
+     */
+    public void userUnreadConversation(UUID userUUID, UUID conversationUUID){
+        conversationManager.userUnreadConversation(userUUID, conversationUUID);
+    }
+
+    /**
+     * Deletes a specific message if the message was sent by that person or is being deleted by a god user
+     *
+     * @param conversationUUID conversation in question
+     * @param userUUID         user in question
+     * @param index            index of the message in question
+     */
+    public void deleteMessage(UUID conversationUUID, UUID userUUID, int index){
+        if (conversationManager.getConversation(conversationUUID).getConversationMessages().get(index).getSenderUUID() == userUUID
+                || userManager.getUserIsGod(userUUID)){
+            conversationManager.userDeleteMessage(conversationUUID, index);
+        }
+    }
+
+
+
 //    /**
 //     * Adds user to the a specific chat
 //     *
@@ -145,7 +181,7 @@ public class ConversationController {
 //     * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
 //     */
     //public void addUser(UUID signedInUserUUID, UUID conversationUUID) {
-    //    convoManager.addUser(signedInUserUUID, conversationUUID);
+    //    conversationManager.addUser(signedInUserUUID, conversationUUID);
     //}
     // Not currently in use, need to add admin chat users for this
 
@@ -156,7 +192,7 @@ public class ConversationController {
 //     * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
 //     */
     //public void removeUser(UUID signedInUserUUID, UUID conversationUUID) {
-    //    convoManager.removeUser(signedInUserUUID, conversationUUID);
+    //    conversationManager.removeUser(signedInUserUUID, conversationUUID);
     //}
     // Not currently in use, need to add admin chat users for this
 }

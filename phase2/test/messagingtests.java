@@ -111,5 +111,4 @@ public class messagingtests {
         assert contactController.showContacts(myUser3).contains(myUser2) == false;
         assert contactController.showContacts(myUser2).contains(myUser3) == false;
     }
-
 }
