@@ -1,8 +1,7 @@
 package convention.schedule;
 
 import convention.conference.ConferenceManager;
-import convention.event.EventManager;
-import javafx.util.Pair;
+import util.Pair;
 import user.UserManager;
 import util.TableTools;
 
@@ -22,7 +21,7 @@ public class ScheduleManager {
     }
 
 
-    public String compileSchedule(ScheduleConstants.sortByMethods sortByMethod, List<Pair<UUID, UUID>> ListOfPairs) {
+    public String compileSchedule(ScheduleConstants.sortByMethods sortByMethod, List<Pair> ListOfPairs) {
 //        TODO: figure out how to add title for diff sortBy
         switch (sortByMethod) {
             case REGISTERED:
@@ -34,7 +33,7 @@ public class ScheduleManager {
 
         }
         List<List<String>> table = new ArrayList<>();
-        for (Pair<UUID, UUID> pair: ListOfPairs) {
+        for (Pair pair: ListOfPairs) {
             ArrayList<String> speakerNames = new ArrayList<>();
             for (UUID speakerUUID: conferenceManager.getEventManager(pair.getValue()).getEvent(pair.getKey()).getSpeakers()) {
                 speakerNames.add(userManager.getUserUsername(speakerUUID));
