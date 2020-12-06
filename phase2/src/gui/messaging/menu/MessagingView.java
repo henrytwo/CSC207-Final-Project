@@ -20,11 +20,11 @@ public class MessagingView implements IPanel, IMessagingView {
     /**
      * Creates GUI for the Messaging Functionality
      *
-     * @param guiSystem               the gui system
+     * @param mainFrame               the main frame
      * @param defaultConversationUUID UUID of the default conversation to select. If none selected, or invalid, the first one will be selected.
      */
-    public MessagingView(IFrame guiSystem, UUID defaultConversationUUID) {
-        messagingPresenter = new MessagingPresenter(guiSystem, this, defaultConversationUUID);
+    public MessagingView(IFrame mainFrame, UUID defaultConversationUUID) {
+        messagingPresenter = new MessagingPresenter(mainFrame, this, defaultConversationUUID);
         conversationList.addListSelectionListener((e) -> messagingPresenter.updateSelection(conversationList.getSelectedIndex()));
         newConversationButton.addActionListener((e) -> messagingPresenter.createConversation());
 

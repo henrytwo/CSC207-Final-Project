@@ -2,16 +2,13 @@ package convention;
 
 import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
-import convention.event.Event;
 import convention.event.EventManager;
-import convention.exception.InvalidSortMethodException;
 import convention.permission.PermissionManager;
-import convention.schedule.ScheduleManager;
+import convention.schedule.ScheduleConstants;
 import messaging.ConversationManager;
 import user.UserManager;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -46,6 +43,9 @@ public class ConferenceController {
         this.conferenceManager = conferenceManager;
         this.userManager = userManager;
         this.permissionManager = new PermissionManager(conferenceManager, userManager);
+
+        // store a copy of the printer somewhere
+        // TODO: make a schedule manager and pass in the eventManager and conferenceManager
     }
 
     /* Conference operations */
@@ -195,21 +195,6 @@ public class ConferenceController {
         permissionManager.testIsOrganizer(conferenceUUID, executorUUID);
         conferenceManager.deleteConference(conferenceUUID);
         LOGGER.log(Level.INFO, String.format("Conference Deleted\n Conference UUID: %s\n Executor: %s", conferenceUUID, executorUUID));
-    }
-
-    /**
-     * Get all the events UUID to TimeRange pairs for this conference.
-     * <p>
-     * Required Permission: ATTENDEE
-     *
-     * @param conferenceUUID UUID of the conference to operate on
-     * @param executorUUID   UUID of the user executing the command
-     * @return map from events UUID to their respective time ranges.
-     */
-    public Map<UUID, TimeRange> getConferenceSchedule(UUID conferenceUUID, UUID executorUUID) {
-        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
-
-        return conferenceManager.getConferenceSchedule(conferenceUUID);
     }
 
     /**
@@ -453,8 +438,9 @@ public class ConferenceController {
     /**
      * @param userId UUID of a speaker if sortBy == "speaker", UUID of the user if sortBy == "registered"
      * @param sortBy can either be "speaker" or "registered"
-     * @throws IOException promps a file download for an events schedule sorted by speaker or events user signed up for
+     * @throws IOException prompts a file download for an events schedule sorted by speaker or events user signed up for
      */
+    /*
     public void printSchedule(UUID userId, String sortBy, String fileName) throws IOException {
         if (!(sortBy.equals("speaker") || sortBy.equals("registered"))) {
             throw new InvalidSortMethodException();
@@ -485,8 +471,9 @@ public class ConferenceController {
             }
         }
         scheduleManager.setScheduleTitle(sortBy, userName);
-        scheduleManager.print(fileName);
-    }
+        DocumentPrinter tablePrinter = new DocumentPrinter(scheduleManager.getSchedule().getEventStringLists());
+        tablePrinter.print(scheduleManager.getSchedule().getTitle(), fileName);
+    }*/
 
     /**
      * @param userid UUID of the user requesting the printable schedule
@@ -494,6 +481,7 @@ public class ConferenceController {
      * @throws IOException Overloading the printSchedule method for when the user want to sort by date. A sortBy parameter is not needed
      *                     as input
      */
+    /*
     public void printSchedule(UUID userid, LocalDate date, String fileName) throws IOException {
         Set<UUID> conferenceUUIDSet = getConferences();
         ScheduleManager scheduleManager = new ScheduleManager();
@@ -516,6 +504,24 @@ public class ConferenceController {
             }
         }
         scheduleManager.setScheduleTitle("day", date.toString());
-        scheduleManager.print(fileName);
+        DocumentPrinter tablePrinter = new DocumentPrinter(scheduleManager.getSchedule().getEventStringLists());
+        tablePrinter.print(scheduleManager.getSchedule().getTitle(),fileName);
+    }*/
+    public void printSchedule(ScheduleConstants.sortByMethods sortByMethod, Map<String, Object> arguments) {
+
+        // Sorted list of pairs List<Pairs<UUID, UUID>> //
+
+        switch (sortByMethod) {
+            case DATE:
+                // you somehow get the event-conference pairs by sorting by date
+                break;
+        }
+
+        // String scheduleStr = scheduleManager.compileSchedule(sortByMethod, listOfPairs) -> str
+
+        //IDocumentPrinter asdad;
+
+        //asdad.print(scheduleStr, "soimething.txt");
+
     }
 }
