@@ -213,22 +213,43 @@ public class ConversationManager implements Serializable {
 
         if (conversation.getReadAccessUsers().contains(userUUID) || bypassRestriction) {
             List<Map<String, String>> newList = new ArrayList<>();
-            for (Message message : conversation.getConversationMessages()) {
+            conversation.readConversation(userUUID);
 
-                if (!message.getUsersArchivingMessage().contains(userUUID)) {
-                    Map<String, String> messageAsHashmap = new HashMap<>();
-                    messageAsHashmap.put("sender", message.getSenderId().toString());
-                    messageAsHashmap.put("timestamp", message.getTimestamp().toString());
-                    messageAsHashmap.put("content", message.getContent());
-                    newList.add(messageAsHashmap);
-                    if (!message.getHasRead().contains(userUUID)) {
-                        message.userReadMessage(userUUID);
-                    }
-                }
+            for (Message message : conversation.getConversationMessages()) {
+                Map<String, String> messageAsHashmap = new HashMap<>();
+                messageAsHashmap.put("sender", message.getSenderId().toString());
+                messageAsHashmap.put("timestamp", message.getTimestamp().toString());
+                messageAsHashmap.put("content", message.getContent());
+                newList.add(messageAsHashmap);
             }
             return newList;
         } else {
             throw new NoReadAccessException();
         }
     }
+
+    /**
+     * Marks a conversation as unread for a specific user
+     *
+     * @param userUUID user in question
+     * @param conversationUUID conversation in question
+     */
+    private void userUnreadConversation(UUID userUUID, UUID conversationUUID){
+        Conversation conversation = getConversation(conversationUUID);
+        conversation.unreadConversation(userUUID);
+    }
+
+    /**
+     * Arcchives a conversation for a specific user
+     *
+     * @param userUUID user in question
+     * @param conversationUUID conversation in question
+     */
+    private void userArchiveConversation(UUID userUUID, UUID conversationUUID){
+        Conversation conversation = getConversation(conversationUUID);
+        conversation.archiveConversation(userUUID);
+    }
+
+
+
 }

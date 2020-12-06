@@ -102,7 +102,7 @@ class MessagingPresenter {
     }
 
     private void updateUserList(UUID conversationUUID) {
-        Set<UUID> usersUUIDList = conversationController.getUsersInConvo(conversationUUID);
+        Set<UUID> usersUUIDList = conversationController.getUsersInConversation(conversationUUID);
         String[] userNames = new String[usersUUIDList.size()];
         int i = 0;
         for (UUID userUUID : usersUUIDList) {

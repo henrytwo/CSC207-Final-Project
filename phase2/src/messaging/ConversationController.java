@@ -9,7 +9,7 @@ import java.util.*;
  * Operations on Conversations
  */
 public class ConversationController {
-    private ConversationManager convoManager;
+    private ConversationManager conversationManager;
     private ContactManager contactManager;
     private UserManager userManager;
 
@@ -22,7 +22,7 @@ public class ConversationController {
      */
     public ConversationController(ContactManager contactManager, ConversationManager conversationManager, UserManager userManager) {
         this.contactManager = contactManager;
-        this.convoManager = conversationManager;
+        this.conversationManager = conversationManager;
         this.userManager = userManager;
     }
 
@@ -47,7 +47,7 @@ public class ConversationController {
      * @param convId           the conversation Id of the conversation to which this message has to be added
      */
     public void sendMessage(UUID executorUUID, String messageContent, UUID convId) {
-        convoManager.sendMessage(executorUUID, messageContent, convId, userManager.getUserIsGod(executorUUID));
+        conversationManager.sendMessage(executorUUID, messageContent, convId, userManager.getUserIsGod(executorUUID));
     }
 
     /**
@@ -65,7 +65,7 @@ public class ConversationController {
         /**
          * TODO: Verify access before allowing conversation to be created
          */
-        return convoManager.createConversation(convName, conversationUsers, conversationUsers, executorUUID, messageContent);
+        return conversationManager.createConversation(convName, conversationUsers, conversationUsers, executorUUID, messageContent);
     }
 
     /**
@@ -79,7 +79,7 @@ public class ConversationController {
      * @return returns an list of Hashmaps. Each Hashmap stores information about a message in the conversation.
      */
     public List<Map<String, String>> getMessages(UUID executorUUID, UUID conversationUUID) {
-        return convoManager.getMessages(executorUUID, conversationUUID, userManager.getUserIsGod(executorUUID));
+        return conversationManager.getMessages(executorUUID, conversationUUID, userManager.getUserIsGod(executorUUID));
     }
 
     /**
@@ -89,7 +89,7 @@ public class ConversationController {
      * @return Conversation name
      */
     public String getConversationName(UUID conversationUUID) {
-        return convoManager.getConversationName(conversationUUID);
+        return conversationManager.getConversationName(conversationUUID);
     }
 
 
@@ -102,9 +102,9 @@ public class ConversationController {
     public Set<UUID> getConversationList(UUID userId) {
         // God users can see all conversations
         if (userManager.getUserIsGod(userId)) {
-            return convoManager.getConversationList();
+            return conversationManager.getConversationList();
         } else {
-            return convoManager.getConversationList(userId);
+            return conversationManager.getConversationList(userId);
         }
     }
 
@@ -114,8 +114,8 @@ public class ConversationController {
      * @param conversationUUID UUID of the specific conversation
      * @param userUUID         UUID of the specific user
      */
-    public void addUserToConvo(UUID conversationUUID, UUID userUUID) {
-        convoManager.addUser(userUUID, conversationUUID);
+    public void addUserToConversation(UUID conversationUUID, UUID userUUID) {
+        conversationManager.addUser(userUUID, conversationUUID);
     }
 
     /**
@@ -124,8 +124,8 @@ public class ConversationController {
      * @param conversationUUID UUID of the specific conversation
      * @param userUUID         UUID of the specific user
      */
-    public void removeUserFromConvo(UUID conversationUUID, UUID userUUID) {
-        convoManager.removeUser(userUUID, conversationUUID);
+    public void removeUserFromConversation(UUID conversationUUID, UUID userUUID) {
+        conversationManager.removeUser(userUUID, conversationUUID);
     }
 
     /**
@@ -134,9 +134,15 @@ public class ConversationController {
      * @param conversationUUID the UUID of the conversation in question
      * @return the list of users in this conversation
      */
-    public Set<UUID> getUsersInConvo(UUID conversationUUID) {
-        return convoManager.getUsers(conversationUUID);
+    public Set<UUID> getUsersInConversation(UUID conversationUUID) {
+        return conversationManager.getUsers(conversationUUID);
     }
+
+
+
+
+
+
 //
 //    /**
 //     * Adds user to the a specific chat

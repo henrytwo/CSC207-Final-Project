@@ -1,6 +1,7 @@
 package messaging;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -14,6 +15,9 @@ public class Conversation implements Serializable {
     private Set<UUID> writeAccessUsers;
     private Set<UUID> readAccessUsers;
     private UUID conversationUUID;
+    private Set<UUID> hasRead = new HashSet<>();
+    private Set<UUID> hasArchived = new HashSet<>();
+
 
     /**
      * Constructor for Conversation
@@ -146,67 +150,28 @@ public class Conversation implements Serializable {
         }
     }
 
+
+
     /**
-     * Deletes a specific message in the Chat
+     * Marks a conversation for a specific user
      *
-     * @param message Message to be deleted
-     * @return true iff message was deleted successfully
+     * @param userUUID the user having read the conversation
      */
-    public boolean deleteMessage(Message message) {
-        if (conversationMessages.contains(message)) {
-            conversationMessages.remove(message);
-            return true;
-        } else {
-            return false;
-        }
+    public void readConversation(UUID userUUID){
+        hasRead.add(userUUID);
+    }
+
+    public void unreadConversation(UUID userUUID){
+        hasRead.remove(userUUID);
     }
 
     /**
-     * archives a specific message for a specific user
+     * archives a conversation for a specific user
      *
-     * @param message  message in question
-     * @param userUUid user in question
-     * @return whether the message has been archived or not
+     * @param userUUID the user archiving the conversation
      */
-    public boolean archiveMessage(Message message, UUID userUUid) {
-        if (conversationMessages.contains(message)) {
-            message.setUsersArchivingMessage(userUUid);
-            return true;
-        } else {
-            return false;
-        }
-
+    public void archiveConversation(UUID userUUID){
+        hasArchived.add(userUUID);
     }
 
-    /**
-     * marks a specific message as 'read' for a specific user
-     *
-     * @param message  message in question
-     * @param userUUID user in question
-     * @return true if the message is marked as read, false otherwise
-     */
-    public boolean readMessage(Message message, UUID userUUID) {
-        if (conversationMessages.contains(message)) {
-            message.userReadMessage(userUUID);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * unmarks a specific message as 'read' for a specific user
-     *
-     * @param message  message in question
-     * @param userUUID user in question
-     * @return true if the message is unmarked as read, false otherwise
-     */
-    public boolean unreadMessage(Message message, UUID userUUID) {
-        if (conversationMessages.contains(message)) {
-            message.userUnreadMessage(userUUID);
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
