@@ -25,7 +25,7 @@ public class MainMenuView implements IPanel, IMainMenuView {
      *
      * @param guiSystem               gui system
      * @param defaultTabIndex         tab that is opened by default on page load
-     * @param initializationArguments hashmap of values that can be used to set the initial state of a panel
+     * @param initializationArguments HashMap of values that can be used to set the initial state of a panel
      */
     public MainMenuView(IFrame guiSystem, int defaultTabIndex, Map<String, Object> initializationArguments) {
         mainMenuPresenter = new MainMenuPresenter(guiSystem, this, initializationArguments);

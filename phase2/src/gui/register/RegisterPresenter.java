@@ -34,7 +34,7 @@ class RegisterPresenter {
     }
 
     void register() {
-        if (registerView.getFirstname().length() == 0 || registerView.getLastname().length() == 0 || registerView.getUsername().length() == 0 || registerView.getPassword().length() == 0) {
+        if (registerView.getFirstName().length() == 0 || registerView.getLastName().length() == 0 || registerView.getUsername().length() == 0 || registerView.getPassword().length() == 0) {
             IDialog invalidRegistrationDialog
                     = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
@@ -46,7 +46,7 @@ class RegisterPresenter {
 
             invalidRegistrationDialog.run();
         } else {
-            if (userController.registerUser(registerView.getFirstname(), registerView.getLastname(), registerView.getUsername(), registerView.getPassword()) != null) {
+            if (userController.registerUser(registerView.getFirstName(), registerView.getLastName(), registerView.getUsername(), registerView.getPassword()) != null) {
                 mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
             } else {
                 IDialog invalidRegistrationDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {

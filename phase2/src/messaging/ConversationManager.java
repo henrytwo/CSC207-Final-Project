@@ -12,9 +12,9 @@ import java.util.*;
  */
 public class ConversationManager implements Serializable {
 
-    // Note that the userUUIDtoConversationUUIDs hashmap is only there for efficiency reasons
+    // Note that the userUUIDtoConversationUUIDs HashMap is only there for efficiency reasons
     // the permissions are decided based on the read/write access to each conversation
-    // (looping thru all the convos is O(n), but accessing the hashmap is O(1) time)
+    // (looping thru all the convos is O(n), but accessing the HashMap is O(1) time)
     private Map<UUID, Set<UUID>> userUUIDtoConversationUUIDs = new HashMap<>();
     private Map<UUID, Conversation> conversationUUIDsToEntity = new HashMap<>();
 
@@ -37,7 +37,7 @@ public class ConversationManager implements Serializable {
 
         // Add conversation object to UUID -> Convo map
         Conversation newConversation = new Conversation(convName, usersWrite, usersRead, messages);
-        UUID conversationUUID = newConversation.getconvId();
+        UUID conversationUUID = newConversation.getConversationUUID();
         conversationUUIDsToEntity.put(conversationUUID, newConversation);
 
         // This contains all the users in this convo
@@ -106,8 +106,8 @@ public class ConversationManager implements Serializable {
         Conversation conversation = getConversation(conversationUUID);
 
         // Update permission within conversation
-        conversation.addUserToWrite(userUUID);
-        conversation.addUserToRead(userUUID);
+        conversation.grantWriteAccess(userUUID);
+        conversation.grantReadAccess(userUUID);
 
         // Add conversation to user's list
         addConvoToUserList(userUUID, conversationUUID);

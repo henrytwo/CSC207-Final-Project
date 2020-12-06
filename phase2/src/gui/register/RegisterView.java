@@ -27,12 +27,12 @@ public class RegisterView extends JFrame implements IPanel, IRegisterView {
     }
 
     @Override
-    public String getFirstname() {
+    public String getFirstName() {
         return FirstNameTextField.getText();
     }
 
     @Override
-    public String getLastname() {
+    public String getLastName() {
         return lastNameTextField.getText();
     }
 

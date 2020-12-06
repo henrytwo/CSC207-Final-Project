@@ -54,7 +54,7 @@ public class PanelFactory implements IPanelFactory {
      * Generates an IPanel given its name and (optional) initializing arguments
      *
      * @param name                    name of the panel to create
-     * @param initializationArguments hashmap of values that can be used to set the initial state of a panel
+     * @param initializationArguments HashMap of values that can be used to set the initial state of a panel
      * @return
      */
     @Override

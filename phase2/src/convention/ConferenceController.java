@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  */
 public class ConferenceController {
 
-    Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private UserManager userManager;
     private ConversationManager conversationManager;

@@ -172,7 +172,7 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
                     } else {
                         IDialog failDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                             {
-                                put("message", String.format(errorMessage));
+                                put("message", errorMessage);
                                 put("title", title);
                                 put("messageType", DialogFactoryOptions.dialogType.ERROR);
                             }
