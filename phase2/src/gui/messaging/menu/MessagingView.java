@@ -2,6 +2,8 @@ package gui.messaging.menu;
 
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -36,6 +38,16 @@ public class MessagingView implements IPanel, IMessagingView {
 
         archiveButton.addActionListener((e) -> messagingPresenter.archiveConversation());
         unreadButton.addActionListener((e) -> messagingPresenter.unreadConversation());
+
+        messages.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                messagingPresenter.deleteMessage(messages.getSelectedIndex());
+            }
+        });
+
     }
 
     @Override

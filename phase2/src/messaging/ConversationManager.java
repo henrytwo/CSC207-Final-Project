@@ -212,6 +212,7 @@ public class ConversationManager implements Serializable {
     List<Map<String, String>> getMessages(UUID userUUID, UUID conversationUUID, boolean bypassRestriction) {
         Conversation conversation = getConversation(conversationUUID);
 
+        conversation.getUsersHaveRead().add(userUUID);
         if (conversation.getReadAccessUsers().contains(userUUID) || bypassRestriction) {
             List<Map<String, String>> newList = new ArrayList<>();
 
