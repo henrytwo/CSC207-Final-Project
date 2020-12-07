@@ -80,7 +80,7 @@ class MessagingPresenter extends AbstractPresenter {
     }
 
     void deleteMessage(int index) {
-        if (index != -1) {
+        if (index != -1 && currentConversationUUID != null) {
             if (conversationController.checkIfSender(currentConversationUUID, signedInUserUUID, index)) {
                 IDialog deleteMessageConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                     {
