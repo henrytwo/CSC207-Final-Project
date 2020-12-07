@@ -70,14 +70,27 @@ class MessagingPresenter extends AbstractPresenter {
     }
 
     void archiveConversation() {
-        IDialog archiveConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
-            {
-                put("message", "Archive this conversation?");
-                put("title", "this is title");
-                put("messageType", DialogFactoryOptions.dialogType.ERROR);
-                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
-            }
-        });
+        if (userController.getUserIsGod(signedInUserUUID)) {
+
+            IDialog emptyChatNameDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("title", "Error");
+                    put("message", "Gods are too powerful to archive conversations");
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                }
+            });
+            emptyChatNameDialog.run();
+
+        } else {
+            IDialog archiveConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+                {
+                    put("message", "Archive this conversation?");
+                    put("title", "this is title");
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                    put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+
+                }
+            });
 
 
 
@@ -85,8 +98,10 @@ class MessagingPresenter extends AbstractPresenter {
             conversationController.userArchiveConversation(signedInUserUUID, currentConversationUUID);
             reloadMessagePage();
 
-        }
+        }}
     }
+
+
 
 
     void sendMessage() {
