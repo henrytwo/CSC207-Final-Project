@@ -24,7 +24,6 @@ class MessagingPresenter {
     private int currentConversationIndex = -1;
     private UUID currentConversationUUID;
 
-
     MessagingPresenter(IFrame mainFrame, IMessagingView messagingView, UUID defaultConversationUUID) {
         this.messagingView = messagingView;
 
@@ -65,10 +64,11 @@ class MessagingPresenter {
             messagingView.setConversationListSelection(defaultConversationIndex); // makes it look like we select it
             updateSelection(defaultConversationIndex);
         } else {
-            if (messagingView.getMessagesFromJList() == 0) {
+            if (messagingView.getNumMessages() == 0) {
                 String[] firstMessage = new String[]{"Create a New Conversation to View or Send Messages"};
                 messagingView.setMessages(firstMessage);
             }
+
             messagingView.setEnableSendButton(false);
             messagingView.setEnableTextField(false);
             String[] messageInUsersList = new String[]{"Create New Conversation to Add Users"};
@@ -89,16 +89,16 @@ class MessagingPresenter {
         });
 
         if ((boolean) testDialog.run()) {
-               System.out.println("you said yes");
+            System.out.println("you said yes");
         }
     }
 
     void sendMessage() {
-        String currentMessage = messagingView.getTextboxContent();
+        String currentMessage = messagingView.getTextBoxContent();
         if (!currentMessage.equals("")) {
             conversationController.sendMessage(signedInUserUUID, currentMessage, currentConversationUUID);
             updateMessage();
-            messagingView.setTextFieldToNull();
+            messagingView.clearTextBox();
             messagingView.scrollToLastMessage();
         }
 

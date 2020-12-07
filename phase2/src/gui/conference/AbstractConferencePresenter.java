@@ -11,6 +11,9 @@ import util.ControllerBundle;
 
 import java.util.UUID;
 
+/**
+ * Abstract class for presenters of tabs that are associated with a specific conference.
+ */
 public abstract class AbstractConferencePresenter {
 
     protected IFrame mainFrame;
@@ -27,6 +30,10 @@ public abstract class AbstractConferencePresenter {
 
     protected String role;
 
+    /**
+     * @param mainFrame      main GUI frame
+     * @param conferenceUUID UUID of the associated conference
+     */
     protected AbstractConferencePresenter(IFrame mainFrame, UUID conferenceUUID) {
         this.mainFrame = mainFrame;
         this.conferenceUUID = conferenceUUID;

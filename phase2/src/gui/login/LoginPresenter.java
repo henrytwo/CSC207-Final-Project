@@ -59,7 +59,7 @@ class LoginPresenter {
     }
 
     /**
-     * Logins an already registered user
+     * Login as an already registered user
      */
     void login() {
         if (userController.login(loginView.getUsername(), loginView.getPassword()) != null) {

@@ -18,7 +18,6 @@ public class Conversation implements Serializable {
     private final Set<UUID> usersHaveRead = new HashSet<>();
     private final Set<UUID> userArchivedUUIDs = new HashSet<>();
 
-
     /**
      * Constructor for Conversation
      *
@@ -46,7 +45,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Adds the User Id of the Person (user) to the list of Users that have write access
+     * Adds the User UUID of the Person (user) to the list of Users that have write access
      *
      * @param userUUID UserId of the User
      */
@@ -55,7 +54,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Adds the User Id of the Person (user) to the list of Users that have read access
+     * Adds the User UUID of the Person (user) to the list of Users that have read access
      *
      * @param userUUID UserId of the User
      */
@@ -64,7 +63,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Remove the User Id of the Person (user) to the list of Users that have write access
+     * Remove the User UUID of the Person (user) to the list of Users that have write access
      *
      * @param userUUID UserId of the User
      */
@@ -73,7 +72,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Remove the User Id of the Person (user) to the list of Users that have read access
+     * Remove the User UUID of the Person (user) to the list of Users that have read access
      *
      * @param userUUID UserId of the User
      */
@@ -164,18 +163,4 @@ public class Conversation implements Serializable {
     public void archiveConversation(UUID userUUID) {
         userArchivedUUIDs.add(userUUID);
     }
-
-    /**
-     * gets the set of users that have archived this conversation
-     *
-     * @return the set of users that have archived this conversation
-     */
-    public Set<UUID> getUserArchivedUUIDs() { return userArchivedUUIDs; }
-
-    /**
-     * gets the set of users that have read this conversation
-     *
-     * @return the set of users that have this conversation
-     */
-    public Set<UUID> getUsersHaveRead() { return usersHaveRead; }
 }

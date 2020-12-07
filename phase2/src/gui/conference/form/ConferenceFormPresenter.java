@@ -16,6 +16,9 @@ import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * Manages ConferenceFormDialog
+ */
 class ConferenceFormPresenter {
 
     private ConferenceController conferenceController;
@@ -34,6 +37,11 @@ class ConferenceFormPresenter {
 
     private DateParser dateParser = new DateParser();
 
+    /**
+     * @param mainFrame            main GUI frame
+     * @param conferenceFormDialog dialog to manage
+     * @param conferenceUUID       UUID of associated conference
+     */
     ConferenceFormPresenter(IFrame mainFrame, IConferenceFormDialog conferenceFormDialog, UUID conferenceUUID) {
         this.conferenceFormDialog = conferenceFormDialog;
 
@@ -63,8 +71,12 @@ class ConferenceFormPresenter {
         }
     }
 
+    /**
+     * Submit form and:
+     * 1) Apply edit changes if conference is existing, or
+     * 2) Create a new conference otherwise
+     */
     void submit() {
-
         try {
             conferenceName = conferenceFormDialog.getName();
 

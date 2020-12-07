@@ -93,7 +93,7 @@ public class UserController {
      * Returns the last name
      *
      * @param userUUID unique user id
-     * @return the last lastname of the user
+     * @return the lastName of the user
      */
     public String getUserLastName(UUID userUUID) {
         return userManager.getUserLastName(userUUID);
@@ -154,7 +154,7 @@ public class UserController {
     }
 
     /**
-     * Logouts the user
+     * Logout the user
      */
     public void logout() {
         userManager.clearCurrentUser();
@@ -166,7 +166,7 @@ public class UserController {
      * @return UUID of the logged in user
      */
     public UUID getCurrentUser() {
-        return userManager.getCurrentUser();
+        return userManager.getSignedInUserUUID();
     }
 
     /**

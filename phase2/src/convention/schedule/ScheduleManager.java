@@ -34,12 +34,12 @@ public class ScheduleManager {
         }
         List<List<String>> table = new ArrayList<>();
         for (Pair<UUID, UUID> pair : ListOfPairs) {
-            ArrayList<String> speakerNames = new ArrayList<>();
+            List<String> speakerNames = new ArrayList<>();
             for (UUID speakerUUID : conferenceManager.getEventManager(pair.getValue()).getEvent(pair.getKey()).getSpeakers()) {
                 speakerNames.add(userManager.getUserUsername(speakerUUID));
             }
             String speakers = String.join(",", speakerNames);
-            ArrayList<String> eventInfoStrings = new ArrayList<>(
+            List<String> eventInfoStrings = new ArrayList<>(
                     Arrays.asList(
                             conferenceManager.getConferenceName(pair.getValue()),
                             conferenceManager.getEventManager(pair.getValue()).getEventTitle(pair.getKey()),

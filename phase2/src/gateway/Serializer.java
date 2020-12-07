@@ -8,7 +8,7 @@ import java.io.*;
  * @param <T> type of object being serialized
  */
 public class Serializer<T> {
-    String fileName;
+    private String fileName;
 
     /**
      * Creates a serializer that serializes an object to a file name

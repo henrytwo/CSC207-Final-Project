@@ -3,18 +3,27 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to provide operations on tables
+ */
 public class TableTools {
-    List<List<String>> table;
+    private List<List<String>> table;
 
     public TableTools(List<List<String>> table) {
         this.table = table;
     }
 
+    /**
+     * Format a 2D string array into a table
+     *
+     * @param title title for the table
+     * @return table formatted as a string
+     */
     public String stringifyTable(String title) {
         if (this.table.isEmpty()) {
             return "";
         }
-        ArrayList<Integer> colWidths = new ArrayList<>();
+        List<Integer> colWidths = new ArrayList<>();
         for (String s : this.table.get(0)) {
             colWidths.add(Math.floorDiv(70, this.table.get(0).size()));
         }
@@ -45,13 +54,13 @@ public class TableTools {
         titleLine.append("║\r\n");
         table.append(titleLine);
 
-        StringBuilder hline = new StringBuilder();
-        hline.append("╠");
-        while (hline.length() < width + 1) {
-            hline.append("-");
+        StringBuilder hLine = new StringBuilder();
+        hLine.append("╠");
+        while (hLine.length() < width + 1) {
+            hLine.append("-");
         }
-        hline.append("╣\r\n");
-        table.append(hline);
+        hLine.append("╣\r\n");
+        table.append(hLine);
 
         for (List<String> sub : this.table) {
             StringBuilder row = new StringBuilder();

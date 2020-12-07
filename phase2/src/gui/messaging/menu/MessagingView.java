@@ -20,7 +20,7 @@ public class MessagingView implements IPanel, IMessagingView {
     /**
      * Creates GUI for the Messaging Functionality
      *
-     * @param mainFrame               the main frame
+     * @param mainFrame               the main GUI frame
      * @param defaultConversationUUID UUID of the default conversation to select. If none selected, or invalid, the first one will be selected.
      */
     public MessagingView(IFrame mainFrame, UUID defaultConversationUUID) {
@@ -43,7 +43,7 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public void setTextFieldToNull() {
+    public void clearTextBox() {
         messageText.setText("");
     }
 
@@ -53,7 +53,7 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public String getTextboxContent() {
+    public String getTextBoxContent() {
         return messageText.getText();
     }
 
@@ -63,7 +63,7 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public int getMessagesFromJList() {
+    public int getNumMessages() {
         ListModel list = messages.getModel();
         return list.getSize();
     }

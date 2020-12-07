@@ -43,8 +43,8 @@ class ConversationFormPresenter {
 
         // God users can message anyone
         this.availableUserUUIDs = userController.getUserIsGod(userUUID)
-                                    ? userController.getUsers()
-                                    : contactController.showContacts(userUUID);
+                ? userController.getUsers()
+                : contactController.showContacts(userUUID);
     }
 
     void submit() {

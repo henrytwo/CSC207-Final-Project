@@ -5,13 +5,13 @@ public interface IMessagingView {
 
     void setConversationListSelection(int selectionIndex);
 
-    String getTextboxContent();
+    String getTextBoxContent();
 
     void setMessages(String[] messages);
 
-    void setTextFieldToNull();
+    void clearTextBox();
 
-    int getMessagesFromJList();
+    int getNumMessages();
 
     void setEnableTextField(boolean instruction);
 

@@ -12,7 +12,7 @@ import util.ControllerBundle;
 import java.util.*;
 import java.util.function.Supplier;
 
-public class EventsMenuPresenter {
+class EventsMenuPresenter {
     private IEventsMenuView eventMenuView;
     private IFrame mainFrame;
 
