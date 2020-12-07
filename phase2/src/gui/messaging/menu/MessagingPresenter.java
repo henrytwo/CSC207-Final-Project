@@ -76,6 +76,23 @@ class MessagingPresenter {
         }
     }
 
+    void archive() {
+        System.out.println("asdasd");
+
+        IDialog testDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+            {
+                put("message", "are u sure u wanna do this?");
+                put("title", "this is title");
+                put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+            }
+        });
+
+        if ((boolean) testDialog.run()) {
+               System.out.println("you said yes");
+        }
+    }
+
     void sendMessage() {
         String currentMessage = messagingView.getTextboxContent();
         if (!currentMessage.equals("")) {
