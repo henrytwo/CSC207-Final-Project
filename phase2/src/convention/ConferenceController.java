@@ -103,18 +103,6 @@ public class ConferenceController {
         return myNotConferences;
     }
 
-    public Set<UUID> getDayConferences(LocalDate date) {
-        Set<UUID> dayConferences = new HashSet<>();
-
-        for (UUID conferenceUUID : conferenceManager.getConferences()) {
-            if (conferenceManager.getTimeRange(conferenceUUID).isInDay(date)) {
-                dayConferences.add(conferenceUUID);
-            }
-        }
-
-        return dayConferences;
-    }
-
     /**
      * Tests if a conference exists.
      * <p>
@@ -461,9 +449,5 @@ public class ConferenceController {
 
         return userUUIDs;
     }
-    public void printSchedule(ScheduleConstants.sortByMethods sortByMethod, Map<String, Object> arguments, String fileName) throws IOException {
-        scheduleController.printSchedule(sortByMethod, arguments, fileName);
-    }
-
 }
 
