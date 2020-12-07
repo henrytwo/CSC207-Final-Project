@@ -37,6 +37,9 @@ class MainMenuPresenter extends AbstractPresenter {
         IPanel contactsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONTACTS, initializationArguments);
         mainMenuView.setContactsPanel(contactsView);
 
+        IPanel scheduleDownloadView = panelFactory.createPanel(PanelFactoryOptions.panelNames.SCHEDULE_DOWNLOAD, initializationArguments);
+        mainMenuView.setScheduleDownloadPanel(scheduleDownloadView);
+
         // Logout button text
         mainMenuView.setLogoutButtonText(String.format("Logout (Signed in as %s)", userController.getUserFullName(signedInUserUUID)));
 

@@ -18,6 +18,7 @@ public class MainMenuView implements IPanel, IMainMenuView {
     private JPanel conferenceMenuPanel;
     private JPanel messagingPanel;
     private JPanel contactsPanel;
+    private JPanel scheduleDownloadPanel;
     private JPanel topBarPanel;
     private JLabel bottomMessageBar;
     private JButton surpriseButton;
@@ -59,6 +60,9 @@ public class MainMenuView implements IPanel, IMainMenuView {
     public void setContactsPanel(IPanel panel) {
         contactsPanel.add(panel.getPanel());
     }
+
+    @Override
+    public void setScheduleDownloadPanel(IPanel panel) {scheduleDownloadPanel.add(panel.getPanel());}
 
     @Override
     public void setLogoutButtonText(String text) {
