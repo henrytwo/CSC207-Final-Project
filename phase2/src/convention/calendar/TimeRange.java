@@ -60,11 +60,13 @@ public class TimeRange implements Serializable {
     }
 
     /**
-     * @param date a day, we don't care about the hours in that day
-     * @return true iff the TimeRange start in that day
+     * @param date a day
+     * @return true iff the TimeRange overlaps with that day
      */
     public boolean isInDay(LocalDate date) {
-        return date.getDayOfYear() == this.getStart().getDayOfYear() && date.getYear() == this.start.getYear();
+        return this.getEnd().toLocalDate().equals(date)
+                || this.getStart().toLocalDate().equals(date)
+                || (this.getStart().toLocalDate().isBefore(date) & this.getEnd().toLocalDate().isAfter(date));
     }
 
 
