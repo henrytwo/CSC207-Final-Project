@@ -1,4 +1,4 @@
-package gui.conference;
+package gui.util;
 
 import convention.ConferenceController;
 import convention.EventController;
@@ -12,9 +12,9 @@ import util.ControllerBundle;
 import java.util.UUID;
 
 /**
- * Abstract class for presenters of tabs that are associated with a specific conference.
+ * Abstract class for presenters containing the most commonly used fields
  */
-public abstract class AbstractConferencePresenter {
+public abstract class AbstractPresenter {
 
     protected IFrame mainFrame;
     protected IDialogFactory dialogFactory;
@@ -26,17 +26,12 @@ public abstract class AbstractConferencePresenter {
     protected UserController userController;
 
     protected UUID signedInUserUUID;
-    protected UUID conferenceUUID;
-
-    protected String role;
 
     /**
-     * @param mainFrame      main GUI frame
-     * @param conferenceUUID UUID of the associated conference
+     * @param mainFrame main GUI frame
      */
-    protected AbstractConferencePresenter(IFrame mainFrame, UUID conferenceUUID) {
+    protected AbstractPresenter(IFrame mainFrame) {
         this.mainFrame = mainFrame;
-        this.conferenceUUID = conferenceUUID;
 
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         conferenceController = controllerBundle.getConferenceController();
@@ -48,17 +43,5 @@ public abstract class AbstractConferencePresenter {
         panelFactory = mainFrame.getPanelFactory();
 
         signedInUserUUID = userController.getCurrentUser();
-
-        updateRole();
-    }
-
-    private void updateRole() {
-        if (conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID)) {
-            role = "Organizer";
-        } else if (conferenceController.isSpeaker(conferenceUUID, signedInUserUUID, signedInUserUUID)) {
-            role = "Speaker";
-        } else {
-            role = "Attendee";
-        }
     }
 }

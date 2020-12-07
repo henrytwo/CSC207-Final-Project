@@ -4,7 +4,7 @@ import convention.ConferenceController;
 import convention.calendar.TimeRange;
 import convention.exception.InvalidNameException;
 import convention.exception.InvalidTimeRangeException;
-import gui.util.DateParser;
+import gui.util.date.DateParser;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;

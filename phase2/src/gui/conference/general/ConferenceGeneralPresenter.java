@@ -1,7 +1,7 @@
 package gui.conference.general;
 
 import convention.exception.LoneOrganizerException;
-import gui.conference.AbstractConferencePresenter;
+import gui.conference.util.AbstractConferencePresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
