@@ -10,11 +10,11 @@ import java.util.UUID;
 public class MessagingView implements IPanel, IMessagingView {
     private JPanel messagingPanel;
     private JButton newConversationButton;
-    private JList conversationList;
+    private JList<String> conversationList;
     private JTextField messageText;
-    private JList messages;
+    private JList<String> messages;
     private JButton sendButton;
-    private JList userList;
+    private JList<String> userList;
     private JButton archiveButton;
     private JButton unreadButton;
     private MessagingPresenter messagingPresenter;
@@ -32,6 +32,10 @@ public class MessagingView implements IPanel, IMessagingView {
 
         messagingPanel.registerKeyboardAction((e) -> messagingPresenter.sendMessage(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         sendButton.addActionListener((e) -> messagingPresenter.sendMessage());
+    }
+
+    public void setArchiveButton(){
+        conversationList.addListSelectionListener((e) -> messagingPresenter.archiveConversation());
     }
 
     @Override
@@ -66,9 +70,15 @@ public class MessagingView implements IPanel, IMessagingView {
 
     @Override
     public int getNumMessages() {
-        ListModel list = messages.getModel();
+        ListModel<String> list = messages.getModel();
         return list.getSize();
     }
+
+    @Override
+    public void setEnableArchiveButton(boolean instruction){ archiveButton.setEnabled(instruction);}
+
+    @Override
+    public void setEnableUnreadButton(boolean instruction){ unreadButton.setEnabled(instruction);}
 
     @Override
     public void setEnableTextField(boolean instruction) {
