@@ -87,7 +87,7 @@ public class ConventionSystem {
 
         // Packages up all the controllers in a nice bundle to make it easy to pass around UI components
         // without super long parameter lists
-        ControllerBundle controllerBundle = new ControllerBundle(userController, contactController, conversationController, roomController, eventController, conferenceController);
+        ControllerBundle controllerBundle = new ControllerBundle(userController, contactController, conversationController, roomController, eventController, conferenceController, scheduleController);
 
         Runnable shutdown = () -> {
             // Serialize everything for the next run

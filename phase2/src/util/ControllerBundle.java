@@ -4,6 +4,7 @@ import contact.ContactController;
 import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
+import convention.ScheduleController;
 import messaging.ConversationController;
 import user.UserController;
 
@@ -22,17 +23,19 @@ public class ControllerBundle {
     private RoomController roomController;
     private EventController eventController;
     private ConferenceController conferenceController;
+    private ScheduleController scheduleController;
 
     /**
      * Constructs controller bundle
      */
-    public ControllerBundle(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
+    public ControllerBundle(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController, ScheduleController scheduleController) {
         this.userController = userController;
         this.contactController = contactController;
         this.conversationController = conversationController;
         this.roomController = roomController;
         this.eventController = eventController;
         this.conferenceController = conferenceController;
+        this.scheduleController = scheduleController;
     }
 
     /**
@@ -88,4 +91,6 @@ public class ControllerBundle {
     public ConversationController getConversationController() {
         return conversationController;
     }
+
+    public ScheduleController getScheduleController() { return scheduleController; }
 }
