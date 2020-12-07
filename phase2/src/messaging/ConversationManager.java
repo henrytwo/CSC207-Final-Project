@@ -193,6 +193,7 @@ public class ConversationManager implements Serializable {
 
         if (conversation.getWriteAccessUsers().contains(userUUID) || bypassRestriction) {
             conversation.addMessage(message);
+            conversation.resetUserArchivedUUIDs();
         } else {
             throw new NoWriteAccessException();
         }
@@ -248,8 +249,7 @@ public class ConversationManager implements Serializable {
      * @param conversationUUID conversation in question
      */
     public void userArchiveConversation(UUID userUUID, UUID conversationUUID) {
-        Conversation conversation = getConversation(conversationUUID);
-        conversation.archiveConversation(userUUID);
+        getConversation(conversationUUID).archiveConversation(userUUID);
     }
 
     public void userDeleteMessage(UUID conversationUUID, int index) {

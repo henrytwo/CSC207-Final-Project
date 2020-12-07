@@ -1,10 +1,7 @@
 package messaging;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Conversation object. Contains messages and metadata such as conversation name, users who have read and write access, etc.
@@ -15,8 +12,8 @@ public class Conversation implements Serializable {
     private final Set<UUID> writeAccessUsers;
     private final Set<UUID> readAccessUsers;
     private final UUID conversationUUID;
-    private final Set<UUID> usersHaveRead = new HashSet<>();
-    private final Set<UUID> userArchivedUUIDs = new HashSet<>();
+    private Set<UUID> usersHaveRead = new HashSet<>();
+    private Set<UUID> userArchivedUUIDs = new HashSet<>();
 
     /**
      * Constructor for Conversation
@@ -162,6 +159,14 @@ public class Conversation implements Serializable {
      */
     public void archiveConversation(UUID userUUID) {
         userArchivedUUIDs.add(userUUID);
+    }
+
+    public void resetUserArchivedUUIDs() {
+        userArchivedUUIDs = new HashSet<>();
+    }
+
+    public void resetUsersHaveRead() {
+        usersHaveRead = new HashSet<>();
     }
 
     public Set<UUID> getUsersHaveRead(){
