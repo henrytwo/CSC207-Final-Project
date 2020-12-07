@@ -98,15 +98,12 @@ public class EventController {
     /**
      * Get a list of events happening on a specific day
      * <p>
-     * Required Permission : ATTENDEE
      *
      * @param conferenceUUID UUID of the conference
-     * @param executorUUID   UUID of the user
      * @param day            UUID of the day to filter with
      * @return list of events on that day
      */
-    public Set<UUID> getDayEvents(UUID conferenceUUID, UUID executorUUID, LocalDate day) {
-        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+    public Set<UUID> getDayEvents(UUID conferenceUUID, LocalDate day) {
         Set<UUID> eventsUUIDsOnDay = new HashSet<>();
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
