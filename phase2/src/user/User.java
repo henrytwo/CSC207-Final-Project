@@ -47,7 +47,7 @@ class User implements Serializable {
     /**
      * Returns first name of the user
      *
-     * @return the firstname associated with this user
+     * @return the firstName associated with this user
      */
     String getFirstName() {
         return this.firstName;
@@ -65,7 +65,7 @@ class User implements Serializable {
     /**
      * Returns last name of the user
      *
-     * @return the lastname associated with this user
+     * @return the lastName associated with this user
      */
     String getLastName() {
         return this.lastName;

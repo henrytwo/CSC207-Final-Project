@@ -153,7 +153,7 @@ public class PermissionManager {
      * <p>
      * For example, a user may leave a conference, or an organizer can remove them. In either case, they should both call
      * the same "leave conference" method. Instead of writing duplicate code, we can simply check if the executor is
-     * the user (so running it as themself), or if it's an admin performing the action.
+     * the user (so running it as themselves), or if it's an admin performing the action.
      *
      * @param conferenceUUID UUID of the conference to operate on
      * @param executorUUID   UUID of the user running the command

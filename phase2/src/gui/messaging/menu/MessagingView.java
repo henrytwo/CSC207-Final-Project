@@ -47,7 +47,7 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public void setTextFieldToNull() {
+    public void clearTextBox() {
         messageText.setText("");
     }
 
@@ -57,7 +57,7 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public String getTextboxContent() {
+    public String getTextBoxContent() {
         return messageText.getText();
     }
 
@@ -67,7 +67,7 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public int getMessagesFromJList() {
+    public int getNumMessages() {
         ListModel list = messages.getModel();
         return list.getSize();
     }

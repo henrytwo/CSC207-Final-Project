@@ -64,7 +64,7 @@ class MainMenuPresenter {
      * Launches about dialog
      */
     void about() {
-        String aboutMessage = "CSC207 Fall 2020\n" +
+        @SuppressWarnings("SpellCheckingInspection") String aboutMessage = "CSC207 Fall 2020\n" +
                 "University of Toronto, St. George Campus\n\n" +
                 "Developed by:\n" +
                 "Henry Tu, Mahak Khurmi, Pranjal Bajaria, Antara Singh, Yilin Zhang, Emre Alca, Shubhra Bedi";

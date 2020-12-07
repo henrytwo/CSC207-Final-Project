@@ -9,20 +9,19 @@ import java.util.UUID;
  */
 class Message implements Serializable {
     private final String content;
-    //    private Set<Message> responses = new HashSet<>();
     private final LocalDateTime timestamp;
     private final UUID senderUUID;
 
     /**
      * Constructor for Message.
      *
-     * @param messageSender_id The ID of the sender of the message
-     * @param messageContent   The content of the message to be sent.
+     * @param senderUUID     The UUID of the sender of the message
+     * @param messageContent The content of the message to be sent.
      */
-    Message(UUID messageSender_id, String messageContent) {
+    Message(UUID senderUUID, String messageContent) {
         content = messageContent;
         timestamp = LocalDateTime.now();
-        senderUUID = messageSender_id;
+        this.senderUUID = senderUUID;
     }
 
     /**

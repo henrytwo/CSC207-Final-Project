@@ -45,7 +45,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Adds the User Id of the Person (user) to the list of Users that have write access
+     * Adds the User UUID of the Person (user) to the list of Users that have write access
      *
      * @param userUUID UserId of the User
      */
@@ -54,7 +54,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Adds the User Id of the Person (user) to the list of Users that have read access
+     * Adds the User UUID of the Person (user) to the list of Users that have read access
      *
      * @param userUUID UserId of the User
      */
@@ -63,7 +63,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Remove the User Id of the Person (user) to the list of Users that have write access
+     * Remove the User UUID of the Person (user) to the list of Users that have write access
      *
      * @param userUUID UserId of the User
      */
@@ -72,7 +72,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Remove the User Id of the Person (user) to the list of Users that have read access
+     * Remove the User UUID of the Person (user) to the list of Users that have read access
      *
      * @param userUUID UserId of the User
      */

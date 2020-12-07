@@ -23,7 +23,7 @@ public class TableTools {
         if (this.table.isEmpty()) {
             return "";
         }
-        ArrayList<Integer> colWidths = new ArrayList<>();
+        List<Integer> colWidths = new ArrayList<>();
         for (String s : this.table.get(0)) {
             colWidths.add(Math.floorDiv(70, this.table.get(0).size()));
         }
@@ -54,13 +54,13 @@ public class TableTools {
         titleLine.append("║\r\n");
         table.append(titleLine);
 
-        StringBuilder hline = new StringBuilder();
-        hline.append("╠");
-        while (hline.length() < width + 1) {
-            hline.append("-");
+        StringBuilder hLine = new StringBuilder();
+        hLine.append("╠");
+        while (hLine.length() < width + 1) {
+            hLine.append("-");
         }
-        hline.append("╣\r\n");
-        table.append(hline);
+        hLine.append("╣\r\n");
+        table.append(hLine);
 
         for (List<String> sub : this.table) {
             StringBuilder row = new StringBuilder();
