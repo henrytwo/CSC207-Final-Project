@@ -111,8 +111,8 @@ public class ConversationController {
         } else {
             //return conversationManager.getConversationList(userUUID);
             Set<UUID> conversationList = new HashSet<>();
-            for (UUID conversationUUID : conversationManager.getConversationList(userUUID)){
-                if ( !conversationManager.getUserArchiveConversation(conversationUUID).contains(userUUID)){
+            for (UUID conversationUUID : conversationManager.getConversationList(userUUID)) {
+                if (!conversationManager.getUserArchiveConversation(conversationUUID).contains(userUUID)) {
                     conversationList.add(conversationUUID);
                 }
             }
@@ -175,7 +175,6 @@ public class ConversationController {
     }
 
 
-
     /**
      * Deletes a specific message if the message was sent by that person or is being deleted by a god user
      *
@@ -184,12 +183,12 @@ public class ConversationController {
      * @param index            index of the message in question
      */
     public void deleteMessage(UUID conversationUUID, UUID userUUID, int index) {
-        if ( checkIfSender(conversationUUID, userUUID, index)) {
+        if (checkIfSender(conversationUUID, userUUID, index)) {
             conversationManager.userDeleteMessage(conversationUUID, index);
         }
     }
 
-    public boolean checkIfSender(UUID conversationUUID, UUID userUUID, int index){
+    public boolean checkIfSender(UUID conversationUUID, UUID userUUID, int index) {
         return conversationManager.getConversation(conversationUUID).getConversationMessages().get(index).getSenderUUID() == userUUID
                 || userManager.getUserIsGod(userUUID);
     }

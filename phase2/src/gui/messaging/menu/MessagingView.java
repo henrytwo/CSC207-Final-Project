@@ -2,11 +2,11 @@ package gui.messaging.menu;
 
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.UUID;
 
 public class MessagingView implements IPanel, IMessagingView {

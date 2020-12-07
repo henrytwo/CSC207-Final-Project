@@ -262,7 +262,7 @@ public class ConversationManager implements Serializable {
         return getConversation(conversationUUID).getUserArchivedUUIDs();
     }
 
-    public boolean getUserHasRead(UUID userUUID, UUID conversationUUID){
+    public boolean getUserHasRead(UUID userUUID, UUID conversationUUID) {
         return getConversation(conversationUUID).getUserHasRead(userUUID);
     }
 

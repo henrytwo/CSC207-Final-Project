@@ -181,11 +181,17 @@ public class Conversation implements Serializable {
         userArchivedUUIDs = new HashSet<>();
     }
 
-    public void resetUsersHaveRead() { usersHaveRead = new HashSet<>(); }
+    public void resetUsersHaveRead() {
+        usersHaveRead = new HashSet<>();
+    }
 
-    public Set<UUID> getUsersHaveRead(){ return usersHaveRead; }
+    public Set<UUID> getUsersHaveRead() {
+        return usersHaveRead;
+    }
 
-    public Set<UUID> getUserArchivedUUIDs(){ return userArchivedUUIDs; }
+    public Set<UUID> getUserArchivedUUIDs() {
+        return userArchivedUUIDs;
+    }
 
     public boolean getUserHasRead(UUID userUUID) {
         return usersHaveRead.contains(userUUID);
