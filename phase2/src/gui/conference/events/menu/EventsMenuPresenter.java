@@ -1,54 +1,31 @@
 package gui.conference.events.menu;
 
-import convention.ConferenceController;
-import convention.EventController;
 import gui.conference.tabs.ConferenceTabsConstants;
+import gui.conference.util.AbstractConferencePresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
-import gui.util.interfaces.*;
-import user.UserController;
-import util.ControllerBundle;
+import gui.util.interfaces.IDialog;
+import gui.util.interfaces.IFrame;
+import gui.util.interfaces.IPanel;
 
 import java.util.*;
 import java.util.function.Supplier;
 
-class EventsMenuPresenter {
+class EventsMenuPresenter extends AbstractConferencePresenter {
     private IEventsMenuView eventMenuView;
-    private IFrame mainFrame;
-
-    private IPanelFactory panelFactory;
-    private IDialogFactory dialogFactory;
-
-    private EventController eventController;
-    private UserController userController;
-    private ConferenceController conferenceController;
 
     private List<UUID> eventUUIDs;
-    private UUID signedInUserUUID;
 
-    private UUID conferenceUUID;
     private int currentEventIndex = -1;
     private Map<String, Object> initializationArguments;
 
-    private Supplier<Set<UUID>> getEvents;
-
     EventsMenuPresenter(IFrame mainFrame, IEventsMenuView eventMenuView, UUID conferenceUUID, Supplier<Set<UUID>> getEvents, UUID defaultEventUUID, Map<String, Object> initializationArguments) {
-        this.mainFrame = mainFrame;
+        super(mainFrame, conferenceUUID);
+
         this.eventMenuView = eventMenuView;
-        this.getEvents = getEvents;
         this.initializationArguments = initializationArguments;
-        this.panelFactory = mainFrame.getPanelFactory();
-        this.dialogFactory = mainFrame.getDialogFactory();
 
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        this.eventController = controllerBundle.getEventController();
-        this.userController = controllerBundle.getUserController();
-        this.conferenceController = controllerBundle.getConferenceController();
-
-        signedInUserUUID = userController.getCurrentUser();
-        this.conferenceUUID = conferenceUUID;
-
-        updateEventsList(getEvents, conferenceUUID, signedInUserUUID);
+        updateEventsList(getEvents);
 
         if (eventUUIDs.size() > 0) {
             updateEventNames();
@@ -85,7 +62,7 @@ class EventsMenuPresenter {
         eventMenuView.setEventList(eventNames);
     }
 
-    private void updateEventsList(Supplier<Set<UUID>> getEvents, UUID currentConferenceUUID, UUID signedInUserUUID) {
+    private void updateEventsList(Supplier<Set<UUID>> getEvents) {
         currentEventIndex = -1;
         eventUUIDs = new ArrayList<>(getEvents.get());
     }
@@ -107,23 +84,6 @@ class EventsMenuPresenter {
 
             eventMenuView.setEventTabs(eventTabsPanel);
         }
-    }
-
-    /**
-     * Updates the local list of events and selects an event by UUID
-     *
-     * @param selectedEventUUID UUID of event to open
-     */
-    private void updateAndSelectNewEvent(UUID selectedEventUUID) {
-        // Update the local list with the new room
-        updateEventsList(getEvents, conferenceUUID, signedInUserUUID);
-        updateEventNames();
-
-        // Select the latest room
-        int index = eventUUIDs.indexOf(selectedEventUUID);
-
-        eventMenuView.setEventListSelection(index);
-        selectEventPanel(index);
     }
 
     void createEvent() {

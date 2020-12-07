@@ -1,40 +1,26 @@
 package gui.messaging.menu;
 
+import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
-import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import messaging.ConversationController;
-import user.UserController;
-import util.ControllerBundle;
 
 import java.util.*;
 
-class MessagingPresenter {
+class MessagingPresenter extends AbstractPresenter {
     private IMessagingView messagingView;
 
-    private IDialogFactory dialogFactory;
-
-    private ConversationController conversationController;
     private List<UUID> conversationUUIDs;
-
-    private UUID signedInUserUUID;
-    private UserController userController;
 
     private int currentConversationIndex = -1;
     private UUID currentConversationUUID;
 
     MessagingPresenter(IFrame mainFrame, IMessagingView messagingView, UUID defaultConversationUUID) {
+        super(mainFrame);
+
         this.messagingView = messagingView;
 
         dialogFactory = mainFrame.getDialogFactory();
-
-        // Init controllers
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        conversationController = controllerBundle.getConversationController();
-        userController = controllerBundle.getUserController();
-
-        signedInUserUUID = userController.getCurrentUser();
 
         updateConversationList();
 

@@ -1,28 +1,22 @@
 package gui.conference.menu;
 
-import convention.ConferenceController;
 import gui.conference.tabs.ConferenceTabsConstants;
+import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
-import gui.util.interfaces.*;
-import user.UserController;
-import util.ControllerBundle;
+import gui.util.interfaces.IDialog;
+import gui.util.interfaces.IFrame;
+import gui.util.interfaces.IPanel;
 
 import java.util.*;
 
 /**
  * Manages the ConferenceMenuView
  */
-class ConferenceMenuPresenter {
+class ConferenceMenuPresenter extends AbstractPresenter {
     private IConferenceMenuView conferenceMenuView;
 
-    private IPanelFactory panelFactory;
-    private IDialogFactory dialogFactory;
-
-    private ConferenceController conferenceController;
-
     private List<UUID> conferenceUUIDs;
-    private UUID signedInUserUUID;
 
     private int currentConferenceIndex = -1;
     private Map<String, Object> initializationArguments;
@@ -34,19 +28,10 @@ class ConferenceMenuPresenter {
      * @param initializationArguments HashMap of values that can be used to set the initial state of a panel
      */
     ConferenceMenuPresenter(IFrame mainFrame, IConferenceMenuView conferenceMenuView, UUID defaultConferenceUUID, Map<String, Object> initializationArguments) {
+        super(mainFrame);
+
         this.conferenceMenuView = conferenceMenuView;
         this.initializationArguments = initializationArguments;
-
-        panelFactory = mainFrame.getPanelFactory();
-        dialogFactory = mainFrame.getDialogFactory();
-
-        // Init controllers
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        UserController userController = controllerBundle.getUserController();
-        conferenceController = controllerBundle.getConferenceController();
-
-        // Fetch initial data
-        signedInUserUUID = userController.getCurrentUser();
 
         updateConferenceList();
 

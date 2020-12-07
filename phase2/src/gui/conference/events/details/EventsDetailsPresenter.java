@@ -13,7 +13,6 @@ import java.util.*;
 class EventsDetailsPresenter extends AbstractConferencePresenter {
 
     private IEventsDetailsView eventsGeneralView;
-    private IFrame mainFrame;
 
     private UUID eventUUID;
 
@@ -22,7 +21,6 @@ class EventsDetailsPresenter extends AbstractConferencePresenter {
     EventsDetailsPresenter(IFrame mainFrame, IEventsDetailsView eventGeneralView, UUID defaultEventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments) {
         super(mainFrame, conferenceUUID);
 
-        this.mainFrame = mainFrame;
         this.eventsGeneralView = eventGeneralView;
         this.initializationArguments = initializationArguments;
 

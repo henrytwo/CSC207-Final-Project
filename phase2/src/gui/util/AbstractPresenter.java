@@ -1,11 +1,13 @@
 package gui.util;
 
+import contact.ContactController;
 import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanelFactory;
+import messaging.ConversationController;
 import user.UserController;
 import util.ControllerBundle;
 
@@ -24,6 +26,8 @@ public abstract class AbstractPresenter {
     protected RoomController roomController;
     protected ConferenceController conferenceController;
     protected UserController userController;
+    protected ContactController contactController;
+    protected ConversationController conversationController;
 
     protected UUID signedInUserUUID;
 
@@ -38,6 +42,8 @@ public abstract class AbstractPresenter {
         userController = controllerBundle.getUserController();
         eventController = controllerBundle.getEventController();
         roomController = controllerBundle.getRoomController();
+        conversationController = controllerBundle.getConversationController();
+        contactController = controllerBundle.getContactController();
 
         dialogFactory = mainFrame.getDialogFactory();
         panelFactory = mainFrame.getPanelFactory();
