@@ -81,7 +81,7 @@ public class ConventionSystem {
         EventController eventController = new EventController(conferenceManager, conversationManager, userManager);
         // TODO: pass the document printer as a param
         ScheduleController scheduleController = new ScheduleController(userManager, conferenceManager, eventController);
-        ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager, scheduleController);
+        ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
 
         // Packages up all the controllers in a nice bundle to make it easy to pass around UI components
         // without super long parameter lists

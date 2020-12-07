@@ -32,10 +32,8 @@ public class MessagingView implements IPanel, IMessagingView {
 
         messagingPanel.registerKeyboardAction((e) -> messagingPresenter.sendMessage(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         sendButton.addActionListener((e) -> messagingPresenter.sendMessage());
-    }
 
-    public void setArchiveButton(){
-        conversationList.addListSelectionListener((e) -> messagingPresenter.archiveConversation());
+        archiveButton.addActionListener((e) -> messagingPresenter.archiveConversation());
     }
 
     @Override

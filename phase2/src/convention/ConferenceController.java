@@ -4,16 +4,11 @@ import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.permission.PermissionManager;
-//import convention.schedule.ScheduleConstants;
-import convention.schedule.ScheduleConstants;
 import messaging.ConversationManager;
 import user.UserManager;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashSet;
-//import java.util.Map;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -31,25 +26,21 @@ public class ConferenceController {
     private final EventController eventController;
     private final ConferenceManager conferenceManager;
     private final PermissionManager permissionManager;
-    private final ScheduleController scheduleController;
 
     /**
      * Creates an instance of ConferenceController. We store an instance of conversationController so we can
      * send instructions to it to create or mutate conversations that are created for conferences.
      *
      * @param conversationManager an instance of conversationManager
-     * @param eventController an instance of eventController
-     * @param conferenceManager an instance of conferenceManager
+     * @param eventController     an instance of eventController
+     * @param conferenceManager   an instance of conferenceManager
      */
-    public ConferenceController(ConversationManager conversationManager, EventController eventController, ConferenceManager conferenceManager, UserManager userManager, ScheduleController scheduleController) {
+    public ConferenceController(ConversationManager conversationManager, EventController eventController, ConferenceManager conferenceManager, UserManager userManager) {
         this.conversationManager = conversationManager;
         this.eventController = eventController;
         this.conferenceManager = conferenceManager;
         this.userManager = userManager;
         this.permissionManager = new PermissionManager(conferenceManager, userManager);
-        this.scheduleController = scheduleController;
-
-        // store a copy of the printer somewhere
     }
 
     /* Conference operations */
@@ -101,18 +92,6 @@ public class ConferenceController {
         }
 
         return myNotConferences;
-    }
-
-    public Set<UUID> getDayConferences(LocalDate date) {
-        Set<UUID> dayConferences = new HashSet<>();
-
-        for (UUID conferenceUUID : conferenceManager.getConferences()) {
-            if (conferenceManager.getTimeRange(conferenceUUID).isInDay(date)) {
-                dayConferences.add(conferenceUUID);
-            }
-        }
-
-        return dayConferences;
     }
 
     /**
@@ -432,17 +411,6 @@ public class ConferenceController {
     }
 
     /**
-     * Get conferenceManager of this conferenceController
-     * @return conferenceManager
-     */
-    public ConferenceManager getConferenceManager() { return this.conferenceManager; }
-
-    public UserManager getUserManager() { return this.userManager;}
-
-    public EventController getEventController() { return this.eventController;}
-
-
-    /**
      * Gets a set of UUIDs of all users affiliated with this conference.
      * <p>
      * Required Permission: ATTENDEE
@@ -461,9 +429,5 @@ public class ConferenceController {
 
         return userUUIDs;
     }
-    public void printSchedule(ScheduleConstants.sortByMethods sortByMethod, Map<String, Object> arguments, String fileName) throws IOException {
-        scheduleController.printSchedule(sortByMethod, arguments, fileName);
-    }
-
 }
 
