@@ -4,6 +4,7 @@ import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.permission.PermissionManager;
+//import convention.schedule.ScheduleConstants;
 import convention.schedule.ScheduleConstants;
 import messaging.ConversationManager;
 import user.UserManager;
@@ -40,13 +41,13 @@ public class ConferenceController {
      * @param eventController an instance of eventController
      * @param conferenceManager an instance of conferenceManager
      */
-    public ConferenceController(ConversationManager conversationManager, EventController eventController, ConferenceManager conferenceManager, UserManager userManager) {
+    public ConferenceController(ConversationManager conversationManager, EventController eventController, ConferenceManager conferenceManager, UserManager userManager, ScheduleController scheduleController) {
         this.conversationManager = conversationManager;
         this.eventController = eventController;
         this.conferenceManager = conferenceManager;
         this.userManager = userManager;
         this.permissionManager = new PermissionManager(conferenceManager, userManager);
-        this.scheduleController = new ScheduleController(this);
+        this.scheduleController = scheduleController;
 
         // store a copy of the printer somewhere
     }
