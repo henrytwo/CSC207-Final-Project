@@ -70,7 +70,6 @@ public class ConventionSystem {
         }
 
         // Create the document writer
-        // TODO: IDocumentPrinter documentPrinter = ...
         IDocumentPrinter documentPrinter = new DocumentPrinter();
 
         // User controller
@@ -83,8 +82,7 @@ public class ConventionSystem {
         // Convention controllers
         RoomController roomController = new RoomController(conferenceManager, userManager);
         EventController eventController = new EventController(conferenceManager, conversationManager, userManager);
-        // TODO: pass the document printer as a param
-        ScheduleController scheduleController = new ScheduleController(userManager, conferenceManager, eventController);
+        ScheduleController scheduleController = new ScheduleController(documentPrinter, userManager, conferenceManager, eventController);
         ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
 
         // Packages up all the controllers in a nice bundle to make it easy to pass around UI components

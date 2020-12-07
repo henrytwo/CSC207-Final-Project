@@ -19,7 +19,7 @@ public class ScheduleController {
     ConferenceManager conferenceManager;
     EventController eventController;
 
-    public ScheduleController(UserManager userManager, ConferenceManager conferenceManager, EventController eventController) {
+    public ScheduleController(IDocumentPrinter documentPrinter, UserManager userManager, ConferenceManager conferenceManager, EventController eventController) {
         this.userManager = userManager;
         this.conferenceManager = conferenceManager;
         this.eventController = eventController;
