@@ -15,6 +15,8 @@ public class MessagingView implements IPanel, IMessagingView {
     private JList messages;
     private JButton sendButton;
     private JList userList;
+    private JButton archiveButton;
+    private JButton unreadButton;
     private MessagingPresenter messagingPresenter;
 
     /**
