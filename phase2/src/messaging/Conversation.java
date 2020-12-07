@@ -165,4 +165,17 @@ public class Conversation implements Serializable {
         userArchivedUUIDs.add(userUUID);
     }
 
+    /**
+     * gets the set of users that have archived this conversation
+     *
+     * @return the set of users that have archived this conversation
+     */
+    public Set<UUID> getUserArchivedUUIDs() { return userArchivedUUIDs; }
+
+    /**
+     * gets the set of users that have read this conversation
+     *
+     * @return the set of users that have this conversation
+     */
+    public Set<UUID> getUsersHaveRead() { return usersHaveRead; }
 }
