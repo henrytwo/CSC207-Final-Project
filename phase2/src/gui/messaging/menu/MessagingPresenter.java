@@ -77,8 +77,7 @@ class MessagingPresenter extends AbstractPresenter {
     }
 
     void deleteMessage(int index) {
-        System.out.println("You clicked: " + index);
-
+        if (index != -1){
         IDialog deleteMessageConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
             {
                 put("message", "Archive this message?");
@@ -93,7 +92,7 @@ class MessagingPresenter extends AbstractPresenter {
             conversationController.deleteMessage(currentConversationUUID, signedInUserUUID, index);
             reloadMessagePage();
         }
-    }
+    }}
 
     void archiveConversation() {
         if (userController.getUserIsGod(signedInUserUUID)) {
