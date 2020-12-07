@@ -22,8 +22,6 @@ public abstract class AbstractConferencePresenter extends AbstractPresenter {
         this.mainFrame = mainFrame;
         this.conferenceUUID = conferenceUUID;
 
-        signedInUserUUID = userController.getCurrentUser();
-
         updateRole();
     }
 

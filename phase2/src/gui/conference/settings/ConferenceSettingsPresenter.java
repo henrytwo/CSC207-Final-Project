@@ -110,7 +110,6 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
             {
                 put("defaultConversationUUID", conversationUUID);
-                put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
                 put("defaultTabIndex", 1);
             }
         }));

@@ -20,8 +20,6 @@ class MessagingPresenter extends AbstractPresenter {
 
         this.messagingView = messagingView;
 
-        dialogFactory = mainFrame.getDialogFactory();
-
         updateConversationList();
 
         // Make initial selection
