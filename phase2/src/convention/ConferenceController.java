@@ -13,9 +13,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-//import convention.schedule.ScheduleConstants;
-//import java.util.Map;
-
 /**
  * Operations on Conferences
  */
