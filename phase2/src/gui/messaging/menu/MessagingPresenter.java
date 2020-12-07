@@ -115,7 +115,6 @@ class MessagingPresenter extends AbstractPresenter {
         });
         if ((boolean) unreadConfirmation.run()) {
             conversationController.userUnreadConversation(signedInUserUUID, currentConversationUUID);
-            reloadMessagePage();
         }
     }
 
