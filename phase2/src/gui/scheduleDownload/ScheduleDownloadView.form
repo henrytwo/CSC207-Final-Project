@@ -48,7 +48,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <text value="speakerName"/>
+                  <text value=""/>
                 </properties>
               </component>
               <component id="24669" class="javax.swing.JButton" binding="speakerScheduleDownloadButton" default-binding="true">
@@ -118,7 +118,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <text value="date"/>
+                  <text value=""/>
                 </properties>
               </component>
               <component id="70f75" class="javax.swing.JButton" binding="dateScheduleDownloadButton" default-binding="true">
