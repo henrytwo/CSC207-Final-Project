@@ -42,7 +42,9 @@
                 <children>
                   <component id="fd1c4" class="javax.swing.JList" binding="conversationList">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <selectionMode value="0"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>
@@ -65,7 +67,9 @@
                 <children>
                   <component id="9c608" class="javax.swing.JList" binding="messages">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <selectionMode value="0"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>
@@ -104,7 +108,9 @@
                 <children>
                   <component id="f7a75" class="javax.swing.JList" binding="userList">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <selectionMode value="0"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>

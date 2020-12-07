@@ -69,6 +69,12 @@ class MessagingPresenter extends AbstractPresenter {
         }));
     }
 
+    void deleteMessage(int index) {
+        System.out.println("You clicked: " + index);
+
+        // Here is where you ask the user if they really want to delete this message, and then you do the stuff
+    }
+
     void archiveConversation() {
         if (userController.getUserIsGod(signedInUserUUID)) {
 
