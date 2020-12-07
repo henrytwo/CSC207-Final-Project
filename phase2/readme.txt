@@ -28,6 +28,7 @@ Note: due to some silly problems with some team member's systems, Main.java has 
         - Use the left sidebar on the main menu to navigate between conferences
     - Allow users to mark messages as read, delete, archive, etc.
         - Implemented under the Messaging tab
+        - Note that God users cannot archive conversations since they always have access to everything
     - Allow the user to produce a formatted schedule that can be downloaded
         - Implemented under the Schedule Download tab
     - Implemented GUI

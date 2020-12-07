@@ -2,6 +2,7 @@ package gui.messaging.menu;
 
 import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
+import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IFrame;
 
@@ -60,26 +61,33 @@ class MessagingPresenter extends AbstractPresenter {
         }
     }
 
-    void archiveConversation() {
-        System.out.println("asdasd");
-
-        IDialog testDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+    private void reloadMessagePage() {
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
             {
-                put("message", "are u sure u wanna do this?");
+                put("defaultTabIndex", 1);
+            }
+        }));
+    }
+
+    void archiveConversation() {
+        IDialog archiveConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+            {
+                put("message", "Archive this conversation?");
                 put("title", "this is title");
                 put("messageType", DialogFactoryOptions.dialogType.ERROR);
                 put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
             }
         });
 
-        if ((boolean) testDialog.run()) {
-            System.out.println("you said yes");
+
+
+        if ((boolean) archiveConfirmation.run()) {
+            conversationController.userArchiveConversation(signedInUserUUID, currentConversationUUID);
+            reloadMessagePage();
+
         }
     }
 
-    void unreadConversation() {
-
-    }
 
     void sendMessage() {
         String currentMessage = messagingView.getTextBoxContent();
