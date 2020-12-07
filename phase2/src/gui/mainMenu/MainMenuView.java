@@ -62,7 +62,9 @@ public class MainMenuView implements IPanel, IMainMenuView {
     }
 
     @Override
-    public void setScheduleDownloadPanel(IPanel panel) {scheduleDownloadPanel.add(panel.getPanel());}
+    public void setScheduleDownloadPanel(IPanel panel) {
+        scheduleDownloadPanel.add(panel.getPanel());
+    }
 
     @Override
     public void setLogoutButtonText(String text) {

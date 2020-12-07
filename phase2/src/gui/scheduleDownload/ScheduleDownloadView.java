@@ -16,7 +16,6 @@ public class ScheduleDownloadView implements IPanel, IScheduleDownloadView {
     private JPanel ScheduleDownloadPanel;
     private ScheduleDownloadPresenter scheduleDownloadPresenter;
 
-
     public ScheduleDownloadView(IFrame mainFrame) {
         scheduleDownloadPresenter = new ScheduleDownloadPresenter(mainFrame, this);
         dateScheduleDownloadButton.addActionListener((e -> scheduleDownloadPresenter.printSchedule("date", getDate())));
