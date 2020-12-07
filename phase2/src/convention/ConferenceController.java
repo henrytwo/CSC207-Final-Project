@@ -94,18 +94,6 @@ public class ConferenceController {
         return myNotConferences;
     }
 
-    public Set<UUID> getDayConferences(LocalDate date) {
-        Set<UUID> dayConferences = new HashSet<>();
-
-        for (UUID conferenceUUID : conferenceManager.getConferences()) {
-            if (conferenceManager.getTimeRange(conferenceUUID).isInDay(date)) {
-                dayConferences.add(conferenceUUID);
-            }
-        }
-
-        return dayConferences;
-    }
-
     /**
      * Tests if a conference exists.
      * <p>
