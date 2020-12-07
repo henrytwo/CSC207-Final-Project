@@ -7,11 +7,7 @@ import convention.permission.PermissionManager;
 import messaging.ConversationManager;
 import user.UserManager;
 
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.HashSet;
-//import java.util.Map;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -35,8 +31,8 @@ public class ConferenceController {
      * send instructions to it to create or mutate conversations that are created for conferences.
      *
      * @param conversationManager an instance of conversationManager
-     * @param eventController an instance of eventController
-     * @param conferenceManager an instance of conferenceManager
+     * @param eventController     an instance of eventController
+     * @param conferenceManager   an instance of conferenceManager
      */
     public ConferenceController(ConversationManager conversationManager, EventController eventController, ConferenceManager conferenceManager, UserManager userManager) {
         this.conversationManager = conversationManager;
@@ -44,8 +40,6 @@ public class ConferenceController {
         this.conferenceManager = conferenceManager;
         this.userManager = userManager;
         this.permissionManager = new PermissionManager(conferenceManager, userManager);
-
-        // store a copy of the printer somewhere
     }
 
     /* Conference operations */
@@ -414,17 +408,6 @@ public class ConferenceController {
         permissionManager.testIsAttendee(conferenceUUID, executorUUID);
         return conferenceManager.isAttendee(conferenceUUID, targetUUID);
     }
-
-    /**
-     * Get conferenceManager of this conferenceController
-     * @return conferenceManager
-     */
-    public ConferenceManager getConferenceManager() { return this.conferenceManager; }
-
-    public UserManager getUserManager() { return this.userManager;}
-
-    public EventController getEventController() { return this.eventController;}
-
 
     /**
      * Gets a set of UUIDs of all users affiliated with this conference.
