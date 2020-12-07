@@ -8,4 +8,8 @@ public interface IContactsView {
     void setContactsListSelection(int selectionIndex);
 
     void setRequestsListSelection(int selectionIndex);
+
+    int getRequestListIndex();
+
+    int getContactListIndex();
 }
