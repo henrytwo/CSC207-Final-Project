@@ -1,3 +1,4 @@
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import contact.ContactController;
 import contact.ContactManager;
 import convention.ConferenceController;
@@ -6,6 +7,8 @@ import convention.RoomController;
 import convention.ScheduleController;
 import convention.conference.ConferenceManager;
 import gateway.CSVReader;
+import gateway.DocumentPrinter;
+import gateway.IDocumentPrinter;
 import gateway.Serializer;
 import gui.MainFrame;
 import messaging.ConversationController;
@@ -68,6 +71,7 @@ public class ConventionSystem {
 
         // Create the document writer
         // TODO: IDocumentPrinter documentPrinter = ...
+        IDocumentPrinter documentPrinter = new DocumentPrinter();
 
         // User controller
         UserController userController = new UserController(userManager);
@@ -81,7 +85,7 @@ public class ConventionSystem {
         EventController eventController = new EventController(conferenceManager, conversationManager, userManager);
         // TODO: pass the document printer as a param
         ScheduleController scheduleController = new ScheduleController(userManager, conferenceManager, eventController);
-        ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager, scheduleController);
+        ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
 
         // Packages up all the controllers in a nice bundle to make it easy to pass around UI components
         // without super long parameter lists
