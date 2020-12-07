@@ -177,7 +177,5 @@ public class Conversation implements Serializable {
         return userArchivedUUIDs;
     }
 
-    public boolean getUserHasRead(UUID userUUID) {
-        return !usersHaveRead.contains(userUUID);
-    }
+    public boolean getUserHasRead(UUID userUUID) { return usersHaveRead.contains(userUUID); }
 }
