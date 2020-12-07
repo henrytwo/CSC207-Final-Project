@@ -21,4 +21,7 @@ public interface IMessagingView {
 
     void setUsersList(String[] users);
 
+    void setEnableArchiveButton(boolean instruction);
+
+    void setEnableUnreadButton(boolean instruction);
 }

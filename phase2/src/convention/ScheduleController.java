@@ -1,9 +1,11 @@
 package convention;
 
+import convention.conference.ConferenceManager;
 import convention.exception.InvalidSortMethodException;
 import convention.schedule.ScheduleConstants;
 import gateway.DocumentPrinter;
 import gateway.IDocumentPrinter;
+import user.UserManager;
 import util.Pair;
 import util.TableTools;
 
@@ -13,26 +15,31 @@ import java.util.*;
 
 public class ScheduleController {
     String title;
-    ConferenceController conferenceController;
+    UserManager userManager;
+    ConferenceManager conferenceManager;
+    EventController eventController;
 
-    public ScheduleController(ConferenceController conferenceController) {
-        this.conferenceController = conferenceController;
+    public ScheduleController(UserManager userManager, ConferenceManager conferenceManager, EventController eventController) {
+        this.userManager = userManager;
+        this.conferenceManager = conferenceManager;
+        this.eventController = eventController;
     }
+
 
     public String compileSchedule(List<Pair<UUID, UUID>> listOfPairs) {
         List<List<String>> table = new ArrayList<>();
         for (Pair<UUID, UUID> pair : listOfPairs) {
             List<String> speakerNames = new ArrayList<>();
-            for (UUID speakerUUID : conferenceController.getConferenceManager().getEventManager(pair.getValue()).getEvent(pair.getKey()).getSpeakers()) {
-                speakerNames.add(conferenceController.getUserManager().getUserUsername(speakerUUID));
+            for (UUID speakerUUID : conferenceManager.getEventManager(pair.getValue()).getEvent(pair.getKey()).getSpeakers()) {
+                speakerNames.add(userManager.getUserUsername(speakerUUID));
             }
             String speakers = String.join(",", speakerNames);
             List<String> eventInfoStrings = new ArrayList<>(
                     Arrays.asList(
-                            conferenceController.getConferenceManager().getConferenceName(pair.getValue()),
-                            conferenceController.getConferenceManager().getEventManager(pair.getValue()).getEventTitle(pair.getKey()),
+                            conferenceManager.getConferenceName(pair.getValue()),
+                            conferenceManager.getEventManager(pair.getValue()).getEventTitle(pair.getKey()),
                             speakers,
-                            conferenceController.getConferenceManager().getRoomManager(pair.getValue()).getRoomLocation(conferenceController.getConferenceManager().getEventManager(pair.getValue()).getEvent(pair.getKey()).getRoomUUID())
+                            conferenceManager.getRoomManager(pair.getValue()).getRoomLocation(conferenceManager.getEventManager(pair.getValue()).getEvent(pair.getKey()).getRoomUUID())
                     )
             );
             table.add(eventInfoStrings);
@@ -45,17 +52,21 @@ public class ScheduleController {
 
         // generate list of pairs
         List<Pair<UUID, UUID>> listOfPairs = new ArrayList<>();
-        Set<UUID> conferenceUUIDSet;
+        Set<UUID> conferenceUUIDSet = new HashSet<>();
 
         switch (sortByMethod) {
             case REGISTERED:
                 UUID userUUID = (UUID) arguments.get("registered");
                 this.title = "Schedule of events "
-                        + conferenceController.getUserManager().getUserUsername(userUUID)
+                        + userManager.getUserUsername(userUUID)
                         + "signed up for";
-                conferenceUUIDSet = conferenceController.getUserConferences(userUUID);
+                for (UUID conferenceUUID : conferenceManager.getConferences()) {
+                    if (conferenceManager.isAttendee(conferenceUUID, userUUID)) {
+                        conferenceUUIDSet.add(conferenceUUID);
+                    }
+                }
                 for (UUID conferenceUUID: conferenceUUIDSet) {
-                    Set<UUID> eventsRegisteredInConference = conferenceController.getEventController().getAttendeeEvents(conferenceUUID, userUUID);
+                    Set<UUID> eventsRegisteredInConference = eventController.getAttendeeEvents(conferenceUUID, userUUID);
                     for (UUID eventUUID : eventsRegisteredInConference) {
                         Pair<UUID, UUID> eventConferenceUUIDPair = new Pair<>(eventUUID, conferenceUUID);
                         listOfPairs.add(eventConferenceUUIDPair);
@@ -65,10 +76,14 @@ public class ScheduleController {
             case SPEAKER:
                 UUID speakerUUID = (UUID) arguments.get("speaker");
                 this.title = "Schedule of events with speaker "
-                        + conferenceController.getUserManager().getUserUsername(speakerUUID);
-                conferenceUUIDSet = conferenceController.getUserConferences(speakerUUID);
+                        + userManager.getUserUsername(speakerUUID);
+                for (UUID conferenceUUID : conferenceManager.getConferences()) {
+                    if (conferenceManager.isSpeaker(conferenceUUID, speakerUUID)) {
+                        conferenceUUIDSet.add(conferenceUUID);
+                    }
+                }
                 for (UUID conferenceUUID : conferenceUUIDSet) {
-                    Set<UUID> speakerEventsInConference = conferenceController.getEventController().getSpeakerEvents(conferenceUUID, speakerUUID);
+                    Set<UUID> speakerEventsInConference = eventController.getSpeakerEvents(conferenceUUID, speakerUUID);
                     for (UUID eventUUID: speakerEventsInConference) {
                         Pair<UUID, UUID> eventConferenceUUIDPair = new Pair<>(eventUUID, conferenceUUID);
                         listOfPairs.add(eventConferenceUUIDPair);
@@ -79,9 +94,13 @@ public class ScheduleController {
                 LocalDate date = (LocalDate) arguments.get("date");
                 this.title = "Schedule of events on "
                         + arguments.get("date").toString();
-                conferenceUUIDSet = conferenceController.getDayConferences(date);
+                for (UUID conferenceUUID : conferenceManager.getConferences()) {
+                    if (conferenceManager.getTimeRange(conferenceUUID).isInDay(date)) {
+                        conferenceUUIDSet.add(conferenceUUID);
+                    }
+                }
                 for (UUID conferenceUUID : conferenceUUIDSet) {
-                    Set<UUID> dayEventsInConference = conferenceController.getEventController().getDayEvents(conferenceUUID, date);
+                    Set<UUID> dayEventsInConference = eventController.getDayEvents(conferenceUUID, date);
                     for (UUID eventUUID : dayEventsInConference) {
                         Pair<UUID, UUID> eventConferenceUUIDPair = new Pair<>(eventUUID, conferenceUUID);
                         listOfPairs.add(eventConferenceUUIDPair);

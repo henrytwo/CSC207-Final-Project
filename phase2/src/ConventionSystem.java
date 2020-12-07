@@ -3,6 +3,7 @@ import contact.ContactManager;
 import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
+import convention.ScheduleController;
 import convention.conference.ConferenceManager;
 import gateway.CSVReader;
 import gateway.Serializer;
@@ -79,7 +80,8 @@ public class ConventionSystem {
         RoomController roomController = new RoomController(conferenceManager, userManager);
         EventController eventController = new EventController(conferenceManager, conversationManager, userManager);
         // TODO: pass the document printer as a param
-        ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
+        ScheduleController scheduleController = new ScheduleController(userManager, conferenceManager, eventController);
+        ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager, scheduleController);
 
         // Packages up all the controllers in a nice bundle to make it easy to pass around UI components
         // without super long parameter lists

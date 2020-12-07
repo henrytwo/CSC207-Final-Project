@@ -161,9 +161,10 @@ public class ConversationManager implements Serializable {
     Set<UUID> getConversationList(UUID userUUID) {
         if (userUUIDtoConversationUUIDs.get(userUUID) == null) {
             return new HashSet<>();
-        }
+        }else {
 
-        return new HashSet<>(userUUIDtoConversationUUIDs.get(userUUID));
+            return new HashSet<>(userUUIDtoConversationUUIDs.get(userUUID));
+        }
     }
 
     /**
@@ -212,7 +213,7 @@ public class ConversationManager implements Serializable {
         if (! conversation.getUsersHaveRead().contains(userUUID)){
             conversation.getUsersHaveRead().add(userUUID);
         }
-        if (conversation.getReadAccessUsers().contains(userUUID) || bypassRestriction && !conversation.getUserArchivedUUIDs().contains(userUUID)) {
+        if (conversation.getReadAccessUsers().contains(userUUID) || bypassRestriction ) {
             List<Map<String, String>> newList = new ArrayList<>();
             conversation.readConversation(userUUID);
 
@@ -254,6 +255,10 @@ public class ConversationManager implements Serializable {
     public void userDeleteMessage(UUID conversationUUID, int index) {
         getConversation(conversationUUID).deleteMessage(index);
 
+    }
+
+    public Set<UUID> getUserArchiveConversation(UUID conversationUUID) {
+        return getConversation(conversationUUID).getUserArchivedUUIDs();
     }
 
 }
