@@ -16,7 +16,7 @@ public class Pair<T, U> {
      * @param key
      * @param value
      */
-    private Pair(T key, U value) {
+    public Pair(T key, U value) {
         this.key = key;
         this.value = value;
     }
