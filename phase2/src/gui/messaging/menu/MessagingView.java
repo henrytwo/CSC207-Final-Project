@@ -5,8 +5,6 @@ import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.UUID;
 
 public class MessagingView implements IPanel, IMessagingView {
@@ -37,15 +35,6 @@ public class MessagingView implements IPanel, IMessagingView {
         sendButton.addActionListener((e) -> messagingPresenter.sendMessage());
 
         archiveButton.addActionListener((e) -> messagingPresenter.archiveConversation());
-
-        messages.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-
-                messagingPresenter.deleteMessage(messages.getSelectedIndex());
-            }
-        });
     }
 
     @Override

@@ -91,23 +91,33 @@ class MessagingPresenter extends AbstractPresenter {
             IDialog archiveConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                 {
                     put("message", "Archive this conversation?");
-                    put("title", "this is title");
+                    put("title", "Archive");
                     put("messageType", DialogFactoryOptions.dialogType.ERROR);
                     put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
 
                 }
             });
 
-
-
         if ((boolean) archiveConfirmation.run()) {
             conversationController.userArchiveConversation(signedInUserUUID, currentConversationUUID);
             reloadMessagePage();
-
         }}
     }
 
-
+    void unreadConversation(){
+        IDialog unreadConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+            {
+                put("message", "Unread this conversation?");
+                put("title", "Unread");
+                put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+            }
+        });
+        if ((boolean) unreadConfirmation.run()) {
+            conversationController.userUnreadConversation(signedInUserUUID, currentConversationUUID);
+            reloadMessagePage();
+        }
+    }
 
     void sendMessage() {
         String currentMessage = messagingView.getTextBoxContent();
@@ -162,7 +172,11 @@ class MessagingPresenter extends AbstractPresenter {
         String[] conversationNames = new String[conversationUUIDs.size()];
 
         for (int i = 0; i < conversationUUIDs.size(); i++) {
-            conversationNames[i] = conversationController.getConversationName(conversationUUIDs.get(i));
+            if (conversationController.getUserHasRead(signedInUserUUID, conversationUUIDs.get(i))){
+                conversationNames[i] = conversationController.getConversationName(conversationUUIDs.get(i));
+            } else {
+                conversationNames[i] = "Unread" + conversationController.getConversationName(conversationUUIDs.get(i));
+            }
         }
 
         messagingView.setConversationList(conversationNames);

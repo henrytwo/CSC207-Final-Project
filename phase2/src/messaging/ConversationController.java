@@ -173,6 +173,12 @@ public class ConversationController {
         conversationManager.userUnreadConversation(userUUID, conversationUUID);
     }
 
+    public boolean getUserHasRead(UUID userUUID, UUID conversationUUID) {
+        return conversationManager.getUserHasRead(userUUID, conversationUUID);
+    }
+
+
+
     /**
      * Deletes a specific message if the message was sent by that person or is being deleted by a god user
      *
