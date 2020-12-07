@@ -42,7 +42,7 @@ class MainMenuPresenter extends AbstractPresenter {
 
         // God mode users get something special
         if (userController.getUserIsGod(signedInUserUUID)) {
-            mainMenuView.setTopBarPanelText("God mode enabled");
+            mainMenuView.setTopBarPanelText("GOD MODE ENABLED");
         }
     }
 

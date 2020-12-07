@@ -22,6 +22,7 @@ public class MainMenuView implements IPanel, IMainMenuView {
     private JLabel bottomMessageBar;
     private JButton surpriseButton;
     private JButton aboutButton;
+    private JPanel bottomMessagePanel;
 
     /**
      * Constructs the main menu.
@@ -72,7 +73,7 @@ public class MainMenuView implements IPanel, IMainMenuView {
 
     @Override
     public void setTopBarPanelText(String text) {
-        bottomMessageBar.setVisible(text.length() > 0);
+        bottomMessagePanel.setVisible(text.length() > 0);
         bottomMessageBar.setText(text);
     }
 }
