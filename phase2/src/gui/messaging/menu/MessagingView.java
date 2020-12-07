@@ -35,6 +35,7 @@ public class MessagingView implements IPanel, IMessagingView {
         sendButton.addActionListener((e) -> messagingPresenter.sendMessage());
 
         archiveButton.addActionListener((e) -> messagingPresenter.archiveConversation());
+        unreadButton.addActionListener((e) -> messagingPresenter.unreadConversation());
     }
 
     @Override
