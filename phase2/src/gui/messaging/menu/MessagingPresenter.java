@@ -79,7 +79,20 @@ class MessagingPresenter extends AbstractPresenter {
     void deleteMessage(int index) {
         System.out.println("You clicked: " + index);
 
-        // Here is where you ask the user if they really want to delete this message, and then you do the stuff
+        IDialog deleteMessageConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+            {
+                put("message", "Archive this message?");
+                put("title", "Archive");
+                put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+
+            }
+        });
+
+        if ((boolean) deleteMessageConfirmation.run()) {
+            conversationController.deleteMessage(currentConversationUUID, signedInUserUUID, index);
+            reloadMessagePage();
+        }
     }
 
     void archiveConversation() {
