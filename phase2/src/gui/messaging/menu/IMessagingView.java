@@ -1,6 +1,8 @@
 package gui.messaging.menu;
 
 public interface IMessagingView {
+    void setConversationTitle(String title);
+
     void setConversationList(String[] conversationNames);
 
     void setConversationListSelection(int selectionIndex);

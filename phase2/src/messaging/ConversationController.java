@@ -113,9 +113,6 @@ public class ConversationController {
             Set<UUID> conversationList = new HashSet<>();
             for (UUID conversationUUID : conversationManager.getConversationList(userUUID)){
                 if ( !conversationManager.getUserArchiveConversation(conversationUUID).contains(userUUID)){
-
-                    System.out.println("Backend");
-
                     conversationList.add(conversationUUID);
                 }
             }
@@ -172,6 +169,12 @@ public class ConversationController {
     public void userUnreadConversation(UUID userUUID, UUID conversationUUID) {
         conversationManager.userUnreadConversation(userUUID, conversationUUID);
     }
+
+    public boolean getUserHasRead(UUID userUUID, UUID conversationUUID) {
+        return conversationManager.getUserHasRead(userUUID, conversationUUID);
+    }
+
+
 
     /**
      * Deletes a specific message if the message was sent by that person or is being deleted by a god user

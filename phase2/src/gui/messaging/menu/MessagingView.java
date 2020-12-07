@@ -2,6 +2,8 @@ package gui.messaging.menu;
 
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -17,6 +19,7 @@ public class MessagingView implements IPanel, IMessagingView {
     private JList<String> userList;
     private JButton archiveButton;
     private JButton unreadButton;
+    private JLabel conversationTitle;
     private MessagingPresenter messagingPresenter;
 
     /**
@@ -34,6 +37,22 @@ public class MessagingView implements IPanel, IMessagingView {
         sendButton.addActionListener((e) -> messagingPresenter.sendMessage());
 
         archiveButton.addActionListener((e) -> messagingPresenter.archiveConversation());
+        unreadButton.addActionListener((e) -> messagingPresenter.unreadConversation());
+
+        messages.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                messagingPresenter.deleteMessage(messages.getSelectedIndex());
+            }
+        });
+
+    }
+
+    @Override
+    public void setConversationTitle(String title) {
+        conversationTitle.setText(title);
     }
 
     @Override
