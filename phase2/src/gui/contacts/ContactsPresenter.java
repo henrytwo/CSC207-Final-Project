@@ -97,7 +97,7 @@ class ContactsPresenter extends AbstractPresenter {
      * Gets the UUID of the user selected in the contacts list
      */
     private UUID getSelectedContactUUID() {
-        int selectedContactIndex = contactsView.getRequestListIndex();
+        int selectedContactIndex = contactsView.getContactListIndex();
 
         if (selectedContactIndex == -1 || contactsList.size() <= selectedContactIndex) {
             return null;
