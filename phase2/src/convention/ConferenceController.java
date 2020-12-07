@@ -4,7 +4,6 @@ import convention.calendar.TimeRange;
 import convention.conference.ConferenceManager;
 import convention.event.EventManager;
 import convention.permission.PermissionManager;
-//import convention.schedule.ScheduleConstants;
 import convention.schedule.ScheduleConstants;
 import messaging.ConversationManager;
 import user.UserManager;
@@ -31,6 +30,7 @@ public class ConferenceController {
     private final EventController eventController;
     private final ConferenceManager conferenceManager;
     private final PermissionManager permissionManager;
+    private final ScheduleController scheduleController;
 
     /**
      * Creates an instance of ConferenceController. We store an instance of conversationController so we can
@@ -46,9 +46,9 @@ public class ConferenceController {
         this.conferenceManager = conferenceManager;
         this.userManager = userManager;
         this.permissionManager = new PermissionManager(conferenceManager, userManager);
+        this.scheduleController = new ScheduleController(this);
 
         // store a copy of the printer somewhere
-        // TODO: make a schedule manager and pass in the eventManager and conferenceManager
     }
 
     /* Conference operations */
@@ -461,7 +461,6 @@ public class ConferenceController {
         return userUUIDs;
     }
     public void printSchedule(ScheduleConstants.sortByMethods sortByMethod, Map<String, Object> arguments, String fileName) throws IOException {
-        ScheduleController scheduleController = new ScheduleController(this);
         scheduleController.printSchedule(sortByMethod, arguments, fileName);
     }
 
