@@ -88,7 +88,6 @@ class MessagingPresenter extends AbstractPresenter {
         }
     }
 
-
     void sendMessage() {
         String currentMessage = messagingView.getTextBoxContent();
         if (!currentMessage.equals("")) {
@@ -157,12 +156,14 @@ class MessagingPresenter extends AbstractPresenter {
         if (selectedIndex != currentConversationIndex) {
             currentConversationIndex = selectedIndex;
             currentConversationUUID = conversationUUIDs.get(selectedIndex);
+
             updateMessage();
             messagingView.scrollToLastMessage();
 
             updateUserList(currentConversationUUID);
-        }
 
+            messagingView.setConversationTitle(conversationController.getConversationName(currentConversationUUID));
+        }
     }
 
     private void updateMessage() {

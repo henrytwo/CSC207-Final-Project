@@ -17,6 +17,7 @@ public class MessagingView implements IPanel, IMessagingView {
     private JList<String> userList;
     private JButton archiveButton;
     private JButton unreadButton;
+    private JLabel conversationTitle;
     private MessagingPresenter messagingPresenter;
 
     /**
@@ -34,6 +35,11 @@ public class MessagingView implements IPanel, IMessagingView {
         sendButton.addActionListener((e) -> messagingPresenter.sendMessage());
 
         archiveButton.addActionListener((e) -> messagingPresenter.archiveConversation());
+    }
+
+    @Override
+    public void setConversationTitle(String title) {
+        conversationTitle.setText(title);
     }
 
     @Override
