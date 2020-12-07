@@ -114,12 +114,14 @@ class ContactsPresenter extends AbstractPresenter {
         potentialContacts.removeAll(contactController.showContacts(signedInUserUUID));
         potentialContacts.removeAll(contactController.showSentRequests(signedInUserUUID));
         potentialContacts.remove(signedInUserUUID);
+
         UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, potentialContacts, "Select User:");
         UUID potentialContactUUID = userPickerDialog.run();
 
         if (potentialContactUUID != null) {
             try {
                 contactController.sendRequest(signedInUserUUID, potentialContactUUID);
+
                 IDialog requestConfirmationDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                     {
                         put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
@@ -127,6 +129,7 @@ class ContactsPresenter extends AbstractPresenter {
                         put("message", String.format("Request has been sent to [%s].", userController.getUserFullName(potentialContactUUID)));
                     }
                 });
+
                 requestConfirmationDialog.run();
                 reloadContactsPage();
 
@@ -202,7 +205,6 @@ class ContactsPresenter extends AbstractPresenter {
             });
             noContactSelectedDialog.run();
         }
-
     }
 
     /**
@@ -223,8 +225,7 @@ class ContactsPresenter extends AbstractPresenter {
 
             if ((boolean) confirmRejectDialog.run()) {
                 contactController.rejectRequests(signedInUserUUID, selectedUserUUID);
-                updateRequestsList();
-                updateRequestsNames();
+                reloadContactsPage();
             }
         } else {
             IDialog noContactSelectedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
