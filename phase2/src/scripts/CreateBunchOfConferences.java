@@ -40,7 +40,7 @@ public class CreateBunchOfConferences {
         Set<UUID> attendeeUserUUIDs = new HashSet<>();
 
         // Create test users
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             userManager.registerUser("User " + i, "Userson", "user" + i, "password", false, false);
 
             // Login in case the user already exists
@@ -66,11 +66,11 @@ public class CreateBunchOfConferences {
                 }
 
                 // create test rooms
-                for (int p = 0; p < 5; p++) {
+                for (int p = 0; p < 3; p++) {
 
                     Set<UUID> speakerUserUUIDs = new HashSet<UUID>();
 
-                    for (int z = 0; z < 10; z++) {
+                    for (int z = 0; z < 3; z++) {
                         UUID newUUID = userManager.registerUser("Speaker " + i + "!" + p + "!" + z, "Speaker", "speaker" + i + "!" + p + "!" + z, "password", false, false);
 
                         if (newUUID != null) {
@@ -81,7 +81,7 @@ public class CreateBunchOfConferences {
                     UUID newRoomUUID = roomManager.createRoom("BA123" + p, 69);
 
                     // create test events
-                    for (int q = 0; q < 5; q++) {
+                    for (int q = 0; q < 3; q++) {
                         LocalDateTime eventStart = LocalDateTime.of(2015 + q, Month.JULY, 29, 0, 30);
                         LocalDateTime eventEnd = LocalDateTime.of(2015 + q, Month.AUGUST, 30, 1, 30);
 
