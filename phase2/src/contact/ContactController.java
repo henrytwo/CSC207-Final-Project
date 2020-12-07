@@ -42,6 +42,12 @@ public class ContactController {
         }
     }
 
+    /**
+     * Deletes the request a sender has sent to the recipient.
+     *
+     * @param senderUUID UUID of the request sender.
+     * @param recipientUUID UUID of the recipient who has rejected the request from the sender.
+     */
     private void deleteRequest(UUID senderUUID, UUID recipientUUID) {
         Set<UUID> senderSentList = contactManager.getSentRequests(senderUUID);
         senderSentList.remove(recipientUUID);

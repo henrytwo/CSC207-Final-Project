@@ -72,6 +72,9 @@ class ContactsPresenter extends AbstractPresenter {
         requestsList = new ArrayList<>(contactController.showRequests(signedInUserUUID));
     }
 
+    /**
+     * Reloads the contacts panel.
+     */
     private void reloadContactsPage() {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
             {
@@ -147,6 +150,11 @@ class ContactsPresenter extends AbstractPresenter {
         }
     }
 
+
+    /**
+     * Removes the selected contact from the users contact list and confirm with a dialog.
+     * If no contact is selected, warning dialog pops up prompting user to select a contact.
+     */
     void deleteContact() {
         UUID selectedContactUUID = getSelectedContactUUID();
 
