@@ -184,12 +184,15 @@ public class ConversationController {
      * @param index            index of the message in question
      */
     public void deleteMessage(UUID conversationUUID, UUID userUUID, int index) {
-        if (conversationManager.getConversation(conversationUUID).getConversationMessages().get(index).getSenderUUID() == userUUID
-                || userManager.getUserIsGod(userUUID)) {
+        if ( checkIfSender(conversationUUID, userUUID, index)) {
             conversationManager.userDeleteMessage(conversationUUID, index);
         }
     }
 
+    public boolean checkIfSender(UUID conversationUUID, UUID userUUID, int index){
+        return conversationManager.getConversation(conversationUUID).getConversationMessages().get(index).getSenderUUID() == userUUID
+                || userManager.getUserIsGod(userUUID);
+    }
 
 //    /**
 //     * Adds user to the a specific chat

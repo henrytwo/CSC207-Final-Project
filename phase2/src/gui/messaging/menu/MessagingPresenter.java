@@ -81,6 +81,7 @@ class MessagingPresenter extends AbstractPresenter {
 
     void deleteMessage(int index) {
         if (index != -1) {
+            if (conversationController.checkIfSender(currentConversationUUID, signedInUserUUID, index)){
             IDialog deleteMessageConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                 {
                     put("message", String.format("Delete this message?\n\n%s", messageArray[index]));
@@ -95,20 +96,31 @@ class MessagingPresenter extends AbstractPresenter {
                 conversationController.deleteMessage(currentConversationUUID, signedInUserUUID, index);
                 reloadMessagePage(currentConversationUUID);
             }
-        }
+        } else{
+            IDialog unauthorizedDeleteAttempt = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                {
+                    put("title", "Error");
+                    put("message", "You are not authorized to delete another User's messages");
+                    put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                }
+            });
+            unauthorizedDeleteAttempt.run();
+
+        }}
+
     }
 
     void archiveConversation() {
         if (userController.getUserIsGod(signedInUserUUID)) {
 
-            IDialog emptyChatNameDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+            IDialog godArchiveDialogAttempt = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("title", "Error");
                     put("message", "Gods are too powerful to archive conversations");
                     put("messageType", DialogFactoryOptions.dialogType.ERROR);
                 }
             });
-            emptyChatNameDialog.run();
+            godArchiveDialogAttempt.run();
 
         } else {
             IDialog archiveConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {

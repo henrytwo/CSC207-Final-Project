@@ -138,6 +138,11 @@ public class Conversation implements Serializable {
         }
     }
 
+    /**
+     * deletes a message
+     *
+     * @param index the index of the message being deleted
+     */
     public void deleteMessage(int index) {
         conversationMessages.remove(index);
     }
@@ -145,12 +150,17 @@ public class Conversation implements Serializable {
     /**
      * Marks a conversation for a specific user
      *
-     * @param userUUID the user having read the conversation
+     * @param userUUID the user having read this conversation
      */
     public void readConversation(UUID userUUID) {
         usersHaveRead.add(userUUID);
     }
 
+    /**
+     * removes a user form the list of users who have read this conversation
+     *
+     * @param userUUID the user in question
+     */
     public void unreadConversation(UUID userUUID) {
         usersHaveRead.remove(userUUID);
     }
@@ -164,6 +174,9 @@ public class Conversation implements Serializable {
         userArchivedUUIDs.add(userUUID);
     }
 
+    /**
+     * resets the list of people who have archived this conversation
+     */
     public void resetUserArchivedUUIDs() {
         userArchivedUUIDs = new HashSet<>();
     }
