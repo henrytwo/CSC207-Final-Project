@@ -3,7 +3,6 @@ package convention;
 import convention.conference.ConferenceManager;
 import convention.exception.InvalidSortMethodException;
 import convention.schedule.ScheduleConstants;
-import gateway.DocumentPrinter;
 import gateway.IDocumentPrinter;
 import user.UserManager;
 import util.Pair;
@@ -15,6 +14,7 @@ import java.util.*;
 
 public class ScheduleController {
     String title;
+    IDocumentPrinter documentPrinter;
     UserManager userManager;
     ConferenceManager conferenceManager;
     EventController eventController;
@@ -22,6 +22,7 @@ public class ScheduleController {
     public ScheduleController(IDocumentPrinter documentPrinter, UserManager userManager, ConferenceManager conferenceManager, EventController eventController) {
         this.userManager = userManager;
         this.conferenceManager = conferenceManager;
+        this.documentPrinter = documentPrinter;
         this.eventController = eventController;
     }
 
@@ -49,8 +50,6 @@ public class ScheduleController {
     }
 
     public void printSchedule(ScheduleConstants.sortByMethods sortByMethod, Map<String, Object> arguments, String fileName) throws IOException {
-
-        // generate list of pairs
         List<Pair<UUID, UUID>> listOfPairs = new ArrayList<>();
         Set<UUID> conferenceUUIDSet = new HashSet<>();
 
@@ -112,7 +111,6 @@ public class ScheduleController {
         }
 
         String scheduleString = compileSchedule(listOfPairs);
-        IDocumentPrinter documentPrinter = new DocumentPrinter();
         documentPrinter.print(scheduleString, fileName);
         }
     }
