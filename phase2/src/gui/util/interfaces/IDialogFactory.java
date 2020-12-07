@@ -4,6 +4,9 @@ import gui.util.enums.DialogFactoryOptions;
 
 import java.util.Map;
 
+/**
+ * Dialog factory interface
+ */
 public interface IDialogFactory {
     IDialog createDialog(DialogFactoryOptions.dialogNames name);
 

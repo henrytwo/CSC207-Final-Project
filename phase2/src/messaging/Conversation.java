@@ -18,7 +18,6 @@ public class Conversation implements Serializable {
     private final Set<UUID> usersHaveRead = new HashSet<>();
     private final Set<UUID> userArchivedUUIDs = new HashSet<>();
 
-
     /**
      * Constructor for Conversation
      *
@@ -164,5 +163,4 @@ public class Conversation implements Serializable {
     public void archiveConversation(UUID userUUID) {
         userArchivedUUIDs.add(userUUID);
     }
-
 }

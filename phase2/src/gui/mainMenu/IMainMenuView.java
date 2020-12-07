@@ -2,6 +2,9 @@ package gui.mainMenu;
 
 import gui.util.interfaces.IPanel;
 
+/**
+ * Interface for MainMenuView
+ */
 public interface IMainMenuView {
     void setLogoutButtonText(String text);
 

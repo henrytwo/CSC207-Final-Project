@@ -11,8 +11,7 @@ import gui.util.interfaces.IFrame;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class RoomDetailsPresenter extends AbstractConferencePresenter {
-
+class RoomDetailsPresenter extends AbstractConferencePresenter {
 
     private UUID roomUUID;
 

@@ -14,15 +14,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Manages the MainMenuView
+ */
 class MainMenuPresenter {
-    private IMainMenuView mainMenuView;
     private IFrame mainFrame;
     private IPanelFactory panelFactory;
     private IDialogFactory dialogFactory;
 
     private UserController userController;
-
-    private Map<String, Object> initializationArguments;
 
     /**
      * @param mainFrame
@@ -30,8 +30,6 @@ class MainMenuPresenter {
      * @param initializationArguments HashMap of values that can be used to set the initial state of a panel
      */
     MainMenuPresenter(IFrame mainFrame, IMainMenuView mainMenuView, Map<String, Object> initializationArguments) {
-        this.initializationArguments = initializationArguments;
-        this.mainMenuView = mainMenuView;
         this.mainFrame = mainFrame;
 
         panelFactory = mainFrame.getPanelFactory();

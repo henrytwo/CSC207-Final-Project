@@ -25,7 +25,7 @@ public class ConferenceManager implements Serializable {
      * Conference names must be non-empty; this method tests for that condition
      *
      * @param name name to test
-     * @return true iff the conference name is valid
+     * @return true iff the conference name is invalid
      */
     private boolean validateConferenceName(String name) {
         return name.length() <= 0;

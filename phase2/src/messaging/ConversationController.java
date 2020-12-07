@@ -98,7 +98,6 @@ public class ConversationController {
         return conversationManager.getConversationName(conversationUUID);
     }
 
-
     /**
      * Get the set of Id's of Conversation that the user is part of
      *

@@ -12,16 +12,16 @@ import user.UserController;
  */
 public class ControllerBundle {
     // User controller
-    UserController userController;
+    private UserController userController;
 
     // Messaging controllers
-    ContactController contactController;
-    ConversationController conversationController;
+    private ContactController contactController;
+    private ConversationController conversationController;
 
     // Convention controllers
-    RoomController roomController;
-    EventController eventController;
-    ConferenceController conferenceController;
+    private RoomController roomController;
+    private EventController eventController;
+    private ConferenceController conferenceController;
 
     /**
      * Constructs the main UI system.
@@ -42,26 +42,56 @@ public class ControllerBundle {
         this.conferenceController = conferenceController;
     }
 
+    /**
+     * Gets UserController
+     *
+     * @return
+     */
     public UserController getUserController() {
         return userController;
     }
 
+    /**
+     * Gets ConferenceController
+     *
+     * @return
+     */
     public ConferenceController getConferenceController() {
         return conferenceController;
     }
 
+    /**
+     * Gets ContactController
+     *
+     * @return
+     */
     public ContactController getContactController() {
         return contactController;
     }
 
+    /**
+     * Gets RoomController
+     *
+     * @return
+     */
     public RoomController getRoomController() {
         return roomController;
     }
 
+    /**
+     * Gets EventController
+     *
+     * @return
+     */
     public EventController getEventController() {
         return eventController;
     }
 
+    /**
+     * Gets ConversationController
+     *
+     * @return
+     */
     public ConversationController getConversationController() {
         return conversationController;
     }

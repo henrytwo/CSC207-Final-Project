@@ -3,13 +3,22 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to provide operations on tables
+ */
 public class TableTools {
-    List<List<String>> table;
+    private List<List<String>> table;
 
     public TableTools(List<List<String>> table) {
         this.table = table;
     }
 
+    /**
+     * Format a 2D string array into a table
+     *
+     * @param title title for the table
+     * @return table formatted as a string
+     */
     public String stringifyTable(String title) {
         if (this.table.isEmpty()) {
             return "";

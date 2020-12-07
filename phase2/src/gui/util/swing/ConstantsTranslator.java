@@ -8,6 +8,12 @@ import javax.swing.*;
  * Translates between enums and the constants that swing uses
  */
 public class ConstantsTranslator {
+    /**
+     * Translates between enums and Swing dialog type constants
+     *
+     * @param dialogType
+     * @return
+     */
     public int translateDialogType(DialogFactoryOptions.dialogType dialogType) {
         switch (dialogType) {
             case ERROR:
@@ -23,6 +29,12 @@ public class ConstantsTranslator {
         }
     }
 
+    /**
+     * Translates between enums and Swing dialog option constants
+     *
+     * @param optionType
+     * @return
+     */
     public int translateOptionType(DialogFactoryOptions.optionType optionType) {
         switch (optionType) {
             case YES_NO_OPTION:

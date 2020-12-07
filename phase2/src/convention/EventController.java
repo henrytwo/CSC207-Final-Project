@@ -17,14 +17,12 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 /**
  * Operations on Events
  */
 public class EventController {
 
-    Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private ConferenceManager conferenceManager;
     private PermissionManager permissionManager;
     private ConversationManager conversationManager;
@@ -112,12 +110,12 @@ public class EventController {
         Set<UUID> eventsUUIDsOnDay = new HashSet<>();
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
 
-
         for (UUID eventUUID : eventManager.getEvents()) {
             if (eventManager.getEvent(eventUUID).getTimeRange().isInDay(day)) {
                 eventsUUIDsOnDay.add(eventUUID);
             }
         }
+
         return eventsUUIDsOnDay;
     }
 

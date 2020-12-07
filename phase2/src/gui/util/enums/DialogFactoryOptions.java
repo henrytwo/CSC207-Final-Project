@@ -1,5 +1,8 @@
 package gui.util.enums;
 
+/**
+ * Enums pertaining to the dialog factory
+ */
 public class DialogFactoryOptions {
     public enum dialogNames {
         USER_PICKER,

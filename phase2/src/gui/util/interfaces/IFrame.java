@@ -4,6 +4,9 @@ import util.ControllerBundle;
 
 import javax.swing.*;
 
+/**
+ * Generic frame interface
+ */
 public interface IFrame {
     void setPanel(IPanel panel);
 

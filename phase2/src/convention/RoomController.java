@@ -11,14 +11,12 @@ import user.UserManager;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 /**
  * Operations on Rooms
  */
 public class RoomController {
 
-    Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private ConferenceManager conferenceManager;
     private PermissionManager permissionManager;
 
@@ -174,5 +172,4 @@ public class RoomController {
 
         return roomManager.getCalendarManager(roomUUID).getUUIDtoTimeRanges();
     }
-
 }

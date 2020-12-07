@@ -9,6 +9,9 @@ import util.ControllerBundle;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Dialog to pick a conference. Returns the selected conference UUID.
+ */
 public class ConferencePickerDialog extends UUIDPickerDialog implements IDialog {
     public ConferencePickerDialog(IFrame mainFrame, Set<UUID> availableConferenceUUIDs, String instructions) {
         super(mainFrame, availableConferenceUUIDs, instructions, "Select conference", (uuid) -> {

@@ -10,6 +10,9 @@ import util.ControllerBundle;
 
 import java.util.*;
 
+/**
+ * Manages the ConferenceMenuView
+ */
 class ConferenceMenuPresenter {
     private IConferenceMenuView conferenceMenuView;
 

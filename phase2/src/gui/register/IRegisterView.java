@@ -1,5 +1,8 @@
 package gui.register;
 
+/**
+ * Interface for RegisterView
+ */
 public interface IRegisterView {
     String getUsername();
 

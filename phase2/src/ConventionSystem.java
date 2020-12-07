@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  * Main convention system. This where the fun begins.
  */
 public class ConventionSystem {
-    Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     /**
      * Runs the Convention System

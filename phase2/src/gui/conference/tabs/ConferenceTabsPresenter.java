@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
 
+/**
+ * Presenter for ConferenceTabs
+ */
 class ConferenceTabsPresenter {
     private IPanelFactory panelFactory;
 
@@ -30,8 +33,13 @@ class ConferenceTabsPresenter {
 
     private Map<String, Object> initializationArguments;
 
+    /**
+     * @param mainFrame               main GUI frame
+     * @param conferenceTabsView      view being managed
+     * @param conferenceUUID          UUID of the associated conference
+     * @param initializationArguments arguments used to initialize child components
+     */
     ConferenceTabsPresenter(IFrame mainFrame, IConferenceTabsView conferenceTabsView, UUID conferenceUUID, Map<String, Object> initializationArguments) {
-
         this.conferenceTabsView = conferenceTabsView;
         this.conferenceUUID = conferenceUUID;
         this.initializationArguments = initializationArguments;
@@ -52,6 +60,9 @@ class ConferenceTabsPresenter {
         updateTabs();
     }
 
+    /**
+     * Updates tab given the user's role
+     */
     private void updateTabs() {
         if (hasAttendeePermissions) {
             IPanel generalView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_GENERAL, new HashMap<String, Object>(initializationArguments) {

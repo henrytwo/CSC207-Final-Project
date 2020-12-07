@@ -18,7 +18,7 @@ public class LoginView extends JFrame implements IPanel, ILoginView {
     /**
      * Constructs the loginButton page
      *
-     * @param mainFrame parent main frame
+     * @param mainFrame parent main GUI frame
      */
     public LoginView(IFrame mainFrame) {
         loginPresenter = new LoginPresenter(mainFrame, this);

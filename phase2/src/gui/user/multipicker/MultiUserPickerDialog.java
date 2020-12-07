@@ -24,6 +24,12 @@ public class MultiUserPickerDialog extends JDialog implements IDialog, IMultiUse
 
     private Set<UUID> selectedUserUUIDs;
 
+    /**
+     * @param mainFrame          main GUI frame
+     * @param availableUserUUIDs set of UUIDs of users to make available to select
+     * @param selectedUserUUIDs  set of UUIDs of users that have already been selected
+     * @param instructions       instructions to display to the user
+     */
     public MultiUserPickerDialog(IFrame mainFrame, Set<UUID> availableUserUUIDs, Set<UUID> selectedUserUUIDs, String instructions) {
         /* Setup formatting */
 
@@ -95,6 +101,11 @@ public class MultiUserPickerDialog extends JDialog implements IDialog, IMultiUse
         dispose();
     }
 
+    /**
+     * Displays the dialog
+     *
+     * @return set of user UUIDs that were selected
+     */
     @Override
     public Set<UUID> run() {
         this.pack();

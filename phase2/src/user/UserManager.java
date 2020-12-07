@@ -15,7 +15,7 @@ public class UserManager implements Serializable {
      * - Method to logout the user
      */
 
-    UUID currentUser;
+    private UUID signedInUserUUID;
     private Map<UUID, User> userMap = new HashMap<>();
 
     /**
@@ -166,7 +166,7 @@ public class UserManager implements Serializable {
             userMap.put(newUserUUID, newUser);
 
             if (autoLogin) {
-                currentUser = newUserUUID;
+                signedInUserUUID = newUserUUID;
             }
 
             return newUserUUID;
@@ -222,7 +222,7 @@ public class UserManager implements Serializable {
         User user = getUserByUsername(username);
 
         if (user != null && user.getPassword().equals(password)) {
-            currentUser = user.getUuid();
+            signedInUserUUID = user.getUuid();
             return user.getUuid();
         }
 
@@ -233,7 +233,7 @@ public class UserManager implements Serializable {
      * Sets the current user to null when logged out
      */
     public void clearCurrentUser() {
-        currentUser = null;
+        signedInUserUUID = null;
     }
 
     /**
@@ -241,8 +241,8 @@ public class UserManager implements Serializable {
      *
      * @return the UUID of a user
      */
-    public UUID getCurrentUser() {
-        return currentUser;
+    public UUID getSignedInUserUUID() {
+        return signedInUserUUID;
     }
 
     /**

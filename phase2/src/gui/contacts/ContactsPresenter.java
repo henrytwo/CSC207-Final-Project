@@ -6,24 +6,19 @@ import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import gui.util.interfaces.IPanelFactory;
 import user.UserController;
 import util.ControllerBundle;
 
 import java.util.*;
 
-public class ContactsPresenter {
+class ContactsPresenter {
     private IContactsView contactsView;
     private IFrame mainFrame;
 
-    private IPanelFactory panelFactory;
     private IDialogFactory dialogFactory;
 
     private ContactController contactController;
     private UserController userController;
-
-    private Map<String, Object> initializationArguments;
-
     private UUID signedInUserUUID;
     private UUID currentContactUUID;
     private UUID currentRequestUUID;
@@ -37,24 +32,25 @@ public class ContactsPresenter {
     /**
      * Constructor for contacts presenter.
      *
-     * @param mainFrame          main frame of the GUI
+     * @param mainFrame          main GUI frame
      * @param contactsView       view object for contacts UI
      * @param defaultContactUUID UUID of the default contact that is selected when we open the contacts page
      * @param defaultRequestUUID UUID of the default request that is selected when we open the contacts page
      */
-    public ContactsPresenter(IFrame mainFrame, IContactsView contactsView, UUID defaultContactUUID, UUID defaultRequestUUID) {
+    ContactsPresenter(IFrame mainFrame, IContactsView contactsView, UUID defaultContactUUID, UUID defaultRequestUUID) {
         this.mainFrame = mainFrame;
         this.contactsView = contactsView;
 
         this.currentContactUUID = defaultContactUUID;
         this.currentRequestUUID = defaultRequestUUID;
+
         ControllerBundle controllerBundle = mainFrame.getControllerBundle();
         this.contactController = controllerBundle.getContactController();
         this.userController = controllerBundle.getUserController();
+
         signedInUserUUID = userController.getCurrentUser();
         updateContactsList();
 
-        this.panelFactory = mainFrame.getPanelFactory();
         this.dialogFactory = mainFrame.getDialogFactory();
 
         updateRequestsList();

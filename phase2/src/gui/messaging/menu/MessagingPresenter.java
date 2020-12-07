@@ -89,7 +89,7 @@ class MessagingPresenter {
         });
 
         if ((boolean) testDialog.run()) {
-               System.out.println("you said yes");
+            System.out.println("you said yes");
         }
     }
 

@@ -166,7 +166,7 @@ public class UserController {
      * @return UUID of the logged in user
      */
     public UUID getCurrentUser() {
-        return userManager.getCurrentUser();
+        return userManager.getSignedInUserUUID();
     }
 
     /**
