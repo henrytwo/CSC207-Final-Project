@@ -17,6 +17,7 @@ public class PanelFactoryOptions {
         CONFERENCE_EVENT_DETAILS,
         CONFERENCE_SETTINGS,
         CONFERENCE_ROOMS,
-        CONFERENCE_ROOM_DETAIL
+        CONFERENCE_ROOM_DETAIL,
+        SCHEDULE_DOWNLOAD
     }
 }

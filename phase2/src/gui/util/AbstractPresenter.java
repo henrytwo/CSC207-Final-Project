@@ -4,6 +4,7 @@ import contact.ContactController;
 import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
+import convention.ScheduleController;
 import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanelFactory;
@@ -28,6 +29,7 @@ public abstract class AbstractPresenter {
     protected UserController userController;
     protected ContactController contactController;
     protected ConversationController conversationController;
+    protected ScheduleController scheduleController;
 
     protected UUID signedInUserUUID;
 
@@ -44,6 +46,7 @@ public abstract class AbstractPresenter {
         roomController = controllerBundle.getRoomController();
         conversationController = controllerBundle.getConversationController();
         contactController = controllerBundle.getContactController();
+        scheduleController = controllerBundle.getScheduleController();
 
         dialogFactory = mainFrame.getDialogFactory();
         panelFactory = mainFrame.getPanelFactory();
