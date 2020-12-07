@@ -14,6 +14,7 @@ public class ScheduleDownloadView implements IPanel, IScheduleDownloadView {
     private JTextField speakerNameTextField;
     private JTextField dateTextField;
     private JPanel ScheduleDownloadPanel;
+    private JTabbedPane tabbedPane1;
     private ScheduleDownloadPresenter scheduleDownloadPresenter;
 
     public ScheduleDownloadView(IFrame mainFrame) {
@@ -21,9 +22,6 @@ public class ScheduleDownloadView implements IPanel, IScheduleDownloadView {
         dateScheduleDownloadButton.addActionListener((e -> scheduleDownloadPresenter.printSchedule("date", getDate())));
         registeredScheduleDownlaodButton.addActionListener((e) -> scheduleDownloadPresenter.printSchedule("registered"));
         speakerScheduleDownloadButton.addActionListener((e) -> scheduleDownloadPresenter.printSchedule("speaker", getSpeakerName()));
-        speakerScheduleDownloadButton.setText("Download");
-        registeredScheduleDownlaodButton.setText("Download");
-        dateScheduleDownloadButton.setText("Download");
     }
 
     @Override
@@ -39,10 +37,4 @@ public class ScheduleDownloadView implements IPanel, IScheduleDownloadView {
         return localDate;
     }
 
-
-
-
-    public void setSpeakerScheduleDownloadButton(String s) {
-        this.speakerScheduleDownloadButton.setText("Download");
-    }
 }
