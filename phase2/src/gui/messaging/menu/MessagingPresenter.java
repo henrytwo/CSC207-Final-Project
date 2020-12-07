@@ -61,10 +61,11 @@ class MessagingPresenter extends AbstractPresenter {
     }
 
     void archiveConversation() {
+        System.out.println("asdasd");
 
         IDialog testDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
             {
-                put("message", "Archive Conversation?");
+                put("message", "are u sure u wanna do this?");
                 put("title", "this is title");
                 put("messageType", DialogFactoryOptions.dialogType.ERROR);
                 put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
@@ -74,6 +75,10 @@ class MessagingPresenter extends AbstractPresenter {
         if ((boolean) testDialog.run()) {
             System.out.println("you said yes");
         }
+    }
+
+    void unreadConversation(){
+
     }
 
     void sendMessage() {

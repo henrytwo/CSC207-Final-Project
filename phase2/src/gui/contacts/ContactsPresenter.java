@@ -2,6 +2,7 @@ package gui.contacts;
 
 import contact.ContactController;
 import contact.exception.GhostAcceptDeniedException;
+import contact.exception.RequestDeniedException;
 import gui.user.picker.UserPickerDialog;
 import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
@@ -180,25 +181,42 @@ class ContactsPresenter extends AbstractPresenter {
         potentialContacts.remove(signedInUserUUID);
         UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, potentialContacts, "Select User:");
         UUID potentialContactUUID = userPickerDialog.run();
-        contactController.sendRequest(signedInUserUUID, potentialContactUUID);
+        //contactController.sendRequest(signedInUserUUID, potentialContactUUID);
+        //int potentialContactIndex = contactsList.indexOf(potentialContactUUID);
         if (potentialContactUUID != null) {
-            IDialog requestConfirmationDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
-                {
-                    put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
-                    put("title", "Confirmation");
-                    put("message", String.format("Request has been sent to [%s].", userController.getUserFullName(potentialContactUUID)));
-                }
-            });
+            try {
+                contactController.sendRequest(signedInUserUUID, potentialContactUUID);
+                IDialog requestConfirmationDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                    {
+                        put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
+                        put("title", "Confirmation");
+                        put("message", String.format("Request has been sent to [%s].", userController.getUserFullName(potentialContactUUID)));
+                    }
+                });
+                requestConfirmationDialog.run();
+                updateContactsList();
+                updateContactNames();
+            } catch (RequestDeniedException e) {
+                IDialog requestDeniedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                    {
+                        put("message", "Cannot send a request to this contact.");
+                        put("title", "Request Denied");
+                        put("messageType", DialogFactoryOptions.dialogType.WARNING);
+                    }
+                });
+                requestDeniedDialog.run();
 
-            requestConfirmationDialog.run();
+            }
+
         }
-
     }
 
     public void deleteContact() {
         int potentialDeleteContact = contactsView.getContactListIndex();
         try {
             if (validateContact(potentialDeleteContact)) {
+                UUID selectedDeleteUUID = contactsList.get(potentialDeleteContact);
+
                 IDialog confirmDeletionDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                     {
                         put("message", String.format("Are you sure you want to delete (%s) ?", userController.getUserFullName(currentContactUUID)));
@@ -209,7 +227,7 @@ class ContactsPresenter extends AbstractPresenter {
                 });
 
                 if ((boolean) confirmDeletionDialog.run()) {
-                    contactController.deleteContacts(signedInUserUUID, currentContactUUID);
+                    contactController.deleteContacts(signedInUserUUID, selectedDeleteUUID);
                     updateContactsList();
                     updateContactNames();
                 }
@@ -233,6 +251,7 @@ class ContactsPresenter extends AbstractPresenter {
         int potentialContactIndex = contactsView.getRequestListIndex();
         try {
             if (validateRequestContact(potentialContactIndex)) {
+                UUID selectedAcceptUUID = requestsList.get(potentialContactIndex);
                 IDialog confirmAcceptDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                     {
                         put("message", String.format("Are you sure you want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
@@ -243,12 +262,12 @@ class ContactsPresenter extends AbstractPresenter {
                 });
 
                 if ((boolean) confirmAcceptDialog.run()) {
-                    contactController.acceptRequests(signedInUserUUID, currentRequestUUID);
+                    contactController.acceptRequests(signedInUserUUID, selectedAcceptUUID);
                     updateContactsList();
                     updateContactNames();
                     updateRequestsList();
                     updateRequestsNames();
-                    currentRequestUUID = null;
+                    //currentRequestUUID = null;
                 }
             }
         } catch (NullUserException e) {
@@ -270,6 +289,7 @@ class ContactsPresenter extends AbstractPresenter {
         int potentialRejectIndex = contactsView.getRequestListIndex();
         try {
             if (validateRequestContact(potentialRejectIndex)) {
+                UUID selectedRejectUUID = contactsList.get(potentialRejectIndex);
                 IDialog confirmRejectDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                     {
                         put("message", String.format("Are you sure you don't want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
@@ -280,7 +300,7 @@ class ContactsPresenter extends AbstractPresenter {
                 });
 
                 if ((boolean) confirmRejectDialog.run()) {
-                    contactController.rejectRequests(signedInUserUUID, currentRequestUUID);
+                    contactController.rejectRequests(signedInUserUUID, selectedRejectUUID);
                     updateRequestsList();
                     updateRequestsNames();
                 }
