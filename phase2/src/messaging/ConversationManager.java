@@ -24,13 +24,13 @@ public class ConversationManager implements Serializable {
      * @param conversationName name of the conversation
      * @param usersWrite       The set of users that have writing access to this conversation
      * @param usersRead        The set of users that have reading access to this conversation
-     * @param messageSender_id the UUID of the sender of the message
+     * @param senderUUID       the UUID of the sender of the message
      * @param messageContent   The content of the message to be sent
      * @return A chat with the given specifications
      */
-    public UUID createConversation(String conversationName, Set<UUID> usersWrite, Set<UUID> usersRead, UUID messageSender_id, String messageContent) {
+    public UUID createConversation(String conversationName, Set<UUID> usersWrite, Set<UUID> usersRead, UUID senderUUID, String messageContent) {
         // Create an initial message that initiates a conversation
-        Message initialMessage = new Message(messageSender_id, messageContent);
+        Message initialMessage = new Message(senderUUID, messageContent);
         // Adds the initial messages
         List<Message> messages = new ArrayList<>();
         messages.add(initialMessage);
@@ -179,13 +179,13 @@ public class ConversationManager implements Serializable {
     /**
      * Sends a particular message to a specific chat
      *
-     * @param messageSender_id  the UUID of the sender of the message
+     * @param senderUUID        the UUID of the sender of the message
      * @param messageContent    The content of the message to be sent
      * @param conversationUUID  the conversation UUID of the conversation to which this message has to be added
      * @param bypassRestriction whether to bypass write access restrictions
      */
-    void sendMessage(UUID messageSender_id, String messageContent, UUID conversationUUID, boolean bypassRestriction) {
-        Message message = new Message(messageSender_id, messageContent);
+    void sendMessage(UUID senderUUID, String messageContent, UUID conversationUUID, boolean bypassRestriction) {
+        Message message = new Message(senderUUID, messageContent);
         Conversation conversation = getConversation(conversationUUID);
 
         UUID userUUID = message.getSenderUUID();
