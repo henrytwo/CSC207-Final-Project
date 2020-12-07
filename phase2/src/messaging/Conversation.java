@@ -163,4 +163,12 @@ public class Conversation implements Serializable {
     public void archiveConversation(UUID userUUID) {
         userArchivedUUIDs.add(userUUID);
     }
+
+    public Set<UUID> getUsersHaveRead(){
+        return usersHaveRead;
+    }
+
+    public Set<UUID> getUserArchivedUUIDs(){
+        return userArchivedUUIDs;
+    }
 }

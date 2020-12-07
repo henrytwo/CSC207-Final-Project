@@ -209,7 +209,10 @@ public class ConversationManager implements Serializable {
     List<Map<String, String>> getMessages(UUID userUUID, UUID conversationUUID, boolean bypassRestriction) {
         Conversation conversation = getConversation(conversationUUID);
 
-        if (conversation.getReadAccessUsers().contains(userUUID) || bypassRestriction) {
+        if (! conversation.getUsersHaveRead().contains(userUUID)){
+            conversation.getUsersHaveRead().add(userUUID);
+        }
+        if (conversation.getReadAccessUsers().contains(userUUID) || bypassRestriction && !conversation.getUserArchivedUUIDs().contains(userUUID)) {
             List<Map<String, String>> newList = new ArrayList<>();
             conversation.readConversation(userUUID);
 
