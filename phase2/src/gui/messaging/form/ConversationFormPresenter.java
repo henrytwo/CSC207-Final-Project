@@ -1,50 +1,32 @@
 package gui.messaging.form;
 
-import contact.ContactController;
+import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
-import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import messaging.ConversationController;
-import user.UserController;
-import util.ControllerBundle;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-class ConversationFormPresenter {
-    private ConversationController conversationController;
-
-    private UUID userUUID;
-
-    private IDialogFactory dialogFactory;
-
+class ConversationFormPresenter extends AbstractPresenter {
     private IConversationFormDialog conversationFormDialog;
 
     private Set<UUID> availableUserUUIDs;
     private Set<UUID> selectedUserUUIDs = new HashSet<>();
 
-
     ConversationFormPresenter(IFrame mainFrame, IConversationFormDialog conversationFormDialog) {
+        super(mainFrame);
+
         this.conversationFormDialog = conversationFormDialog;
-
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        conversationController = controllerBundle.getConversationController();
-        ContactController contactController = controllerBundle.getContactController();
-        UserController userController = controllerBundle.getUserController();
-
-        dialogFactory = mainFrame.getDialogFactory();
 
         conversationFormDialog.setDialogTitle("Create New Conversation");
 
-        this.userUUID = controllerBundle.getUserController().getCurrentUser();
-
         // God users can message anyone
-        this.availableUserUUIDs = userController.getUserIsGod(userUUID)
+        this.availableUserUUIDs = userController.getUserIsGod(signedInUserUUID)
                 ? userController.getUsers()
-                : contactController.showContacts(userUUID);
+                : contactController.showContacts(signedInUserUUID);
     }
 
     void submit() {
@@ -69,7 +51,7 @@ class ConversationFormPresenter {
             });
             emptyMessageDialog.run();
         } else {
-            UUID conversationUUID = conversationController.initiateConversation(conversationName, userUUID, selectedUserUUIDs, messageContent);
+            UUID conversationUUID = conversationController.initiateConversation(conversationName, signedInUserUUID, selectedUserUUIDs, messageContent);
 
             // Update conference UUID in case it has changed
             conversationFormDialog.setConversationUUID(conversationUUID);
@@ -93,7 +75,7 @@ class ConversationFormPresenter {
         Set<UUID> newSelectedUserUUIDs = (Set<UUID>) chooseUsersDialog.run();
 
         if (newSelectedUserUUIDs != null) {
-            newSelectedUserUUIDs.add(userUUID); // We need to add the signed in user in the conversation too
+            newSelectedUserUUIDs.add(signedInUserUUID); // We need to add the signed in user in the conversation too
             selectedUserUUIDs = newSelectedUserUUIDs;
         }
     }

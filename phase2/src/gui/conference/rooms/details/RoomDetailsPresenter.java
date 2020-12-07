@@ -1,8 +1,8 @@
 package gui.conference.rooms.details;
 
 import convention.exception.RoomInUseException;
-import gui.conference.AbstractConferencePresenter;
 import gui.conference.tabs.ConferenceTabsConstants;
+import gui.conference.util.AbstractConferencePresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;

@@ -1,25 +1,16 @@
 package gui.contacts;
 
-import contact.ContactController;
 import gui.user.picker.UserPickerDialog;
+import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
-import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import user.UserController;
-import util.ControllerBundle;
 
 import java.util.*;
 
-class ContactsPresenter {
+class ContactsPresenter extends AbstractPresenter {
     private IContactsView contactsView;
-    private IFrame mainFrame;
 
-    private IDialogFactory dialogFactory;
-
-    private ContactController contactController;
-    private UserController userController;
-    private UUID signedInUserUUID;
     private UUID currentContactUUID;
     private UUID currentRequestUUID;
 
@@ -38,21 +29,14 @@ class ContactsPresenter {
      * @param defaultRequestUUID UUID of the default request that is selected when we open the contacts page
      */
     ContactsPresenter(IFrame mainFrame, IContactsView contactsView, UUID defaultContactUUID, UUID defaultRequestUUID) {
-        this.mainFrame = mainFrame;
+        super(mainFrame);
+
         this.contactsView = contactsView;
 
         this.currentContactUUID = defaultContactUUID;
         this.currentRequestUUID = defaultRequestUUID;
 
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        this.contactController = controllerBundle.getContactController();
-        this.userController = controllerBundle.getUserController();
-
-        signedInUserUUID = userController.getCurrentUser();
         updateContactsList();
-
-        this.dialogFactory = mainFrame.getDialogFactory();
-
         updateRequestsList();
 
         if (requestsList.size() > 0) {

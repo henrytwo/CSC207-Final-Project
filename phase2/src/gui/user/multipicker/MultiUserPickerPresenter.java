@@ -1,35 +1,27 @@
 package gui.user.multipicker;
 
+import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
-import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import user.UserController;
-import util.ControllerBundle;
 
 import java.util.*;
 
-class MultiUserPickerPresenter {
+class MultiUserPickerPresenter extends AbstractPresenter {
 
     private IMultiUserPickerDialog multiUserPickerDialog;
     private Set<UUID> availableUserUUIDs;
     private Set<UUID> selectedUserUUIDs = new HashSet<>();
 
-    private UserController userController;
-    private IDialogFactory dialogFactory;
-
     MultiUserPickerPresenter(IFrame mainFrame, IMultiUserPickerDialog multiUserPickerDialog, Set<UUID> availableUserUUIDs, Set<UUID> selectedUserUUIDs) {
+        super(mainFrame);
+
         this.multiUserPickerDialog = multiUserPickerDialog;
         this.availableUserUUIDs = availableUserUUIDs;
 
         if (selectedUserUUIDs != null) {
             this.selectedUserUUIDs = selectedUserUUIDs;
         }
-
-        dialogFactory = mainFrame.getDialogFactory();
-
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        userController = controllerBundle.getUserController();
 
         updateUserList();
     }

@@ -1,15 +1,13 @@
 package gui.conference.form;
 
-import convention.ConferenceController;
 import convention.calendar.TimeRange;
 import convention.exception.InvalidNameException;
 import convention.exception.InvalidTimeRangeException;
-import gui.util.DateParser;
+import gui.util.AbstractPresenter;
+import gui.util.date.DateParser;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
-import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import util.ControllerBundle;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -19,21 +17,17 @@ import java.util.UUID;
 /**
  * Manages ConferenceFormDialog
  */
-class ConferenceFormPresenter {
-
-    private ConferenceController conferenceController;
+class ConferenceFormPresenter extends AbstractPresenter {
 
     private boolean isExistingConference;
-    private UUID conferenceUUID;
-    private UUID userUUID;
-
-    private IDialogFactory dialogFactory;
 
     private IConferenceFormDialog conferenceFormDialog;
 
     private String conferenceName = "";
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+
+    private UUID conferenceUUID;
 
     private DateParser dateParser = new DateParser();
 
@@ -43,15 +37,10 @@ class ConferenceFormPresenter {
      * @param conferenceUUID       UUID of associated conference
      */
     ConferenceFormPresenter(IFrame mainFrame, IConferenceFormDialog conferenceFormDialog, UUID conferenceUUID) {
+        super(mainFrame);
         this.conferenceFormDialog = conferenceFormDialog;
 
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        conferenceController = controllerBundle.getConferenceController();
-
-        dialogFactory = mainFrame.getDialogFactory();
-
         this.conferenceUUID = conferenceUUID;
-        this.userUUID = controllerBundle.getUserController().getCurrentUser();
 
         // Existing conferences will have a non-null UUID
         isExistingConference = conferenceUUID != null;
@@ -86,10 +75,10 @@ class ConferenceFormPresenter {
             TimeRange timeRange = new TimeRange(startTime, endTime);
 
             if (isExistingConference) {
-                conferenceController.setConferenceName(conferenceUUID, userUUID, conferenceName);
-                conferenceController.setConferenceTimeRange(conferenceUUID, userUUID, timeRange);
+                conferenceController.setConferenceName(conferenceUUID, signedInUserUUID, conferenceName);
+                conferenceController.setConferenceTimeRange(conferenceUUID, signedInUserUUID, timeRange);
             } else {
-                conferenceUUID = conferenceController.createConference(conferenceName, timeRange, userUUID);
+                conferenceUUID = conferenceController.createConference(conferenceName, timeRange, signedInUserUUID);
             }
 
             // Update conference UUID in case it has changed

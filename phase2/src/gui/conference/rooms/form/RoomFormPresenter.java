@@ -1,26 +1,18 @@
 package gui.conference.rooms.form;
 
-import convention.RoomController;
 import convention.exception.InvalidCapacityException;
 import convention.exception.InvalidNameException;
+import gui.conference.util.AbstractConferencePresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
-import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import util.ControllerBundle;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-class RoomFormPresenter {
-
-    private RoomController roomController;
+class RoomFormPresenter extends AbstractConferencePresenter {
     private boolean isExistingRoom;
-    private UUID conferenceUUID;
     private UUID roomUUID;
-    private UUID userUUID;
-
-    private IDialogFactory dialogFactory;
 
     private IRoomFormDialog roomFormDialog;
 
@@ -28,28 +20,21 @@ class RoomFormPresenter {
     private int roomCapacity;
 
     RoomFormPresenter(IFrame mainFrame, IRoomFormDialog roomFormDialog, UUID conferenceUUID, UUID roomUUID) {
+        super(mainFrame, conferenceUUID);
+
         this.roomFormDialog = roomFormDialog;
-
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        roomController = controllerBundle.getRoomController();
-
-        dialogFactory = mainFrame.getDialogFactory();
-
-        this.userUUID = controllerBundle.getUserController().getCurrentUser();
         this.roomUUID = roomUUID;
-        this.conferenceUUID = conferenceUUID;
 
         isExistingRoom = roomUUID != null;
 
         if (isExistingRoom) {
             roomFormDialog.setDialogTitle(String.format("Editing Room (%s)", roomUUID));
 
-            roomLocation = roomController.getRoomLocation(conferenceUUID, userUUID, roomUUID);
-            roomCapacity = roomController.getRoomCapacity(conferenceUUID, userUUID, roomUUID);
+            roomLocation = roomController.getRoomLocation(conferenceUUID, signedInUserUUID, roomUUID);
+            roomCapacity = roomController.getRoomCapacity(conferenceUUID, signedInUserUUID, roomUUID);
 
             roomFormDialog.setLocation(roomLocation);
             roomFormDialog.setCapacity(roomCapacity);
-
         } else {
             roomFormDialog.setDialogTitle("Create new room");
         }
@@ -62,10 +47,10 @@ class RoomFormPresenter {
             roomCapacity = roomFormDialog.getCapacity();
 
             if (isExistingRoom) {
-                roomController.setRoomLocation(conferenceUUID, userUUID, roomUUID, roomLocation);
-                roomController.setRoomCapacity(conferenceUUID, userUUID, roomUUID, roomCapacity);
+                roomController.setRoomLocation(conferenceUUID, signedInUserUUID, roomUUID, roomLocation);
+                roomController.setRoomCapacity(conferenceUUID, signedInUserUUID, roomUUID, roomCapacity);
             } else {
-                roomUUID = roomController.createRoom(conferenceUUID, userUUID, roomLocation, roomCapacity);
+                roomUUID = roomController.createRoom(conferenceUUID, signedInUserUUID, roomLocation, roomCapacity);
             }
 
             roomFormDialog.setRoomUUID(roomUUID);
@@ -94,7 +79,6 @@ class RoomFormPresenter {
             });
 
             invalidRoomLocationDialog.run();
-
         }
     }
 }

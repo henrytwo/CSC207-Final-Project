@@ -1,13 +1,9 @@
 package gui.conference.tabs;
 
-import convention.ConferenceController;
-import convention.EventController;
+import gui.conference.util.AbstractConferencePresenter;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
-import gui.util.interfaces.IPanelFactory;
-import user.UserController;
-import util.ControllerBundle;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,13 +13,7 @@ import java.util.function.Supplier;
 /**
  * Presenter for ConferenceTabs
  */
-class ConferenceTabsPresenter {
-    private IPanelFactory panelFactory;
-
-    private EventController eventController;
-
-    private UUID conferenceUUID;
-    private UUID signedInUserUUID;
+class ConferenceTabsPresenter extends AbstractConferencePresenter {
 
     private boolean hasAttendeePermissions;
     private boolean hasSpeakerPermissions;
@@ -40,18 +30,10 @@ class ConferenceTabsPresenter {
      * @param initializationArguments arguments used to initialize child components
      */
     ConferenceTabsPresenter(IFrame mainFrame, IConferenceTabsView conferenceTabsView, UUID conferenceUUID, Map<String, Object> initializationArguments) {
+        super(mainFrame, conferenceUUID);
+
         this.conferenceTabsView = conferenceTabsView;
-        this.conferenceUUID = conferenceUUID;
         this.initializationArguments = initializationArguments;
-
-        panelFactory = mainFrame.getPanelFactory();
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-
-        ConferenceController conferenceController = controllerBundle.getConferenceController();
-        UserController userController = controllerBundle.getUserController();
-        eventController = controllerBundle.getEventController();
-
-        signedInUserUUID = userController.getCurrentUser();
 
         hasOrganizerPermissions = conferenceController.isOrganizer(conferenceUUID, signedInUserUUID, signedInUserUUID);
         hasSpeakerPermissions = conferenceController.isSpeaker(conferenceUUID, signedInUserUUID, signedInUserUUID) || hasOrganizerPermissions;

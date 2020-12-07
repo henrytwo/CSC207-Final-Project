@@ -1,10 +1,11 @@
 package gui.mainMenu;
 
+import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
-import gui.util.interfaces.*;
-import user.UserController;
-import util.ControllerBundle;
+import gui.util.interfaces.IDialog;
+import gui.util.interfaces.IFrame;
+import gui.util.interfaces.IPanel;
 
 import java.awt.*;
 import java.io.IOException;
@@ -12,17 +13,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Manages the MainMenuView
  */
-class MainMenuPresenter {
-    private IFrame mainFrame;
-    private IPanelFactory panelFactory;
-    private IDialogFactory dialogFactory;
-
-    private UserController userController;
+class MainMenuPresenter extends AbstractPresenter {
 
     /**
      * @param mainFrame
@@ -30,14 +25,7 @@ class MainMenuPresenter {
      * @param initializationArguments HashMap of values that can be used to set the initial state of a panel
      */
     MainMenuPresenter(IFrame mainFrame, IMainMenuView mainMenuView, Map<String, Object> initializationArguments) {
-        this.mainFrame = mainFrame;
-
-        panelFactory = mainFrame.getPanelFactory();
-        dialogFactory = mainFrame.getDialogFactory();
-
-        // Initiate controllers
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        userController = controllerBundle.getUserController();
+        super(mainFrame);
 
         // Initiate main menu tabs
         IPanel conferenceMenuView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_MENU, initializationArguments);
@@ -48,8 +36,6 @@ class MainMenuPresenter {
 
         IPanel contactsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONTACTS, initializationArguments);
         mainMenuView.setContactsPanel(contactsView);
-
-        UUID signedInUserUUID = userController.getCurrentUser();
 
         // Logout button text
         mainMenuView.setLogoutButtonText(String.format("Logout (Signed in as %s)", userController.getUserFullName(signedInUserUUID)));

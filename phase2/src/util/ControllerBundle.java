@@ -24,14 +24,7 @@ public class ControllerBundle {
     private ConferenceController conferenceController;
 
     /**
-     * Constructs the main UI system.
-     *
-     * @param userController
-     * @param contactController
-     * @param conversationController
-     * @param roomController
-     * @param eventController
-     * @param conferenceController
+     * Constructs controller bundle
      */
     public ControllerBundle(UserController userController, ContactController contactController, ConversationController conversationController, RoomController roomController, EventController eventController, ConferenceController conferenceController) {
         this.userController = userController;
