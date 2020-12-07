@@ -194,6 +194,7 @@ public class ConversationManager implements Serializable {
         if (conversation.getWriteAccessUsers().contains(userUUID) || bypassRestriction) {
             conversation.addMessage(message);
             conversation.resetUserArchivedUUIDs();
+            conversation.resetUsersHaveRead();
         } else {
             throw new NoWriteAccessException();
         }
@@ -211,9 +212,10 @@ public class ConversationManager implements Serializable {
     List<Map<String, String>> getMessages(UUID userUUID, UUID conversationUUID, boolean bypassRestriction) {
         Conversation conversation = getConversation(conversationUUID);
 
-        conversation.getUsersHaveRead().add(userUUID);
         if (conversation.getReadAccessUsers().contains(userUUID) || bypassRestriction) {
             List<Map<String, String>> newList = new ArrayList<>();
+
+            // Mark this conversation as read
             conversation.readConversation(userUUID);
 
             for (Message message : conversation.getConversationMessages()) {

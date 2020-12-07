@@ -1,7 +1,10 @@
 package messaging;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Conversation object. Contains messages and metadata such as conversation name, users who have read and write access, etc.
@@ -178,6 +181,6 @@ public class Conversation implements Serializable {
     }
 
     public boolean getUserHasRead(UUID userUUID) {
-        return !usersHaveRead.contains(userUUID);
+        return usersHaveRead.contains(userUUID);
     }
 }

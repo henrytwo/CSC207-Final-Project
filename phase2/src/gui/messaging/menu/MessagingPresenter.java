@@ -54,11 +54,18 @@ class MessagingPresenter extends AbstractPresenter {
                 messagingView.setMessages(firstMessage);
             }
 
-            messagingView.setEnableSendButton(false);
-            messagingView.setEnableTextField(false);
+            setMessageButtonsEnabled(false);
+
             String[] messageInUsersList = new String[]{"Create New Conversation to Add Users"};
             messagingView.setUsersList(messageInUsersList);
         }
+    }
+
+    private void setMessageButtonsEnabled(boolean state) {
+        messagingView.setEnableSendButton(state);
+        messagingView.setEnableTextField(state);
+        messagingView.setEnableArchiveButton(state);
+        messagingView.setEnableUnreadButton(state);
     }
 
     private void reloadMessagePage() {
@@ -90,7 +97,7 @@ class MessagingPresenter extends AbstractPresenter {
         } else {
             IDialog archiveConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
                 {
-                    put("message", "Archive this conversation?");
+                    put("message", "Archive this conversation? You will have to wait for another user to send a message for it to be unarchived.");
                     put("title", "Archive");
                     put("messageType", DialogFactoryOptions.dialogType.ERROR);
                     put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
@@ -98,13 +105,14 @@ class MessagingPresenter extends AbstractPresenter {
                 }
             });
 
-        if ((boolean) archiveConfirmation.run()) {
-            conversationController.userArchiveConversation(signedInUserUUID, currentConversationUUID);
-            reloadMessagePage();
-        }}
+            if ((boolean) archiveConfirmation.run()) {
+                conversationController.userArchiveConversation(signedInUserUUID, currentConversationUUID);
+                reloadMessagePage();
+            }
+        }
     }
 
-    void unreadConversation(){
+    void unreadConversation() {
         IDialog unreadConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
             {
                 put("message", "Unread this conversation?");
@@ -115,7 +123,7 @@ class MessagingPresenter extends AbstractPresenter {
         });
         if ((boolean) unreadConfirmation.run()) {
             conversationController.userUnreadConversation(signedInUserUUID, currentConversationUUID);
-            reloadMessagePage();
+            updateConversationNames();
         }
     }
 
@@ -137,9 +145,7 @@ class MessagingPresenter extends AbstractPresenter {
 
         if (newConversationUUID != null) {
             updateAndSelectNewConversation(newConversationUUID);
-            messagingView.setEnableSendButton(true);
-            messagingView.setEnableTextField(true);
-
+            setMessageButtonsEnabled(true);
             updateUserList(newConversationUUID);
         }
     }
@@ -155,7 +161,6 @@ class MessagingPresenter extends AbstractPresenter {
         messagingView.setUsersList(userNames);
     }
 
-
     private void updateAndSelectNewConversation(UUID selectedConversationUUID) {
         // Update the local list with the new conference
         updateConversationList();
@@ -167,15 +172,16 @@ class MessagingPresenter extends AbstractPresenter {
         messagingView.setConversationListSelection(index);
     }
 
-
     private void updateConversationNames() {
         String[] conversationNames = new String[conversationUUIDs.size()];
 
         for (int i = 0; i < conversationUUIDs.size(); i++) {
-            if (conversationController.getUserHasRead(signedInUserUUID, conversationUUIDs.get(i))){
-                conversationNames[i] = conversationController.getConversationName(conversationUUIDs.get(i));
+            UUID conversationUUID = conversationUUIDs.get(i);
+
+            if (conversationController.getUserHasRead(signedInUserUUID, conversationUUID)) {
+                conversationNames[i] = conversationController.getConversationName(conversationUUID);
             } else {
-                conversationNames[i] = "Unread" + conversationController.getConversationName(conversationUUIDs.get(i));
+                conversationNames[i] = "(Unread) " + conversationController.getConversationName(conversationUUID);
             }
         }
 
@@ -188,7 +194,7 @@ class MessagingPresenter extends AbstractPresenter {
     }
 
     void updateSelection(int selectedIndex) {
-        if (selectedIndex != currentConversationIndex) {
+        if (selectedIndex != currentConversationIndex && selectedIndex != -1) {
             currentConversationIndex = selectedIndex;
             currentConversationUUID = conversationUUIDs.get(selectedIndex);
 
@@ -197,7 +203,11 @@ class MessagingPresenter extends AbstractPresenter {
 
             updateUserList(currentConversationUUID);
 
+            // Update title
             messagingView.setConversationTitle(conversationController.getConversationName(currentConversationUUID));
+
+            // Update titles in the sidebar
+            updateConversationNames();
         }
     }
 
