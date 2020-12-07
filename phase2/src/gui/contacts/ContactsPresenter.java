@@ -1,25 +1,17 @@
 package gui.contacts;
 
-import contact.ContactController;
-import contact.exception.GhostAcceptDeniedException;
 import contact.exception.RequestDeniedException;
 import gui.user.picker.UserPickerDialog;
 import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
+import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IFrame;
-import user.exception.NullUserException;
 
 import java.util.*;
 
 class ContactsPresenter extends AbstractPresenter {
     private IContactsView contactsView;
-
-    private UUID currentContactUUID;
-    private UUID currentRequestUUID;
-
-    private int currentContactIndex = -1;
-    private int currentRequestIndex = -1;
 
     private List<UUID> contactsList;
     private List<UUID> requestsList;
@@ -27,50 +19,18 @@ class ContactsPresenter extends AbstractPresenter {
     /**
      * Constructor for contacts presenter.
      *
-     * @param mainFrame          main GUI frame
-     * @param contactsView       view object for contacts UI
-     * @param defaultContactUUID UUID of the default contact that is selected when we open the contacts page
-     * @param defaultRequestUUID UUID of the default request that is selected when we open the contacts page
+     * @param mainFrame    main GUI frame
+     * @param contactsView view object for contacts UI
      */
-    ContactsPresenter(IFrame mainFrame, IContactsView contactsView, UUID defaultContactUUID, UUID defaultRequestUUID) {
+    ContactsPresenter(IFrame mainFrame, IContactsView contactsView) {
         super(mainFrame);
 
         this.contactsView = contactsView;
 
-        this.currentContactUUID = defaultContactUUID;
-        this.currentRequestUUID = defaultRequestUUID;
-
         updateContactsList();
         updateRequestsList();
-
-//        if (requestsList.size() > 0) {
-//            updateRequestsNames();
-//
-//            int defaultRequestIndex = 0;
-//
-//            if (defaultRequestUUID != null && requestsList.contains(defaultRequestUUID)) {
-//                defaultRequestIndex = requestsList.indexOf(defaultRequestUUID);
-//            }
-//
-//            contactsView.setRequestsListSelection(defaultRequestIndex);
-//            requestSelectionUpdate(defaultRequestIndex);
-//        }
-//
-//        updateContactsList();
-//
-//        // Select default contact
-//        if (contactsList.size() > 0) {
-//            updateContactNames();
-//
-//            int defaultContactIndex = 0;
-//
-//            if (contactsList.contains(defaultContactUUID)) {
-//                defaultContactIndex = contactsList.indexOf(defaultContactUUID);
-//            }
-//
-//            contactsView.setContactsListSelection(defaultContactIndex);
-//            contactSelectionUpdate(defaultContactIndex);
-//        }
+        updateContactNames();
+        updateRequestsNames();
     }
 
     /**
@@ -112,80 +72,56 @@ class ContactsPresenter extends AbstractPresenter {
         requestsList = new ArrayList<>(contactController.showRequests(signedInUserUUID));
     }
 
-//    /**
-//     * Updates the index of the current selected request with the new selection.
-//     *
-//     * @param selectedIndex index of the new selection(request)
-//     */
-//    public void requestSelectionUpdate(int selectedIndex) {
-//        if (selectedIndex != currentRequestIndex && currentRequestIndex > -1) {
-//            this.currentRequestIndex = selectedIndex;
-//            this.currentRequestUUID = requestsList.get(currentRequestIndex);
-//        }
-//    }
-//
-//
-//    public void contactSelectionUpdate(int selectedIndex) {
-//        if(selectedIndex != currentContactIndex){
-//            currentContactIndex = selectedIndex;
-//            currentContactUUID = contactsList.get(selectedIndex);
-//        }
-//    }
-
-    /**
-     * Validates the selected request in requests list. If no request is selected, produces an error dialog.
-     */
-    public boolean validateRequestContact(int requestIndex) {
-        int selectedRequestIndex = contactsView.getRequestListIndex();
-        if (selectedRequestIndex == -1) {
-            IDialog noContactSelectedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
-                {
-                    put("message", "Please select a request to accept/reject.");
-                    put("title", "No Contact Selected");
-                    put("messageType", DialogFactoryOptions.dialogType.WARNING);
-                }
-            });
-            noContactSelectedDialog.run();
-
-        }
-        return true;
-        }
-
-    /**
-     * Validates the selected contact in contacts list. If no contact is selected, produces an error dialog.
-     */
-    public boolean validateContact(int contactIndex) {
-        int selectedContactIndex = contactsView.getContactListIndex();
-        if (selectedContactIndex == -1) {
-            IDialog noContactSelectedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
-                {
-                    put("message", "Please select a contact to remove.");
-                    put("title", "No Contact Selected");
-                    put("messageType", DialogFactoryOptions.dialogType.WARNING);
-                }
-            });
-            noContactSelectedDialog.run();
-        }
-        return true;
+    private void reloadContactsPage() {
+        mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
+            {
+                put("defaultTabIndex", 2);
+            }
+        }));
     }
 
+    /**
+     * Gets the UUID of the user selected in the requests list
+     */
+    private UUID getSelectedRequestUUID() {
+        int selectedRequestIndex = contactsView.getRequestListIndex();
 
+        if (selectedRequestIndex == -1 || requestsList.size() <= selectedRequestIndex) {
+            return null;
+        } else {
+            return requestsList.get(selectedRequestIndex);
+        }
+    }
+
+    /**
+     * Gets the UUID of the user selected in the contacts list
+     */
+    private UUID getSelectedContactUUID() {
+        int selectedContactIndex = contactsView.getRequestListIndex();
+
+        if (selectedContactIndex == -1 || contactsList.size() <= selectedContactIndex) {
+            return null;
+        } else {
+            return contactsList.get(selectedContactIndex);
+        }
+    }
 
     /**
      * Sends a request to the user that is selected from the pop up dialog.
      */
-    public void sendRequest() {
+    void sendRequest() {
         Set<UUID> potentialContacts = userController.getUsers();
         potentialContacts.removeAll(contactController.showContacts(signedInUserUUID));
         potentialContacts.removeAll(contactController.showSentRequests(signedInUserUUID));
         potentialContacts.remove(signedInUserUUID);
+
         UserPickerDialog userPickerDialog = new UserPickerDialog(mainFrame, potentialContacts, "Select User:");
         UUID potentialContactUUID = userPickerDialog.run();
-        //contactController.sendRequest(signedInUserUUID, potentialContactUUID);
-        //int potentialContactIndex = contactsList.indexOf(potentialContactUUID);
+
         if (potentialContactUUID != null) {
             try {
                 contactController.sendRequest(signedInUserUUID, potentialContactUUID);
+
                 IDialog requestConfirmationDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                     {
                         put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
@@ -193,9 +129,10 @@ class ContactsPresenter extends AbstractPresenter {
                         put("message", String.format("Request has been sent to [%s].", userController.getUserFullName(potentialContactUUID)));
                     }
                 });
+
                 requestConfirmationDialog.run();
-                updateContactsList();
-                updateContactNames();
+                reloadContactsPage();
+
             } catch (RequestDeniedException e) {
                 IDialog requestDeniedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                     {
@@ -205,34 +142,28 @@ class ContactsPresenter extends AbstractPresenter {
                     }
                 });
                 requestDeniedDialog.run();
-
             }
-
         }
     }
 
-    public void deleteContact() {
-        int potentialDeleteContact = contactsView.getContactListIndex();
-        try {
-            if (validateContact(potentialDeleteContact)) {
-                UUID selectedDeleteUUID = contactsList.get(potentialDeleteContact);
+    void deleteContact() {
+        UUID selectedContactUUID = getSelectedContactUUID();
 
-                IDialog confirmDeletionDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
-                    {
-                        put("message", String.format("Are you sure you want to delete (%s) ?", userController.getUserFullName(currentContactUUID)));
-                        put("title", "Confirm Delete Contact");
-                        put("messageType", DialogFactoryOptions.dialogType.QUESTION);
-                        put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
-                    }
-                });
-
-                if ((boolean) confirmDeletionDialog.run()) {
-                    contactController.deleteContacts(signedInUserUUID, selectedDeleteUUID);
-                    updateContactsList();
-                    updateContactNames();
+        if (selectedContactUUID != null) {
+            IDialog confirmDeletionDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+                {
+                    put("message", String.format("Are you sure you want to delete (%s) ?", userController.getUserFullName(selectedContactUUID)));
+                    put("title", "Confirm Delete Contact");
+                    put("messageType", DialogFactoryOptions.dialogType.QUESTION);
+                    put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
                 }
+            });
+
+            if ((boolean) confirmDeletionDialog.run()) {
+                contactController.deleteContacts(signedInUserUUID, selectedContactUUID);
+                reloadContactsPage();
             }
-        } catch (NullUserException e) {
+        } else {
             IDialog noContactSelectedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("message", "Please select a contact to remove.");
@@ -247,30 +178,24 @@ class ContactsPresenter extends AbstractPresenter {
     /**
      * Accepts the currently selected request, first takes a confirmation from the user through a popup dialog.
      */
-    public void acceptRequest() {
-        int potentialContactIndex = contactsView.getRequestListIndex();
-        try {
-            if (validateRequestContact(potentialContactIndex)) {
-                UUID selectedAcceptUUID = requestsList.get(potentialContactIndex);
-                IDialog confirmAcceptDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
-                    {
-                        put("message", String.format("Are you sure you want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
-                        put("title", "Confirm Accept Request");
-                        put("messageType", DialogFactoryOptions.dialogType.QUESTION);
-                        put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
-                    }
-                });
+    void acceptRequest() {
+        UUID selectedUserUUID = getSelectedRequestUUID();
 
-                if ((boolean) confirmAcceptDialog.run()) {
-                    contactController.acceptRequests(signedInUserUUID, selectedAcceptUUID);
-                    updateContactsList();
-                    updateContactNames();
-                    updateRequestsList();
-                    updateRequestsNames();
-                    //currentRequestUUID = null;
+        if (selectedUserUUID != null) {
+            IDialog confirmAcceptDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+                {
+                    put("message", String.format("Are you sure you want to connect with (%s) ?", userController.getUserFullName(selectedUserUUID)));
+                    put("title", "Confirm Accept Request");
+                    put("messageType", DialogFactoryOptions.dialogType.QUESTION);
+                    put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
                 }
+            });
+
+            if ((boolean) confirmAcceptDialog.run()) {
+                contactController.acceptRequests(signedInUserUUID, selectedUserUUID);
+                reloadContactsPage();
             }
-        } catch (NullUserException e) {
+        } else {
             IDialog noContactSelectedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("message", "Please select a request to accept.");
@@ -285,27 +210,24 @@ class ContactsPresenter extends AbstractPresenter {
     /**
      * Rejects currently selected request, takes confirmation from the user first through a pop up dialog.
      */
-    public void rejectRequest() {
-        int potentialRejectIndex = contactsView.getRequestListIndex();
-        try {
-            if (validateRequestContact(potentialRejectIndex)) {
-                UUID selectedRejectUUID = contactsList.get(potentialRejectIndex);
-                IDialog confirmRejectDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
-                    {
-                        put("message", String.format("Are you sure you don't want to connect with (%s) ?", userController.getUserFullName(currentRequestUUID)));
-                        put("title", "Confirm Reject Request");
-                        put("messageType", DialogFactoryOptions.dialogType.QUESTION);
-                        put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
-                    }
-                });
+    void rejectRequest() {
+        UUID selectedUserUUID = getSelectedRequestUUID();
 
-                if ((boolean) confirmRejectDialog.run()) {
-                    contactController.rejectRequests(signedInUserUUID, selectedRejectUUID);
-                    updateRequestsList();
-                    updateRequestsNames();
+        if (selectedUserUUID != null) {
+            IDialog confirmRejectDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+                {
+                    put("message", String.format("Are you sure you don't want to connect with (%s) ?", userController.getUserFullName(selectedUserUUID)));
+                    put("title", "Confirm Reject Request");
+                    put("messageType", DialogFactoryOptions.dialogType.QUESTION);
+                    put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
                 }
+            });
+
+            if ((boolean) confirmRejectDialog.run()) {
+                contactController.rejectRequests(signedInUserUUID, selectedUserUUID);
+                reloadContactsPage();
             }
-        } catch (NullUserException e) {
+        } else {
             IDialog noContactSelectedDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("message", "Please select a request to reject.");

@@ -4,7 +4,6 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
-import java.util.UUID;
 
 public class ContactsView implements IPanel, IContactsView {
     private JPanel contactsPanel;
@@ -21,11 +20,9 @@ public class ContactsView implements IPanel, IContactsView {
      * Constructor fot contacts UI view.
      *
      * @param mainFrame          the mainFrame of the GUI
-     * @param defaultContactUUID UUID of the default contact that is selected when we open the contacts page
-     * @param defaultRequestUUID UUID of the default request that is selected when we open the contacts page
      */
-    public ContactsView(IFrame mainFrame, UUID defaultContactUUID, UUID defaultRequestUUID) {
-        contactsPresenter = new ContactsPresenter(mainFrame, this, defaultContactUUID, defaultRequestUUID);
+    public ContactsView(IFrame mainFrame) {
+        contactsPresenter = new ContactsPresenter(mainFrame, this);
         //contactsList.addListSelectionListener((e) -> contactsPresenter.contactSelectionUpdate(contactsList.getSelectedIndex()));
         sendRequestButton.addActionListener((e) -> contactsPresenter.sendRequest());
         deleteButton.addActionListener((e) -> contactsPresenter.deleteContact());

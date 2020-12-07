@@ -62,7 +62,6 @@ class EventFormPresenter extends AbstractConferencePresenter {
             eventFormDialog.setName(eventName);
             eventFormDialog.setStart(dateParser.dateTimeToString(startTime));
             eventFormDialog.setEnd(dateParser.dateTimeToString(endTime));
-            //eventFormDialog.setRoomArea(controllerBundle.getRoomController().getRoomLocation(conferenceUUID, signedInUserUUID, roomUUID));
 
         } else {
             eventFormDialog.setDialogTitle("Create new event");
