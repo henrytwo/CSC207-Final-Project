@@ -73,10 +73,14 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public void setEnableArchiveButton(boolean instruction){ archiveButton.setEnabled(instruction);}
+    public void setEnableArchiveButton(boolean instruction) {
+        archiveButton.setEnabled(instruction);
+    }
 
     @Override
-    public void setEnableUnreadButton(boolean instruction){ unreadButton.setEnabled(instruction);}
+    public void setEnableUnreadButton(boolean instruction) {
+        unreadButton.setEnabled(instruction);
+    }
 
     @Override
     public void setEnableTextField(boolean instruction) {

@@ -111,6 +111,7 @@ class ContactsPresenter extends AbstractPresenter {
      */
     void sendRequest() {
         Set<UUID> potentialContacts = userController.getUsers();
+
         potentialContacts.removeAll(contactController.showContacts(signedInUserUUID));
         potentialContacts.removeAll(contactController.showSentRequests(signedInUserUUID));
         potentialContacts.remove(signedInUserUUID);
@@ -192,7 +193,7 @@ class ContactsPresenter extends AbstractPresenter {
             });
 
             if ((boolean) confirmAcceptDialog.run()) {
-                contactController.acceptRequests(signedInUserUUID, selectedUserUUID);
+                contactController.acceptRequest(signedInUserUUID, selectedUserUUID);
                 reloadContactsPage();
             }
         } else {
@@ -224,7 +225,7 @@ class ContactsPresenter extends AbstractPresenter {
             });
 
             if ((boolean) confirmRejectDialog.run()) {
-                contactController.rejectRequests(signedInUserUUID, selectedUserUUID);
+                contactController.rejectRequest(signedInUserUUID, selectedUserUUID);
                 reloadContactsPage();
             }
         } else {

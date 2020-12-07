@@ -111,8 +111,8 @@ public class ConversationController {
         } else {
             //return conversationManager.getConversationList(userUUID);
             Set<UUID> conversationList = new HashSet<>();
-            for (UUID conversationUUID : conversationManager.getConversationList(userUUID)){
-                if ( ! conversationManager.getUserArchiveConversation(conversationUUID).contains(userUUID)){
+            for (UUID conversationUUID : conversationManager.getConversationList(userUUID)) {
+                if (!conversationManager.getUserArchiveConversation(conversationUUID).contains(userUUID)) {
                     conversationList.add(conversationUUID);
                 }
             }

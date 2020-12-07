@@ -218,7 +218,6 @@ class EventsDetailsPresenter extends AbstractConferencePresenter {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
             {
                 put("defaultConversationUUID", conversationUUID);
-                put("defaultTabName", ConferenceTabsConstants.tabNames.ALL_EVENTS);
                 put("defaultTabIndex", 1);
             }
         }));

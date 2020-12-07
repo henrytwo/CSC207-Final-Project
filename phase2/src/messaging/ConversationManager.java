@@ -161,7 +161,7 @@ public class ConversationManager implements Serializable {
     Set<UUID> getConversationList(UUID userUUID) {
         if (userUUIDtoConversationUUIDs.get(userUUID) == null) {
             return new HashSet<>();
-        }else {
+        } else {
 
             return new HashSet<>(userUUIDtoConversationUUIDs.get(userUUID));
         }
@@ -210,10 +210,8 @@ public class ConversationManager implements Serializable {
     List<Map<String, String>> getMessages(UUID userUUID, UUID conversationUUID, boolean bypassRestriction) {
         Conversation conversation = getConversation(conversationUUID);
 
-        if (! conversation.getUsersHaveRead().contains(userUUID)){
-            conversation.getUsersHaveRead().add(userUUID);
-        }
-        if (conversation.getReadAccessUsers().contains(userUUID) || bypassRestriction ) {
+        conversation.getUsersHaveRead().add(userUUID);
+        if (conversation.getReadAccessUsers().contains(userUUID) || bypassRestriction) {
             List<Map<String, String>> newList = new ArrayList<>();
             conversation.readConversation(userUUID);
 

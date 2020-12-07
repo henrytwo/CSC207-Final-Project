@@ -77,7 +77,7 @@ class MessagingPresenter extends AbstractPresenter {
         }
     }
 
-    void unreadConversation(){
+    void unreadConversation() {
 
     }
 

@@ -164,11 +164,11 @@ public class Conversation implements Serializable {
         userArchivedUUIDs.add(userUUID);
     }
 
-    public Set<UUID> getUsersHaveRead(){
+    public Set<UUID> getUsersHaveRead() {
         return usersHaveRead;
     }
 
-    public Set<UUID> getUserArchivedUUIDs(){
+    public Set<UUID> getUserArchivedUUIDs() {
         return userArchivedUUIDs;
     }
 }

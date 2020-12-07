@@ -64,7 +64,7 @@ public class ScheduleController {
                         conferenceUUIDSet.add(conferenceUUID);
                     }
                 }
-                for (UUID conferenceUUID: conferenceUUIDSet) {
+                for (UUID conferenceUUID : conferenceUUIDSet) {
                     Set<UUID> eventsRegisteredInConference = eventController.getAttendeeEvents(conferenceUUID, userUUID);
                     for (UUID eventUUID : eventsRegisteredInConference) {
                         Pair<UUID, UUID> eventConferenceUUIDPair = new Pair<>(eventUUID, conferenceUUID);
@@ -83,7 +83,7 @@ public class ScheduleController {
                 }
                 for (UUID conferenceUUID : conferenceUUIDSet) {
                     Set<UUID> speakerEventsInConference = eventController.getSpeakerEvents(conferenceUUID, speakerUUID);
-                    for (UUID eventUUID: speakerEventsInConference) {
+                    for (UUID eventUUID : speakerEventsInConference) {
                         Pair<UUID, UUID> eventConferenceUUIDPair = new Pair<>(eventUUID, conferenceUUID);
                         listOfPairs.add(eventConferenceUUIDPair);
                     }
@@ -112,6 +112,6 @@ public class ScheduleController {
 
         String scheduleString = compileSchedule(listOfPairs);
         documentPrinter.print(scheduleString, fileName);
-        }
     }
+}
 

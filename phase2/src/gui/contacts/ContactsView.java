@@ -19,16 +19,16 @@ public class ContactsView implements IPanel, IContactsView {
     /**
      * Constructor fot contacts UI view.
      *
-     * @param mainFrame          the mainFrame of the GUI
+     * @param mainFrame the mainFrame of the GUI
      */
     public ContactsView(IFrame mainFrame) {
         contactsPresenter = new ContactsPresenter(mainFrame, this);
-        //contactsList.addListSelectionListener((e) -> contactsPresenter.contactSelectionUpdate(contactsList.getSelectedIndex()));
+
         sendRequestButton.addActionListener((e) -> contactsPresenter.sendRequest());
         deleteButton.addActionListener((e) -> contactsPresenter.deleteContact());
+
         acceptRequestButton.addActionListener((e) -> contactsPresenter.acceptRequest());
         rejectRequestButton.addActionListener((e) -> contactsPresenter.rejectRequest());
-        //requestsList.addListSelectionListener((e) -> contactsPresenter.requestSelectionUpdate(requestsList.getSelectedIndex()));
     }
 
     /**
@@ -65,9 +65,13 @@ public class ContactsView implements IPanel, IContactsView {
     }
 
     @Override
-    public int getRequestListIndex() { return requestsList.getSelectedIndex();}
+    public int getRequestListIndex() {
+        return requestsList.getSelectedIndex();
+    }
 
     @Override
-    public int getContactListIndex() { return contactsList.getSelectedIndex();}
+    public int getContactListIndex() {
+        return contactsList.getSelectedIndex();
+    }
 
 }

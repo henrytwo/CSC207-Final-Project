@@ -92,5 +92,7 @@ public class ControllerBundle {
         return conversationController;
     }
 
-    public ScheduleController getScheduleController() { return scheduleController; }
+    public ScheduleController getScheduleController() {
+        return scheduleController;
+    }
 }
