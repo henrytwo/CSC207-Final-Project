@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * view for conference tabs
+ */
 public class ConferenceTabsView implements IPanel, IConferenceTabsView {
     private JTabbedPane conferenceTabs;
     private JPanel generalPanel;
@@ -27,36 +30,70 @@ public class ConferenceTabsView implements IPanel, IConferenceTabsView {
         }
     }
 
+    /**
+     * sets the selected tab
+     *
+     * @param tabName the tab being selected
+     */
     @Override
     public void setSelectedTab(ConferenceTabsConstants.tabNames tabName) {
         conferenceTabs.setSelectedIndex(conferenceTabsConstants.getTabIndex(tabName));
     }
 
+    /**
+     * sets whether a tab is enabled or not
+     *
+     * @param tabName the tab name
+     * @param state whether the tab is enabled or disabled
+     */
     @Override
     public void setTabEnabled(ConferenceTabsConstants.tabNames tabName, boolean state) {
         conferenceTabs.setEnabledAt(conferenceTabsConstants.getTabIndex(tabName), state);
     }
 
+    /**
+     * sets the general tab panel
+     *
+     * @param panel the panel
+     */
     @Override
     public void setGeneralTabPanel(IPanel panel) {
         generalPanel.add(panel.getPanel());
     }
 
+    /**
+     * sets the settings tab panel
+     *
+     * @param panel the settings tab panel
+     */
     @Override
     public void setSettingsTabPanel(IPanel panel) {
         settingsPanel.add(panel.getPanel());
     }
 
+    /**
+     * sets the rooms tab panel
+     *
+     * @param panel the panel
+     */
     @Override
     public void setRoomsTabPanel(IPanel panel) {
         roomsPanel.add(panel.getPanel());
     }
 
+    /**
+     * sets the speakers tab panel
+     */
     @Override
     public void setSpeakersTabPanel(IPanel panel) {
         speakerEvents.add(panel.getPanel());
     }
 
+    /**
+     * sets the all events tab panel
+     *
+     * @param panel the panel
+     */
     @Override
     public void setAllEventsTabPanel(IPanel panel) {
         allEventsPanel.add(panel.getPanel());
