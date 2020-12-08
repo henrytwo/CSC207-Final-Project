@@ -20,8 +20,9 @@ class MessagingPresenter extends AbstractPresenter {
 
     /**
      * Constructor for presenting messages
-     * @param mainFrame the mainframe of gui
-     * @param messagingView messaging view interface
+     *
+     * @param mainFrame               the mainframe of gui
+     * @param messagingView           messaging view interface
      * @param defaultConversationUUID default conversation UUID
      */
     MessagingPresenter(IFrame mainFrame, IMessagingView messagingView, UUID defaultConversationUUID) {
@@ -87,6 +88,7 @@ class MessagingPresenter extends AbstractPresenter {
 
     /**
      * Deletes selected messages
+     *
      * @param index index of message to be deleted
      */
     void deleteMessage(int index) {
@@ -244,6 +246,7 @@ class MessagingPresenter extends AbstractPresenter {
 
     /**
      * Updates selection of new conversation
+     *
      * @param selectedIndex selected conversation index
      */
     void updateSelection(int selectedIndex) {

@@ -37,7 +37,9 @@ public class ScheduleDownloadView implements IPanel, IScheduleDownloadView {
         return ScheduleDownloadPanel;
     }
 
-    public String getSpeakerName() {return speakerName.getText();}
+    public String getSpeakerName() {
+        return speakerName.getText();
+    }
 
     public LocalDate getDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");

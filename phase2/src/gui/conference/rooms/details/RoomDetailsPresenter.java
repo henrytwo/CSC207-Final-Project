@@ -21,10 +21,10 @@ class RoomDetailsPresenter extends AbstractConferencePresenter {
     /**
      * Constructor for Room details presenter
      *
-     * @param mainFrame main GUI frame
+     * @param mainFrame       main GUI frame
      * @param roomDetailsView view object for room details UI
-     * @param conferenceUUID UUID of associated conference
-     * @param roomUUID UUID of associated room
+     * @param conferenceUUID  UUID of associated conference
+     * @param roomUUID        UUID of associated room
      */
     RoomDetailsPresenter(IFrame mainFrame, IRoomDetailsView roomDetailsView, UUID conferenceUUID, UUID roomUUID) {
         super(mainFrame, conferenceUUID);

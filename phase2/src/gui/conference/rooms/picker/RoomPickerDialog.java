@@ -16,11 +16,10 @@ import java.util.UUID;
 
 public class RoomPickerDialog extends UUIDPickerDialog implements IDialog {
     /**
-     *
-     * @param mainFrame main GUI frame
-     * @param conferenceUUID UUID of associated conference
+     * @param mainFrame          main GUI frame
+     * @param conferenceUUID     UUID of associated conference
      * @param availableRoomUUIDs set of the available rooms UUIDs
-     * @param instructions instructions for dialog
+     * @param instructions       instructions for dialog
      */
     public RoomPickerDialog(IFrame mainFrame, UUID conferenceUUID, Set<UUID> availableRoomUUIDs, String instructions) {
         super(mainFrame, availableRoomUUIDs, instructions, "Select room", (roomUUID) -> {

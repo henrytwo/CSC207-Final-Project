@@ -13,9 +13,8 @@ public class ConferenceRoomsView implements IPanel, IConferenceRoomsView {
     private JSplitPane roomsSplitPane;
 
     /**
-     *
-     * @param mainFrame main GUI frame
-     * @param conferenceUUID UUID of the associated conference
+     * @param mainFrame       main GUI frame
+     * @param conferenceUUID  UUID of the associated conference
      * @param defaultRoomUUID UUID of the default room to select. If none selected, or invalid, the first one will be selected
      */
     public ConferenceRoomsView(IFrame mainFrame, UUID conferenceUUID, UUID defaultRoomUUID) {
@@ -26,7 +25,6 @@ public class ConferenceRoomsView implements IPanel, IConferenceRoomsView {
     }
 
     /**
-     *
      * @param tabsPanel
      */
     @Override
@@ -48,7 +46,7 @@ public class ConferenceRoomsView implements IPanel, IConferenceRoomsView {
      * Sets the selected index of the room form the rooms list
      *
      * @param selectionIndex index of the selected room
-     * */
+     */
     @Override
     public void setRoomListSelection(int selectionIndex) {
         roomsList.setSelectedIndex(selectionIndex);

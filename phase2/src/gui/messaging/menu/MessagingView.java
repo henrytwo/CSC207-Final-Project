@@ -55,6 +55,7 @@ public class MessagingView implements IPanel, IMessagingView {
 
     /**
      * sets the title of a conversation
+     *
      * @param title the title of the conversation
      */
     @Override

@@ -20,11 +20,10 @@ class RoomFormPresenter extends AbstractConferencePresenter {
     private int roomCapacity;
 
     /**
-     *
-     * @param mainFrame main GUI frame
+     * @param mainFrame      main GUI frame
      * @param roomFormDialog dialog to manage
      * @param conferenceUUID UUID of associated conference
-     * @param roomUUID UUID of associated room
+     * @param roomUUID       UUID of associated room
      */
     RoomFormPresenter(IFrame mainFrame, IRoomFormDialog roomFormDialog, UUID conferenceUUID, UUID roomUUID) {
         super(mainFrame, conferenceUUID);

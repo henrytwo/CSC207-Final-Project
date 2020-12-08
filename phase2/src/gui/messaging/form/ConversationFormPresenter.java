@@ -17,7 +17,7 @@ class ConversationFormPresenter extends AbstractPresenter {
     private Set<UUID> selectedUserUUIDs = new HashSet<>();
 
     /**
-     * @param mainFrame             main GUI view
+     * @param mainFrame              main GUI view
      * @param conversationFormDialog Dialog form to create new conversation
      */
 

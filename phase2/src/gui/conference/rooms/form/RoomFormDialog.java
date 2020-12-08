@@ -26,9 +26,9 @@ public class RoomFormDialog extends JDialog implements IDialog, IRoomFormDialog 
      * Creates room form dialog. If roomUUID is null, then form submission will result in a new
      * room being created. Otherwise, details about the existing room will be retrieved.
      *
-     * @param mainFrame main GUI frame
+     * @param mainFrame      main GUI frame
      * @param conferenceUUID UUID of the associated conference
-     * @param roomUUID UUID of the room to edit, if applicable
+     * @param roomUUID       UUID of the room to edit, if applicable
      */
     public RoomFormDialog(IFrame mainFrame, UUID conferenceUUID, UUID roomUUID) {
 

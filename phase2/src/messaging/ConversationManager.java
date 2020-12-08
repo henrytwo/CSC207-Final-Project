@@ -272,7 +272,7 @@ public class ConversationManager implements Serializable {
     /**
      * gets whether a specific user has read this conversation
      *
-     * @param userUUID user in question
+     * @param userUUID         user in question
      * @param conversationUUID conversation in question
      * @return true if the user has read the conversation, false if not
      */
@@ -284,13 +284,12 @@ public class ConversationManager implements Serializable {
      * deletes a message
      *
      * @param conversationUUID conversation in question
-     * @param index index on a message in the list of messages
+     * @param index            index on a message in the list of messages
      */
     public void userDeleteMessage(UUID conversationUUID, int index) {
         getConversation(conversationUUID).deleteMessage(index);
 
     }
-
 
 
 }

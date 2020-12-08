@@ -61,7 +61,6 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
     }
 
     /**
-     *
      * @param newUpdated boolean value for the updated variable
      */
     @Override
@@ -71,6 +70,7 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
 
     /**
      * Set new name for the conversation
+     *
      * @param newName new name for conversation
      */
     @Override
@@ -80,6 +80,7 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
 
     /**
      * Sets the new message
+     *
      * @param newMessage new message
      */
     @Override
@@ -89,6 +90,7 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
 
     /**
      * Sets the new title for the Dialog box
+     *
      * @param newTitle new title
      */
     @Override
@@ -98,6 +100,7 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
 
     /**
      * returns the conversation name
+     *
      * @return the conversation name
      */
     @Override
@@ -107,6 +110,7 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
 
     /**
      * Returns the message in the TextField
+     *
      * @return text in the TextField
      */
     @Override
@@ -116,6 +120,7 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
 
     /**
      * sets UUID of the selected conversation
+     *
      * @param newUUID UUID of selected conversation
      */
     @Override
@@ -133,6 +138,7 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
 
     /**
      * Updates and runs the frames with respect to the updated conversation
+     *
      * @return UUID of the updated conversation iff update was performed
      */
     @Override

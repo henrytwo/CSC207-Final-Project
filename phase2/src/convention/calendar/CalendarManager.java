@@ -15,6 +15,7 @@ public class CalendarManager {
 
     /**
      * Creates calendar manager for a calendar
+     *
      * @param calendar calendar object to operate on
      */
     public CalendarManager(Calendar calendar) {

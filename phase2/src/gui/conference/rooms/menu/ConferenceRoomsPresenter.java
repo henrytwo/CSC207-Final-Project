@@ -22,11 +22,10 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
     private int currentRoomIndex = -1;
 
     /**
-     *
-     * @param mainFrame main UI frame
+     * @param mainFrame          main UI frame
      * @param conferenceRoomView view that this presenter is managing
-     * @param conferenceUUID UUID of the associated conference
-     * @param defaultRoomUUID UUID of the default room to select. If none selected, or invalid, the first one will be selected.
+     * @param conferenceUUID     UUID of the associated conference
+     * @param defaultRoomUUID    UUID of the default room to select. If none selected, or invalid, the first one will be selected.
      */
     ConferenceRoomsPresenter(IFrame mainFrame, IConferenceRoomsView conferenceRoomView, UUID conferenceUUID, UUID defaultRoomUUID) {
         super(mainFrame, conferenceUUID);
