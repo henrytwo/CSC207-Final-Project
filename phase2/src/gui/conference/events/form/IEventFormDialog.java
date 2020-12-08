@@ -2,6 +2,9 @@ package gui.conference.events.form;
 
 import java.util.UUID;
 
+/**
+ * interface for the event form in the GUI
+ */
 public interface IEventFormDialog {
     void setEventUUID(UUID newUUID);
 

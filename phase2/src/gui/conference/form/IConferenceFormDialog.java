@@ -2,6 +2,9 @@ package gui.conference.form;
 
 import java.util.UUID;
 
+/**
+ * interface for the conference dialog form of the GUI
+ */
 public interface IConferenceFormDialog {
     void setConferenceUUID(UUID newUUID);
 

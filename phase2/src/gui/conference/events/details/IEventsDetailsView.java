@@ -1,5 +1,8 @@
 package gui.conference.events.details;
 
+/**
+ * interface for the details view of events UI
+ */
 public interface IEventsDetailsView {
     void setGeneralTableData(String[][] tableData, String[] columnNames);
 
