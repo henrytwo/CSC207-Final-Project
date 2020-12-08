@@ -2,6 +2,7 @@ package gui.scheduleDownload;
 
 import convention.exception.InvalidSortMethodException;
 import convention.schedule.ScheduleConstants;
+import gateway.exceptions.PrinterException;
 import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.interfaces.IDialog;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class ScheduleDownloadPresenter extends AbstractPresenter {
+class ScheduleDownloadPresenter extends AbstractPresenter {
     private IScheduleDownloadView scheduleDownloadView;
     private UUID selectedSpeakerUUID;
 
@@ -55,8 +56,8 @@ public class ScheduleDownloadPresenter extends AbstractPresenter {
                     {
                         put("speakerUUID", selectedSpeakerUUID);
                     }
-                }, "schedule.txt");
-            } catch (IOException | InvalidSortMethodException e) {
+                });
+            } catch (PrinterException | IOException | InvalidSortMethodException e) {
                 displayError(e.getMessage());
             }
         } else {

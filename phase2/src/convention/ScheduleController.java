@@ -48,7 +48,7 @@ public class ScheduleController {
         return tableTools.stringifyTable(this.title);
     }
 
-    public void printSchedule(ScheduleConstants.sortByMethods sortByMethod, Map<String, Object> arguments, String fileName) throws IOException {
+    public void printSchedule(ScheduleConstants.sortByMethods sortByMethod, Map<String, Object> arguments) throws IOException {
         List<Pair<UUID, UUID>> listOfPairs = new ArrayList<>();
         Set<UUID> conferenceUUIDSet = new HashSet<>();
 
@@ -110,7 +110,7 @@ public class ScheduleController {
         }
 
         String scheduleString = compileSchedule(listOfPairs);
-        documentPrinter.print(scheduleString, fileName);
+        documentPrinter.print(scheduleString, "schedule");
     }
 }
 
