@@ -6,6 +6,9 @@ import gui.util.interfaces.IPanel;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
+/**
+ * the view for the login
+ */
 public class LoginView extends JFrame implements IPanel, ILoginView {
     private JPanel panel;
     private JButton loginButton;

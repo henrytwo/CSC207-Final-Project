@@ -9,6 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.UUID;
 
+/**
+ * the messaging view
+ */
 public class MessagingView implements IPanel, IMessagingView {
     private JPanel messagingPanel;
     private JButton newConversationButton;

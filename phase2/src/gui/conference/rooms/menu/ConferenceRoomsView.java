@@ -6,6 +6,9 @@ import gui.util.interfaces.IPanel;
 import javax.swing.*;
 import java.util.UUID;
 
+/**
+ * conference rooms view
+ */
 public class ConferenceRoomsView implements IPanel, IConferenceRoomsView {
     private JPanel panel;
     private JButton createRoomButton;

@@ -42,41 +42,81 @@ public class MainMenuView implements IPanel, IMainMenuView {
         surpriseButton.addActionListener((e) -> mainMenuPresenter.surprise());
     }
 
+    /**
+     * sets the selected tab index
+     *
+     * @param index the selected index
+     */
     @Override
     public void setTabIndex(int index) {
         mainMenuTabs.setSelectedIndex(index);
     }
 
+    /**
+     * sets the conference menu panel
+     *
+     * @param panel the panel
+     */
     @Override
     public void setConferenceMenuPanel(IPanel panel) {
         conferenceMenuPanel.add(panel.getPanel());
     }
 
+    /**
+     * sets the messaging panel
+     *
+     * @param panel the panel
+     */
     @Override
     public void setMessagingPanel(IPanel panel) {
         messagingPanel.add(panel.getPanel());
     }
 
+    /**
+     * sets the contacts panel
+     *
+     * @param panel the panel
+     */
     @Override
     public void setContactsPanel(IPanel panel) {
         contactsPanel.add(panel.getPanel());
     }
 
+    /**
+     * sets the download schedule panel
+     *
+     * @param panel the panel
+     */
     @Override
     public void setScheduleDownloadPanel(IPanel panel) {
         scheduleDownloadPanel.add(panel.getPanel());
     }
 
+    /**
+     * sets the text on the logout button
+     *
+     * @param text the text
+     */
     @Override
     public void setLogoutButtonText(String text) {
         logoutButton.setText(text);
     }
 
+    /**
+     * gets a panel
+     *
+     * @return the panel
+     */
     @Override
     public JPanel getPanel() {
         return mainMenuPanel;
     }
 
+    /**
+     * sets the text of the top panel
+     *
+     * @param text the text
+     */
     @Override
     public void setTopBarPanelText(String text) {
         bottomMessagePanel.setVisible(text.length() > 0);

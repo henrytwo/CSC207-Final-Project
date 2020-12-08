@@ -5,6 +5,9 @@ import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
 
+/**
+ * the view for contacts
+ */
 public class ContactsView implements IPanel, IContactsView {
     private JPanel contactsPanel;
     private JButton deleteButton;

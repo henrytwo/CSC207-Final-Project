@@ -8,6 +8,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.util.UUID;
 
+/**
+ * Room details viewer
+ */
 public class RoomDetailsView implements IPanel, IRoomDetailsView {
     private JPanel roomViewPanel;
     private JTable roomTable;
