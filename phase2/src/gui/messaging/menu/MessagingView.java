@@ -40,6 +40,9 @@ public class MessagingView implements IPanel, IMessagingView {
         unreadButton.addActionListener((e) -> messagingPresenter.unreadConversation());
 
         messages.addMouseListener(new MouseAdapter() {
+            /**
+             * checks if the mouse has clicked this place
+             */
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -49,6 +52,7 @@ public class MessagingView implements IPanel, IMessagingView {
         });
 
     }
+
 
     @Override
     public void setConversationTitle(String title) {

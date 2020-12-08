@@ -148,6 +148,31 @@ public class Conversation implements Serializable {
     }
 
     /**
+     * archives a conversation for a specific user
+     *
+     * @param userUUID the user archiving the conversation
+     */
+    public void archiveConversation(UUID userUUID) {
+        userArchivedUUIDs.add(userUUID);
+    }
+
+    /**
+     * resets the list of people who have archived this conversation
+     */
+    public void resetUserArchivedUUIDs() {
+        userArchivedUUIDs = new HashSet<>();
+    }
+
+    /**
+     * gets the list of people who have archived this conversation
+     *
+     * @return the list of people who have archived this conversation
+     */
+    public Set<UUID> getUserArchivedUUIDs() {
+        return userArchivedUUIDs;
+    }
+
+    /**
      * Marks a conversation for a specific user
      *
      * @param userUUID the user having read this conversation
@@ -166,33 +191,27 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * archives a conversation for a specific user
-     *
-     * @param userUUID the user archiving the conversation
+     * resets the set of users who have read this conversation
      */
-    public void archiveConversation(UUID userUUID) {
-        userArchivedUUIDs.add(userUUID);
-    }
-
-    /**
-     * resets the list of people who have archived this conversation
-     */
-    public void resetUserArchivedUUIDs() {
-        userArchivedUUIDs = new HashSet<>();
-    }
-
     public void resetUsersHaveRead() {
         usersHaveRead = new HashSet<>();
     }
 
+    /**
+     * gets the list of users who have read this conversation
+     *
+     * @return the list of users who have read this conversation
+     */
     public Set<UUID> getUsersHaveRead() {
         return usersHaveRead;
     }
 
-    public Set<UUID> getUserArchivedUUIDs() {
-        return userArchivedUUIDs;
-    }
-
+    /**
+     * gets whether a specific user has read this conversation
+     *
+     * @param userUUID the user in question
+     * @return true if the user in question has read this conversation
+     */
     public boolean getUserHasRead(UUID userUUID) {
         return usersHaveRead.contains(userUUID);
     }

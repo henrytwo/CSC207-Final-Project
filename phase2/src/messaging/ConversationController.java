@@ -170,6 +170,13 @@ public class ConversationController {
         conversationManager.userUnreadConversation(userUUID, conversationUUID);
     }
 
+    /**
+     * gets whether a specific conversation has been read by a specific user
+     *
+     * @param userUUID         user in question
+     * @param conversationUUID conversation
+     * @return true if that user has read that conversation, false otherwise
+     */
     public boolean getUserHasRead(UUID userUUID, UUID conversationUUID) {
         return conversationManager.getUserHasRead(userUUID, conversationUUID);
     }
@@ -188,6 +195,14 @@ public class ConversationController {
         }
     }
 
+    /**
+     * checks if a specific user is a god user or sender of a specific message
+     *
+     * @param conversationUUID conversation in question
+     * @param userUUID         user in question
+     * @param index            index of the message in question in the list of messages
+     * @return true if that user is a god user or the sender of the message
+     */
     public boolean checkIfSender(UUID conversationUUID, UUID userUUID, int index) {
         return conversationManager.getConversation(conversationUUID).getConversationMessages().get(index).getSenderUUID() == userUUID
                 || userManager.getUserIsGod(userUUID);
