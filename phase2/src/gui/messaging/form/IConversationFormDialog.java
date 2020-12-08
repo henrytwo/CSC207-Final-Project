@@ -2,6 +2,9 @@ package gui.messaging.form;
 
 import java.util.UUID;
 
+/**
+ * interface for the conversation form dialogue
+ */
 public interface IConversationFormDialog {
     void setConversationUUID(UUID newUUID);
 

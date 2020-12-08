@@ -9,6 +9,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.UUID;
 
+/**
+ * the dialogue form for conversation
+ */
 public class ConversationFormDialog extends JDialog implements IDialog, IConversationFormDialog {
     private JTextField chatName;
     private JButton saveButton;
@@ -51,6 +54,11 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
+            /**
+             * closes the window
+             *
+             * @param e event
+             */
             public void windowClosing(WindowEvent e) {
                 close();
             }

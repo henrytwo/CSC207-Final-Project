@@ -1,6 +1,13 @@
 package gui.conference.tabs;
 
+/**
+ * constant tabs for conference
+ */
 public class ConferenceTabsConstants {
+
+    /**
+     * enum tab names
+     */
     public enum tabNames {
         GENERAL,
         ALL_EVENTS,
@@ -10,6 +17,12 @@ public class ConferenceTabsConstants {
         SETTINGS,
     }
 
+    /**
+     * gets the tab index
+     *
+     * @param tabName the tab name
+     * @return the tab index
+     */
     public int getTabIndex(tabNames tabName) {
         switch (tabName) {
             case GENERAL:
