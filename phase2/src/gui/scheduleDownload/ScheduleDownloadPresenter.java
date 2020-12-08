@@ -9,18 +9,33 @@ import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IFrame;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * Manages Schedule Download VIew
+ */
 class ScheduleDownloadPresenter extends AbstractPresenter {
     private IScheduleDownloadView scheduleDownloadView;
     private UUID selectedSpeakerUUID;
 
+    /**
+     * Constructs ScheduleDownloadPresenter
+     *
+     * @param mainFrame            main GUI frame
+     * @param scheduleDownloadView view that we're managing
+     */
     ScheduleDownloadPresenter(IFrame mainFrame, IScheduleDownloadView scheduleDownloadView) {
         super(mainFrame);
         this.scheduleDownloadView = scheduleDownloadView;
     }
 
+    /**
+     * Choose speaker for sort by speaker
+     */
     void chooseSpeaker() {
         IDialog speakerPickerDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.USER_PICKER, new HashMap<String, Object>() {
             {
@@ -37,6 +52,11 @@ class ScheduleDownloadPresenter extends AbstractPresenter {
         }
     }
 
+    /**
+     * Display generic error
+     *
+     * @param error error message
+     */
     private void displayError(String error) {
         IDialog errorDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
             {
@@ -49,6 +69,9 @@ class ScheduleDownloadPresenter extends AbstractPresenter {
         errorDialog.run();
     }
 
+    /**
+     * Sort by speaker
+     */
     void printScheduleSpeaker() {
         if (selectedSpeakerUUID != null) {
             try {
@@ -65,12 +88,41 @@ class ScheduleDownloadPresenter extends AbstractPresenter {
         }
     }
 
-    void printSchedule(String sortBy, Object object) {
-
+    /**
+     * Sort by user's registered events
+     */
+    void printScheduleRegistered() {
+        try {
+            scheduleController.printSchedule(ScheduleConstants.sortByMethods.REGISTERED, new HashMap<String, Object>() {
+                {
+                    put("userUUID", signedInUserUUID);
+                }
+            });
+        } catch (PrinterException | IOException | InvalidSortMethodException e) {
+            displayError(e.getMessage());
+        }
     }
 
-    void printSchedule(String sortBy) {
-        UUID s = signedInUserUUID;
+    /**
+     * Sort by date
+     */
+    void printScheduleDate() {
+        String dateString = scheduleDownloadView.getDateString();
 
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-uuuu");
+            LocalDate date = LocalDate.parse(dateString, formatter);
+
+            scheduleController.printSchedule(ScheduleConstants.sortByMethods.DATE, new HashMap<String, Object>() {
+                {
+                    put("date", date);
+                }
+            });
+
+        } catch (DateTimeParseException e) {
+            displayError("Invalid date: You must use the format (MM-dd-YYYY)");
+        } catch (PrinterException | IOException | InvalidSortMethodException e) {
+            displayError(e.getMessage());
+        }
     }
 }
