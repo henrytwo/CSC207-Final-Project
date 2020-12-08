@@ -49,26 +49,51 @@ public class ContactsView implements IPanel, IContactsView {
         contactsList.setListData(contacts);
     }
 
+    /**
+     * sets the contact request list
+     *
+     * @param requests the list of requests
+     */
     @Override
     public void setRequestsList(String[] requests) {
         requestsList.setListData(requests);
     }
 
+    /**
+     * sets the selection from the contacts list
+     *
+     * @param selectionIndex the index of the selection
+     */
     @Override
     public void setContactsListSelection(int selectionIndex) {
         contactsList.setSelectedIndex(selectionIndex);
     }
 
+    /**
+     * sets the request lists selection
+     *
+     * @param selectionIndex the index of the selection
+     */
     @Override
     public void setRequestsListSelection(int selectionIndex) {
         requestsList.setSelectedIndex(selectionIndex);
     }
 
+    /**
+     * gets the request list index
+     *
+     * @return the index
+     */
     @Override
     public int getRequestListIndex() {
         return requestsList.getSelectedIndex();
     }
 
+    /**
+     * gets the contact list index
+     *
+     * @return the index
+     */
     @Override
     public int getContactListIndex() {
         return contactsList.getSelectedIndex();

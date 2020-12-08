@@ -99,11 +99,21 @@ public class ConferenceTabsView implements IPanel, IConferenceTabsView {
         allEventsPanel.add(panel.getPanel());
     }
 
+    /**
+     * sets the registered events tab
+     *
+     * @param panel the panel
+     */
     @Override
     public void setRegisteredEventsTabPanel(IPanel panel) {
         registeredEvents.add(panel.getPanel());
     }
 
+    /**
+     * gets a panel
+     *
+     * @return the panel
+     */
     @Override
     public JPanel getPanel() {
         return conferenceTabsPanel;
