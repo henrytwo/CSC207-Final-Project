@@ -60,47 +60,81 @@ public class ConversationFormDialog extends JDialog implements IDialog, IConvers
         contentPane.registerKeyboardAction((e) -> close(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-
+    /**
+     *
+     * @param newUpdated boolean value for the updated variable
+     */
     @Override
     public void setUpdated(boolean newUpdated) {
         updated = newUpdated;
     }
 
+    /**
+     * Set new name for the conversation
+     * @param newName new name for conversation
+     */
     @Override
     public void setChatName(String newName) {
         chatName.setText(newName);
     }
 
+    /**
+     * Sets the new message
+     * @param newMessage new message
+     */
     @Override
     public void setMessage(String newMessage) {
         messageContent.setText(newMessage);
     }
 
+    /**
+     * Sets the new title for the Dialog box
+     * @param newTitle new title
+     */
     @Override
     public void setDialogTitle(String newTitle) {
         this.setTitle(newTitle);
     }
 
+    /**
+     * returns the conversation name
+     * @return the conversation name
+     */
     @Override
     public String getChatName() {
         return chatName.getText();
     }
 
+    /**
+     * Returns the message in the TextField
+     * @return text in the TextField
+     */
     @Override
     public String getMessage() {
         return messageContent.getText();
     }
 
+    /**
+     * sets UUID of the selected conversation
+     * @param newUUID UUID of selected conversation
+     */
     @Override
     public void setConversationUUID(UUID newUUID) {
         conversationUUID = newUUID;
     }
 
+    /**
+     * Closes the frame
+     */
     @Override
     public void close() {
         dispose();
     }
 
+    /**
+     * Updates and runs the frames with respect to the updated conversation
+     * @return UUID of the updated conversation iff update was performed
+     */
     @Override
     public UUID run() {
         this.pack();

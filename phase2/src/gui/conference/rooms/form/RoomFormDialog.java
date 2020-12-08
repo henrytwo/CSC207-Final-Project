@@ -26,9 +26,9 @@ public class RoomFormDialog extends JDialog implements IDialog, IRoomFormDialog 
      * Creates room form dialog. If roomUUID is null, then form submission will result in a new
      * room being created. Otherwise, details about the existing room will be retrieved.
      *
-     * @param mainFrame
-     * @param conferenceUUID
-     * @param roomUUID
+     * @param mainFrame main GUI frame
+     * @param conferenceUUID UUID of the associated conference
+     * @param roomUUID UUID of the room to edit, if applicable
      */
     public RoomFormDialog(IFrame mainFrame, UUID conferenceUUID, UUID roomUUID) {
 
@@ -59,6 +59,11 @@ public class RoomFormDialog extends JDialog implements IDialog, IRoomFormDialog 
         contentPane.registerKeyboardAction((e) -> close(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     * Runs the room form dialog
+     *
+     * @return
+     */
     @Override
     public Object run() {
         this.pack();
@@ -67,41 +72,79 @@ public class RoomFormDialog extends JDialog implements IDialog, IRoomFormDialog 
 
     }
 
+    /**
+     * Sets the title of the dialog
+     *
+     * @param newTitle title to be set for dialog
+     */
     @Override
     public void setDialogTitle(String newTitle) {
         this.setTitle(newTitle);
     }
 
+    /**
+     * Sets the location of the room
+     *
+     * @param roomLocation the location of the room
+     */
     @Override
     public void setLocation(String roomLocation) {
         location.setText(roomLocation);
     }
 
+    /**
+     * Sets the capacity of the room
+     *
+     * @param roomCapacity capacity of the room
+     */
     @Override
     public void setCapacity(int roomCapacity) {
         capacity.setValue(roomCapacity);
     }
 
+    /**
+     * Close the dialog.
+     */
     @Override
     public void close() {
         dispose();
     }
 
+    /**
+     * Gets the location of the room.
+     *
+     * @return location of room
+     */
     @Override
     public String getRoomLocation() {
         return location.getText();
     }
 
+    /**
+     * Sets the status of room as updated, iff room has been updated.
+     *
+     * @param newUpdated true if updated, otherwise false
+     */
     @Override
     public void setUpdated(boolean newUpdated) {
         updated = newUpdated;
     }
 
+    /**
+     * Sets the room UUID for the dialog
+     *
+     * @param newUUID UUID of the room
+     */
     @Override
     public void setRoomUUID(UUID newUUID) {
         roomUUID = newUUID;
     }
 
+    /**
+     * Gets the capacity of the room
+     *
+     * @return integer value of room capacity
+     */
     @Override
     public int getCapacity() {
         try {

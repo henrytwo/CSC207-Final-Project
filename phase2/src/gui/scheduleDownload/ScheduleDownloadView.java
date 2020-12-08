@@ -11,17 +11,25 @@ public class ScheduleDownloadView implements IPanel, IScheduleDownloadView {
     private JButton dateScheduleDownloadButton;
     private JButton speakerScheduleDownloadButton;
     private JButton registeredScheduleDownlaodButton;
-    private JTextField speakerNameTextField;
+    private JLabel speakerName;
     private JTextField dateTextField;
     private JPanel ScheduleDownloadPanel;
     private JTabbedPane tabbedPane1;
+    private JButton chooseSpeakerButton;
     private ScheduleDownloadPresenter scheduleDownloadPresenter;
 
     public ScheduleDownloadView(IFrame mainFrame) {
         scheduleDownloadPresenter = new ScheduleDownloadPresenter(mainFrame, this);
         dateScheduleDownloadButton.addActionListener((e -> scheduleDownloadPresenter.printSchedule("date", getDate())));
         registeredScheduleDownlaodButton.addActionListener((e) -> scheduleDownloadPresenter.printSchedule("registered"));
-        speakerScheduleDownloadButton.addActionListener((e) -> scheduleDownloadPresenter.printSchedule("speaker", getSpeakerName()));
+
+        speakerScheduleDownloadButton.addActionListener((e) -> scheduleDownloadPresenter.printScheduleSpeaker());
+        chooseSpeakerButton.addActionListener((e) -> scheduleDownloadPresenter.chooseSpeaker());
+    }
+
+    @Override
+    public void setSpeakerName(String name) {
+        speakerName.setText(name);
     }
 
     @Override
@@ -29,7 +37,7 @@ public class ScheduleDownloadView implements IPanel, IScheduleDownloadView {
         return ScheduleDownloadPanel;
     }
 
-    public String getSpeakerName() {return speakerNameTextField.getText();}
+    public String getSpeakerName() {return speakerName.getText();}
 
     public LocalDate getDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");

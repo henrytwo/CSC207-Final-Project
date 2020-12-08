@@ -19,6 +19,13 @@ class RoomFormPresenter extends AbstractConferencePresenter {
     private String roomLocation = "";
     private int roomCapacity;
 
+    /**
+     *
+     * @param mainFrame main GUI frame
+     * @param roomFormDialog dialog to manage
+     * @param conferenceUUID UUID of associated conference
+     * @param roomUUID UUID of associated room
+     */
     RoomFormPresenter(IFrame mainFrame, IRoomFormDialog roomFormDialog, UUID conferenceUUID, UUID roomUUID) {
         super(mainFrame, conferenceUUID);
 
@@ -40,6 +47,11 @@ class RoomFormPresenter extends AbstractConferencePresenter {
         }
     }
 
+    /**
+     * Submit form and:
+     * 1) Apply edit changes if room is existing, or
+     * 2) Create a new room otherwise
+     */
     void submit() {
 
         try {

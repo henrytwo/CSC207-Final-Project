@@ -18,6 +18,12 @@ class MessagingPresenter extends AbstractPresenter {
 
     private String[] messageArray;
 
+    /**
+     * Constructor for presenting messages
+     * @param mainFrame the mainframe of gui
+     * @param messagingView messaging view interface
+     * @param defaultConversationUUID default conversation UUID
+     */
     MessagingPresenter(IFrame mainFrame, IMessagingView messagingView, UUID defaultConversationUUID) {
         super(mainFrame);
 
@@ -79,6 +85,10 @@ class MessagingPresenter extends AbstractPresenter {
         }));
     }
 
+    /**
+     * Deletes selected messages
+     * @param index index of message to be deleted
+     */
     void deleteMessage(int index) {
         if (index != -1 && currentConversationUUID != null) {
             if (conversationController.checkIfSender(currentConversationUUID, signedInUserUUID, index)) {
@@ -109,6 +119,9 @@ class MessagingPresenter extends AbstractPresenter {
         }
     }
 
+    /**
+     * Archives Conversation
+     */
     void archiveConversation() {
         if (userController.getUserIsGod(signedInUserUUID)) {
 
@@ -139,6 +152,9 @@ class MessagingPresenter extends AbstractPresenter {
         }
     }
 
+    /**
+     * Mark conversation as Unread
+     */
     void unreadConversation() {
         IDialog unreadConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
             {
@@ -154,6 +170,9 @@ class MessagingPresenter extends AbstractPresenter {
         }
     }
 
+    /**
+     * Sends message to a conversation
+     */
     void sendMessage() {
         String currentMessage = messagingView.getTextBoxContent();
         if (!currentMessage.equals("")) {
@@ -165,6 +184,9 @@ class MessagingPresenter extends AbstractPresenter {
 
     }
 
+    /**
+     * Creates new conversation
+     */
     void createConversation() {
         IDialog conversationFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONVERSATION_FORM);
 
@@ -220,6 +242,10 @@ class MessagingPresenter extends AbstractPresenter {
         conversationUUIDs = new ArrayList<>(conversationController.getConversationList(signedInUserUUID));
     }
 
+    /**
+     * Updates selection of new conversation
+     * @param selectedIndex selected conversation index
+     */
     void updateSelection(int selectedIndex) {
         if (selectedIndex != currentConversationIndex && selectedIndex != -1) {
             currentConversationIndex = selectedIndex;

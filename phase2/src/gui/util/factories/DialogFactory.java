@@ -21,6 +21,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * factory to make dialogue panels for the GUI
+ */
 public class DialogFactory implements IDialogFactory {
     private IFrame mainFrame;
 

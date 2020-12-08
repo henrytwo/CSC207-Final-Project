@@ -17,6 +17,15 @@ class RoomDetailsPresenter extends AbstractConferencePresenter {
 
     private IRoomDetailsView roomDetailsView;
 
+
+    /**
+     * Constructor for Room details presenter
+     *
+     * @param mainFrame main GUI frame
+     * @param roomDetailsView view object for room details UI
+     * @param conferenceUUID UUID of associated conference
+     * @param roomUUID UUID of associated room
+     */
     RoomDetailsPresenter(IFrame mainFrame, IRoomDetailsView roomDetailsView, UUID conferenceUUID, UUID roomUUID) {
         super(mainFrame, conferenceUUID);
         this.roomDetailsView = roomDetailsView;
@@ -25,6 +34,9 @@ class RoomDetailsPresenter extends AbstractConferencePresenter {
         updateRoomData();
     }
 
+    /**
+     * Deletes the selected room after confirming the deletion through a dialog.
+     */
     void deleteRoom() {
         IDialog confirmDeleteDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
             {
@@ -54,18 +66,9 @@ class RoomDetailsPresenter extends AbstractConferencePresenter {
         }
     }
 
-
-//    private void updateRoomsView() {
-//        if (hasOrganizerPermissions) {
-//            IPanel roomView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_ROOMS, new HashMap<String, Object>() {
-//                {
-//                    put("conferenceUUID", conferenceUUID);
-//                }
-//            });
-//        }
-//
-//    }
-
+    /**
+     * Allows God users to edit the room location and capacity by prompting the room form dialog.
+     */
     void editRoom() {
         //Only god user and Organizers are allowed to edit rooms.;
         IDialog roomFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.ROOM_FORM, new HashMap<String, Object>() {
@@ -96,6 +99,9 @@ class RoomDetailsPresenter extends AbstractConferencePresenter {
         }));
     }
 
+    /**
+     * Updates the room table data.
+     */
     private void updateRoomData() {
         String[][] tableData = {
                 {"Room UUID", roomUUID.toString()},

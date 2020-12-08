@@ -3,6 +3,9 @@ package gui.user.multipicker;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * interface for the multi-user picker dialog screen in the GUI
+ */
 public interface IMultiUserPickerDialog {
     void close();
 
