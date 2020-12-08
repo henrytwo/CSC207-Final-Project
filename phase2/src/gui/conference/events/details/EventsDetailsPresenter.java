@@ -10,6 +10,9 @@ import gui.util.interfaces.IFrame;
 
 import java.util.*;
 
+/**
+ * Manages EventsDetailedView
+ */
 class EventsDetailsPresenter extends AbstractConferencePresenter {
 
     private IEventsDetailsView eventsGeneralView;
@@ -18,6 +21,14 @@ class EventsDetailsPresenter extends AbstractConferencePresenter {
 
     private Map<String, Object> initializationArguments;
 
+    /**
+     * Constructor for this presenter.
+     * @param mainFrame gui main frame
+     * @param eventGeneralView view to manage
+     * @param defaultEventUUID UUID of the default event to select
+     * @param conferenceUUID UUID of the associated conference
+     * @param initializationArguments
+     */
     EventsDetailsPresenter(IFrame mainFrame, IEventsDetailsView eventGeneralView, UUID defaultEventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments) {
         super(mainFrame, conferenceUUID);
 
