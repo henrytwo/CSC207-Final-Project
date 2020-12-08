@@ -1,10 +1,10 @@
 package gateway;
 
+import gateway.exceptions.PrinterException;
+
 import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.Scanner;
 
 /**
  * Class to trigger the system print dialog on a string
@@ -20,14 +20,23 @@ public class DocumentPrinter implements IDocumentPrinter {
      */
     @Override
     public void print(String document, String fileName) throws IOException {
-        BufferedWriter table = new BufferedWriter(new FileWriter(fileName.concat(".txt")));
+
+        String htmlHeader = (new Scanner(new FileReader("header.html"))).useDelimiter("\\Z").next();
+        String htmlFooter = (new Scanner(new FileReader("footer.html"))).useDelimiter("\\Z").next();
+
+        fileName = fileName.concat(".html");
+
+        BufferedWriter table = new BufferedWriter(new FileWriter(fileName));
+        table.write(htmlHeader);
         table.write(document);
+        table.write(htmlFooter);
         table.flush();
         table.close();
 
-        File scheduleTable = new File(fileName.concat(".txt"));
-
-        Desktop d = Desktop.getDesktop();
-        d.print(scheduleTable);
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            Desktop.getDesktop().browse(new File(fileName).toURI());
+        } else {
+            throw new PrinterException();
+        }
     }
 }

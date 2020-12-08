@@ -51,7 +51,7 @@ public class TableTools {
         while (titleLine.length() < width + 1) {
             titleLine.append(" ");
         }
-        titleLine.append("║\r\n");
+        titleLine.append("║\r\n<br />");
         table.append(titleLine);
 
         StringBuilder hLine = new StringBuilder();
@@ -59,7 +59,7 @@ public class TableTools {
         while (hLine.length() < width + 1) {
             hLine.append("-");
         }
-        hLine.append("╣\r\n");
+        hLine.append("╣\r\n<br />");
         table.append(hLine);
 
         for (List<String> sub : this.table) {
@@ -78,7 +78,7 @@ public class TableTools {
             row.deleteCharAt(row.length() - 1);
             table.append(row);
 
-            table.append("║\r\n");
+            table.append("║\r\n<br />");
         }
 
         table.append(bottomLine);
