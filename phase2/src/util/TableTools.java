@@ -53,7 +53,7 @@ public class TableTools {
         titleLine.append("║");
         titleLine.append(title);
 
-        int numWhitespace = topLine.length() - titleLine.length();
+        int numWhitespace = topLine.length() - titleLine.length() - 9;
 
         for (int j = 0; j < numWhitespace; j++) {
             titleLine.append("&nbsp;");
