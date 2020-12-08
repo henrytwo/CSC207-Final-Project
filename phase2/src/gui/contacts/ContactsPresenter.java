@@ -62,7 +62,6 @@ class ContactsPresenter extends AbstractPresenter {
      * Updates contactsList attribute.
      */
     private void updateContactsList() {
-        currentContactIndex = 0;
         contactsList = new ArrayList<>(contactController.showContacts(signedInUserUUID));
     }
 
@@ -70,7 +69,6 @@ class ContactsPresenter extends AbstractPresenter {
      * Updates requestsList attribute.
      */
     private void updateRequestsList() {
-        currentRequestIndex = 0;
         requestsList = new ArrayList<>(contactController.showRequests(signedInUserUUID));
     }
 
