@@ -54,6 +54,11 @@ public class DateParser {
         return localDateTime.format(formatter);
     }
 
+    /**
+     * gets the format of datetime
+     *
+     * @return the format of datetime
+     */
     public String getFormat() {
         return dateTimeFormat;
     }
