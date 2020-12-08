@@ -15,6 +15,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Manages EventFormDialog
+ */
 class EventFormPresenter extends AbstractConferencePresenter {
 
     private boolean isExistingEvent;
@@ -68,9 +71,7 @@ class EventFormPresenter extends AbstractConferencePresenter {
         }
     }
 
-    /**
-     * Launches a pop up that allows users to enter in details for creating(or editing) an event
-     */
+
     void submit() {
         try {
             eventName = eventFormDialog.getName();
@@ -180,9 +181,7 @@ class EventFormPresenter extends AbstractConferencePresenter {
 
     }
 
-    /**
-     * Launches a pop up dialog that allows organisers to add speakers to an event.
-     */
+
     void selectSpeakers() {
         // Getting all available speakerUUIDs
         Set<UUID> signedInUserUUIDs = userController.getUsers();
@@ -202,9 +201,7 @@ class EventFormPresenter extends AbstractConferencePresenter {
         }
     }
 
-    /**
-     * Launches a pop up that allows users to select room for an event.
-     */
+
     void selectRoom() {
         Set<UUID> availableRoomUUIDS = roomController.getRooms(conferenceUUID, signedInUserUUID);
 
