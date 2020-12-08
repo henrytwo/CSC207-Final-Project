@@ -25,7 +25,7 @@ public class TableTools {
         }
         List<Integer> colWidths = new ArrayList<>();
         for (String s : this.table.get(0)) {
-            colWidths.add(Math.floorDiv(70, this.table.get(0).size()));
+            colWidths.add(Math.floorDiv(150, this.table.get(0).size()));
         }
         int width = 0;
         for (int i : colWidths) {
@@ -37,7 +37,7 @@ public class TableTools {
         StringBuilder bottomLine = new StringBuilder();
         topLine.append("╔");
         bottomLine.append("╚");
-        for (int i = 0; i < width; i++) {
+        for (int i = 0; i < width ; i++) {
             topLine.append("═");
             bottomLine.append("═");
         }
@@ -48,15 +48,15 @@ public class TableTools {
         StringBuilder titleLine = new StringBuilder();
         titleLine.append("║");
         titleLine.append(title);
-        while (titleLine.length() < width + 1) {
-            titleLine.append(" ");
+        for (int j=0; j<(topLine.length()-titleLine.length()); j++) {
+            titleLine.append("  &nbsp;");
         }
         titleLine.append("║\r\n<br />");
         table.append(titleLine);
 
         StringBuilder hLine = new StringBuilder();
         hLine.append("╠");
-        while (hLine.length() < width + 1) {
+        while (hLine.length() < width ) {
             hLine.append("-");
         }
         hLine.append("╣\r\n<br />");
@@ -69,8 +69,8 @@ public class TableTools {
                 StringBuilder cell = new StringBuilder();
 
                 cell.append(sub.get(i));
-                while (cell.length() <= colWidths.get(i) - 1) {
-                    cell.append(" ");
+                while (cell.length() <= colWidths.get(i)) {
+                    cell.append(" &nbsp;");
                 }
                 cell.append("│");
                 row.append(cell);
