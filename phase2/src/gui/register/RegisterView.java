@@ -6,6 +6,9 @@ import gui.util.interfaces.IPanel;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
+/**
+ * the register view
+ */
 public class RegisterView extends JFrame implements IPanel, IRegisterView {
     private JPanel panel;
     private JTextField FirstNameTextField;

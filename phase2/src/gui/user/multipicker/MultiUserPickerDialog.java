@@ -66,36 +66,69 @@ public class MultiUserPickerDialog extends JDialog implements IDialog, IMultiUse
         contentPane.registerKeyboardAction((e) -> close(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     * toggles the enabled/disabled state of the add button
+     *
+     * @param state the state of the button
+     */
     @Override
     public void setAddButtonDisabled(boolean state) {
         addButton.setEnabled(!state);
     }
 
+    /**
+     * toggles the enabled/disabled state of the remove button
+     *
+     *
+     * @param state state the state of the button
+     */
     @Override
     public void setRemoveButtonDisabled(boolean state) {
         removeButton.setEnabled(!state);
     }
 
+    /**
+     * sets the instructions
+     *
+     * @param newInstructions the instructions
+     */
     @Override
     public void setInstructions(String newInstructions) {
         instructions.setText(newInstructions);
     }
 
+    /**
+     * sets the user list
+     *
+     * @param newUserList the list of users
+     */
     @Override
     public void setUserList(String[] newUserList) {
         userList.setListData(newUserList);
     }
 
+    /**
+     * sets the title of the dialogue
+     *
+     * @param newTitle the title
+     */
     @Override
     public void setDialogTitle(String newTitle) {
         this.setTitle(newTitle);
     }
 
+    /**
+     * sets the selected user UUIDs
+     * @param selectedUserUUIDs the selected user UUIDs
+     */
     @Override
     public void setSelectedUserUUIDs(Set<UUID> selectedUserUUIDs) {
         this.selectedUserUUIDs = selectedUserUUIDs;
     }
 
+    /**
+     * closes and disposes of the dialogue
+     */
     @Override
     public void close() {
         dispose();

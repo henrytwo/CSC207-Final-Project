@@ -9,6 +9,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.UUID;
 
+/**
+ * room form dialog
+ */
 public class RoomFormDialog extends JDialog implements IDialog, IRoomFormDialog {
     private JPanel contentPane;
     private JButton buttonOK;
