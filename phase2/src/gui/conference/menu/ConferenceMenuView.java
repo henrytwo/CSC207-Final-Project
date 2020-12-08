@@ -32,21 +32,41 @@ public class ConferenceMenuView implements IPanel, IConferenceMenuView {
         joinConferenceButton.addActionListener((e) -> conferenceMenuPresenter.joinConference());
     }
 
+    /**
+     * sets the tabs of the conference
+     *
+     * @param tabsPanel the tabs
+     */
     @Override
     public void setConferenceTabs(IPanel tabsPanel) {
         conferenceSplitPane.setRightComponent(tabsPanel.getPanel());
     }
 
+    /**
+     * sets the selection from the conference list
+     *
+     * @param selectionIndex the index of the selection
+     */
     @Override
     public void setConferenceListSelection(int selectionIndex) {
         conferenceList.setSelectedIndex(selectionIndex);
     }
 
+    /**
+     * sets the list of conferences
+     *
+     * @param conferenceNames the list of names
+     */
     @Override
     public void setConferenceList(String[] conferenceNames) {
         conferenceList.setListData(conferenceNames);
     }
 
+    /**
+     * gets a panel
+     *
+     * @return the panel
+     */
     @Override
     public JPanel getPanel() {
         return panel;
