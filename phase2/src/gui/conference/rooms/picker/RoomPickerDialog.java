@@ -10,7 +10,18 @@ import util.ControllerBundle;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Dialog to pick a room. Returns the selected room location and capacity.
+ */
+
 public class RoomPickerDialog extends UUIDPickerDialog implements IDialog {
+    /**
+     *
+     * @param mainFrame main GUI frame
+     * @param conferenceUUID UUID of associated conference
+     * @param availableRoomUUIDs set of the available rooms UUIDs
+     * @param instructions instructions for dialog
+     */
     public RoomPickerDialog(IFrame mainFrame, UUID conferenceUUID, Set<UUID> availableRoomUUIDs, String instructions) {
         super(mainFrame, availableRoomUUIDs, instructions, "Select room", (roomUUID) -> {
             ControllerBundle controllerBundle = mainFrame.getControllerBundle();

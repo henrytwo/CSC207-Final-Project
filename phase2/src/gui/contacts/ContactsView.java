@@ -17,7 +17,7 @@ public class ContactsView implements IPanel, IContactsView {
     private ContactsPresenter contactsPresenter;
 
     /**
-     * Constructor fot contacts UI view.
+     * Constructor for contacts UI view.
      *
      * @param mainFrame the mainFrame of the GUI
      */

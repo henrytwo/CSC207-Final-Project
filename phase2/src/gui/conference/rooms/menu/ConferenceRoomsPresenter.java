@@ -21,6 +21,13 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
     private List<UUID> roomUUIDs;
     private int currentRoomIndex = -1;
 
+    /**
+     *
+     * @param mainFrame main UI frame
+     * @param conferenceRoomView view that this presenter is managing
+     * @param conferenceUUID UUID of the associated conference
+     * @param defaultRoomUUID UUID of the default room to select. If none selected, or invalid, the first one will be selected.
+     */
     ConferenceRoomsPresenter(IFrame mainFrame, IConferenceRoomsView conferenceRoomView, UUID conferenceUUID, UUID defaultRoomUUID) {
         super(mainFrame, conferenceUUID);
 
@@ -45,6 +52,9 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
         }
     }
 
+    /**
+     * Initiates dialog for a user to create a room
+     */
     void createRoom() {
         IDialog roomFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.ROOM_FORM, new HashMap<String, Object>() {
             {
@@ -96,7 +106,7 @@ public class ConferenceRoomsPresenter extends AbstractConferencePresenter {
     /**
      * Reloads page and specifies a default room to open upon next load
      *
-     * @param selectedRoomUUID
+     * @param selectedRoomUUID the UUID of the room to load
      */
     private void reloadManageRoomsPage(UUID selectedRoomUUID) {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
