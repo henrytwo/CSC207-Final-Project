@@ -85,3 +85,9 @@ Note: due to some silly problems with some team member's systems, Main.java has 
         The factory design pattern was used to generate Panels and Dialogs in the GUI to comply with the MVP
         architecture. Since views are at a higher level than presenters, a factory was used to create View objects
         through an interface.
+
+    - Parameter Object
+        - Classes
+            ControllerBundle - Used to avoid repeating the same parameter list of controllers throughout the UI.
+            TimeRange - in the system we often have start and end dates, so it makes sense to combine them into a single
+                        object.
