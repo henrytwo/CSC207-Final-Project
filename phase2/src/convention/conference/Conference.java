@@ -31,7 +31,7 @@ class Conference implements Serializable {
      * @param timeRange      TimeRange of the convention
      * @param organizerUUID  UUID of the initial organizer
      */
-    public Conference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
+    Conference(String conferenceName, TimeRange timeRange, UUID organizerUUID) {
         this.conferenceName = conferenceName;
         this.uuid = UUID.randomUUID();
         this.timeRange = timeRange;

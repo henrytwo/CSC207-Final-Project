@@ -20,6 +20,12 @@ public class RoomController {
     private ConferenceManager conferenceManager;
     private PermissionManager permissionManager;
 
+    /**
+     * Constructs RoomController
+     *
+     * @param conferenceManager instance of conference manager
+     * @param userManager       instance of user manager
+     */
     public RoomController(ConferenceManager conferenceManager, UserManager userManager) {
         this.conferenceManager = conferenceManager;
         this.permissionManager = new PermissionManager(conferenceManager, userManager);

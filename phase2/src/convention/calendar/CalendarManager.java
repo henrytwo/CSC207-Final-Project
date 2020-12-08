@@ -13,6 +13,10 @@ public class CalendarManager {
 
     private Calendar calendar;
 
+    /**
+     * Creates calendar manager for a calendar
+     * @param calendar calendar object to operate on
+     */
     public CalendarManager(Calendar calendar) {
         this.calendar = calendar;
     }
