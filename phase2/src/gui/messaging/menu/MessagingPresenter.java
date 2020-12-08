@@ -105,10 +105,8 @@ class MessagingPresenter extends AbstractPresenter {
                     }
                 });
                 unauthorizedDeleteAttempt.run();
-
             }
         }
-
     }
 
     void archiveConversation() {
