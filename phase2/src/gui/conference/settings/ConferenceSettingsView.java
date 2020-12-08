@@ -8,6 +8,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.util.UUID;
 
+/**
+ * view for conference settings
+ */
 public class ConferenceSettingsView implements IPanel, IConferenceSettingsView {
 
     private ConferenceSettingsPresenter conferenceSettingsPresenter;
@@ -35,6 +38,12 @@ public class ConferenceSettingsView implements IPanel, IConferenceSettingsView {
         deleteConferenceButton.addActionListener((e) -> conferenceSettingsPresenter.deleteConference());
     }
 
+    /**
+     * sets a table of users
+     *
+     * @param tableData   the dataset
+     * @param columnNames the column names
+     */
     @Override
     public void setUserList(String[][] tableData, String[] columnNames) {
         TableModel tableModel = new DefaultTableModel(tableData, columnNames);
@@ -42,6 +51,11 @@ public class ConferenceSettingsView implements IPanel, IConferenceSettingsView {
         userTable.setModel(tableModel);
     }
 
+    /**
+     * gets a panel
+     *
+     * @return the panel
+     */
     @Override
     public JPanel getPanel() {
         return settingsPanel;
