@@ -41,6 +41,11 @@ public class ConferenceGeneralView implements IPanel, IConferenceGeneralView {
         generalTable.setModel(tableModel);
     }
 
+    /**
+     * gets the general view panel
+     *
+     * @return the general view panel
+     */
     @Override
     public JPanel getPanel() {
         return generalViewPanel;
