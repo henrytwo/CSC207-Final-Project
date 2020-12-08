@@ -16,6 +16,11 @@ class ConversationFormPresenter extends AbstractPresenter {
     private Set<UUID> availableUserUUIDs;
     private Set<UUID> selectedUserUUIDs = new HashSet<>();
 
+    /**
+     * @param mainFrame             main GUI view
+     * @param conversationFormDialog Dialog form to create new conversation
+     */
+
     ConversationFormPresenter(IFrame mainFrame, IConversationFormDialog conversationFormDialog) {
         super(mainFrame);
 
@@ -29,6 +34,9 @@ class ConversationFormPresenter extends AbstractPresenter {
                 : contactController.showContacts(signedInUserUUID);
     }
 
+    /**
+     * Submits the form to create a New conversation
+     */
     void submit() {
         String conversationName = conversationFormDialog.getChatName();
         String messageContent = conversationFormDialog.getMessage();
@@ -62,6 +70,10 @@ class ConversationFormPresenter extends AbstractPresenter {
         }
 
     }
+
+    /**
+     * Dialog-box to select users for a new conversation
+     */
 
     void selectUsers() {
         IDialog chooseUsersDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MULTI_USER_PICKER, new HashMap<String, Object>() {
