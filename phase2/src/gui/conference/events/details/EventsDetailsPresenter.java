@@ -23,10 +23,11 @@ class EventsDetailsPresenter extends AbstractConferencePresenter {
 
     /**
      * Constructor for this presenter.
-     * @param mainFrame gui main frame
-     * @param eventGeneralView view to manage
-     * @param defaultEventUUID UUID of the default event to select
-     * @param conferenceUUID UUID of the associated conference
+     *
+     * @param mainFrame               gui main frame
+     * @param eventGeneralView        view to manage
+     * @param defaultEventUUID        UUID of the default event to select
+     * @param conferenceUUID          UUID of the associated conference
      * @param initializationArguments
      */
     EventsDetailsPresenter(IFrame mainFrame, IEventsDetailsView eventGeneralView, UUID defaultEventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments) {

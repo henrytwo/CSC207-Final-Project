@@ -79,7 +79,6 @@ public class MultiUserPickerDialog extends JDialog implements IDialog, IMultiUse
     /**
      * toggles the enabled/disabled state of the remove button
      *
-     *
      * @param state state the state of the button
      */
     @Override
@@ -119,6 +118,7 @@ public class MultiUserPickerDialog extends JDialog implements IDialog, IMultiUse
 
     /**
      * sets the selected user UUIDs
+     *
      * @param selectedUserUUIDs the selected user UUIDs
      */
     @Override

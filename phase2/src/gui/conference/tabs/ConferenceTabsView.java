@@ -24,6 +24,7 @@ public class ConferenceTabsView implements IPanel, IConferenceTabsView {
 
     /**
      * the conference tabs view
+     *
      * @param mainFrame
      * @param conferenceUUID
      * @param defaultTabName
@@ -51,7 +52,7 @@ public class ConferenceTabsView implements IPanel, IConferenceTabsView {
      * sets whether a tab is enabled or not
      *
      * @param tabName the tab name
-     * @param state whether the tab is enabled or disabled
+     * @param state   whether the tab is enabled or disabled
      */
     @Override
     public void setTabEnabled(ConferenceTabsConstants.tabNames tabName, boolean state) {

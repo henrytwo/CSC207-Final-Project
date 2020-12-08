@@ -27,9 +27,10 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
 
     /**
      * Constructor for this view.
-     * @param mainFrame main gui frame
-     * @param eventUUID UUID of the event for which details are being shown.
-     * @param conferenceUUID UUID of the associated conference
+     *
+     * @param mainFrame               main gui frame
+     * @param eventUUID               UUID of the event for which details are being shown.
+     * @param conferenceUUID          UUID of the associated conference
      * @param initializationArguments HshMAp to initialize the state of this view
      */
     public EventsDetailsView(IFrame mainFrame, UUID eventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments) {
@@ -44,6 +45,7 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
 
     /**
      * Sets the state of the register button to be enabled or not.
+     *
      * @param state boolean to decide if state is enabled
      */
     @Override
@@ -53,6 +55,7 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
 
     /**
      * Sets the state of the event conversation button to be enabled or not.
+     *
      * @param state boolean to decide if state is enabled
      */
     @Override
@@ -62,6 +65,7 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
 
     /**
      * Sets the state of the message user button to be enabled or not.
+     *
      * @param state boolean to decide if state is enabled
      */
     @Override
@@ -71,6 +75,7 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
 
     /**
      * Sets the state of the edit event button to be enabled or not.
+     *
      * @param state boolean to decide if state is enabled
      */
     @Override
@@ -80,6 +85,7 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
 
     /**
      * Sets the state of the delete event button to be enabled or not.
+     *
      * @param state boolean to decide if state is enabled
      */
     @Override
@@ -89,6 +95,7 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
 
     /**
      * Sets the text on register button (register/unregister)
+     *
      * @param text text to be set
      */
     @Override
@@ -98,7 +105,8 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
 
     /**
      * Sets the state of the general information table for a event.
-     * @param tableData data to be filled into the table
+     *
+     * @param tableData   data to be filled into the table
      * @param columnNames name of table's columns
      */
     @Override
@@ -109,7 +117,8 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
 
     /**
      * Sets the state of the attendee information table for a event.
-     * @param tableData data to be filled into the table
+     *
+     * @param tableData   data to be filled into the table
      * @param columnNames name of table's columns
      */
     @Override
@@ -120,7 +129,8 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
 
     /**
      * Sets the state of the speaker information table for a event.
-     * @param tableData data to be filled into the table
+     *
+     * @param tableData   data to be filled into the table
      * @param columnNames name of table's columns
      */
     @Override
@@ -131,6 +141,7 @@ public class EventsDetailsView implements IEventsDetailsView, IPanel {
 
     /**
      * Returns the the detailed view object
+     *
      * @return this view panel
      */
     @Override

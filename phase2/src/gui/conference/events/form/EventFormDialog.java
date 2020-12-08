@@ -66,6 +66,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
     /**
      * Keeps track of if the form was updated.
+     *
      * @param newUpdated new value of updated
      */
     @Override
@@ -76,6 +77,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
     /**
      * Fills the name in the name text field.
+     *
      * @param newName the name of the event
      */
     @Override
@@ -85,6 +87,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
     /**
      * Fills the start text field with start time of event.
+     *
      * @param newStart the start time of the event
      */
     @Override
@@ -94,6 +97,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
     /**
      * Fills the start text field with start time of event.
+     *
      * @param newEnd the end time of the event
      */
     @Override
@@ -103,6 +107,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
     /**
      * Sets the tile of the form.
+     *
      * @param newTitle the title to be put in
      */
     @Override
@@ -112,6 +117,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
     /**
      * Returns the name of teh event typed in the text field.
+     *
      * @return name of the event
      */
     @Override
@@ -121,6 +127,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
     /**
      * Returns the start time from the start text field
+     *
      * @return the start time of the event
      */
     @Override
@@ -130,6 +137,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
     /**
      * Returns the end time from the start text field
+     *
      * @return the end time of the event
      */
     @Override
@@ -139,6 +147,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
     /**
      * Runs this form dialog.
+     *
      * @return UUID of the event that was created or updated
      */
     @Override
@@ -152,6 +161,7 @@ public class EventFormDialog extends JDialog implements IDialog, IEventFormDialo
 
     /**
      * Sets the UUID of the event to the new UUID
+     *
      * @param newUUID new UUID of event
      */
     @Override

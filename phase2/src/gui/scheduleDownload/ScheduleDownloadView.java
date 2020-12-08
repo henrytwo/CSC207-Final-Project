@@ -20,6 +20,7 @@ public class ScheduleDownloadView implements IPanel, IScheduleDownloadView {
 
     /**
      * Constructs ScheduleDownloadView
+     *
      * @param mainFrame
      */
     public ScheduleDownloadView(IFrame mainFrame) {

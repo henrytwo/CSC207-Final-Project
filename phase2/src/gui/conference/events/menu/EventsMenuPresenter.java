@@ -23,12 +23,11 @@ class EventsMenuPresenter extends AbstractConferencePresenter {
     private Map<String, Object> initializationArguments;
 
     /**
-     *
-     * @param mainFrame main gui frame
-     * @param eventMenuView view to manage
-     * @param conferenceUUID UUID of the associated
-     * @param getEvents lambda function that returns set of all events
-     * @param defaultEventUUID UUID of the default event to select, if none provided the first one wll be selected.
+     * @param mainFrame               main gui frame
+     * @param eventMenuView           view to manage
+     * @param conferenceUUID          UUID of the associated
+     * @param getEvents               lambda function that returns set of all events
+     * @param defaultEventUUID        UUID of the default event to select, if none provided the first one wll be selected.
      * @param initializationArguments HashMap of values to initialise initial state
      */
     EventsMenuPresenter(IFrame mainFrame, IEventsMenuView eventMenuView, UUID conferenceUUID, Supplier<Set<UUID>> getEvents, UUID defaultEventUUID, Map<String, Object> initializationArguments) {
