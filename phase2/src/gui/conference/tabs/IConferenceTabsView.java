@@ -2,6 +2,9 @@ package gui.conference.tabs;
 
 import gui.util.interfaces.IPanel;
 
+/**
+ * interface for conference tabs view
+ */
 public interface IConferenceTabsView {
     void setGeneralTabPanel(IPanel panel);
 

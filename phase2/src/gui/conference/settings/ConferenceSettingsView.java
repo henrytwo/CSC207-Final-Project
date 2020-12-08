@@ -24,6 +24,12 @@ public class ConferenceSettingsView implements IPanel, IConferenceSettingsView {
     private JButton createConversationWithUsersButton;
     private JTable userTable;
 
+    /**
+     * the conference settings view
+     *
+     * @param mainFrame
+     * @param conferenceUUID
+     */
     public ConferenceSettingsView(IFrame mainFrame, UUID conferenceUUID) {
         conferenceSettingsPresenter = new ConferenceSettingsPresenter(mainFrame, this, conferenceUUID);
 

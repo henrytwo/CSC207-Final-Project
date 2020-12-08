@@ -5,6 +5,9 @@ import user.exception.NullUserException;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * manages the user entity
+ */
 public class UserManager implements Serializable {
 
     /**

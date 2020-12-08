@@ -22,6 +22,13 @@ public class ConferenceTabsView implements IPanel, IConferenceTabsView {
 
     private ConferenceTabsConstants conferenceTabsConstants = new ConferenceTabsConstants();
 
+    /**
+     * the conference tabs view
+     * @param mainFrame
+     * @param conferenceUUID
+     * @param defaultTabName
+     * @param initializationArguments
+     */
     public ConferenceTabsView(IFrame mainFrame, UUID conferenceUUID, ConferenceTabsConstants.tabNames defaultTabName, Map<String, Object> initializationArguments) {
         ConferenceTabsPresenter conferenceTabsPresenter = new ConferenceTabsPresenter(mainFrame, this, conferenceUUID, initializationArguments);
 
