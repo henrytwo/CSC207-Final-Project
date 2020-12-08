@@ -65,3 +65,23 @@ Note: due to some silly problems with some team member's systems, Main.java has 
     If you want to use this script for testing, please close the program first before running the script. After the
     script is executed, the program can be started again. A god user can be used to view all the conferences for easy
     testing.
+
++ Design Patterns
+    - Dependency Injection
+        - Classes
+            ConferenceController
+            EventController
+            RoomController
+            ScheduleController
+
+        Dependency injection was used to inject the Managers into these Controllers, which increases flexibility and
+        allows us to do things such as serialize managers, and share managers between controllers.
+
+    - Factory
+        - Classes
+            PanelFactory
+            DialogFactory
+
+        The factory design pattern was used to generate Panels and Dialogs in the GUI to comply with the MVP
+        architecture. Since views are at a higher level than presenters, a factory was used to create View objects
+        through an interface.
