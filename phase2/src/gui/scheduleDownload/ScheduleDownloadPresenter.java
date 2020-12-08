@@ -39,7 +39,7 @@ class ScheduleDownloadPresenter extends AbstractPresenter {
     void chooseSpeaker() {
         IDialog speakerPickerDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.USER_PICKER, new HashMap<String, Object>() {
             {
-                put("instructions", "Choose a speaker");
+                put("instructions", "Choose a user to sort by\n(Note: All users in the system are included here, so they may not have assigned events)");
                 put("availableUserUUIDs", userController.getUsers());
             }
         });
