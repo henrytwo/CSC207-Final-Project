@@ -1,5 +1,7 @@
 CSC207 Group 11 - Phase 2
 
+DEMO VIDEO: https://www.youtube.com/watch?v=r-BNCeLyeM8
+
 Important: Ensure that the working directory for the project is /phase2 to ensure all the resources are read correctly
 
 Note: due to some silly problems with some team member's systems, Main.java has been changed to MainSystem.java.
