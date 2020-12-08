@@ -23,6 +23,7 @@ public class TableTools {
         if (this.table.isEmpty()) {
             return "";
         }
+
         List<Integer> colWidths = new ArrayList<>();
         for (String s : this.table.get(0)) {
             colWidths.add(Math.floorDiv(150, this.table.get(0).size()));
@@ -31,16 +32,19 @@ public class TableTools {
         for (int i : colWidths) {
             width = width + i;
         }
+
         width = width + this.table.get(0).size() - 1;
         StringBuilder table = new StringBuilder();
         StringBuilder topLine = new StringBuilder();
         StringBuilder bottomLine = new StringBuilder();
         topLine.append("╔");
         bottomLine.append("╚");
-        for (int i = 0; i < width ; i++) {
+
+        for (int i = 0; i < width; i++) {
             topLine.append("═");
             bottomLine.append("═");
         }
+
         topLine.append("╗\r\n<br />");
         bottomLine.append("╝");
         table.append(topLine);
@@ -48,17 +52,23 @@ public class TableTools {
         StringBuilder titleLine = new StringBuilder();
         titleLine.append("║");
         titleLine.append(title);
-        for (int j=0; j<(topLine.length()-titleLine.length()); j++) {
-            titleLine.append("  &nbsp;");
+
+        int numWhitespace = topLine.length() - titleLine.length();
+
+        for (int j = 0; j < numWhitespace; j++) {
+            titleLine.append("&nbsp;");
         }
+
         titleLine.append("║\r\n<br />");
         table.append(titleLine);
 
         StringBuilder hLine = new StringBuilder();
         hLine.append("╠");
-        while (hLine.length() < width ) {
+
+        while (hLine.length() <= width) {
             hLine.append("-");
         }
+
         hLine.append("╣\r\n<br />");
         table.append(hLine);
 
@@ -69,9 +79,13 @@ public class TableTools {
                 StringBuilder cell = new StringBuilder();
 
                 cell.append(sub.get(i));
-                while (cell.length() <= colWidths.get(i)) {
-                    cell.append(" &nbsp;");
+
+                int numWhiteSpace = colWidths.get(i) - cell.length();
+
+                for (int k = 0; k < numWhiteSpace; k++) {
+                    cell.append("&nbsp;");
                 }
+
                 cell.append("│");
                 row.append(cell);
             }
