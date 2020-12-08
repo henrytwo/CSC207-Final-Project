@@ -15,9 +15,8 @@ public class Conversation implements Serializable {
     private final Set<UUID> writeAccessUsers;
     private final Set<UUID> readAccessUsers;
     private final UUID conversationUUID;
-    private final Set<UUID> usersHaveRead = new HashSet<>();
-    private final Set<UUID> userArchivedUUIDs = new HashSet<>();
-
+    private Set<UUID> usersHaveRead = new HashSet<>();
+    private Set<UUID> userArchivedUUIDs = new HashSet<>();
 
     /**
      * Constructor for Conversation
@@ -46,7 +45,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Adds the User Id of the Person (user) to the list of Users that have write access
+     * Adds the User UUID of the Person (user) to the list of Users that have write access
      *
      * @param userUUID UserId of the User
      */
@@ -55,7 +54,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Adds the User Id of the Person (user) to the list of Users that have read access
+     * Adds the User UUID of the Person (user) to the list of Users that have read access
      *
      * @param userUUID UserId of the User
      */
@@ -64,7 +63,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Remove the User Id of the Person (user) to the list of Users that have write access
+     * Remove the User UUID of the Person (user) to the list of Users that have write access
      *
      * @param userUUID UserId of the User
      */
@@ -73,7 +72,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Remove the User Id of the Person (user) to the list of Users that have read access
+     * Remove the User UUID of the Person (user) to the list of Users that have read access
      *
      * @param userUUID UserId of the User
      */
@@ -126,11 +125,10 @@ public class Conversation implements Serializable {
     }
 
 
-
     /**
      * Adds message to the list of messages in this Conversation
      *
-     * @param  message Message to be added in the conversation
+     * @param message Message to be added in the conversation
      */
     public void addMessage(Message message) {
         if (conversationMessages.contains(message)) {
@@ -140,20 +138,30 @@ public class Conversation implements Serializable {
         }
     }
 
-    public void deleteMessage(int index){
+    /**
+     * deletes a message
+     *
+     * @param index the index of the message being deleted
+     */
+    public void deleteMessage(int index) {
         conversationMessages.remove(index);
     }
 
     /**
      * Marks a conversation for a specific user
      *
-     * @param userUUID the user having read the conversation
+     * @param userUUID the user having read this conversation
      */
-    public void readConversation(UUID userUUID){
+    public void readConversation(UUID userUUID) {
         usersHaveRead.add(userUUID);
     }
 
-    public void unreadConversation(UUID userUUID){
+    /**
+     * removes a user form the list of users who have read this conversation
+     *
+     * @param userUUID the user in question
+     */
+    public void unreadConversation(UUID userUUID) {
         usersHaveRead.remove(userUUID);
     }
 
@@ -162,8 +170,30 @@ public class Conversation implements Serializable {
      *
      * @param userUUID the user archiving the conversation
      */
-    public void archiveConversation(UUID userUUID){
+    public void archiveConversation(UUID userUUID) {
         userArchivedUUIDs.add(userUUID);
     }
 
+    /**
+     * resets the list of people who have archived this conversation
+     */
+    public void resetUserArchivedUUIDs() {
+        userArchivedUUIDs = new HashSet<>();
+    }
+
+    public void resetUsersHaveRead() {
+        usersHaveRead = new HashSet<>();
+    }
+
+    public Set<UUID> getUsersHaveRead() {
+        return usersHaveRead;
+    }
+
+    public Set<UUID> getUserArchivedUUIDs() {
+        return userArchivedUUIDs;
+    }
+
+    public boolean getUserHasRead(UUID userUUID) {
+        return usersHaveRead.contains(userUUID);
+    }
 }

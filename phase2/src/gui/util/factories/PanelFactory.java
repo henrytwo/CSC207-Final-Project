@@ -14,6 +14,7 @@ import gui.login.LoginView;
 import gui.mainMenu.MainMenuView;
 import gui.messaging.menu.MessagingView;
 import gui.register.RegisterView;
+import gui.scheduleDownload.ScheduleDownloadView;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.exception.NullPanelException;
 import gui.util.interfaces.IFrame;
@@ -79,13 +80,15 @@ public class PanelFactory implements IPanelFactory {
             case CONFERENCE_ROOM_DETAIL:
                 return new RoomDetailsView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"), (UUID) initializationArguments.get("roomUUID"));
             case CONTACTS:
-                return new ContactsView(mainFrame, (UUID) initializationArguments.get("defaultContactUUID"), (UUID) initializationArguments.get("defaultRequestUUID"));
+                return new ContactsView(mainFrame);
             case MESSAGING:
                 return new MessagingView(mainFrame, (UUID) initializationArguments.get("defaultConversationUUID"));
             case CONFERENCE_EVENTS:
                 return new EventsMenuView(mainFrame, (UUID) initializationArguments.get("conferenceUUID"), (Supplier<Set<UUID>>) initializationArguments.get("getEvents"), (UUID) initializationArguments.get("defaultEventUUID"), initializationArguments);
             case CONFERENCE_EVENT_DETAILS:
                 return new EventsDetailsView(mainFrame, (UUID) initializationArguments.get("eventUUID"), (UUID) initializationArguments.get("conferenceUUID"), initializationArguments);
+            case SCHEDULE_DOWNLOAD:
+                return new ScheduleDownloadView(mainFrame);
             default:
                 throw new NullPanelException(name);
         }

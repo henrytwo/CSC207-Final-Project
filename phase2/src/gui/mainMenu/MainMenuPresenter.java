@@ -1,10 +1,11 @@
 package gui.mainMenu;
 
+import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
-import gui.util.interfaces.*;
-import user.UserController;
-import util.ControllerBundle;
+import gui.util.interfaces.IDialog;
+import gui.util.interfaces.IFrame;
+import gui.util.interfaces.IPanel;
 
 import java.awt.*;
 import java.io.IOException;
@@ -12,17 +13,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
-class MainMenuPresenter {
-    private IMainMenuView mainMenuView;
-    private IFrame mainFrame;
-    private IPanelFactory panelFactory;
-    private IDialogFactory dialogFactory;
-
-    private UserController userController;
-
-    private Map<String, Object> initializationArguments;
+/**
+ * Manages the MainMenuView
+ */
+class MainMenuPresenter extends AbstractPresenter {
 
     /**
      * @param mainFrame
@@ -30,16 +25,7 @@ class MainMenuPresenter {
      * @param initializationArguments HashMap of values that can be used to set the initial state of a panel
      */
     MainMenuPresenter(IFrame mainFrame, IMainMenuView mainMenuView, Map<String, Object> initializationArguments) {
-        this.initializationArguments = initializationArguments;
-        this.mainMenuView = mainMenuView;
-        this.mainFrame = mainFrame;
-
-        panelFactory = mainFrame.getPanelFactory();
-        dialogFactory = mainFrame.getDialogFactory();
-
-        // Initiate controllers
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        userController = controllerBundle.getUserController();
+        super(mainFrame);
 
         // Initiate main menu tabs
         IPanel conferenceMenuView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_MENU, initializationArguments);
@@ -51,14 +37,15 @@ class MainMenuPresenter {
         IPanel contactsView = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONTACTS, initializationArguments);
         mainMenuView.setContactsPanel(contactsView);
 
-        UUID signedInUserUUID = userController.getCurrentUser();
+        IPanel scheduleDownloadView = panelFactory.createPanel(PanelFactoryOptions.panelNames.SCHEDULE_DOWNLOAD, initializationArguments);
+        mainMenuView.setScheduleDownloadPanel(scheduleDownloadView);
 
         // Logout button text
         mainMenuView.setLogoutButtonText(String.format("Logout (Signed in as %s)", userController.getUserFullName(signedInUserUUID)));
 
         // God mode users get something special
         if (userController.getUserIsGod(signedInUserUUID)) {
-            mainMenuView.setTopBarPanelText("God mode enabled");
+            mainMenuView.setTopBarPanelText("GOD MODE ENABLED");
         }
     }
 
@@ -66,7 +53,7 @@ class MainMenuPresenter {
      * Launches about dialog
      */
     void about() {
-        String aboutMessage = "CSC207 Fall 2020\n" +
+        @SuppressWarnings("SpellCheckingInspection") String aboutMessage = "CSC207 Fall 2020\n" +
                 "University of Toronto, St. George Campus\n\n" +
                 "Developed by:\n" +
                 "Henry Tu, Mahak Khurmi, Pranjal Bajaria, Antara Singh, Yilin Zhang, Emre Alca, Shubhra Bedi";

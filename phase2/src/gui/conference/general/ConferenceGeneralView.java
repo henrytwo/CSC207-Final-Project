@@ -8,6 +8,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.util.UUID;
 
+/**
+ * GeneralView for a conference
+ */
 public class ConferenceGeneralView implements IPanel, IConferenceGeneralView {
     private JPanel generalViewPanel;
     private JTable generalTable;
@@ -15,12 +18,22 @@ public class ConferenceGeneralView implements IPanel, IConferenceGeneralView {
 
     private ConferenceGeneralPresenter conferenceGeneralPresenter;
 
+    /**
+     * @param mainFrame      main GUI frame
+     * @param conferenceUUID UUID of the associated conference
+     */
     public ConferenceGeneralView(IFrame mainFrame, UUID conferenceUUID) {
         conferenceGeneralPresenter = new ConferenceGeneralPresenter(mainFrame, this, conferenceUUID);
 
         leaveConferenceButton.addActionListener((e) -> conferenceGeneralPresenter.leaveConference());
     }
 
+    /**
+     * Sets the general table data
+     *
+     * @param tableData   2D array of table data
+     * @param columnNames array of table data
+     */
     @Override
     public void setTableData(String[][] tableData, String[] columnNames) {
         TableModel tableModel = new DefaultTableModel(tableData, columnNames);

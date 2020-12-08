@@ -1,5 +1,8 @@
 package gui.util.enums;
 
+/**
+ * Enums pertaining to the panel factory
+ */
 public class PanelFactoryOptions {
     public enum panelNames {
         MAIN_MENU,
@@ -14,6 +17,7 @@ public class PanelFactoryOptions {
         CONFERENCE_EVENT_DETAILS,
         CONFERENCE_SETTINGS,
         CONFERENCE_ROOMS,
-        CONFERENCE_ROOM_DETAIL
+        CONFERENCE_ROOM_DETAIL,
+        SCHEDULE_DOWNLOAD
     }
 }

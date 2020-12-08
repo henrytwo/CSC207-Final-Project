@@ -1,17 +1,19 @@
 package gui.messaging.menu;
 
 public interface IMessagingView {
+    void setConversationTitle(String title);
+
     void setConversationList(String[] conversationNames);
 
     void setConversationListSelection(int selectionIndex);
 
-    String getTextboxContent();
+    String getTextBoxContent();
 
     void setMessages(String[] messages);
 
-    void setTextFieldToNull();
+    void clearTextBox();
 
-    int getMessagesFromJList();
+    int getNumMessages();
 
     void setEnableTextField(boolean instruction);
 
@@ -21,4 +23,7 @@ public interface IMessagingView {
 
     void setUsersList(String[] users);
 
+    void setEnableArchiveButton(boolean instruction);
+
+    void setEnableUnreadButton(boolean instruction);
 }

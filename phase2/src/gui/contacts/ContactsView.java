@@ -4,7 +4,6 @@ import gui.util.interfaces.IFrame;
 import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
-import java.util.UUID;
 
 public class ContactsView implements IPanel, IContactsView {
     private JPanel contactsPanel;
@@ -20,18 +19,16 @@ public class ContactsView implements IPanel, IContactsView {
     /**
      * Constructor fot contacts UI view.
      *
-     * @param mainFrame          the mainFrame of the GUI
-     * @param defaultContactUUID UUID of the default contact that is selected when we open the contacts page
-     * @param defaultRequestUUID UUID of the default request that is selected when we open the contacts page
+     * @param mainFrame the mainFrame of the GUI
      */
-    public ContactsView(IFrame mainFrame, UUID defaultContactUUID, UUID defaultRequestUUID) {
-        contactsPresenter = new ContactsPresenter(mainFrame, this, defaultContactUUID, defaultRequestUUID);
-        contactsList.addListSelectionListener((e) -> contactsPresenter.contactSelectionUpdate(contactsList.getSelectedIndex()));
+    public ContactsView(IFrame mainFrame) {
+        contactsPresenter = new ContactsPresenter(mainFrame, this);
+
         sendRequestButton.addActionListener((e) -> contactsPresenter.sendRequest());
         deleteButton.addActionListener((e) -> contactsPresenter.deleteContact());
+
         acceptRequestButton.addActionListener((e) -> contactsPresenter.acceptRequest());
         rejectRequestButton.addActionListener((e) -> contactsPresenter.rejectRequest());
-        requestsList.addListSelectionListener((e) -> contactsPresenter.requestSelectionUpdate(requestsList.getSelectedIndex()));
     }
 
     /**
@@ -67,5 +64,14 @@ public class ContactsView implements IPanel, IContactsView {
         requestsList.setSelectedIndex(selectionIndex);
     }
 
+    @Override
+    public int getRequestListIndex() {
+        return requestsList.getSelectedIndex();
+    }
+
+    @Override
+    public int getContactListIndex() {
+        return contactsList.getSelectedIndex();
+    }
 
 }

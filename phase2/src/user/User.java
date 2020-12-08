@@ -6,7 +6,7 @@ import java.util.UUID;
 /**
  * Stores name, username, password, UUID of a user
  */
-public class User implements Serializable {
+class User implements Serializable {
 
     private String firstName;
     private String lastName;
@@ -26,7 +26,7 @@ public class User implements Serializable {
      * @param password  password of the user
      * @param isGod     whether a user is a god
      */
-    public User(String firstName, String lastName, String username, String password, boolean isGod) {
+    User(String firstName, String lastName, String username, String password, boolean isGod) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -40,16 +40,16 @@ public class User implements Serializable {
      *
      * @param firstName
      */
-    public void setFirstName(String firstName) {
+    void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     /**
      * Returns first name of the user
      *
-     * @return the firstname associated with this user
+     * @return the firstName associated with this user
      */
-    public String getFirstName() {
+    String getFirstName() {
         return this.firstName;
     }
 
@@ -58,16 +58,16 @@ public class User implements Serializable {
      *
      * @param lastName
      */
-    public void setLastName(String lastName) {
+    void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
     /**
      * Returns last name of the user
      *
-     * @return the lastname associated with this user
+     * @return the lastName associated with this user
      */
-    public String getLastName() {
+    String getLastName() {
         return this.lastName;
     }
 
@@ -76,7 +76,7 @@ public class User implements Serializable {
      *
      * @return the full name of the user by combining first and last name
      */
-    public String getName() {
+    String getName() {
         return getFirstName() + " " + getLastName();
     }
 
@@ -85,7 +85,7 @@ public class User implements Serializable {
      *
      * @param username
      */
-    public void setUsername(String username) {
+    void setUsername(String username) {
         this.username = username;
     }
 
@@ -94,7 +94,7 @@ public class User implements Serializable {
      *
      * @return the username of the associated user
      */
-    public String getUsername() {
+    String getUsername() {
         return this.username;
     }
 
@@ -103,7 +103,7 @@ public class User implements Serializable {
      *
      * @param password
      */
-    public void setPassword(String password) {
+    void setPassword(String password) {
         this.password = password;
     }
 
@@ -112,7 +112,7 @@ public class User implements Serializable {
      *
      * @return the password of the associated user
      */
-    public String getPassword() {
+    String getPassword() {
         return this.password;
     }
 
@@ -121,7 +121,7 @@ public class User implements Serializable {
      *
      * @return the UUID associated with this user
      */
-    public UUID getUuid() {
+    UUID getUuid() {
         return uuid;
     }
 
@@ -130,7 +130,7 @@ public class User implements Serializable {
      *
      * @return true iff this user is god
      */
-    public boolean getIsGod() {
+    boolean getIsGod() {
         return isGod;
     }
 }

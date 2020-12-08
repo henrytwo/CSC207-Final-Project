@@ -1,52 +1,37 @@
 package gui.conference.menu;
 
-import convention.ConferenceController;
 import gui.conference.tabs.ConferenceTabsConstants;
+import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
-import gui.util.interfaces.*;
-import user.UserController;
-import util.ControllerBundle;
+import gui.util.interfaces.IDialog;
+import gui.util.interfaces.IFrame;
+import gui.util.interfaces.IPanel;
 
 import java.util.*;
 
-class ConferenceMenuPresenter {
+/**
+ * Manages the ConferenceMenuView
+ */
+class ConferenceMenuPresenter extends AbstractPresenter {
     private IConferenceMenuView conferenceMenuView;
-    private IFrame mainFrame;
-
-    private IPanelFactory panelFactory;
-    private IDialogFactory dialogFactory;
-
-    private ConferenceController conferenceController;
-    private UserController userController;
 
     private List<UUID> conferenceUUIDs;
-    private UUID signedInUserUUID;
 
     private int currentConferenceIndex = -1;
     private Map<String, Object> initializationArguments;
 
     /**
-     * @param mainFrame
-     * @param conferenceMenuView
+     * @param mainFrame               main UI frame
+     * @param conferenceMenuView      view that this presenter is managing
      * @param defaultConferenceUUID   UUID of the default conference to select. If none selected, or invalid, the first one will be selected.
-     * @param initializationArguments hashmap of values that can be used to set the initial state of a panel
+     * @param initializationArguments HashMap of values that can be used to set the initial state of a panel
      */
     ConferenceMenuPresenter(IFrame mainFrame, IConferenceMenuView conferenceMenuView, UUID defaultConferenceUUID, Map<String, Object> initializationArguments) {
+        super(mainFrame);
+
         this.conferenceMenuView = conferenceMenuView;
-        this.mainFrame = mainFrame;
         this.initializationArguments = initializationArguments;
-
-        panelFactory = mainFrame.getPanelFactory();
-        dialogFactory = mainFrame.getDialogFactory();
-
-        // Init controllers
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        conferenceController = controllerBundle.getConferenceController();
-        userController = controllerBundle.getUserController();
-
-        // Fetch initial data
-        signedInUserUUID = userController.getCurrentUser();
 
         updateConferenceList();
 
@@ -135,7 +120,7 @@ class ConferenceMenuPresenter {
     /**
      * Updates the panel on the right side of the screen with the currently selected conference
      *
-     * @param index          index of the conference to open
+     * @param index index of the conference to open
      */
     void selectConferencePanel(int index) {
         selectConferencePanel(index, null);
@@ -154,7 +139,7 @@ class ConferenceMenuPresenter {
             UUID selectedConferenceUUID = conferenceUUIDs.get(index);
 
             // Update UI with tabs for this conference
-            IPanel conferenceTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_TABS, new HashMap<String, Object>() {
+            IPanel conferenceTabsPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.CONFERENCE_TABS, new HashMap<String, Object>(initializationArguments) {
                 {
                     put("conferenceUUID", selectedConferenceUUID);
                     put("defaultTabName", defaultTabName);

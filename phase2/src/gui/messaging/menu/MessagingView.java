@@ -5,22 +5,27 @@ import gui.util.interfaces.IPanel;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.UUID;
 
 public class MessagingView implements IPanel, IMessagingView {
     private JPanel messagingPanel;
     private JButton newConversationButton;
-    private JList conversationList;
+    private JList<String> conversationList;
     private JTextField messageText;
-    private JList messages;
+    private JList<String> messages;
     private JButton sendButton;
-    private JList userList;
+    private JList<String> userList;
+    private JButton archiveButton;
+    private JButton unreadButton;
+    private JLabel conversationTitle;
     private MessagingPresenter messagingPresenter;
 
     /**
      * Creates GUI for the Messaging Functionality
      *
-     * @param mainFrame               the main frame
+     * @param mainFrame               the main GUI frame
      * @param defaultConversationUUID UUID of the default conversation to select. If none selected, or invalid, the first one will be selected.
      */
     public MessagingView(IFrame mainFrame, UUID defaultConversationUUID) {
@@ -30,6 +35,24 @@ public class MessagingView implements IPanel, IMessagingView {
 
         messagingPanel.registerKeyboardAction((e) -> messagingPresenter.sendMessage(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         sendButton.addActionListener((e) -> messagingPresenter.sendMessage());
+
+        archiveButton.addActionListener((e) -> messagingPresenter.archiveConversation());
+        unreadButton.addActionListener((e) -> messagingPresenter.unreadConversation());
+
+        messages.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                messagingPresenter.deleteMessage(messages.getSelectedIndex());
+            }
+        });
+
+    }
+
+    @Override
+    public void setConversationTitle(String title) {
+        conversationTitle.setText(title);
     }
 
     @Override
@@ -43,7 +66,7 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public void setTextFieldToNull() {
+    public void clearTextBox() {
         messageText.setText("");
     }
 
@@ -53,7 +76,7 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public String getTextboxContent() {
+    public String getTextBoxContent() {
         return messageText.getText();
     }
 
@@ -63,9 +86,19 @@ public class MessagingView implements IPanel, IMessagingView {
     }
 
     @Override
-    public int getMessagesFromJList() {
-        ListModel list = messages.getModel();
+    public int getNumMessages() {
+        ListModel<String> list = messages.getModel();
         return list.getSize();
+    }
+
+    @Override
+    public void setEnableArchiveButton(boolean instruction) {
+        archiveButton.setEnabled(instruction);
+    }
+
+    @Override
+    public void setEnableUnreadButton(boolean instruction) {
+        unreadButton.setEnabled(instruction);
     }
 
     @Override

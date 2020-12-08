@@ -25,106 +25,126 @@ public class ContactController {
     /**
      * Sends a request to a potential contact of a user.
      *
-     * @param userId           UUID of the request sender.
+     * @param userUUID         UUID of the request sender.
      * @param potentialContact UUID of the user receiving this request.
      */
-    public void sendRequest(UUID userId, UUID potentialContact) {
+    public void sendRequest(UUID userUUID, UUID potentialContact) {
         Set<UUID> requestList = contactManager.getRequests(potentialContact);
-        Set<UUID> sentList = contactManager.getSentRequests(userId);
-        if (!requestList.contains(userId)) {
-            requestList.add(userId);
+        Set<UUID> sentList = contactManager.getSentRequests(userUUID);
+
+        if (!requestList.contains(userUUID)) {
+            requestList.add(userUUID);
             sentList.add(potentialContact);
             contactManager.setRequests(potentialContact, requestList);
-            contactManager.setSentRequests(userId, sentList);
+            contactManager.setSentRequests(userUUID, sentList);
         } else {
-            throw new RequestDeniedException(userId, potentialContact);
+            throw new RequestDeniedException(userUUID, potentialContact);
         }
     }
 
+    /**
+     * Deletes the request a sender has sent to the recipient.
+     *
+     * @param senderUUID    UUID of the request sender.
+     * @param recipientUUID UUID of the recipient who has rejected the request from the sender.
+     */
+    private void deleteRequest(UUID senderUUID, UUID recipientUUID) {
+        Set<UUID> senderSentList = contactManager.getSentRequests(senderUUID);
+        senderSentList.remove(recipientUUID);
+        contactManager.setSentRequests(senderUUID, senderSentList);
+
+        Set<UUID> recipientRequestList = contactManager.getRequests(recipientUUID);
+        recipientRequestList.remove(senderUUID);
+        contactManager.setRequests(recipientUUID, recipientRequestList);
+    }
 
     /**
      * Allows a user to accept a request from another user.
      *
-     * @param userId           UUID of the user who is making the decision on accepting a request.
-     * @param potentialContact UUID of the user whose request is being considered.
+     * @param userUUID             UUID of the user who is making the decision on accepting a request.
+     * @param potentialContactUUID UUID of the user whose request is being considered.
      */
-    public void acceptRequests(UUID userId, UUID potentialContact) {
-        if (showRequests(userId).contains(potentialContact)) {
-            Set<UUID> contacts = showContacts(userId);
-            Set<UUID> contacts2 = showContacts(potentialContact);
-            contacts.add(potentialContact);
-            contacts2.add(userId);
-            Set<UUID> requestsList = contactManager.getRequests(userId);
-            requestsList.remove(potentialContact);
-            contactManager.setContacts(userId, contacts);
-            contactManager.setContacts(potentialContact, contacts2);
-            contactManager.setRequests(userId, requestsList);
+    public void acceptRequest(UUID userUUID, UUID potentialContactUUID) {
+        if (showRequests(userUUID).contains(potentialContactUUID)) {
+            Set<UUID> myContacts = showContacts(userUUID);
+            Set<UUID> theirContacts = showContacts(potentialContactUUID);
+
+            // Add to each other's contact list
+            myContacts.add(potentialContactUUID);
+            contactManager.setContacts(userUUID, myContacts);
+
+            theirContacts.add(userUUID);
+            contactManager.setContacts(potentialContactUUID, theirContacts);
+
+            // Erase requests now that the connection is established
+            deleteRequest(userUUID, potentialContactUUID);
+            deleteRequest(potentialContactUUID, userUUID);
         } else {
-            throw new GhostAcceptDeniedException(userId, potentialContact);
+            throw new GhostAcceptDeniedException(userUUID, potentialContactUUID);
         }
     }
 
     /**
      * Allows a user to reject a request from another user.
      *
-     * @param userId           UUID of the user who is rejecting the request.
-     * @param potentialContact UUID of the user whose request is being rejected :(
+     * @param userUUID             UUID of the user who is rejecting the request.
+     * @param potentialContactUUID UUID of the user whose request is being rejected :(
      */
-    public void rejectRequests(UUID userId, UUID potentialContact) {
-        if (showRequests(userId).contains(potentialContact)) {
-            Set<UUID> requestsList = contactManager.getRequests(userId);
-            requestsList.remove(potentialContact);
-            contactManager.setRequests(userId, requestsList);
+    public void rejectRequest(UUID userUUID, UUID potentialContactUUID) {
+        if (showRequests(userUUID).contains(potentialContactUUID)) {
+            deleteRequest(potentialContactUUID, userUUID);
         } else {
-            throw new GhostAcceptDeniedException(userId, potentialContact);
+            throw new GhostAcceptDeniedException(userUUID, potentialContactUUID);
         }
     }
 
     /**
      * Delete a contact from the list of a users contacts.
      *
-     * @param userId       UUID of the user deleting the contact.
-     * @param extraContact UUID of the user whose contact is being deleted.
+     * @param userUUID       UUID of the user deleting the contact.
+     * @param targetUserUUID UUID of the user whose contact is being deleted.
      */
-    public void deleteContacts(UUID userId, UUID extraContact) {
-        Set<UUID> contactsList = showContacts(userId);
-        Set<UUID> contactsList2 = showContacts(extraContact);
-        if (!showContacts(userId).contains(extraContact)) {
-            throw new GhostDeleteException(userId, extraContact);
+    public void deleteContacts(UUID userUUID, UUID targetUserUUID) {
+        Set<UUID> myContactList = showContacts(userUUID);
+        Set<UUID> theirContactList = showContacts(targetUserUUID);
+
+        if (!showContacts(userUUID).contains(targetUserUUID)) {
+            throw new GhostDeleteException(userUUID, targetUserUUID);
         }
-        contactsList.remove(extraContact);
-        contactsList2.remove(userId);
-        contactManager.setContacts(extraContact, contactsList2);
-        contactManager.setContacts(userId, contactsList);
+
+        myContactList.remove(targetUserUUID);
+        theirContactList.remove(userUUID);
+        contactManager.setContacts(targetUserUUID, theirContactList);
+        contactManager.setContacts(userUUID, myContactList);
     }
 
     /**
      * Return a list of a user's contacts.
      *
-     * @param userId UUID of the user for whom the list of contacts is being requested.
+     * @param userUUID UUID of the user for whom the list of contacts is being requested.
      * @return set of UUIDs of the users contacts.
      */
-    public Set<UUID> showContacts(UUID userId) {
-        return contactManager.getContacts(userId);
+    public Set<UUID> showContacts(UUID userUUID) {
+        return contactManager.getContacts(userUUID);
     }
 
     /**
      * Return a list of a user's received requests.
      *
-     * @param userId UUID of the user for whom the list of requests is being requested.
+     * @param userUUID UUID of the user for whom the list of requests is being requested.
      * @return set of UUIDs of the users received requests.
      */
-    public Set<UUID> showRequests(UUID userId) {
-        return contactManager.getRequests(userId);
+    public Set<UUID> showRequests(UUID userUUID) {
+        return contactManager.getRequests(userUUID);
     }
 
     /**
      * Return a list of a user's sent requests.
      *
-     * @param userId UUID of the user for whom the list of requests is being requested.
-     * @return set of UUIDs of the users who received requests from user with UUID userId.
+     * @param userUUID UUID of the user for whom the list of requests is being requested.
+     * @return set of UUIDs of the users who received requests from user with UUID userUUID.
      */
-    public Set<UUID> showSentRequests(UUID userId) {
-        return contactManager.getSentRequests(userId);
+    public Set<UUID> showSentRequests(UUID userUUID) {
+        return contactManager.getSentRequests(userUUID);
     }
 }

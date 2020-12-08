@@ -3,8 +3,11 @@ import contact.ContactManager;
 import convention.ConferenceController;
 import convention.EventController;
 import convention.RoomController;
+import convention.ScheduleController;
 import convention.conference.ConferenceManager;
 import gateway.CSVReader;
+import gateway.DocumentPrinter;
+import gateway.IDocumentPrinter;
 import gateway.Serializer;
 import gui.MainFrame;
 import messaging.ConversationController;
@@ -25,7 +28,7 @@ import java.util.logging.Logger;
  * Main convention system. This where the fun begins.
  */
 public class ConventionSystem {
-    Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     /**
      * Runs the Convention System
@@ -66,7 +69,7 @@ public class ConventionSystem {
         }
 
         // Create the document writer
-        // TODO: IDocumentPrinter documentPrinter = ...
+        IDocumentPrinter documentPrinter = new DocumentPrinter();
 
         // User controller
         UserController userController = new UserController(userManager);
@@ -78,12 +81,12 @@ public class ConventionSystem {
         // Convention controllers
         RoomController roomController = new RoomController(conferenceManager, userManager);
         EventController eventController = new EventController(conferenceManager, conversationManager, userManager);
-        // TODO: pass the document printer as a param
+        ScheduleController scheduleController = new ScheduleController(documentPrinter, userManager, conferenceManager, eventController);
         ConferenceController conferenceController = new ConferenceController(conversationManager, eventController, conferenceManager, userManager);
 
         // Packages up all the controllers in a nice bundle to make it easy to pass around UI components
         // without super long parameter lists
-        ControllerBundle controllerBundle = new ControllerBundle(userController, contactController, conversationController, roomController, eventController, conferenceController);
+        ControllerBundle controllerBundle = new ControllerBundle(userController, contactController, conversationController, roomController, eventController, conferenceController, scheduleController);
 
         Runnable shutdown = () -> {
             // Serialize everything for the next run

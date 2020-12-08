@@ -54,22 +54,22 @@ public class messagingtests {
     @Test(timeout = 50)
     public void testAcceptRequests1(){
         contactController.sendRequest(myUser1, myUser2);
-        contactController.acceptRequests(myUser2, myUser1);
+        contactController.acceptRequest(myUser2, myUser1);
         assert contactController.showContacts(myUser2).contains(myUser1);
         assert contactController.showRequests(myUser2).contains(myUser1) == false;
     }
 
     @Test(timeout = 50, expected = GhostAcceptDeniedException.class)
     public  void testAcceptRequests2(){
-        contactController.acceptRequests(myUser2, myUser1);
+        contactController.acceptRequest(myUser2, myUser1);
     }
 
     @Test(timeout = 50)
     public void testAcceptRequests3(){
         contactController.sendRequest(myUser1, myUser2);
         contactController.sendRequest(myUser3, myUser2);
-        contactController.acceptRequests(myUser2, myUser1);
-        contactController.acceptRequests(myUser2, myUser3);
+        contactController.acceptRequest(myUser2, myUser1);
+        contactController.acceptRequest(myUser2, myUser3);
         assert contactController.showContacts(myUser2).contains(myUser1);
         assert contactController.showContacts(myUser1).contains(myUser2);
         assert contactController.showContacts(myUser2).contains(myUser1);
@@ -81,7 +81,7 @@ public class messagingtests {
     @Test(timeout = 50)
     public void testDeleteContacts1(){
         contactController.sendRequest(myUser1, myUser2);
-        contactController.acceptRequests(myUser2, myUser1);
+        contactController.acceptRequest(myUser2, myUser1);
         assert contactController.showContacts(myUser2).contains(myUser1);
         assert contactController.showRequests(myUser2).contains(myUser1) == false;
         contactController.deleteContacts(myUser1, myUser2);
@@ -98,8 +98,8 @@ public class messagingtests {
     public void testDeleteContacts3(){
         contactController.sendRequest(myUser1, myUser2);
         contactController.sendRequest(myUser3, myUser2);
-        contactController.acceptRequests(myUser2, myUser1);
-        contactController.acceptRequests(myUser2, myUser3);
+        contactController.acceptRequest(myUser2, myUser1);
+        contactController.acceptRequest(myUser2, myUser3);
         assert contactController.showContacts(myUser2).contains(myUser1);
         assert contactController.showContacts(myUser1).contains(myUser2);
         assert contactController.showContacts(myUser2).contains(myUser1);

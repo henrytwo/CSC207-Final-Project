@@ -1,8 +1,8 @@
 package gui.conference.rooms.details;
 
 import convention.exception.RoomInUseException;
-import gui.conference.AbstractConferencePresenter;
 import gui.conference.tabs.ConferenceTabsConstants;
+import gui.conference.util.AbstractConferencePresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
@@ -11,8 +11,7 @@ import gui.util.interfaces.IFrame;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class RoomDetailsPresenter extends AbstractConferencePresenter {
-
+class RoomDetailsPresenter extends AbstractConferencePresenter {
 
     private UUID roomUUID;
 

@@ -1,38 +1,25 @@
 package gui.register;
 
+import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
-import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import gui.util.interfaces.IPanelFactory;
-import user.UserController;
-import util.ControllerBundle;
 
 import java.util.HashMap;
 
-class RegisterPresenter {
-    private IFrame mainFrame;
+class RegisterPresenter extends AbstractPresenter {
     private IRegisterView registerView;
-    private IPanelFactory panelFactory;
-    private IDialogFactory dialogFactory;
-
-    private UserController userController;
 
     /**
      * Constructor for Register Presenter
      *
-     * @param mainFrame mainframe of the GUI
+     * @param mainFrame    mainframe of the GUI
      * @param registerView view that this presenter is managing
      */
     RegisterPresenter(IFrame mainFrame, IRegisterView registerView) {
-        this.mainFrame = mainFrame;
+        super(mainFrame);
         this.registerView = registerView;
-
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        userController = controllerBundle.getUserController();
-        panelFactory = mainFrame.getPanelFactory();
-        dialogFactory = mainFrame.getDialogFactory();
     }
 
     /**

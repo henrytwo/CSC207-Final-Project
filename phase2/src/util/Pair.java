@@ -1,21 +1,41 @@
 package util;
 
-import java.util.UUID;
+/**
+ * Generic pair class
+ *
+ * @param <T> key type
+ * @param <U> value type
+ */
+public class Pair<T, U> {
+    private T key;
+    private U value;
 
-public class Pair {
-    UUID key;
-    UUID value;
-
-    Pair(UUID key, UUID value) {
+    /**
+     * Creates a pair
+     *
+     * @param key
+     * @param value
+     */
+    public Pair(T key, U value) {
         this.key = key;
         this.value = value;
     }
 
-    public UUID getKey() {
+    /**
+     * Fetches key
+     *
+     * @return
+     */
+    public T getKey() {
         return key;
     }
 
-    public UUID getValue() {
+    /**
+     * Fetches value
+     *
+     * @return
+     */
+    public U getValue() {
         return value;
     }
 }

@@ -9,6 +9,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.UUID;
 
+/**
+ * Form to edit to create a conference
+ */
 public class ConferenceFormDialog extends JDialog implements IDialog, IConferenceFormDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -25,8 +28,8 @@ public class ConferenceFormDialog extends JDialog implements IDialog, IConferenc
      * Creates conference form dialog. If conferenceUUID is null, then form submission will result in a new
      * conference being created. Otherwise, details about the existing conference will be retrieved.
      *
-     * @param mainFrame
-     * @param conferenceUUID
+     * @param mainFrame      main GUI frame
+     * @param conferenceUUID UUID of conference to edit, if applicable
      */
     public ConferenceFormDialog(IFrame mainFrame, UUID conferenceUUID) {
 

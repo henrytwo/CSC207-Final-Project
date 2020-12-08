@@ -1,7 +1,7 @@
 package gui.conference.general;
 
 import convention.exception.LoneOrganizerException;
-import gui.conference.AbstractConferencePresenter;
+import gui.conference.util.AbstractConferencePresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
@@ -10,10 +10,18 @@ import gui.util.interfaces.IFrame;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * Manages ConferenceGeneralView
+ */
 class ConferenceGeneralPresenter extends AbstractConferencePresenter {
 
     private IConferenceGeneralView conferenceGeneralView;
 
+    /**
+     * @param mainFrame             main GUI view
+     * @param conferenceGeneralView view to manage
+     * @param conferenceUUID        UUID of associated conference
+     */
     ConferenceGeneralPresenter(IFrame mainFrame, IConferenceGeneralView conferenceGeneralView, UUID conferenceUUID) {
         super(mainFrame, conferenceUUID);
 
@@ -22,8 +30,10 @@ class ConferenceGeneralPresenter extends AbstractConferencePresenter {
         updateGeneralData();
     }
 
+    /**
+     * Remove user from the conference
+     */
     void leaveConference() {
-
         // As a god user, you can't technically "leave" conferences, since your role is determined outside the scope
         // of a conference in the user manager.
         if (userController.getUserIsGod(signedInUserUUID)) {
@@ -67,6 +77,9 @@ class ConferenceGeneralPresenter extends AbstractConferencePresenter {
         }
     }
 
+    /**
+     * Updates general tab table data
+     */
     private void updateGeneralData() {
         boolean isSpeaker = conferenceController.isSpeaker(conferenceUUID, signedInUserUUID, signedInUserUUID);
 

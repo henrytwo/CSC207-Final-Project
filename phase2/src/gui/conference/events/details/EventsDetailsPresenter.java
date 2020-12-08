@@ -1,59 +1,30 @@
 package gui.conference.events.details;
 
-import convention.ConferenceController;
-import convention.EventController;
-import convention.RoomController;
 import convention.exception.FullEventException;
 import gui.conference.tabs.ConferenceTabsConstants;
+import gui.conference.util.AbstractConferencePresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
-import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import gui.util.interfaces.IPanelFactory;
-import user.UserController;
-import util.ControllerBundle;
 
 import java.util.*;
 
-class EventsDetailsPresenter {
+class EventsDetailsPresenter extends AbstractConferencePresenter {
 
     private IEventsDetailsView eventsGeneralView;
-    private IFrame mainFrame;
-
-    private IPanelFactory panelFactory;
-    private IDialogFactory dialogFactory;
-
-    private EventController eventController;
-    private UserController userController;
-    private ConferenceController conferenceController;
-    private RoomController roomController;
 
     private UUID eventUUID;
-    private UUID signedInUserUUID;
-
-    private UUID conferenceUUID;
 
     private Map<String, Object> initializationArguments;
 
-    EventsDetailsPresenter(IFrame mainFrame, IEventsDetailsView eventGeneralView, UUID defaultEventUUID, UUID currentConferenceUUID, Map<String, Object> initializationArguments) {
-        this.mainFrame = mainFrame;
+    EventsDetailsPresenter(IFrame mainFrame, IEventsDetailsView eventGeneralView, UUID defaultEventUUID, UUID conferenceUUID, Map<String, Object> initializationArguments) {
+        super(mainFrame, conferenceUUID);
+
         this.eventsGeneralView = eventGeneralView;
         this.initializationArguments = initializationArguments;
 
-        this.panelFactory = mainFrame.getPanelFactory();
-        this.dialogFactory = mainFrame.getDialogFactory();
-
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-
-        this.eventController = controllerBundle.getEventController();
-        this.userController = controllerBundle.getUserController();
-        this.conferenceController = controllerBundle.getConferenceController();
-        this.roomController = controllerBundle.getRoomController();
         this.eventUUID = defaultEventUUID;
-
-        signedInUserUUID = userController.getCurrentUser();
-        this.conferenceUUID = currentConferenceUUID;
 
         updateUserData();
         updateGeneralData();
@@ -247,7 +218,6 @@ class EventsDetailsPresenter {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
             {
                 put("defaultConversationUUID", conversationUUID);
-                put("defaultTabName", ConferenceTabsConstants.tabNames.ALL_EVENTS);
                 put("defaultTabIndex", 1);
             }
         }));

@@ -1,37 +1,39 @@
 package gui.conference.settings;
 
-import convention.ConferenceController;
 import convention.exception.LoneOrganizerException;
-import gui.conference.AbstractConferencePresenter;
 import gui.conference.tabs.ConferenceTabsConstants;
+import gui.conference.util.AbstractConferencePresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
 import gui.util.interfaces.IFrame;
-import user.UserController;
-import util.ControllerBundle;
 
 import java.util.*;
 import java.util.function.Function;
 
+/**
+ * Manages ConferenceSettingsView
+ */
 class ConferenceSettingsPresenter extends AbstractConferencePresenter {
 
     private IConferenceSettingsView conferenceSettingsView;
-    private UserController userController;
-    private ConferenceController conferenceController;
 
+    /**
+     * @param mainFrame              main GUI frame
+     * @param conferenceSettingsView view being managed
+     * @param conferenceUUID         UUID of the associated conference
+     */
     ConferenceSettingsPresenter(IFrame mainFrame, IConferenceSettingsView conferenceSettingsView, UUID conferenceUUID) {
         super(mainFrame, conferenceUUID);
-
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        userController = controllerBundle.getUserController();
-        conferenceController = controllerBundle.getConferenceController();
 
         this.conferenceSettingsView = conferenceSettingsView;
 
         updateConferenceUsers();
     }
 
+    /**
+     * Updates the table of conference users
+     */
     private void updateConferenceUsers() {
         List<UUID> userUUIDs = new ArrayList<>(conferenceController.getUsers(conferenceUUID, signedInUserUUID));
 
@@ -66,6 +68,9 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         conferenceSettingsView.setUserList(tableData, columnNames);
     }
 
+    /**
+     * Creates a conversation with conference members
+     */
     void createConversation() {
         IDialog chooseUsersDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MULTI_USER_PICKER, new HashMap<String, Object>() {
             {
@@ -92,15 +97,19 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
             conversationCreatedDialog.run();
 
             // Open the new conversation
-            openMessage(conversationUUID);
+            openConversation(conversationUUID);
         }
     }
 
-    private void openMessage(UUID conversationUUID) {
+    /**
+     * Opens the messages tab to a given conversation UUID
+     *
+     * @param conversationUUID UUID of conversation to open
+     */
+    private void openConversation(UUID conversationUUID) {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
             {
                 put("defaultConversationUUID", conversationUUID);
-                put("defaultTabName", ConferenceTabsConstants.tabNames.SETTINGS);
                 put("defaultTabIndex", 1);
             }
         }));
@@ -121,7 +130,6 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
      */
     private UUID confirmSelectUser(Set<UUID> availableUserUUIDs, String title, String instructions, String emptyListMessage, Function<UUID, String> confirmMessageGenerator, Function<UUID, String> successMessageGenerator, Function<UUID, String> submit) {
         if (availableUserUUIDs.size() == 0) {
-
             IDialog noUsersAvailableDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("message", emptyListMessage);
@@ -187,6 +195,9 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         return null;
     }
 
+    /**
+     * Add a user as an organizer
+     */
     void addOrganizer() {
         // Users that are eligible to become organizers are in the system, but are not already organizers
         Set<UUID> availableUserUUIDs = new HashSet<>(userController.getUsers());
@@ -208,6 +219,9 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         updateConferenceUsers();
     }
 
+    /**
+     * Remove a user from thee conference
+     */
     void removeUser() {
         Set<UUID> conferenceUserUUIDs = new HashSet<>(conferenceController.getUsers(conferenceUUID, signedInUserUUID));
 
@@ -238,6 +252,9 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         }
     }
 
+    /**
+     * Remove a user's organizer permissions
+     */
     void removeOrganizer() {
         Set<UUID> conferenceUserUUIDs = new HashSet<>(conferenceController.getOrganizers(conferenceUUID, signedInUserUUID));
 
@@ -272,6 +289,9 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         }
     }
 
+    /**
+     * Invites a user as an attendee
+     */
     void addAttendee() {
         // Users that are eligible to become attendees are in the system, but are not already attendees
         Set<UUID> availableUserUUIDs = new HashSet<>(userController.getUsers());
@@ -294,6 +314,9 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         reloadSettingsPage();
     }
 
+    /**
+     * Deletes a conference
+     */
     void deleteConference() {
         IDialog confirmDeleteDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
             {
@@ -312,6 +335,9 @@ class ConferenceSettingsPresenter extends AbstractConferencePresenter {
         }
     }
 
+    /**
+     * Edits details about a conference
+     */
     void editConference() {
         IDialog conferenceFormDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFERENCE_FORM, new HashMap<String, Object>() {
             {

@@ -21,22 +21,22 @@ public class ConversationManager implements Serializable {
     /**
      * Creates an instance of Conversation
      *
-     * @param convName         name of the conversation
+     * @param conversationName name of the conversation
      * @param usersWrite       The set of users that have writing access to this conversation
      * @param usersRead        The set of users that have reading access to this conversation
-     * @param messageSender_id the Id of the sender of the message
+     * @param senderUUID       the UUID of the sender of the message
      * @param messageContent   The content of the message to be sent
      * @return A chat with the given specifications
      */
-    public UUID createConversation(String convName, Set<UUID> usersWrite, Set<UUID> usersRead, UUID messageSender_id, String messageContent) {
+    public UUID createConversation(String conversationName, Set<UUID> usersWrite, Set<UUID> usersRead, UUID senderUUID, String messageContent) {
         // Create an initial message that initiates a conversation
-        Message initialMessage = new Message(messageSender_id, messageContent);
+        Message initialMessage = new Message(senderUUID, messageContent);
         // Adds the initial messages
         List<Message> messages = new ArrayList<>();
         messages.add(initialMessage);
 
         // Add conversation object to UUID -> Conversation map
-        Conversation newConversation = new Conversation(convName, usersWrite, usersRead, messages);
+        Conversation newConversation = new Conversation(conversationName, usersWrite, usersRead, messages);
         UUID conversationUUID = newConversation.getConversationUUID();
         conversationUUIDsToEntity.put(conversationUUID, newConversation);
 
@@ -97,7 +97,7 @@ public class ConversationManager implements Serializable {
     /**
      * Adds user to the a specific chat
      *
-     * @param userUUID         The userId of the user to be added to the Chat
+     * @param userUUID         The userUUID of the user to be added to the Chat
      * @param conversationUUID The UUID of the conversation/chat to which the user needs to be added
      */
     public void addUser(UUID userUUID, UUID conversationUUID) {
@@ -120,9 +120,9 @@ public class ConversationManager implements Serializable {
     public Set<UUID> getUsers(UUID conversationUUID) {
         Set<UUID> usersInConversation = new HashSet<>();
         Set<UUID> allUsersUUID = userUUIDtoConversationUUIDs.keySet();
-        for (UUID userID : allUsersUUID) {
-            if (userUUIDtoConversationUUIDs.get(userID).contains(conversationUUID)) {
-                usersInConversation.add(userID);
+        for (UUID userUUID : allUsersUUID) {
+            if (userUUIDtoConversationUUIDs.get(userUUID).contains(conversationUUID)) {
+                usersInConversation.add(userUUID);
             }
 
         }
@@ -132,7 +132,7 @@ public class ConversationManager implements Serializable {
     /**
      * Remove user from a specific chat
      *
-     * @param userUUID         The userId of the user to be added to the Chat
+     * @param userUUID         The userUUID of the user to be added to the Chat
      * @param conversationUUID The UUID of the conversation/chat to which the user needs to be removed
      */
     public void removeUser(UUID userUUID, UUID conversationUUID) {
@@ -156,14 +156,15 @@ public class ConversationManager implements Serializable {
     /**
      * returns a set of Conversations that a particular user is part of
      *
-     * @param userId the userid of the user for whom we want to know the set of Conversation lists
+     * @param userUUID the UUID of the user for whom we want to know the set of Conversation lists
      */
-    Set<UUID> getConversationList(UUID userId) {
-        if (userUUIDtoConversationUUIDs.get(userId) == null) {
+    Set<UUID> getConversationList(UUID userUUID) {
+        if (userUUIDtoConversationUUIDs.get(userUUID) == null) {
             return new HashSet<>();
-        }
+        } else {
 
-        return new HashSet<>(userUUIDtoConversationUUIDs.get(userId));
+            return new HashSet<>(userUUIDtoConversationUUIDs.get(userUUID));
+        }
     }
 
     /**
@@ -179,19 +180,21 @@ public class ConversationManager implements Serializable {
     /**
      * Sends a particular message to a specific chat
      *
-     * @param messageSender_id  the Id of the sender of the message
+     * @param senderUUID        the UUID of the sender of the message
      * @param messageContent    The content of the message to be sent
-     * @param convId            the conversation Id of the conversation to which this message has to be added
+     * @param conversationUUID  the conversation UUID of the conversation to which this message has to be added
      * @param bypassRestriction whether to bypass write access restrictions
      */
-    void sendMessage(UUID messageSender_id, String messageContent, UUID convId, boolean bypassRestriction) {
-        Message message = new Message(messageSender_id, messageContent);
-        Conversation conversation = getConversation(convId);
+    void sendMessage(UUID senderUUID, String messageContent, UUID conversationUUID, boolean bypassRestriction) {
+        Message message = new Message(senderUUID, messageContent);
+        Conversation conversation = getConversation(conversationUUID);
 
-        UUID userId = message.getSenderUUID();
+        UUID userUUID = message.getSenderUUID();
 
-        if (conversation.getWriteAccessUsers().contains(userId) || bypassRestriction) {
+        if (conversation.getWriteAccessUsers().contains(userUUID) || bypassRestriction) {
             conversation.addMessage(message);
+            conversation.resetUserArchivedUUIDs();
+            conversation.resetUsersHaveRead();
         } else {
             throw new NoWriteAccessException();
         }
@@ -202,23 +205,26 @@ public class ConversationManager implements Serializable {
      * read access.
      *
      * @param userUUID          The ID of the User
-     * @param conversationUUID  The Id of the Conversation for which the messages need to be seen
+     * @param conversationUUID  The UUID of the Conversation for which the messages need to be seen
      * @param bypassRestriction whether to bypass read access restrictions
-     * @return returns an arraylist of Hashmaps. Each Hashmap stores information about a message in the conversation.
+     * @return returns an List of Maps. Each Map stores information about a message in the conversation.
      */
     List<Map<String, String>> getMessages(UUID userUUID, UUID conversationUUID, boolean bypassRestriction) {
         Conversation conversation = getConversation(conversationUUID);
 
+        conversation.getUsersHaveRead().add(userUUID);
         if (conversation.getReadAccessUsers().contains(userUUID) || bypassRestriction) {
             List<Map<String, String>> newList = new ArrayList<>();
+
+            // Mark this conversation as read
             conversation.readConversation(userUUID);
 
             for (Message message : conversation.getConversationMessages()) {
-                Map<String, String> messageAsHashmap = new HashMap<>();
-                messageAsHashmap.put("sender", message.getSenderUUID().toString());
-                messageAsHashmap.put("timestamp", message.getTimestamp().toString());
-                messageAsHashmap.put("content", message.getContent());
-                newList.add(messageAsHashmap);
+                Map<String, String> messageMap = new HashMap<>();
+                messageMap.put("sender", message.getSenderUUID().toString());
+                messageMap.put("timestamp", message.getTimestamp().toString());
+                messageMap.put("content", message.getContent());
+                newList.add(messageMap);
             }
             return newList;
         } else {
@@ -232,7 +238,7 @@ public class ConversationManager implements Serializable {
      * @param userUUID         user in question
      * @param conversationUUID conversation in question
      */
-    public void userUnreadConversation(UUID userUUID, UUID conversationUUID){
+    public void userUnreadConversation(UUID userUUID, UUID conversationUUID) {
         Conversation conversation = getConversation(conversationUUID);
         conversation.unreadConversation(userUUID);
     }
@@ -243,14 +249,21 @@ public class ConversationManager implements Serializable {
      * @param userUUID         user in question
      * @param conversationUUID conversation in question
      */
-    public void userArchiveConversation(UUID userUUID, UUID conversationUUID){
-        Conversation conversation = getConversation(conversationUUID);
-        conversation.archiveConversation(userUUID);
+    public void userArchiveConversation(UUID userUUID, UUID conversationUUID) {
+        getConversation(conversationUUID).archiveConversation(userUUID);
     }
 
-    public void userDeleteMessage(UUID conversationUUID, int index){
-            getConversation(conversationUUID).deleteMessage(index);
+    public void userDeleteMessage(UUID conversationUUID, int index) {
+        getConversation(conversationUUID).deleteMessage(index);
 
+    }
+
+    public Set<UUID> getUserArchiveConversation(UUID conversationUUID) {
+        return getConversation(conversationUUID).getUserArchivedUUIDs();
+    }
+
+    public boolean getUserHasRead(UUID userUUID, UUID conversationUUID) {
+        return getConversation(conversationUUID).getUserHasRead(userUUID);
     }
 
 }

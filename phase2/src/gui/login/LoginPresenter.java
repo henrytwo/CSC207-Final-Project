@@ -1,25 +1,16 @@
 package gui.login;
 
+import gui.util.AbstractPresenter;
 import gui.util.enums.DialogFactoryOptions;
 import gui.util.enums.PanelFactoryOptions;
 import gui.util.interfaces.IDialog;
-import gui.util.interfaces.IDialogFactory;
 import gui.util.interfaces.IFrame;
-import gui.util.interfaces.IPanelFactory;
-import user.UserController;
-import util.ControllerBundle;
 
 import java.util.HashMap;
 
-class LoginPresenter {
+class LoginPresenter extends AbstractPresenter {
 
-    private IFrame mainFrame;
     private ILoginView loginView;
-
-    private IDialogFactory dialogFactory;
-    private IPanelFactory panelFactory;
-
-    private UserController userController;
 
     /**
      * Constructor for Login Presenter
@@ -28,13 +19,8 @@ class LoginPresenter {
      * @param loginView view that this presenter is managing
      */
     LoginPresenter(IFrame mainFrame, ILoginView loginView) {
-        this.mainFrame = mainFrame;
+        super(mainFrame);
         this.loginView = loginView;
-
-        ControllerBundle controllerBundle = mainFrame.getControllerBundle();
-        userController = controllerBundle.getUserController();
-        panelFactory = mainFrame.getPanelFactory();
-        dialogFactory = mainFrame.getDialogFactory();
     }
 
     /**
@@ -59,7 +45,7 @@ class LoginPresenter {
     }
 
     /**
-     * Logins an already registered user
+     * Login as an already registered user
      */
     void login() {
         if (userController.login(loginView.getUsername(), loginView.getPassword()) != null) {

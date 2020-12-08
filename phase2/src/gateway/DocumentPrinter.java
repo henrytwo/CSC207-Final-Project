@@ -5,18 +5,23 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-
+/**
+ * Class to trigger the system print dialog on a string
+ */
 public class DocumentPrinter implements IDocumentPrinter {
 
-
-    // title -> document content
+    /**
+     * Performs the print operation
+     *
+     * @param document document to print as a string
+     * @param fileName path to save the document temporarily
+     * @throws IOException
+     */
     @Override
-    public void print(String stringifiedTable, String fileName) throws IOException {
+    public void print(String document, String fileName) throws IOException {
         BufferedWriter table = new BufferedWriter(new FileWriter(fileName.concat(".txt")));
-        table.write(stringifiedTable);
+        table.write(document);
         table.flush();
         table.close();
 

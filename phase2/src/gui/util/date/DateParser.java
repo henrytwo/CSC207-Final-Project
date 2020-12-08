@@ -1,11 +1,14 @@
-package gui.util;
+package gui.util.date;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Utility for converting between a string and LocalDateTime objects
+ */
 public class DateParser {
 
-    String dateTimeFormat = "MM-dd-yyyy HH:mm";
+    private String dateTimeFormat = "MM-dd-yyyy HH:mm";
 
     /**
      * Method to convert a string to a LocalDateTime object

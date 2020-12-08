@@ -17,14 +17,12 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 /**
  * Operations on Events
  */
 public class EventController {
 
-    Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private ConferenceManager conferenceManager;
     private PermissionManager permissionManager;
     private ConversationManager conversationManager;
@@ -100,24 +98,21 @@ public class EventController {
     /**
      * Get a list of events happening on a specific day
      * <p>
-     * Required Permission : ATTENDEE
      *
      * @param conferenceUUID UUID of the conference
-     * @param executorUUID   UUID of the user
      * @param day            UUID of the day to filter with
      * @return list of events on that day
      */
-    public Set<UUID> getDayEvents(UUID conferenceUUID, UUID executorUUID, LocalDate day) {
-        permissionManager.testIsAttendee(conferenceUUID, executorUUID);
+    public Set<UUID> getDayEvents(UUID conferenceUUID, LocalDate day) {
         Set<UUID> eventsUUIDsOnDay = new HashSet<>();
         EventManager eventManager = conferenceManager.getEventManager(conferenceUUID);
-
 
         for (UUID eventUUID : eventManager.getEvents()) {
             if (eventManager.getEvent(eventUUID).getTimeRange().isInDay(day)) {
                 eventsUUIDsOnDay.add(eventUUID);
             }
         }
+
         return eventsUUIDsOnDay;
     }
 

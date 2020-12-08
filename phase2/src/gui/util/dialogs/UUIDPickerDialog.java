@@ -39,6 +39,11 @@ public class UUIDPickerDialog implements IDialog {
         this.displayNameParser = displayNameParser;
     }
 
+    /**
+     * Displays the dialog
+     *
+     * @return UUID of the item selected
+     */
     @Override
     public UUID run() {
         String[] displayNames = new String[availableUUIDs.size()];
