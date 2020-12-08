@@ -89,11 +89,6 @@ class EventFormPresenter extends AbstractConferencePresenter {
                     eventController.setEventTimeRange(conferenceUUID, signedInUserUUID, eventUUID, timeRange);
                 }
 
-                // Don't update room if it didn't change
-                if (!eventController.getEventRoom(conferenceUUID, signedInUserUUID, eventUUID).equals(selectedRoomUUID)) {
-                    eventController.setEventRoom(conferenceUUID, signedInUserUUID, eventUUID, selectedRoomUUID);
-                }
-
                 // Only update speakers that were added/removed
                 Set<UUID> existingSpeakerUUIDs = eventController.getEventSpeakers(conferenceUUID, signedInUserUUID, eventUUID);
 
@@ -108,6 +103,11 @@ class EventFormPresenter extends AbstractConferencePresenter {
                     if (!existingSpeakerUUIDs.contains(speakerUUID)) {
                         eventController.addEventSpeaker(conferenceUUID, signedInUserUUID, eventUUID, speakerUUID);
                     }
+                }
+
+                // Don't update room if it didn't change
+                if (!eventController.getEventRoom(conferenceUUID, signedInUserUUID, eventUUID).equals(selectedRoomUUID)) {
+                    eventController.setEventRoom(conferenceUUID, signedInUserUUID, eventUUID, selectedRoomUUID);
                 }
 
             } else {
