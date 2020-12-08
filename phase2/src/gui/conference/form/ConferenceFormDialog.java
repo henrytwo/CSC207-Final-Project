@@ -65,56 +65,109 @@ public class ConferenceFormDialog extends JDialog implements IDialog, IConferenc
         contentPane.registerKeyboardAction((e) -> close(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     * shows whether the form has been updated
+     *
+     * @param newUpdated the new value of update
+     */
     @Override
     public void setUpdated(boolean newUpdated) {
         updated = newUpdated;
     }
 
+    /**
+     * sets the name
+     *
+     * @param newName the name
+     */
     @Override
     public void setName(String newName) {
         name.setText(newName);
     }
 
+    /**
+     * starts the text
+     *
+     * @param newStart the start
+     */
     @Override
     public void setStart(String newStart) {
         start.setText(newStart);
     }
 
+    /**
+     * ends the text
+     *
+     * @param newEnd the end
+     */
     @Override
     public void setEnd(String newEnd) {
         end.setText(newEnd);
     }
 
+    /**
+     * sets the title of a dialogue
+     *
+     * @param newTitle the title
+     */
     @Override
     public void setDialogTitle(String newTitle) {
         this.setTitle(newTitle);
     }
 
+    /**
+     * gets the name
+     *
+     * @return the name
+     */
     @Override
     public String getName() {
         return name.getText();
     }
 
+    /**
+     * gets the start
+     *
+     * @return the start
+     */
     @Override
     public String getStart() {
         return start.getText();
     }
 
+    /**
+     * get end
+     *
+     * @return the end
+     */
     @Override
     public String getEnd() {
         return end.getText();
     }
 
+    /**
+     * sets the UUID of the conference
+     *
+     * @param newUUID the new UUID
+     */
     @Override
     public void setConferenceUUID(UUID newUUID) {
         conferenceUUID = newUUID;
     }
 
+    /**
+     * closes and disposes of the dialogue
+     */
     @Override
     public void close() {
         dispose();
     }
 
+    /**
+     * updates the dialogue
+     *
+     * @return the updated UUID of the conference
+     */
     @Override
     public UUID run() {
         this.pack();
