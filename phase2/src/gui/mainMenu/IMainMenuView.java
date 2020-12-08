@@ -17,4 +17,6 @@ public interface IMainMenuView {
     void setTabIndex(int index);
 
     void setTopBarPanelText(String text);
+
+    void setScheduleDownloadPanel(IPanel panel);
 }

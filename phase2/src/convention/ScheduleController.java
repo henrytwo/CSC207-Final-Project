@@ -13,11 +13,11 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class ScheduleController {
-    String title;
-    IDocumentPrinter documentPrinter;
-    UserManager userManager;
-    ConferenceManager conferenceManager;
-    EventController eventController;
+    private String title;
+    private IDocumentPrinter documentPrinter;
+    private UserManager userManager;
+    private ConferenceManager conferenceManager;
+    private EventController eventController;
 
     public ScheduleController(IDocumentPrinter documentPrinter, UserManager userManager, ConferenceManager conferenceManager, EventController eventController) {
         this.userManager = userManager;
@@ -26,8 +26,7 @@ public class ScheduleController {
         this.eventController = eventController;
     }
 
-
-    public String compileSchedule(List<Pair<UUID, UUID>> listOfPairs) {
+    private String compileSchedule(List<Pair<UUID, UUID>> listOfPairs) {
         List<List<String>> table = new ArrayList<>();
         for (Pair<UUID, UUID> pair : listOfPairs) {
             List<String> speakerNames = new ArrayList<>();
@@ -55,7 +54,7 @@ public class ScheduleController {
 
         switch (sortByMethod) {
             case REGISTERED:
-                UUID userUUID = (UUID) arguments.get("registered");
+                UUID userUUID = (UUID) arguments.get("userUUID");
                 this.title = "Schedule of events "
                         + userManager.getUserUsername(userUUID)
                         + "signed up for";
@@ -73,7 +72,7 @@ public class ScheduleController {
                 }
                 break;
             case SPEAKER:
-                UUID speakerUUID = (UUID) arguments.get("speaker");
+                UUID speakerUUID = (UUID) arguments.get("speakerUUID");
                 this.title = "Schedule of events with speaker "
                         + userManager.getUserUsername(speakerUUID);
                 for (UUID conferenceUUID : conferenceManager.getConferences()) {

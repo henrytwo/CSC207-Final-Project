@@ -1,5 +1,8 @@
 package gui.messaging.menu;
 
+/**
+ * an interface for for the GUI of the messaging service
+ */
 public interface IMessagingView {
     void setConversationTitle(String title);
 

@@ -16,6 +16,8 @@ class MessagingPresenter extends AbstractPresenter {
     private int currentConversationIndex = -1;
     private UUID currentConversationUUID;
 
+    private String[] messageArray;
+
     MessagingPresenter(IFrame mainFrame, IMessagingView messagingView, UUID defaultConversationUUID) {
         super(mainFrame);
 
@@ -68,44 +70,56 @@ class MessagingPresenter extends AbstractPresenter {
         messagingView.setEnableUnreadButton(state);
     }
 
-    private void reloadMessagePage() {
+    private void reloadMessagePage(UUID conversationUUID) {
         mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU, new HashMap<String, Object>() {
             {
                 put("defaultTabIndex", 1);
+                put("defaultConversationUUID", conversationUUID);
             }
         }));
     }
 
     void deleteMessage(int index) {
-        System.out.println("You clicked: " + index);
+        if (index != -1 && currentConversationUUID != null) {
+            if (conversationController.checkIfSender(currentConversationUUID, signedInUserUUID, index)) {
+                IDialog deleteMessageConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
+                    {
+                        put("message", String.format("Delete this message?\n\n%s", messageArray[index]));
+                        put("title", "Delete");
+                        put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                        put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
 
-        IDialog deleteMessageConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
-            {
-                put("message", "Archive this message?");
-                put("title", "Archive");
-                put("messageType", DialogFactoryOptions.dialogType.ERROR);
-                put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+                    }
+                });
 
+                if ((boolean) deleteMessageConfirmation.run()) {
+                    conversationController.deleteMessage(currentConversationUUID, signedInUserUUID, index);
+                    reloadMessagePage(currentConversationUUID);
+                }
+            } else {
+                IDialog unauthorizedDeleteAttempt = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+                    {
+                        put("title", "Error");
+                        put("message", "You are not authorized to delete another User's messages");
+                        put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                    }
+                });
+                unauthorizedDeleteAttempt.run();
             }
-        });
-
-        if ((boolean) deleteMessageConfirmation.run()) {
-            conversationController.deleteMessage(currentConversationUUID, signedInUserUUID, index);
-            reloadMessagePage();
         }
     }
 
     void archiveConversation() {
         if (userController.getUserIsGod(signedInUserUUID)) {
 
-            IDialog emptyChatNameDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
+            IDialog godArchiveDialogAttempt = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<String, Object>() {
                 {
                     put("title", "Error");
                     put("message", "Gods are too powerful to archive conversations");
                     put("messageType", DialogFactoryOptions.dialogType.ERROR);
                 }
             });
-            emptyChatNameDialog.run();
+            godArchiveDialogAttempt.run();
 
         } else {
             IDialog archiveConfirmation = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<String, Object>() {
@@ -120,7 +134,7 @@ class MessagingPresenter extends AbstractPresenter {
 
             if ((boolean) archiveConfirmation.run()) {
                 conversationController.userArchiveConversation(signedInUserUUID, currentConversationUUID);
-                reloadMessagePage();
+                reloadMessagePage(null);
             }
         }
     }
@@ -144,7 +158,7 @@ class MessagingPresenter extends AbstractPresenter {
         String currentMessage = messagingView.getTextBoxContent();
         if (!currentMessage.equals("")) {
             conversationController.sendMessage(signedInUserUUID, currentMessage, currentConversationUUID);
-            updateMessage();
+            updateMessages();
             messagingView.clearTextBox();
             messagingView.scrollToLastMessage();
         }
@@ -211,7 +225,7 @@ class MessagingPresenter extends AbstractPresenter {
             currentConversationIndex = selectedIndex;
             currentConversationUUID = conversationUUIDs.get(selectedIndex);
 
-            updateMessage();
+            updateMessages();
             messagingView.scrollToLastMessage();
 
             updateUserList(currentConversationUUID);
@@ -224,10 +238,10 @@ class MessagingPresenter extends AbstractPresenter {
         }
     }
 
-    private void updateMessage() {
+    private void updateMessages() {
         List<Map<String, String>> messagesListMap = conversationController.getMessages(signedInUserUUID, currentConversationUUID);
 
-        String[] messageArray = new String[messagesListMap.size()];
+        messageArray = new String[messagesListMap.size()];
         int index = 0;
 
         for (Map<String, String> messageMap : messagesListMap) {

@@ -53,6 +53,12 @@ public class ConversationManager implements Serializable {
         return conversationUUID;
     }
 
+    /**
+     * gets a specific conversation
+     *
+     * @param conversationUUID UUID of conversation in question
+     * @return the conversation in question
+     */
     public Conversation getConversation(UUID conversationUUID) {
         if (conversationUUIDsToEntity.get(conversationUUID) == null) {
             throw new NullConversationException(conversationUUID);
@@ -253,17 +259,38 @@ public class ConversationManager implements Serializable {
         getConversation(conversationUUID).archiveConversation(userUUID);
     }
 
+    /**
+     * gets the set of users that have archived this conversation
+     *
+     * @param conversationUUID conversation in question
+     * @return the set of user UUIDs of users that have archived this conversation
+     */
+    public Set<UUID> getUserArchiveConversation(UUID conversationUUID) {
+        return getConversation(conversationUUID).getUserArchivedUUIDs();
+    }
+
+    /**
+     * gets whether a specific user has read this conversation
+     *
+     * @param userUUID user in question
+     * @param conversationUUID conversation in question
+     * @return true if the user has read the conversation, false if not
+     */
+    public boolean getUserHasRead(UUID userUUID, UUID conversationUUID) {
+        return getConversation(conversationUUID).getUserHasRead(userUUID);
+    }
+
+    /**
+     * deletes a message
+     *
+     * @param conversationUUID conversation in question
+     * @param index index on a message in the list of messages
+     */
     public void userDeleteMessage(UUID conversationUUID, int index) {
         getConversation(conversationUUID).deleteMessage(index);
 
     }
 
-    public Set<UUID> getUserArchiveConversation(UUID conversationUUID) {
-        return getConversation(conversationUUID).getUserArchivedUUIDs();
-    }
 
-    public boolean getUserHasRead(UUID userUUID, UUID conversationUUID){
-        return getConversation(conversationUUID).getUserHasRead(userUUID);
-    }
 
 }
