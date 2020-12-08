@@ -17,6 +17,9 @@ public class DialogFactoryOptions {
         EVENT_FORM
     }
 
+    /**
+     * Enums of dialogue types
+     */
     public enum dialogType {
         ERROR,
         INFORMATION,
@@ -25,6 +28,9 @@ public class DialogFactoryOptions {
         PLAIN
     }
 
+    /**
+     * Enums of option types
+     */
     public enum optionType {
         DEFAULT_OPTION,
         YES_NO_OPTION,
