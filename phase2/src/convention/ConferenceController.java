@@ -249,6 +249,9 @@ public class ConferenceController {
             conferenceManager.removeAttendee(conferenceUUID, targetUserUUID);
         }
 
+        // Update the event conversation members in case it was missed for some reason
+        updateConferenceEventsConversationMembers(conferenceUUID);
+
         LOGGER.log(Level.INFO, String.format("User left conference\n Conference UUID: %s\n Target: %s\n Executor: %s", conferenceUUID, targetUserUUID, executorUUID));
     }
 
