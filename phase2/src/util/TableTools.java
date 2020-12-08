@@ -41,7 +41,7 @@ public class TableTools {
             topLine.append("═");
             bottomLine.append("═");
         }
-        topLine.append("╗\r\n");
+        topLine.append("╗\r\n<br />");
         bottomLine.append("╝");
         table.append(topLine);
 
