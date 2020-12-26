@@ -222,10 +222,10 @@ public class ConsoleUtilities {
      * @param fieldIDs list of field IDs in the order to be displayed
      * @return hashmap with the user input to the form (fieldID -> response)
      */
-    public HashMap<String, String> inputForm(String title, Map<String, String> labels, String[] fieldIDs) {
+    public Map<String, String> inputForm(String title, Map<String, String> labels, String[] fieldIDs) {
         clearConsole();
 
-        HashMap<String, String> responses = new HashMap<>();
+        Map<String, String> responses = new HashMap<>();
 
         if (title.length() > 0) {
             System.out.println(String.format("%s\n", title));
@@ -246,7 +246,7 @@ public class ConsoleUtilities {
      *
      * @return hashmap with username and password
      */
-    public HashMap<String, String> loginPrompt() {
+    public Map<String, String> loginPrompt() {
         Map<String, String> labels = new HashMap<String, String>() {
             {
                 put("username", "Username");
@@ -267,7 +267,7 @@ public class ConsoleUtilities {
      *
      * @return hashmap with name, username, and password
      */
-    public HashMap<String, String> registerPrompt() {
+    public Map<String, String> registerPrompt() {
         Map<String, String> labels = new HashMap<String, String>() {
             {
                 put("username", "Username");
@@ -359,7 +359,7 @@ public class ConsoleUtilities {
      * @param selectionIDToLabel Hashmap with mappings from selection ID to the label to be displayed
      * @return String with the selected selectionID
      */
-    public String singleSelectMenu(String caption, String[] selectionIDs, HashMap<String, String> selectionIDToLabel) {
+    public String singleSelectMenu(String caption, String[] selectionIDs, Map<String, String> selectionIDToLabel) {
         return singleSelectMenu(getUserFullNamePrecaption(), caption, selectionIDs, selectionIDToLabel, true);
     }
 
@@ -377,7 +377,7 @@ public class ConsoleUtilities {
      * @param selectionIDToLabel Hashmap with mappings from selection ID to the label to be displayed
      * @return String with the selected selectionID
      */
-    public String singleSelectMenu(String preCaption, String caption, String[] selectionIDs, HashMap<String, String> selectionIDToLabel) {
+    public String singleSelectMenu(String preCaption, String caption, String[] selectionIDs, Map<String, String> selectionIDToLabel) {
         return singleSelectMenu(preCaption, caption, selectionIDs, selectionIDToLabel, true);
     }
 
@@ -396,7 +396,7 @@ public class ConsoleUtilities {
      * @param clear              Whether to clear screen before menu is displayed
      * @return String with the selected selectionID
      */
-    public String singleSelectMenu(String preCaption, String caption, String[] selectionIDs, HashMap<String, String> selectionIDToLabel, boolean clear) {
+    public String singleSelectMenu(String preCaption, String caption, String[] selectionIDs, Map<String, String> selectionIDToLabel, boolean clear) {
         // Generates the options by fetching the labels used on the selectionIDs
         String[] options = new String[selectionIDs.length];
 
